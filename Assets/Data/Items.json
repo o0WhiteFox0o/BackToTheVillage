@@ -1,0 +1,59 @@
+{
+    "vi": {
+        "Items": {
+            "Seed": [
+                {
+                    "Id": "S001",
+                    "Name": "Hạt cà rốt",
+                    "Information": "Hạt giống cà rốt, trồng vào mùa xuân.",
+                    "Type": "Hạt giống",
+                    "Season": "Xuân",
+                    "SellPrice": 10,
+                    "BuyPrice": 25,
+                    "Stackable": true
+                },
+                {
+                    "Id": "S002",
+                    "Name": "Hạt lúa mì",
+                    "Information": "Trồng nhanh, thích hợp mùa hè.",
+                    "Type": "Hạt giống",
+                    "Season": "Hạ",
+                    "SellPrice": 15,
+                    "BuyPrice": 30,
+                    "Stackable": true
+                }
+            ],
+            "Tool": [
+                {
+                    "Id": "T001",
+                    "Name": "Cuốc",
+                    "Information": "Dùng để xới đất trồng cây.",
+                    "Type": "Dụng cụ",
+                    "Durability": 100,
+                    "Stackable": false
+                }
+            ],
+            "Food": [
+                {
+                    "Id": "F001",
+                    "Name": "Phở",
+                    "Information": "Dùng để ăn",
+                    "Type": "Thức ăn",
+                    "Stackable": false
+                }
+            ],
+            "Material": [
+                {
+                    "Id": "M001",
+                    "Name": "Gỗ",
+                    "Information": "Dùng để ăn",
+                    "Type": "Thức ăn",
+                    "Stackable": true
+                }
+            ],
+            "Other":[
+                
+            ]
+        }
+    }
+}
