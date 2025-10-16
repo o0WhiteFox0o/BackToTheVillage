@@ -2,25 +2,359 @@
     "vi": {
         "Items": {
             "Seed": [
+                
                 {
                     "Id": "S001",
-                    "Name": "Hạt cà rốt",
-                    "Information": "Hạt giống cà rốt, trồng vào mùa xuân.",
+                    "Name": "Hạt lúa nước",
+                    "Information": "Hạt giống lúa nước, thích hợp trồng vào mùa mưa mất 14 ngày để trưởng thành",
                     "Type": "Hạt giống",
-                    "Season": "Xuân",
-                    "SellPrice": 10,
-                    "BuyPrice": 25,
-                    "Stackable": true
+                    "Season": "Mưa",
+                    "Stackable": true,
+                    "GrowthTime": 14,
+                    "MultiScythe": false
                 },
                 {
                     "Id": "S002",
-                    "Name": "Hạt lúa mì",
-                    "Information": "Trồng nhanh, thích hợp mùa hè.",
+                    "Name": "Ớt",
+                    "Information": "Hạt giống Ớt, trồng vào mùa khô mất 11 ngày để trưởng thành.",
                     "Type": "Hạt giống",
-                    "Season": "Hạ",
-                    "SellPrice": 15,
-                    "BuyPrice": 30,
-                    "Stackable": true
+                    "Season": "Khô",
+                    "Stackable": true,
+                    "GrowthTime": 11,
+                    "MultiScythe": true,
+                    "RegrowthTime": 3
+                },
+                {
+                    "Id": "S003",
+                    "Name": "Cà chua",
+                    "Information": "Hạt giống Cà chua, trồng vào mùa khô mất 10 ngày để trưởng thành.",
+                    "Type": "Hạt giống",
+                    "Season": "Khô",
+                    "Stackable": true,
+                    "GrowthTime": 10,
+                    "MultiScythe": true,
+                    "RegrowthTime": 2
+                },
+                {
+                    "Id": "S004",
+                    "Name": "Bắp",
+                    "Information": "Hạt giống Bắp, trồng vào mùa khô mất 10 ngày để trưởng thành.",
+                    "Type": "Hạt giống",
+                    "Season": "Khô",
+                    "Stackable": true,
+                    "GrowthTime": 10,
+                    "MultiScythe": false
+                },
+                {
+                    "Id": "S005",
+                    "Name": "Đậu Bắp",
+                    "Information": "Hạt giống Đậu Bắp, trồng vào mùa khô mất 5 ngày để trưởng thành.",
+                    "Type": "Hạt giống",
+                    "Season": "Khô",
+                    "Stackable": true,
+                    "GrowthTime": 5,
+                    "MultiScythe": true,
+                    "RegrowthTime": 3
+                },
+                {
+                    "Id": "S006",
+                    "Name": "Đậu Phộng",
+                    "Information": "Hạt giống Đậu Phộng, trồng vào mùa khô mất 11 ngày để trưởng thành.",
+                    "Type": "Hạt giống",
+                    "Season": "Khô",
+                    "Stackable": true,
+                    "GrowthTime": 11,
+                    "MultiScythe": false
+                },
+                {
+                    "Id": "S007",
+                    "Name": "Khoai Mì",
+                    "Information": "Thân giống Khoai Mì, trồng vào mùa khô mất 11 ngày để trưởng thành.",
+                    "Type": "Hạt giống",
+                    "Season": "Khô",
+                    "Stackable": true,
+                    "GrowthTime": 11,
+                    "MultiScythe": false
+                },
+                {
+                    "Id": "S008",
+                    "Name": "Cà Tím",
+                    "Information": "Hạt giống Cà Tím, trồng vào mùa mưa mất 11 ngày để trưởng thành.",
+                    "Type": "Hạt giống",
+                    "Season": "Mưa",
+                    "Stackable": true,
+                    "GrowthTime": 11,
+                    "MultiScythe": true,
+                    "RegrowthTime": 4
+                },
+                {
+                    "Id": "S009",
+                    "Name": "Khoai Lang",
+                    "Information": "Củ Khoai Lang, trồng vào mùa mưa mất 12 ngày để trưởng thành.",
+                    "Type": "Hạt giống",
+                    "Season": "Mưa",
+                    "Stackable": true,
+                    "GrowthTime": 12,
+                    "MultiScythe": false
+                },
+                {
+                    "Id": "S010",
+                    "Name": "Rau Muống",
+                    "Information": "Hạt giống Rau Muống, trồng vào mùa mưa mất 3 ngày để trưởng thành.",
+                    "Type": "Hạt giống",
+                    "Season": "Mưa",
+                    "Stackable": true,
+                    "GrowthTime": 3,
+                    "MultiScythe": false
+                },
+                {
+                    "Id": "S011",
+                    "Name": "Hành Lá",
+                    "Information": "Hạt giống Hành Lá, trồng vào mùa mưa mất 4 ngày để trưởng thành.",
+                    "Type": "Hạt giống",
+                    "Season": "Mưa",
+                    "Stackable": true,
+                    "GrowthTime": 4,
+                    "MultiScythe": false
+                },
+                {
+                    "Id": "S012",
+                    "Name": "Khoai Môn",
+                    "Information": "Củ Khoai Môn, trồng vào mùa mưa mất 13 ngày để trưởng thành.",
+                    "Type": "Hạt giống",
+                    "Season": "Mưa",
+                    "Stackable": true,
+                    "GrowthTime": 13,
+                    "MultiScythe": false
+                },
+                {
+                    "Id": "S013",
+                    "Name": "Nghệ",
+                    "Information": "Củ Nghệ, trồng vào mùa mưa mất 9 ngày để trưởng thành.",
+                    "Type": "Hạt giống",
+                    "Season": "Mưa",
+                    "Stackable": true,
+                    "GrowthTime": 9,
+                    "MultiScythe": false
+                },
+                {
+                    "Id": "S014",
+                    "Name": "Bạc Hà",
+                    "Information": "Hạt giống Bạc Hà, trồng vào mùa mưa mất 4 ngày để trưởng thành.",
+                    "Type": "Hạt giống",
+                    "Season": "Mưa",
+                    "Stackable": true,
+                    "GrowthTime": 4,
+                    "MultiScythe": false
+                },
+                {
+                    "Id": "S015",
+                    "Name": "Cải Xà Lách",
+                    "Information": "Hạt giống Cải Xà Lách, trồng quanh năm mất 7 ngày để trưởng thành.",
+                    "Type": "Hạt giống",
+                    "Season": "Quanh Năm",
+                    "Stackable": true,
+                    "GrowthTime": 7,
+                    "MultiScythe": false
+                },
+                {
+                    "Id": "S016",
+                    "Name": "Đu Đủ",
+                    "Information": "Hạt giống Đu Đủ, trồng quanh năm mất 21 ngày để trưởng thành.",
+                    "Type": "Hạt giống",
+                    "Season": "Quanh Năm",
+                    "Stackable": true,
+                    "GrowthTime": 21,
+                    "MultiScythe": true,
+                    "RegrowthTime": 2
+                },
+                {
+                    "Id": "S017",
+                    "Name": "Chanh",
+                    "Information": "Hạt giống Chanh, trồng quanh năm mất 20 ngày để trưởng thành.",
+                    "Type": "Hạt giống",
+                    "Season": "Quanh Năm",
+                    "Stackable": true,
+                    "GrowthTime": 20,
+                    "MultiScythe": true,
+                    "RegrowthTime": 3
+                },
+                {
+                    "Id": "S018",
+                    "Name": "Chuối",
+                    "Information": "Hạt giống Chuối, trồng quanh năm mất 12 ngày để trưởng thành.",
+                    "Type": "Hạt giống",
+                    "Season": "Quanh Năm",
+                    "Stackable": true,
+                    "GrowthTime": 12,
+                    "MultiScythe": false,
+                },
+                {
+                    "Id": "S019",
+                    "Name": "Bông Súng",
+                    "Information": "Hạt giống Chuối, trồng quanh năm mất 7 ngày để trưởng thành.",
+                    "Type": "Hạt giống",
+                    "Season": "Quanh Năm",
+                    "Stackable": true,
+                    "GrowthTime": 7,
+                    "MultiScythe": false,
+                },
+                {
+                    "Id": "S020",
+                    "Name": "Sả",
+                    "Information": "Nhánh xả, trồng quanh năm mất 11 ngày để trưởng thành.",
+                    "Type": "Hạt giống",
+                    "Season": "Quanh Năm",
+                    "Stackable": true,
+                    "GrowthTime": 11,
+                    "MultiScythe": false,
+                },
+                {
+                    "Id": "S021",
+                    "Name": "Bí đao",
+                    "Information": "Hạt giống Bí Đao, trồng quanh năm mất 10 ngày để trưởng thành.",
+                    "Type": "Hạt giống",
+                    "Season": "Quanh Năm",
+                    "Stackable": true,
+                    "GrowthTime": 10,
+                    "MultiScythe": true,
+                    "RegrowthTime": 3
+                },
+                {
+                    "Id": "S022",
+                    "Name": "Khóm",
+                    "Information": "Hạt giống Khóm, trồng quanh năm mất 19 ngày để trưởng thành.",
+                    "Type": "Hạt giống",
+                    "Season": "Quanh Năm",
+                    "Stackable": true,
+                    "GrowthTime": 19,
+                    "MultiScythe": false,
+                },
+                {
+                    "Id": "S023",
+                    "Name": "Sầu Riêng",
+                    "Information": "Hạt giống Khóm, trồng quanh năm mất 30 ngày để trưởng thành.",
+                    "Type": "Hạt giống",
+                    "Season": "Quanh Năm",
+                    "Stackable": true,
+                    "GrowthTime": 30,
+                    "MultiScythe": true,
+                    "RegrowthTime": 5
+                },
+                {
+                    "Id": "S024",
+                    "Name": "Cam",
+                    "Information": "Hạt giống Cam, trồng quanh năm mất 23 ngày để trưởng thành.",
+                    "Type": "Hạt giống",
+                    "Season": "Quanh Năm",
+                    "Stackable": true,
+                    "GrowthTime": 23,
+                    "MultiScythe": true,
+                    "RegrowthTime": 4
+                },
+                {
+                    "Id": "S025",
+                    "Name": "Mãng Cầu",
+                    "Information": "Hạt giống Mãng Cầu, trồng quanh năm mất 14 ngày để trưởng thành.",
+                    "Type": "Hạt giống",
+                    "Season": "Quanh Năm",
+                    "Stackable": true,
+                    "GrowthTime": 14,
+                    "MultiScythe": true,
+                    "RegrowthTime": 4
+                },
+                {
+                    "Id": "S026",
+                    "Name": "Bưởi",
+                    "Information": "Hạt giống Bưởi, trồng quanh năm mất 26 ngày để trưởng thành.",
+                    "Type": "Hạt giống",
+                    "Season": "Quanh Năm",
+                    "Stackable": true,
+                    "GrowthTime": 26,
+                    "MultiScythe": true,
+                    "RegrowthTime": 5
+                },
+                {
+                    "Id": "S027",
+                    "Name": "Thanh Long",
+                    "Information": "Hạt giống Thanh Long, trồng quanh năm mất 16 ngày để trưởng thành.",
+                    "Type": "Hạt giống",
+                    "Season": "Quanh Năm",
+                    "Stackable": true,
+                    "GrowthTime": 16,
+                    "MultiScythe": true,
+                    "RegrowthTime": 4
+                },
+                {
+                    "Id": "S028",
+                    "Name": "Chôm Chôm",
+                    "Information": "Hạt giống Chôm Chôm, trồng quanh năm mất 27 ngày để trưởng thành.",
+                    "Type": "Hạt giống",
+                    "Season": "Quanh Năm",
+                    "Stackable": true,
+                    "GrowthTime": 27,
+                    "MultiScythe": true,
+                    "RegrowthTime": 5
+                },
+                {
+                    "Id": "S029",
+                    "Name": "Gừng",
+                    "Information": "Củ Gừng, trồng quanh năm mất 9 ngày để trưởng thành.",
+                    "Type": "Hạt giống",
+                    "Season": "Quanh Năm",
+                    "Stackable": true,
+                    "GrowthTime": 9,
+                    "MultiScythe": false
+                },
+                {
+                    "Id": "S030",
+                    "Name": "Mía",
+                    "Information": "Mía giống, trồng quanh năm mất 8 ngày để trưởng thành.",
+                    "Type": "Hạt giống",
+                    "Season": "Quanh Năm",
+                    "Stackable": true,
+                    "GrowthTime": 8,
+                    "MultiScythe": false
+                },
+                {
+                  "Id": "S003",
+                  "Name": "Sen",
+                  "Information": "Hạt giống Sen, trồng dưới nước. Cho ra nhiều loại sản phẩm khác nhau.",
+                  "Type": "Hạt giống",
+                  "Season": "Quanh năm",
+                  "Stackable": true,
+
+                  "HarvestProducts": [
+                    {
+                      "ProductId": "lotus_flower",
+                      "ProductName": "Hoa Sen",
+                      "Description": "Nở sau 7 ngày. Nếu bị hái sẽ mọc lại sau 5 ngày.",
+                      "GrowthDays": 7,
+                      "HarvestType": "REGROWABLE",
+                      "RegrowthDays": 5,
+                      "DestroysPlant": false
+                    },
+                    {
+                      "ProductId": "lotus_seedpod",
+                      "ProductName": "Đài Sen",
+                      "Description": "Hình thành sau khi Hoa Sen tàn (2 ngày sau khi hoa nở).",
+                      "HarvestType": "CONDITIONAL",
+                      "Dependency": {
+                        "OnProductId": "lotus_flower",
+                        "OnState": "UNHARVESTED_WILTED",
+                        "DelayDays": 2
+                      },
+                      "DestroysPlant": false
+                    },
+                    {
+                      "ProductId": "lotus_root",
+                      "ProductName": "Củ Sen",
+                      "Description": "Phát triển đầy đủ sau 15 ngày. Thu hoạch củ sẽ hủy cả cây.",
+                      "GrowthDays": 15,
+                      "HarvestType": "SINGLE_HARVEST",
+                      "DestroysPlant": true
+                    }
+                  ]
                 }
             ],
             "Tool": [
@@ -29,9 +363,43 @@
                     "Name": "Cuốc",
                     "Information": "Dùng để xới đất trồng cây.",
                     "Type": "Dụng cụ",
-                    "Durability": 100,
                     "Stackable": false
-                }
+                },
+                {
+                    "Id": "T002",
+                    "Name": "Liềm",
+                    "Information": "Dùng để gặt nông sản.",
+                    "Type": "Dụng cụ",
+                    "Stackable": false
+                },
+                {
+                    "Id": "T003",
+                    "Name": "Rìu",
+                    "Information": "Dùng để chặt cây.",
+                    "Type": "Dụng cụ",
+                    "Stackable": false
+                },
+                {
+                    "Id": "T004",
+                    "Name": "Cần Câu",
+                    "Information": "Dùng để câu cá.",
+                    "Type": "Dụng cụ",
+                    "Stackable": false
+                },
+                {
+                    "Id": "T005",
+                    "Name": "Bình tưới",
+                    "Information": "Dùng để tưới cây.",
+                    "Type": "Dụng cụ",
+                    "Stackable": false
+                },
+                {
+                    "Id": "T006",
+                    "Name": "Len",
+                    "Information": "Dùng để đào đất.",
+                    "Type": "Dụng cụ",
+                    "Stackable": false
+                },
             ],
             "Food": [
                 {
