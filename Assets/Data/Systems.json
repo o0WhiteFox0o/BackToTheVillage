@@ -1,0 +1,47 @@
+{
+    "vi": {
+        "Menu": {
+            "Start": "Bắt đầu",
+            "Load": "Tải trò chơi",
+            "Setting": "Cài đặt",
+            "Exit": "Thoát"
+        },
+        "Setting": {
+            "Language": "Ngôn ngữ",
+            "BGM_Volume": "Âm thanh nền",
+            "SFX_Volume": "Hiệu ứng âm thanh",
+            "Resolution": "Độ phân giải",
+            "Hotkeys": "Phím tắt",
+            "Apply": "Áp dụng",
+            "Back": "Quay lại",
+            "Reset_default": "Đặt lại mặc định"
+        },
+        "Modify_hotkeys": {
+            "Run": "Chạy",
+            "Up": "Lên",
+            "Down": "Xuống",
+            "Left": "Trái",
+            "Right": "Phải",
+            "Setting": "Cài đặt",
+            "Inventory": "Túi đồ",
+            "Interact" : "Tương tác",
+            "Use_tool": "Dùng công cụ"
+        },
+        "Customize_character": {
+            "Name": "Tên",
+            "Farm": "Nông trại",
+            "Favorite_thing": "Món yêu thích",
+            "Hat": "Nón",
+            "Face": "Khuôn mặt",
+            "Hair": "Tóc",
+            "Clothes": "Quần áo"
+        },
+        "Farm_list": {
+            "Farm": "Nông trại",
+            "Character_name": "Tên nhân vật",
+            "Played_time": "Thời gian chơi",
+            "Seasion": "Mùa",
+            "Back": "Quay lại"
+        }
+    }
+}
