@@ -8,13 +8,22 @@ public class FishingQTE : MonoBehaviour
     [SerializeField] private GameObject qtePanel;
     [SerializeField] private Image timerBar;         // Thanh xoay (TimerBar.png)
     [SerializeField] private Image successZoneImage; // Vùng xanh (SuccessZone.png)
-    [SerializeField] private Image gameTimerBar;     // Thanh thời gian tổng
+    [SerializeField] private Image gameTimerBar;
 
+    // Thanh thời gian tổng
+    [Header("Game Timer Mask (Horizontal)")]
+    [Tooltip("Kéo object 'Image' CON NẰM TRONG MASK của Timer vào đây")]
+    [SerializeField] private RectTransform gameTimerFillRect;
+    [Tooltip("Vị trí Y của thanh fill Timer khi 0% (ví dụ: -100)")]
+    [SerializeField] private float timerEmptyXPos = -100f;
+    [Tooltip("Vị trí Y của thanh fill Timer khi 100% (ví dụ: 0)")]
+    [SerializeField] private float timerFullXPos = 0f;
+    //Thanh tiến độ
     [Header("Progress Bar Mask (Vertical)")]
     [Tooltip("Kéo object 'Image' CON NẰM TRONG MASK vào đây")]
     [SerializeField] private RectTransform progressBarFillRect;
-    [Tooltip("Vị trí Y của thanh fill khi 0% (ví dụ: -150)")]
-    [SerializeField] private float barEmptyYPos = -150f;
+    [Tooltip("Vị trí Y của thanh fill khi 0% (ví dụ: -100)")]
+    [SerializeField] private float barEmptyYPos = -100f;
     [Tooltip("Vị trí Y của thanh fill khi 100% (ví dụ: 0)")]
     [SerializeField] private float barFullYPos = 0f;
 
@@ -107,8 +116,12 @@ public class FishingQTE : MonoBehaviour
         float newY = Mathf.Lerp(barEmptyYPos, barFullYPos, visualProgress);
         progressBarFillRect.anchoredPosition = new Vector2(progressBarFillRect.anchoredPosition.x, newY);
 
-        // Cập nhật các thanh còn lại
-        gameTimerBar.fillAmount = currentGameTime / maxGameTime;
+        // Cập nhật thanh Game Timer (dùng Mask)
+        float timerPercent = currentGameTime / maxGameTime;
+        float newTimerX = Mathf.Lerp(timerEmptyXPos, timerFullXPos, timerPercent);
+        gameTimerFillRect.anchoredPosition = new Vector2(newTimerX, gameTimerFillRect.anchoredPosition.y);
+
+        // Cập nhật thanh xoay
         timerBar.rectTransform.localRotation = Quaternion.Euler(0, 0, -currentFill * 360f);
     }
 
