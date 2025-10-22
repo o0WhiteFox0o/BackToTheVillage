@@ -21,7 +21,6 @@ public class Bobber : MonoBehaviour
 
     void Start()
     {
-        // Chúng ta sẽ dùng Rigidbody Kinematic
         Rigidbody2D rb = GetComponent<Rigidbody2D>();
         if (rb != null)
         {
@@ -30,7 +29,6 @@ public class Bobber : MonoBehaviour
         }
 
         col = GetComponent<Collider2D>();
-        // Tắt collider đi trong suốt quá trình bay
         if (col != null) col.enabled = false;
 
         if (spriteTransform == null)
@@ -39,14 +37,12 @@ public class Bobber : MonoBehaviour
         }
     }
 
-    // Hàm này được PlayerFishing.cs gọi
     public void StartCast(Vector2 destination, float height, float duration)
     {
         if (moveCoroutine != null) StopCoroutine(moveCoroutine);
         moveCoroutine = StartCoroutine(MoveToTarget(destination, height, duration));
     }
 
-    // Coroutine tự động di chuyển phao (cả vòng cung VÀ vị trí)
     private IEnumerator MoveToTarget(Vector2 destination, float height, float duration)
     {
         Vector2 startPos = transform.position;
@@ -55,56 +51,55 @@ public class Bobber : MonoBehaviour
 
         while (timeElapsed < duration)
         {
-            float t = timeElapsed / duration; // % hoàn thành (0.0 -> 1.0)
-
-            // 1. Di chuyển object cha (trên mặt đất)
+            float t = timeElapsed / duration;
             transform.position = Vector2.Lerp(startPos, destination, t);
-
-            // 2. Di chuyển object con (vòng cung)
-            // Dùng công thức Parabol (y = -4h * (t^2 - t))
             float yOffset = -4 * height * (Mathf.Pow(t, 2) - t);
             spriteTransform.localPosition = new Vector3(spriteStartPos.x, yOffset, spriteStartPos.z);
-
             timeElapsed += Time.deltaTime;
             yield return null;
         }
 
-        // Kết thúc bay, snap về vị trí cuối cùng
         transform.position = destination;
         spriteTransform.localPosition = spriteStartPos;
 
-        // Bây giờ MỚI kiểm tra xem hạ cánh ở đâu
         CheckLandSpot();
     }
 
-    // *** HÀM MỚI: KIỂM TRA ĐIỂM HẠ CÁNH ***
+    // --- HÀM CHECKLANDSPOT ĐÃ CẬP NHẬT ---
     private void CheckLandSpot()
     {
-        // Bật collider lên 1 frame chỉ để kiểm tra
         if (col != null) col.enabled = true;
 
-        // Kiểm tra xem phao đang đè lên cái gì
-        // (Chúng ta cần LayerMask cho "Water" và "Ground")
         Collider2D[] hits = Physics2D.OverlapCircleAll(transform.position, 0.1f);
 
         bool inWater = false;
+        FishingZone currentZone = null;
 
         foreach (Collider2D hit in hits)
         {
             if (hit.CompareTag("Water"))
             {
                 inWater = true;
-                break; // Ưu tiên Nước
+                currentZone = hit.GetComponent<FishingZone>();
+                break;
             }
         }
 
-        // Tắt collider đi (nếu cần)
-        // if (col != null) col.enabled = false; 
-
-        // Xử lý kết quả
-        if (inWater)
+        if (inWater && currentZone != null)
         {
-            HandleHitWater();
+            // --- ĐÃ THAY ĐỔI: Yêu cầu FishingZone chọn 1 con cá ---
+            FishData pickedFish = currentZone.PickRandomFish();
+
+            // Nếu khu vực có cá (pickedFish != null)
+            if (pickedFish != null)
+            {
+                HandleHitWater(pickedFish);
+            }
+            else
+            {
+                // Nếu khu vực là nước nhưng không có cá, coi như là đất
+                HandleHitGround();
+            }
         }
         else
         {
@@ -112,16 +107,18 @@ public class Bobber : MonoBehaviour
         }
     }
 
-    private void HandleHitWater()
+    // --- SỬA HÀM NÀY: Giờ nó nhận vào 1 con cá (FishData) ---
+    private void HandleHitWater(FishData pickedFish)
     {
         Debug.Log("Hạ cánh trên NƯỚC");
-        // Dừng sprite lại (nếu nó vẫn đang chạy animation do trễ frame)
         if (moveCoroutine != null) StopCoroutine(moveCoroutine);
         spriteTransform.localPosition = Vector3.zero;
 
         if (splashEffectPrefab != null) Instantiate(splashEffectPrefab, transform.position, Quaternion.identity);
         if (splashSound != null) AudioSource.PlayClipAtPoint(splashSound, transform.position);
-        if (playerFishingScript != null) playerFishingScript.OnBobberLanded();
+
+        // --- SỬA DÒNG NÀY: Gửi con cá đã chọn về cho Player ---
+        if (playerFishingScript != null) playerFishingScript.OnBobberLanded(pickedFish);
     }
 
     private void HandleHitGround()

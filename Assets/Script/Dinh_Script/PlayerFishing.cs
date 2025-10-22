@@ -5,15 +5,11 @@ using System.Collections;
 public class PlayerFishing : MonoBehaviour
 {
     [Header("Components (Các thành phần)")]
-    [Tooltip("Kéo script di chuyển của Player (ví dụ: PlayerMovement) vào đây")]
-    [SerializeField] private Player playerMovement; // <-- THAY TÊN NÀY NẾU CẦN
-
-    [Tooltip("Kéo SpriteRenderer của Player vào đây để script biết hướng quay mặt")]
+    [SerializeField] private Player playerMovement;
     [SerializeField] private SpriteRenderer playerSprite;
 
     [Header("Hệ thống QTE")]
     [SerializeField] private FishingQTE fishingQTE;
-    [SerializeField] private FishData[] fishInThisArea;
 
     [Header("Hệ thống Quăng câu")]
     [SerializeField] private GameObject bobberPrefab;
@@ -21,9 +17,7 @@ public class PlayerFishing : MonoBehaviour
     [SerializeField] private GameObject castingPanel;
     [SerializeField] private Image castingBar;
 
-    [Tooltip("Khoảng cách quăng xa tối đa (world units)")]
     [SerializeField] private float maxCastDistance = 7f;
-    [Tooltip("Khoảng cách quăng gần tối thiểu (world units)")]
     [SerializeField] private float minCastDistance = 2f;
     [SerializeField] private float chargeSpeed = 1f;
 
@@ -43,7 +37,8 @@ public class PlayerFishing : MonoBehaviour
     private float currentCharge = 0f;
     private bool isCharging = false;
     private GameObject currentBobber;
-    private FishData currentBitingFish;
+    private FishData currentBitingFish; // <-- Chỉ cần biến này
+    // private FishData[] currentFishList; // <-- ĐÃ XÓA
     private Coroutine waitingForBiteCoroutine;
 
     void Start()
@@ -55,27 +50,20 @@ public class PlayerFishing : MonoBehaviour
         }
         castingPanel.SetActive(false);
         if (audioSource == null) audioSource = GetComponent<AudioSource>();
-
-        // Tự động tìm SpriteRenderer nếu chưa gán
         if (playerSprite == null)
         {
             playerSprite = GetComponent<SpriteRenderer>();
             if (playerSprite == null) playerSprite = GetComponentInChildren<SpriteRenderer>();
         }
-
-        // --- MỚI: Tự động tìm script di chuyển nếu chưa gán ---
         if (playerMovement == null)
         {
-            playerMovement = GetComponent<Player>(); // <-- THAY TÊN NÀY NẾU CẦN
+            playerMovement = GetComponent<Player>();
         }
-        // --- KẾT THÚC MỚI ---
     }
 
     void Update()
     {
-        // --- MỚI: LUÔN CHẠY HÀM KHÓA DI CHUYỂN ---
         HandleMovementLock();
-        // --- KẾT THÚC MỚI ---
 
         // 1. Nhấn GIỮ phím F
         if (Input.GetKeyDown(KeyCode.F) && !isCharging && currentBobber == null && !fishingQTE.IsQTEActive())
@@ -97,7 +85,7 @@ public class PlayerFishing : MonoBehaviour
             {
                 isCharging = false;
                 castingPanel.SetActive(false);
-                CastBobber(); // Gọi trực tiếp
+                CastBobber();
             }
         }
 
@@ -108,64 +96,45 @@ public class PlayerFishing : MonoBehaviour
         }
     }
 
-    // --- HÀM MỚI: XỬ LÝ KHÓA DI CHUYỂN ---
     private void HandleMovementLock()
     {
-        bool isFishing = IsFishing(); // Kiểm tra trạng thái
-
+        bool isFishing = IsFishing();
         if (playerMovement != null)
         {
-            // Nếu đang câu (true) -> tắt di chuyển (enabled = false)
-            // Nếu không câu (false) -> bật di chuyển (enabled = true)
             playerMovement.enabled = !isFishing;
         }
     }
 
-    // --- HÀM MỚI: KIỂM TRA TRẠNG THÁI CÂU ---
     public bool IsFishing()
     {
-        // Trả về true nếu đang gồng, đang chờ cá, hoặc đang chơi QTE
         return isCharging || currentBobber != null || (fishingQTE != null && fishingQTE.IsQTEActive());
     }
-    // --- KẾT THÚC HÀM MỚI ---
 
-
-    // *** HÀM QUĂNG PHAO ĐÃ CẬP NHẬT HƯỚNG QUĂNG ***
     private void CastBobber()
     {
-        // --- MỚI: XÁC ĐỊNH HƯỚNG QUĂNG ---
-        Vector2 baseIsometricForward = new Vector2(1, 0.5f).normalized; // Hướng "lên-phải" (mặc định)
+        Vector2 baseIsometricForward = new Vector2(1, 0.5f).normalized;
         Vector2 finalCastDirection;
 
         if (playerSprite != null && playerSprite.flipX)
         {
-            // Player đang quay BÊN TRÁI
-            finalCastDirection = new Vector2(-baseIsometricForward.x, baseIsometricForward.y); // (thành "lên-trái")
+            finalCastDirection = new Vector2(-baseIsometricForward.x, baseIsometricForward.y);
         }
         else
         {
-            // Player đang quay BÊN PHẢI (mặc định)
             finalCastDirection = baseIsometricForward;
         }
-        // --- KẾT THÚC MỚI ---
 
-        // 1. Tính toán KHOẢNG CÁCH
         float castDistance = Mathf.Lerp(minCastDistance, maxCastDistance, currentCharge);
-
-        // 2. Tính ĐIỂM ĐẾN (Destination)
-        Vector2 destination = (Vector2)castPoint.position + (finalCastDirection * castDistance); // <-- Dùng hướng mới
+        Vector2 destination = (Vector2)castPoint.position + (finalCastDirection * castDistance);
 
         if (castSound != null && audioSource != null) audioSource.PlayOneShot(castSound);
 
-        // 3. Tạo phao câu
         GameObject bobberGO = Instantiate(bobberPrefab, castPoint.position, Quaternion.identity);
         Bobber bobberScript = bobberGO.GetComponent<Bobber>();
         bobberScript.playerFishingScript = this;
 
-        // 4. Tính toán thời gian bay
         float castDuration = Mathf.Lerp(0.1f, maxCastDuration, currentCharge);
 
-        // 5. Bắt đầu di chuyển
         bobberScript.StartCast(destination, arcHeight, castDuration);
 
         currentBobber = bobberGO;
@@ -181,10 +150,15 @@ public class PlayerFishing : MonoBehaviour
         }
     }
 
-    // (Hàm này giữ nguyên)
-    public void OnBobberLanded()
+    // --- SỬA HÀM NÀY: Giờ nó nhận vào 1 con cá (FishData) ---
+    public void OnBobberLanded(FishData pickedFish)
     {
         Debug.Log("Phao đã chạm nước. Bắt đầu chờ cá!");
+
+        // --- MỚI: Lưu lại con cá đã được chọn ---
+        currentBitingFish = pickedFish;
+        // --- KẾT THÚC MỚI ---
+
         if (waitingForBiteCoroutine != null)
         {
             StopCoroutine(waitingForBiteCoroutine);
@@ -206,22 +180,28 @@ public class PlayerFishing : MonoBehaviour
         }
     }
 
-    // (Các hàm còn lại giữ nguyên...)
+    // --- SỬA HÀM NÀY: Dùng con cá đã lưu ---
     private void StartFishingAttempt()
     {
-        if (fishInThisArea.Length == 0)
+        // Kiểm tra xem Bobber có gửi cho chúng ta con cá nào không
+        if (currentBitingFish == null)
         {
             Debug.LogWarning("Không có cá nào trong khu vực này!");
+            CancelFishing(); // Tự động hủy câu nếu không có cá
             return;
         }
         OnBite();
     }
+
+    // --- SỬA HÀM NÀY: Dùng con cá đã lưu ---
     private void OnBite()
     {
-        currentBitingFish = fishInThisArea[Random.Range(0, fishInThisArea.Length)];
+        // Không cần Random ở đây nữa! Cá đã được chọn
         Debug.Log($"Một con {currentBitingFish.fishName} đã cắn câu!");
         fishingQTE.StartQTE(currentBitingFish);
     }
+
+    // (Các hàm còn lại giữ nguyên...)
     private void CancelFishing()
     {
         Debug.Log("Hủy câu!");
