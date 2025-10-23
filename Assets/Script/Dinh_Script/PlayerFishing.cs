@@ -1,12 +1,15 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
 using System.Collections;
+using Management; // Đảm bảo bạn có namespace này cho Inventory
 
 public class PlayerFishing : MonoBehaviour
 {
     [Header("Components (Các thành phần)")]
+    [Tooltip("Kéo script di chuyển của Player (ví dụ: Player) vào đây")]
     [SerializeField] private Player playerMovement;
-    [SerializeField] private SpriteRenderer playerSprite;
+    [Tooltip("Kéo InventoryManager của bạn vào đây")]
+    [SerializeField] private InventoryManager inventory;
 
     [Header("Hệ thống QTE")]
     [SerializeField] private FishingQTE fishingQTE;
@@ -21,9 +24,14 @@ public class PlayerFishing : MonoBehaviour
     [SerializeField] private float minCastDistance = 2f;
     [SerializeField] private float chargeSpeed = 1f;
 
+    // --- ĐÃ THÊM LẠI: TỐC ĐỘ BAY CỦA PHAO ---
+    [Tooltip("Tốc độ di chuyển ngang của phao câu (world units/giây)")]
+    [SerializeField] private float bobberTravelSpeed = 5f;
+    // --- KẾT THÚC THÊM ---
+
     [Header("Isometric Settings")]
     [SerializeField] private float arcHeight = 1.5f;
-    [SerializeField] private float maxCastDuration = 1.0f;
+    // [SerializeField] private float maxCastDuration = 1.0f; // <-- ĐÃ XÓA, KHÔNG CẦN NỮA
 
     [Header("Thời gian chờ (Ngâm phao)")]
     [SerializeField] private float minWaitTime = 2.0f;
@@ -37,8 +45,7 @@ public class PlayerFishing : MonoBehaviour
     private float currentCharge = 0f;
     private bool isCharging = false;
     private GameObject currentBobber;
-    private FishData currentBitingFish; // <-- Chỉ cần biến này
-    // private FishData[] currentFishList; // <-- ĐÃ XÓA
+    private FishData currentBitingFish; // Chỉ cần biến này (cho logic FishingZone)
     private Coroutine waitingForBiteCoroutine;
 
     void Start()
@@ -50,11 +57,6 @@ public class PlayerFishing : MonoBehaviour
         }
         castingPanel.SetActive(false);
         if (audioSource == null) audioSource = GetComponent<AudioSource>();
-        if (playerSprite == null)
-        {
-            playerSprite = GetComponent<SpriteRenderer>();
-            if (playerSprite == null) playerSprite = GetComponentInChildren<SpriteRenderer>();
-        }
         if (playerMovement == null)
         {
             playerMovement = GetComponent<Player>();
@@ -110,31 +112,35 @@ public class PlayerFishing : MonoBehaviour
         return isCharging || currentBobber != null || (fishingQTE != null && fishingQTE.IsQTEActive());
     }
 
+    // *** HÀM QUĂNG PHAO ĐÃ CẬP NHẬT CÁCH TÍNH THỜI GIAN BAY ***
     private void CastBobber()
     {
-        Vector2 baseIsometricForward = new Vector2(1, 0.5f).normalized;
-        Vector2 finalCastDirection;
+        // 1. Lấy vị trí chuột và tính hướng quăng
+        Vector3 mouseScreenPos = Input.mousePosition;
+        mouseScreenPos.z = Camera.main.WorldToScreenPoint(castPoint.position).z;
+        Vector2 mouseWorldPos = Camera.main.ScreenToWorldPoint(mouseScreenPos);
+        Vector2 finalCastDirection = (mouseWorldPos - (Vector2)castPoint.position).normalized;
 
-        if (playerSprite != null && playerSprite.flipX)
-        {
-            finalCastDirection = new Vector2(-baseIsometricForward.x, baseIsometricForward.y);
-        }
-        else
-        {
-            finalCastDirection = baseIsometricForward;
-        }
-
+        // 2. Tính KHOẢNG CÁCH quăng
         float castDistance = Mathf.Lerp(minCastDistance, maxCastDistance, currentCharge);
+
+        // 3. Tính ĐIỂM ĐẾN (Destination)
         Vector2 destination = (Vector2)castPoint.position + (finalCastDirection * castDistance);
+
+        // --- ĐÃ SỬA LẠI LOGIC TÍNH THỜI GIAN BAY ---
+        // 4. Tính toán THỜI GIAN BAY dựa trên KHOẢNG CÁCH và TỐC ĐỘ
+        // duration = distance / speed
+        float castDuration = castDistance / (bobberTravelSpeed + 0.01f); // Thêm 0.01f để tránh chia cho 0
+        // --- KẾT THÚC SỬA ---
 
         if (castSound != null && audioSource != null) audioSource.PlayOneShot(castSound);
 
+        // 5. Tạo phao câu
         GameObject bobberGO = Instantiate(bobberPrefab, castPoint.position, Quaternion.identity);
         Bobber bobberScript = bobberGO.GetComponent<Bobber>();
         bobberScript.playerFishingScript = this;
 
-        float castDuration = Mathf.Lerp(0.1f, maxCastDuration, currentCharge);
-
+        // 6. Bắt đầu di chuyển (với thời gian bay mới)
         bobberScript.StartCast(destination, arcHeight, castDuration);
 
         currentBobber = bobberGO;
@@ -150,19 +156,12 @@ public class PlayerFishing : MonoBehaviour
         }
     }
 
-    // --- SỬA HÀM NÀY: Giờ nó nhận vào 1 con cá (FishData) ---
+    // (Hàm này khớp với logic FishingZone)
     public void OnBobberLanded(FishData pickedFish)
     {
         Debug.Log("Phao đã chạm nước. Bắt đầu chờ cá!");
-
-        // --- MỚI: Lưu lại con cá đã được chọn ---
-        currentBitingFish = pickedFish;
-        // --- KẾT THÚC MỚI ---
-
-        if (waitingForBiteCoroutine != null)
-        {
-            StopCoroutine(waitingForBiteCoroutine);
-        }
+        currentBitingFish = pickedFish; // Lưu con cá đã được chọn
+        if (waitingForBiteCoroutine != null) StopCoroutine(waitingForBiteCoroutine);
         waitingForBiteCoroutine = StartCoroutine(WaitForBite());
     }
 
@@ -172,7 +171,6 @@ public class PlayerFishing : MonoBehaviour
         float waitTime = Random.Range(minWaitTime, maxWaitTime);
         Debug.Log($"Đang ngâm phao, chờ {waitTime} giây...");
         yield return new WaitForSeconds(waitTime);
-
         if (currentBobber != null)
         {
             Debug.Log("CÁ CẮN CÂU!");
@@ -180,23 +178,21 @@ public class PlayerFishing : MonoBehaviour
         }
     }
 
-    // --- SỬA HÀM NÀY: Dùng con cá đã lưu ---
+    // (Hàm này khớp với logic FishingZone)
     private void StartFishingAttempt()
     {
-        // Kiểm tra xem Bobber có gửi cho chúng ta con cá nào không
         if (currentBitingFish == null)
         {
             Debug.LogWarning("Không có cá nào trong khu vực này!");
-            CancelFishing(); // Tự động hủy câu nếu không có cá
+            CancelFishing();
             return;
         }
         OnBite();
     }
 
-    // --- SỬA HÀM NÀY: Dùng con cá đã lưu ---
+    // (Hàm này khớp với logic FishingZone)
     private void OnBite()
     {
-        // Không cần Random ở đây nữa! Cá đã được chọn
         Debug.Log($"Một con {currentBitingFish.fishName} đã cắn câu!");
         fishingQTE.StartQTE(currentBitingFish);
     }
@@ -205,20 +201,22 @@ public class PlayerFishing : MonoBehaviour
     private void CancelFishing()
     {
         Debug.Log("Hủy câu!");
-        if (waitingForBiteCoroutine != null)
-        {
-            StopCoroutine(waitingForBiteCoroutine);
-            waitingForBiteCoroutine = null;
-        }
-        if (currentBobber != null)
-        {
-            Destroy(currentBobber);
-            currentBobber = null;
-        }
+        if (waitingForBiteCoroutine != null) StopCoroutine(waitingForBiteCoroutine);
+        if (currentBobber != null) Destroy(currentBobber);
+        currentBobber = null;
+        waitingForBiteCoroutine = null;
     }
     private void HandleFishingSuccess()
     {
         Debug.Log($"Bạn đã bắt được: {currentBitingFish.fishName}!");
+        try
+        {
+            inventory.AddItem(currentBitingFish);
+        }
+        catch (System.Exception e)
+        {
+            Debug.LogWarning($"Không thể thêm cá vào túi đồ! Lỗi: {e.Message}");
+        }
         CleanUpAfterFishing();
     }
     private void HandleFishingFailure()
@@ -228,16 +226,10 @@ public class PlayerFishing : MonoBehaviour
     }
     private void CleanUpAfterFishing()
     {
-        if (currentBobber != null)
-        {
-            Destroy(currentBobber);
-            currentBobber = null;
-        }
-        if (waitingForBiteCoroutine != null)
-        {
-            StopCoroutine(waitingForBiteCoroutine);
-            waitingForBiteCoroutine = null;
-        }
+        if (currentBobber != null) Destroy(currentBobber);
+        if (waitingForBiteCoroutine != null) StopCoroutine(waitingForBiteCoroutine);
+        currentBobber = null;
+        waitingForBiteCoroutine = null;
     }
     void OnDestroy()
     {

@@ -12,11 +12,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 272e1ef824f163a4889cbe00fa6cc682, type: 3}
   m_Name: Shark
   m_EditorClassIdentifier: 
+  id: 1
+  icon: {fileID: 21300000, guid: c5af0c832417a8343b15d839f6ccd5ff, type: 3}
+  stackable: 1
+  canSell: 0
+  buyPrice: 0
+  sellPrice: 0
   fishName: Shark
-  fishIcon: {fileID: 21300000, guid: c5af0c832417a8343b15d839f6ccd5ff, type: 3}
-  basePrice: 1000
   qteBarSpeed: 1
-  successWindowSize: 0.05
+  successWindowSize: 0.5
   maxGameTime: 50
   progressIncrease: 0.1
   progressDecrease: 0.05
