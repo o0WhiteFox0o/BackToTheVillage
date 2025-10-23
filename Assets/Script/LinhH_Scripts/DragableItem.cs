@@ -12,14 +12,16 @@ namespace GameUI
     {
         // private properties
         private ItemScriptableObject _itemScriptableObj;
-        private Transform _parent;
+        //private Transform _parent;
+        [HideInInspector] public Transform parentAfterDrag;
+        [HideInInspector] public Transform parentBeforeDrag;
         private int _quantity;
 
         [SerializeField] private Image _image;
         [SerializeField] private TMP_Text _countText;
 
         // public fields
-        public Transform parent { get => _parent; set => _parent = value; }
+        //public Transform parent { get => _parent; set => _parent = value; }
         public ItemScriptableObject itemScriptableObj { get => _itemScriptableObj; set => _itemScriptableObj = value; }
         public int quantity { get => _quantity; set => _quantity = value; }
 
@@ -59,23 +61,38 @@ namespace GameUI
 
         public void OnBeginDrag(PointerEventData eventData)
         {
-            _parent = transform.parent;
+            if (_image == null) return;// chưa gán image thì bỏ qua
             _image.raycastTarget = false;
-            transform.SetParent(transform.root);
-
+            parentBeforeDrag = transform.parent;   // backup slot cũ
+            parentAfterDrag = parentBeforeDrag;
+            parentAfterDrag = transform.parent;    // lưu lại slot cha
+            transform.SetParent(transform.root);   // đưa ra root để dễ kéo
         }
 
 
         public void OnDrag(PointerEventData eventData)
         {
+            if (_image == null) return;
             transform.position = Input.mousePosition;
         }
 
 
         public void OnEndDrag(PointerEventData eventData)
         {
+            if (_image == null) return;
             _image.raycastTarget = true;
-            transform.SetParent(_parent);
+
+            if (parentAfterDrag != null)
+            {
+                transform.SetParent(parentAfterDrag);
+                transform.localPosition = Vector3.zero;  // căn vào slot
+            }
+            else
+            {
+                Debug.LogWarning("parentAfterDrag bị null, trả về vị trí cũ");
+                transform.SetParent(parentBeforeDrag);
+                transform.localPosition = Vector3.zero;
+            }
         }
 
 

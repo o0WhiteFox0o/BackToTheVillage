@@ -2,12 +2,10 @@
 
 // Code này tạo một mục menu mới: "Create > Fishing > Fish Data"
 [CreateAssetMenu(fileName = "New Fish", menuName = "Fishing/Fish Data")]
-public class FishData : ScriptableObject
+public class FishData : ItemScriptableObject
 {
     [Header("Thông tin cơ bản")]
     public string fishName;
-    public Sprite fishIcon;
-    public int basePrice;
 
     [Header("Độ khó QTE (Kéo co)")]
     [Tooltip("Tốc độ thanh trắng chạy qua lại (ping-pong) (1 = chậm, 5 = rất nhanh)")]
