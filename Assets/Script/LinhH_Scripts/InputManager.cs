@@ -4,9 +4,14 @@ using UnityEngine;
 public class InputManager : MonoBehaviour
 {
     /// <summary>
-    /// Bắt sự kiện khi người chơi nhấn phím mở túi đồ.
+    /// Bắt sự kiện khi người chơi nhấn phím đóng/mở túi đồ.
     /// </summary>
     public static event Action OnOpenBagPress;
+
+    /// <summary>
+    /// Bắt sự kiện khi người chơi nhận phím đóng/mở giao diện tổng hợp
+    /// </summary>
+    public static event Action OnGeneralUIPress;
 
     public delegate void GetSelectItemInput(int index);
     /// <summary>
@@ -17,16 +22,26 @@ public class InputManager : MonoBehaviour
 
     private void Update()
     {
-        HandleOpenBag();
+        HandleBagUIPress();
+        HandleGeneralUIPress();
         HandleSelectItemInput();
     }
 
 
-    private void HandleOpenBag()
+    private void HandleBagUIPress()
     {
         if (Input.GetKeyDown(KeyCode.E))
         {
             OnOpenBagPress?.Invoke();
+        }
+    }
+
+
+    private void HandleGeneralUIPress()
+    {
+        if (Input.GetKeyDown(KeyCode.Escape))
+        {
+            OnGeneralUIPress?.Invoke();
         }
     }
 

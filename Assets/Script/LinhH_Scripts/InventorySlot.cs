@@ -12,7 +12,6 @@ public class InventorySlot : MonoBehaviour, IDropHandler
         if (eventData.pointerDrag == null) return; // không có gì để thả
 
         var originSlot = eventData.pointerDrag.GetComponent<DragableItem>().parentBeforeDrag;
-        Debug.Log(originSlot.gameObject.name);
 
         // thả item vào slot nếu slot trống
         if (transform.childCount == GameConstants.DEFAULT_INVENTORY_SLOT_CHILDREN_COUNT)
