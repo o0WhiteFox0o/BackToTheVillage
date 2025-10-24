@@ -12,7 +12,6 @@ namespace GameUI
     {
         // private properties
         private ItemScriptableObject _itemScriptableObj;
-        //private Transform _parent;
         [HideInInspector] public Transform parentAfterDrag;
         [HideInInspector] public Transform parentBeforeDrag;
         private int _quantity;
@@ -20,23 +19,13 @@ namespace GameUI
         [SerializeField] private Image _image;
         [SerializeField] private TMP_Text _countText;
 
-        // public fields
-        //public Transform parent { get => _parent; set => _parent = value; }
         public ItemScriptableObject itemScriptableObj { get => _itemScriptableObj; set => _itemScriptableObj = value; }
         public int quantity { get => _quantity; set => _quantity = value; }
-
-
-        void Start()
-        {
-            CheckPropertiesValue();
-        }
 
 
         /// <summary>
         /// Thiết lập các thông tin của item.
         /// </summary>
-        /// <param name="newItem"> Scriptable Object của item. </param>
-        /// <param name="quantity"> Số lượng item. </param>
         public void InitializeItem(ItemScriptableObject newItem, int quantity)
         {
             _itemScriptableObj = newItem;
@@ -104,16 +93,6 @@ namespace GameUI
         {
             _quantity += count;
             RefreshCount();
-        }
-
-
-        private void CheckPropertiesValue()
-        {
-            if (_image == null ||
-                _countText == null)
-            {
-                Debug.LogError("There is a component was not assigned in " + gameObject.name + ".");
-            }
         }
     }
 }

@@ -19,6 +19,11 @@ namespace Management
 
         public InventorySlot[] inventorySlots { get => _inventorySlots; set => _inventorySlots = value; }
 
+        /// <summary>
+        /// Trả về vật phẩm và nhân vật đang mang.
+        /// </summary>
+        public ItemScriptableObject holdingItem { get => _inventorySlots[holdingItemIndex].GetComponentInChildren<DragableItem>().itemScriptableObj; }
+
 
         void Start()
         {
@@ -28,42 +33,63 @@ namespace Management
             {
                 Debug.LogError("Can't load item prefab from resources.");
             }
+
+            // đăng ký các sự kiện cần thiết
+            InputManager.OnItemSelected += ChangeSelectedItem;
         }
 
 
         void OnDisable()
         {
+            InputManager.OnItemSelected -= ChangeSelectedItem;
         }
 
 
-        private void ChangeSelectedItem()
+        private void ChangeSelectedItem(int itemSelected)
         {
+            holdingItemIndex = (itemSelected == 0) ? 9 : itemSelected - 1;
+
+            // cập nhật UI hotbar
+            SetHoldingItem();
+        }
+
+
+        private void SetHoldingItem()
+        {
+            // tắt highlight của tất cả các item trong inventory
+            foreach (var slot in _inventorySlots)
+            {
+                slot.DisableHighlight();
+            }
+
+            // highlight slot được chọn
+            _inventorySlots[holdingItemIndex].HighlightSlot();
         }
 
 
         // test chức năng thêm vật phẩm
         public void TestAddItem(ItemScriptableObject item)
         {
-            AddItem(item);
+            AddItem(item, 1);
         }
 
 
         /// <summary>
-        /// Thêm item mới vào inventory, trả về true nếu thêm thành công, nếu không thì trả về false.
+        /// Thêm một số lượng item vào inventory, trả về true nếu thêm thành công, nếu không thì trả về false.
         /// </summary>
-        /// <param name="item"> Item được thêm vào inventory của nhân vật. </param>
         /// <returns></returns>
-        public bool AddItem(ItemScriptableObject item)
+        public bool AddItem(ItemScriptableObject item, int quantity)
         {
             // check if any slot has the same item with count lower than max
             // kiểm tra nếu có bất kỳ slot nào trùng item với item được thêm vào inventory và có số lượng chưa đạt tối đa
             foreach (var slot in _inventorySlots)
             {
-                // nếu slot đang được duyệt không chứa item nào thì bỏ qua nó
-                if (slot.transform.childCount == 0) { continue; }
+                // // nếu slot đang được duyệt không chứa item nào thì bỏ qua nó
+                // if (slot.transform.childCount == 0) { continue; }
 
-                // kiểm tra item trong slot
+                // kiểm tra xem có item trong slot không, nếu không thì bỏ qua
                 var itemInSlot = slot.GetComponentInChildren<DragableItem>();
+                if (itemInSlot == null) { continue; }
 
                 // nếu item trong slot khác loại với item được thêm vào thì bỏ qua nó
                 if (itemInSlot.itemScriptableObj != item) { continue; }
@@ -73,7 +99,7 @@ namespace Management
                 { continue; }
 
                 // cập nhật số lượng item
-                itemInSlot.UpdateCount(1);
+                itemInSlot.UpdateCount(quantity);
 
                 return true;
             }
@@ -83,7 +109,7 @@ namespace Management
             foreach (var slot in _inventorySlots)
             {
                 // nếu trong slot đã có item thì bỏ qua nó
-                if (slot.transform.childCount != 0) { continue; }
+                if (slot.transform.childCount != GameConstants.DEFAULT_INVENTORY_SLOT_CHILDREN_COUNT) { continue; }
 
                 SpawnNewItem(item, slot);
                 return true;
@@ -97,9 +123,6 @@ namespace Management
         /// <summary>
         /// Thêm một số lượng item vào slot chỉ định.
         /// </summary>
-        /// <param name="item"> Item được thêm vào. </param>
-        /// <param name="slotIndex"> Vị trí của slot trong danh sách slot. </param>
-        /// <param name="quantity"> Số lượng item được thêm vào. </param>
         public void AddItemToSlot(ItemScriptableObject item, int slotIndex, int quantity)
         {
             SpawnNewItem(item, inventorySlots[slotIndex]);
@@ -115,8 +138,6 @@ namespace Management
         /// <summary>
         /// Tạo một item mới vào một slot trong inventory của nhân vật.
         /// </summary>
-        /// <param name="item"> Item được tạo mới. </param>
-        /// <param name="slot"> Slot mà item được thêm vào. </param>
         private void SpawnNewItem(ItemScriptableObject item, InventorySlot slot)
         {
             // tạo và thiết lập các thông tin cho item mới
@@ -128,10 +149,6 @@ namespace Management
         }
 
 
-        public void SetHoldingItem()
-        {
-        }
-
 
         // tiêu thụ item
         public void ConsumeItem()
@@ -140,22 +157,17 @@ namespace Management
         }
 
 
-        // thêm nhiều item vào inventory, dùng khi mua item
-        private void AddItems(ItemScriptableObject item, int quantity)
-        {
-            for (int i = 0; i < quantity; i++)
-            {
-                AddItem(item);
-            }
-        }
-
-
-        // bỏ nhiều item ra khỏi inventory, dùng khi bán item
+        /// <summary>
+        /// Bỏ nhiều item ra khỏi inventory, dùng khi bán item.
+        /// </summary>
         private void RemoveItems(ItemScriptableObject removedItem, int removedQuantity)
         {
         }
 
 
+        /// <summary>
+        /// Cập nhật lại số lượng vật phẩm cho toàn bộ inventory
+        /// </summary>
         public void RefreshAllItems()
         {
             foreach (var itemSlot in _inventorySlots)

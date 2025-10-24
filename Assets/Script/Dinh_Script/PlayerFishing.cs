@@ -221,11 +221,15 @@ public class PlayerFishing : MonoBehaviour
         Debug.Log($"Bạn đã bắt được: {currentBitingFish.fishName}!");
         CleanUpAfterFishing();
     }
+
+
     private void HandleFishingFailure()
     {
         Debug.Log($"Con {currentBitingFish.fishName} đã trốn thoát!");
         CleanUpAfterFishing();
     }
+
+
     private void CleanUpAfterFishing()
     {
         if (currentBobber != null)
@@ -239,6 +243,8 @@ public class PlayerFishing : MonoBehaviour
             waitingForBiteCoroutine = null;
         }
     }
+
+    
     void OnDestroy()
     {
         if (fishingQTE != null)

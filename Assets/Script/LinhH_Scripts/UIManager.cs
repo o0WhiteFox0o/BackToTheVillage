@@ -1,4 +1,3 @@
-using Unity.VisualScripting;
 using UnityEngine;
 
 public class UIManager : MonoBehaviour
@@ -9,12 +8,13 @@ public class UIManager : MonoBehaviour
     {
         InputManager.OnOpenBagPress += EnableBagUI;
     }
-    
 
-    private void OnDisable() {
+
+    private void OnDisable()
+    {
         InputManager.OnOpenBagPress -= EnableBagUI;
     }
-    
+
 
     private void EnableBagUI()
     {
