@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using Unity.VisualScripting;
 
 public class Bobber : MonoBehaviour
 {
@@ -7,8 +8,10 @@ public class Bobber : MonoBehaviour
 
     [Tooltip("Kéo Prefab hiệu ứng 'Splash' vào đây")]
     [SerializeField] private GameObject splashEffectPrefab;
+    [SerializeField]private GameObject shadow;
 
     [Header("Âm thanh")]
+    [SerializeField] private AudioSource audioSource;
     [SerializeField] private AudioClip splashSound;
     [SerializeField] private AudioClip thudSound;
 
@@ -115,10 +118,12 @@ public class Bobber : MonoBehaviour
         spriteTransform.localPosition = Vector3.zero;
 
         if (splashEffectPrefab != null) Instantiate(splashEffectPrefab, transform.position, Quaternion.identity);
+        if (splashSound != null && audioSource != null) audioSource.PlayOneShot(splashSound);
         if (splashSound != null) AudioSource.PlayClipAtPoint(splashSound, transform.position);
 
-        // --- SỬA DÒNG NÀY: Gửi con cá đã chọn về cho Player ---
+        // --- Gửi con cá đã chọn về cho Player ---
         if (playerFishingScript != null) playerFishingScript.OnBobberLanded(pickedFish);
+        shadow.SetActive(false);
     }
 
     private void HandleHitGround()
