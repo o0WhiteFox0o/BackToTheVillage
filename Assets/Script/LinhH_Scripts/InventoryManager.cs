@@ -77,7 +77,6 @@ namespace Management
         /// <summary>
         /// Thêm một số lượng item vào inventory, trả về true nếu thêm thành công, nếu không thì trả về false.
         /// </summary>
-        /// <returns></returns>
         public bool AddItem(ItemScriptableObject item, int quantity)
         {
             // check if any slot has the same item with count lower than max
