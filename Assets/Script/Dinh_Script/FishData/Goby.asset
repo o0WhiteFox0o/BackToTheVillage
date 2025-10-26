@@ -12,9 +12,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 272e1ef824f163a4889cbe00fa6cc682, type: 3}
   m_Name: Goby
   m_EditorClassIdentifier: 
-  fishName: Goby
-  fishIcon: {fileID: 0}
-  basePrice: 0
+  id: 
+  icon: {fileID: 0}
+  stackable: 0
+  canSell: 0
+  buyPrice: 0
+  sellPrice: 0
+  displayName: Goby
+  rarity: 1
+  min_weight: 1
+  min_length: 10
+  max_weight: 20
+  max_length: 25
   qteBarSpeed: 0.57
   successWindowSize: 0.305
   maxGameTime: 50

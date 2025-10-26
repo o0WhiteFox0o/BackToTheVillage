@@ -12,9 +12,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 272e1ef824f163a4889cbe00fa6cc682, type: 3}
   m_Name: Carp
   m_EditorClassIdentifier: 
-  fishName: Carp
-  fishIcon: {fileID: 21300000, guid: 895b730d2aa275f489ed84fc2478411e, type: 3}
-  basePrice: 10
+  id: 
+  icon: {fileID: 0}
+  stackable: 0
+  canSell: 0
+  buyPrice: 0
+  sellPrice: 0
+  displayName: Carp
+  rarity: 1
+  min_weight: 1
+  min_length: 10
+  max_weight: 20
+  max_length: 25
   qteBarSpeed: 1
   successWindowSize: 0.25
   maxGameTime: 50
