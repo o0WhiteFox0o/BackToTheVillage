@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class UIManager : MonoBehaviour
+public class GameplayUIManager : MonoBehaviour
 {
     [SerializeField] public GameObject bagUI;
     [SerializeField] public GameObject generalUI;

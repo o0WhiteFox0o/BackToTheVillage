@@ -211,7 +211,7 @@ public class PlayerFishing : MonoBehaviour
         Debug.Log($"Bạn đã bắt được: {currentBitingFish.fishName}!");
         try
         {
-            inventory.AddItem(currentBitingFish);
+            inventory.AddItem(currentBitingFish, 1);
         }
         catch (System.Exception e)
         {

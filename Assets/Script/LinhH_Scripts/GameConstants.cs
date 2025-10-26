@@ -1,3 +1,6 @@
+using System.IO;
+using UnityEngine;
+
 public class GameConstants
 {
     /// <summary>
@@ -10,4 +13,7 @@ public class GameConstants
     /// </summary>
     /// Các game object con: Highlight slot
     public const int DEFAULT_INVENTORY_SLOT_CHILDREN_COUNT = 1;
+
+
+    public const string GAME_CONFIG_PATH = "GameConfig.json";
 }

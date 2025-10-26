@@ -1,0 +1,13 @@
+{
+    "hotkeys":
+    [
+        {
+            "action": "OpenBag",
+            "keyCode": "E"
+        },
+        {
+            "action": "OpenGeneralUI",
+            "keyCode": "Escape"
+        }
+    ]
+}

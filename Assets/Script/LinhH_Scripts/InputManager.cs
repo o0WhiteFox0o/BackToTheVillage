@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using UnityEngine;
 
 public class InputManager : MonoBehaviour
@@ -19,6 +20,14 @@ public class InputManager : MonoBehaviour
     /// </summary>
     public static event GetSelectItemInput OnItemSelected;
 
+    private Dictionary<string, KeyCode> keyBindings = new Dictionary<string, KeyCode>();
+
+
+    private void Start()
+    {
+        LoadHotkeys();
+    }
+
 
     private void Update()
     {
@@ -28,9 +37,30 @@ public class InputManager : MonoBehaviour
     }
 
 
+    private void LoadHotkeys()
+    {
+        // nếu dictionary key bindings là null thì tạo dictionary mới
+        if (keyBindings == null) { keyBindings = new Dictionary<string, KeyCode>(); }
+
+        // lấy danh sách hot key từ file game config
+        var keyConfigs = GameConfig.LoadGameConfig().hotkeys;
+
+        keyBindings.Clear();
+        // gán hot key cho từng hành động
+        foreach (var key in keyConfigs)
+        {
+            // kiểm tra nếu key code hợp lệ thì gán cho hành động tương ứng
+            if (Enum.TryParse(key.keyCode, out KeyCode keyCode))
+            {
+                keyBindings.Add(key.action, keyCode);
+            }
+        }
+    }
+
+
     private void HandleBagUIPress()
     {
-        if (Input.GetKeyDown(KeyCode.E))
+        if (Input.GetKeyDown(keyBindings["OpenBag"]))
         {
             OnOpenBagPress?.Invoke();
         }
@@ -39,7 +69,7 @@ public class InputManager : MonoBehaviour
 
     private void HandleGeneralUIPress()
     {
-        if (Input.GetKeyDown(KeyCode.Escape))
+        if (Input.GetKeyDown(keyBindings["OpenGeneralUI"]))
         {
             OnGeneralUIPress?.Invoke();
         }
