@@ -70,7 +70,7 @@
 >   - **Sell Price**: Giá bán ra của vật phẩm _(Nếu vật phẩm không thể bán được thì đặt giá trị này là -1)_. 
 > 
 > 
-> ---
+---
 > 
 > ## <i class="fa-solid fa-hammer"></i> Tools
 > ### Chuẩn bị
@@ -85,7 +85,7 @@
 > - Scriptable Object Tools Item được lưu trong *Assets/Resources/Items/Tools*.
 > 
 > 
-> ---
+---
 > 
 > ## <i class="fa-solid fa-recycle"></i> Materials
 > ### Chuẩn bị
@@ -100,7 +100,7 @@
 > - Scriptable Object Materials Item được lưu trong *Assets/Resources/Items/Materials*.
 > 
 > 
-> ---
+---
 > 
 > ## <i class="fa-solid fa-screwdriver-wrench"></i> Crafting
 > ### Chuẩn bị
@@ -115,7 +115,7 @@
 > - Scriptable Object Crafting Item được lưu trong *Assets/Resources/Items/Crafting*.
 > 
 > 
-> ---
+---
 > 
 > ## <i class="fa-solid fa-carrot"></i> Crops
 > ### Chuẩn bị
@@ -130,7 +130,7 @@
 > - Scriptable Object Crops Item được lưu trong *Assets/Resources/Items/Crops*.
 > 
 > 
-> ---
+---
 > 
 > ## <i class="fa-solid fa-fish"></i> Fish
 > ### Chuẩn bị
@@ -154,7 +154,7 @@
 > - Scriptable Object Fish Item được lưu trong *Assets/Resources/Items/Fish*.
 > 
 > 
-> ---
+---
 > 
 > ## <i class="fa-solid fa-egg"></i> Animal products
 > ### Chuẩn bị
@@ -169,7 +169,7 @@
 > - Scriptable Object Animal products Item được lưu trong *Assets/Resources/Items/Animal_Products*.
 > 
 > 
-> ---
+---
 > 
 > ## <i class="fa-solid fa-bowl-rice"></i> Food
 > ### Chuẩn bị
@@ -184,7 +184,7 @@
 > - Scriptable Object Food Item được lưu trong *Assets/Resources/Items/Food*.
 > 
 > 
-> ---
+---
 > 
 > ## <i class="fa-solid fa-chair"></i> Decoration
 > ### Chuẩn bị
@@ -199,7 +199,7 @@
 > - Scriptable Object Decoration Item được lưu trong *Assets/Resources/Items/Decoration*.
 > 
 > 
-> ---
+---
 > 
 > ## <i class="fa-solid fa-clone"></i> Other
 > 
