@@ -7,9 +7,14 @@ public class GameplayUIManager : MonoBehaviour
     [SerializeField] public GameObject npcUI;
     [SerializeField] public GameObject settingUI;
 
+    private bool isAnyUIOpen;
+
 
     private void Start()
     {
+        isAnyUIOpen = false;
+
+        // đăng ký sự kiện cần thiết
         InputManager.OnOpenBagPress += ToggleBagUI;
         InputManager.OnGeneralUIPress += ToggleGeneralUI;
     }
@@ -22,28 +27,36 @@ public class GameplayUIManager : MonoBehaviour
     }
 
 
-    private void ToggleBagUI()
+    public void ToggleBagUI()
     {
+        // tắt UI túi đồ nếu nó đang bật
         if (bagUI.activeSelf)
         {
             bagUI.SetActive(false);
+            isAnyUIOpen = false;
         }
-        else
+        // bật UI túi đồ nếu nó đang tắt và không có UI nào khác đang được bật
+        else if (!isAnyUIOpen)
         {
             bagUI.SetActive(true);
+            isAnyUIOpen = true;
         }
     }
 
 
-    private void ToggleGeneralUI()
+    public void ToggleGeneralUI()
     {
+        // tắt UI general nếu nó đang bật
         if (generalUI.activeInHierarchy)
         {
             generalUI.SetActive(false);
+            isAnyUIOpen = false;
         }
-        else
+        // bật UI general nếu nó đang tắt và không có UI nào khác đang được bật
+        else if (!isAnyUIOpen)
         {
             generalUI.SetActive(true);
+            isAnyUIOpen = true;
         }
     }
 

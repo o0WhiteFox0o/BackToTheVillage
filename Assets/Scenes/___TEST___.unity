@@ -1161,10 +1161,10 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1200745094}
-        m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
-        m_MethodName: SetActive
-        m_Mode: 6
+      - m_Target: {fileID: 741403065}
+        m_TargetAssemblyTypeName: GameplayUIManager, Assembly-CSharp
+        m_MethodName: ToggleGeneralUI
+        m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
@@ -11519,6 +11519,22 @@ PrefabInstance:
     - target: {fileID: 5466689424761652177, guid: 089279d21a51fba4fb9f2bb93809e14a, type: 3}
       propertyPath: m_Name
       value: Inventory UI
+      objectReference: {fileID: 0}
+    - target: {fileID: 5583030923326609585, guid: 089279d21a51fba4fb9f2bb93809e14a, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5583030923326609585, guid: 089279d21a51fba4fb9f2bb93809e14a, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 741403065}
+    - target: {fileID: 5583030923326609585, guid: 089279d21a51fba4fb9f2bb93809e14a, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: ToggleBagUI
+      objectReference: {fileID: 0}
+    - target: {fileID: 5583030923326609585, guid: 089279d21a51fba4fb9f2bb93809e14a, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: GameplayUIManager, Assembly-CSharp
       objectReference: {fileID: 0}
     - target: {fileID: 5634194033770312361, guid: 089279d21a51fba4fb9f2bb93809e14a, type: 3}
       propertyPath: m_AnchorMax.y

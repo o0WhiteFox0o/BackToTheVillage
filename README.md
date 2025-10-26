@@ -20,6 +20,9 @@
 - [Vật phẩm khác](#other)  
 
 [Công trình](#constructs)  
+[Dữ liệu](#data)
+- [Dữ liệu chung](#game-config)
+- [Dữ liệu nông trại](#farm-config)
 
 ---
 
@@ -47,7 +50,7 @@
 
 # Animals
 > 
-> 
+
 ---
 
 # Items
@@ -67,9 +70,9 @@
 >   - **Buy Price**: Giá mua vào của vật phẩm _(Nếu vật phẩm không thể mua được thì đặt giá trị này là -1)_.
 >   - **Sell Price**: Giá bán ra của vật phẩm _(Nếu vật phẩm không thể bán được thì đặt giá trị này là -1)_. 
 > 
-> 
+
 ---
-> 
+
 > ## Tools
 > ### Chuẩn bị
 > Các thành phần cẩn chuẩn bị cho Tools Item:
@@ -82,9 +85,9 @@
 > Vị trí lưu trữ:
 > - Scriptable Object Tools Item được lưu trong *Assets/Resources/Items/Tools*.
 > 
-> 
+
 ---
-> 
+
 > ## Materials
 > ### Chuẩn bị
 > Các thành phần cẩn chuẩn bị cho Materials Item:
@@ -97,9 +100,9 @@
 > Vị trí lưu trữ:
 > - Scriptable Object Materials Item được lưu trong *Assets/Resources/Items/Materials*.
 > 
-> 
+
 ---
-> 
+ 
 > ## Crafting
 > ### Chuẩn bị
 > Các thành phần cẩn chuẩn bị cho Crafting Item:
@@ -112,9 +115,9 @@
 > Vị trí lưu trữ:
 > - Scriptable Object Crafting Item được lưu trong *Assets/Resources/Items/Crafting*.
 > 
-> 
+ 
 ---
-> 
+ 
 > ## Crops
 > ### Chuẩn bị
 > Các thành phần cẩn chuẩn bị cho Crops Item:
@@ -127,9 +130,9 @@
 > Vị trí lưu trữ:
 > - Scriptable Object Crops Item được lưu trong *Assets/Resources/Items/Crops*.
 > 
-> 
+ 
 ---
-> 
+ 
 > ## Fish
 > ### Chuẩn bị
 > Các thành phần cần chuẩn bị để thiết lập cho Fish Item:
@@ -151,9 +154,9 @@
 > Vị trí lưu trữ:
 > - Scriptable Object Fish Item được lưu trong *Assets/Resources/Items/Fish*.
 > 
-> 
+ 
 ---
-> 
+ 
 > ## Animal products
 > ### Chuẩn bị
 > Các thành phần cẩn chuẩn bị cho Animal products Item:
@@ -166,9 +169,9 @@
 > Vị trí lưu trữ:
 > - Scriptable Object Animal products Item được lưu trong *Assets/Resources/Items/Animal_Products*.
 > 
-> 
+ 
 ---
-> 
+ 
 > ## Food
 > ### Chuẩn bị
 > Các thành phần cẩn chuẩn bị cho Food Item:
@@ -181,9 +184,9 @@
 > Vị trí lưu trữ:
 > - Scriptable Object Food Item được lưu trong *Assets/Resources/Items/Food*.
 > 
-> 
+ 
 ---
-> 
+ 
 > ## Decoration
 > ### Chuẩn bị
 > Các thành phần cẩn chuẩn bị cho Decoration Item:
@@ -196,12 +199,23 @@
 > Vị trí lưu trữ:
 > - Scriptable Object Decoration Item được lưu trong *Assets/Resources/Items/Decoration*.
 > 
-> 
+ 
 ---
-> 
+ 
 > ## Other
-> 
+ 
 ---
 
 # Constructs
+> 
+
+---
+
+# Data
+> ## Game Config
+> 
+
+---
+
+> ## Farm Config
 > 
