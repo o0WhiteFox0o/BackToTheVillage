@@ -25,10 +25,10 @@
 
 
 # Characters
-> ## <i class="fa-solid fa-pencil"></i> Main Character set up
+> ## Main Character set up
 > Nhân vật chính di chuyển theo 4 hướng (Đông Bắc, Tây Bắc, Đông Nam, Tây Nam).
 >
-> ## <i class="fa-solid fa-clone"></i> Add a NPC
+> ## Add a NPC
 >
 
 ---
