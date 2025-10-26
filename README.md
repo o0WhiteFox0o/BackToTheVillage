@@ -1,10 +1,8 @@
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
-
-# <i class="fa-solid fa-book"></i> Welcome
+# Welcome
 
 ---
 
-# <i class="fa-regular fa-bookmark"></i> Contents
+# Contents
 [Nhân vật](#characters)  
 [Cây trồng](#plants)  
 [Cá](#fish)  
@@ -26,7 +24,7 @@
 ---
 
 
-# <i class="fa-solid fa-user"></i> Characters
+# Characters
 > ## <i class="fa-solid fa-pencil"></i> Main Character set up
 > Nhân vật chính di chuyển theo 4 hướng (Đông Bắc, Tây Bắc, Đông Nam, Tây Nam).
 >
@@ -35,25 +33,25 @@
 
 ---
 
-# <i class="fa-solid fa-seedling"></i> Plants
+# Plants
 > 
-> ## <i class="fa-solid fa-clone"></i> Add a plant
+> ## Add a plant
 
 ---
 
-# <i class="fa-solid fa-fish"></i> Fish
+# Fish
 > 
-> ## <i class="fa-solid fa-clone"></i> Add a fish
+> ## Add a fish
 
 ---
 
-# <i class="fa-solid fa-paw"></i> Animals
+# Animals
 > 
 > 
 ---
 
-# <i class="fa-solid fa-sack-dollar"></i> Items
-> ## <i class="fa-solid fa-book"></i> Overview
+# Items
+> ## Overview
 > ### Chuẩn bị
 > 
 > ### Thiết lập vật phẩm
@@ -72,7 +70,7 @@
 > 
 > ---
 > 
-> ## <i class="fa-solid fa-hammer"></i> Tools
+> ## Tools
 > ### Chuẩn bị
 > Các thành phần cẩn chuẩn bị cho Tools Item:
 > - **Sprite Icon**: Đặt trong thư mục *Assets/Sprites/Items/Icons/Tools*.
@@ -87,7 +85,7 @@
 > 
 > ---
 > 
-> ## <i class="fa-solid fa-recycle"></i> Materials
+> ## Materials
 > ### Chuẩn bị
 > Các thành phần cẩn chuẩn bị cho Materials Item:
 > - **Sprite Icon**: Đặt trong thư mục *Assets/Sprites/Items/Icons/Materials*.
@@ -102,7 +100,7 @@
 > 
 > ---
 > 
-> ## <i class="fa-solid fa-screwdriver-wrench"></i> Crafting
+> ## Crafting
 > ### Chuẩn bị
 > Các thành phần cẩn chuẩn bị cho Crafting Item:
 > - **Sprite Icon**: Đặt trong thư mục *Assets/Sprites/Items/Icons/Crafting*.
@@ -117,7 +115,7 @@
 > 
 > ---
 > 
-> ## <i class="fa-solid fa-carrot"></i> Crops
+> ## Crops
 > ### Chuẩn bị
 > Các thành phần cẩn chuẩn bị cho Crops Item:
 > - **Sprite Icon**: Đặt trong thư mục *Assets/Sprites/Items/Icons/Crops*.
@@ -132,7 +130,7 @@
 > 
 > ---
 > 
-> ## <i class="fa-solid fa-fish"></i> Fish
+> ## Fish
 > ### Chuẩn bị
 > Các thành phần cần chuẩn bị để thiết lập cho Fish Item:
 > - **Sprite Icon**: Đặt trong thư mục *Assets/Sprites/Items/Icons/Fish*.
@@ -156,7 +154,7 @@
 > 
 > ---
 > 
-> ## <i class="fa-solid fa-egg"></i> Animal products
+> ## Animal products
 > ### Chuẩn bị
 > Các thành phần cẩn chuẩn bị cho Animal products Item:
 > - **Sprite Icon**: Đặt trong thư mục *Assets/Sprites/Items/Icons/Animal_Products*.
@@ -171,7 +169,7 @@
 > 
 > ---
 > 
-> ## <i class="fa-solid fa-bowl-rice"></i> Food
+> ## Food
 > ### Chuẩn bị
 > Các thành phần cẩn chuẩn bị cho Food Item:
 > - **Sprite Icon**: Đặt trong thư mục *Assets/Sprites/Items/Icons/Food*.
@@ -186,7 +184,7 @@
 > 
 > ---
 > 
-> ## <i class="fa-solid fa-chair"></i> Decoration
+> ## Decoration
 > ### Chuẩn bị
 > Các thành phần cẩn chuẩn bị cho Decoration Item:
 > - **Sprite Icon**: Đặt trong thư mục *Assets/Sprites/Items/Icons/Decoration*.
@@ -201,9 +199,9 @@
 > 
 > ---
 > 
-> ## <i class="fa-solid fa-clone"></i> Other
+> ## Other
 > 
 ---
 
-# <i class="fa-solid fa-house"></i> Constructs
+# Constructs
 > 
