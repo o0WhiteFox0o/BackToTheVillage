@@ -9,6 +9,7 @@ public class Bobber : MonoBehaviour
     [Tooltip("Kéo Prefab hiệu ứng 'Splash' vào đây")]
     [SerializeField] private GameObject splashEffectPrefab;
     [SerializeField]private GameObject shadow;
+    [SerializeField] private GameObject hotBar;
 
     [Header("Âm thanh")]
     [SerializeField] private AudioSource audioSource;
@@ -124,6 +125,7 @@ public class Bobber : MonoBehaviour
         // --- Gửi con cá đã chọn về cho Player ---
         if (playerFishingScript != null) playerFishingScript.OnBobberLanded(pickedFish);
         shadow.SetActive(false);
+        hotBar.SetActive(false);
     }
 
     private void HandleHitGround()

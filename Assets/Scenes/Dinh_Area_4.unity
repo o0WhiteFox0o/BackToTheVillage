@@ -107483,7 +107483,7 @@ Transform:
   m_GameObject: {fileID: 636685157}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0.04, y: -0.055, z: 0}
+  m_LocalPosition: {x: -0.04, y: 0.323, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -305873,6 +305873,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 29798f26f07b15442b7bdad1e6c2e613, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!1 &860400377 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 8789220040824557503, guid: 089279d21a51fba4fb9f2bb93809e14a, type: 3}
+  m_PrefabInstance: {fileID: 823380826}
+  m_PrefabAsset: {fileID: 0}
 --- !u!224 &861262273 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 5042774312186203800, guid: b42ac328e9da76847bfd2fb4d60e227f, type: 3}
@@ -306393,10 +306398,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2ada2a8bc631e5847928afafd26a6c5f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  bagUI: {fileID: 1248333203}
-  generalUI: {fileID: 797277528}
-  npcUI: {fileID: 1323020473}
-  settingUI: {fileID: 162961818}
+  bagUI: {fileID: 0}
+  generalUI: {fileID: 0}
+  npcUI: {fileID: 0}
+  settingUI: {fileID: 0}
 --- !u!114 &1091209956
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -306602,13 +306607,15 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   playerMovement: {fileID: 1136911364}
   inventory: {fileID: 743592222}
+  lineRenderer: {fileID: 1136911372}
   fishingQTE: {fileID: 1732639150}
   bobberPrefab: {fileID: 2059788777}
   castPoint: {fileID: 636685158}
   castingPanel: {fileID: 795188122}
   castingBar: {fileID: 365342921}
+  hotBar: {fileID: 860400377}
   bobberTravelSpeed: 5
-  maxCastDistance: 7
+  maxCastDistance: 5
   minCastDistance: 2
   chargeSpeed: 1
   caughtFishPanel: {fileID: 2078692148}
@@ -306730,6 +306737,110 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!120 &1136911372
+LineRenderer:
+  serializedVersion: 2
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1048391988}
+  m_Enabled: 1
+  m_CastShadows: 1
+  m_ReceiveShadows: 1
+  m_DynamicOccludee: 1
+  m_StaticShadowCaster: 0
+  m_MotionVectors: 0
+  m_LightProbeUsage: 0
+  m_ReflectionProbeUsage: 0
+  m_RayTracingMode: 0
+  m_RayTraceProcedural: 0
+  m_RenderingLayerMask: 1
+  m_RendererPriority: 0
+  m_Materials:
+  - {fileID: 2100000, guid: 6e6d7788db310ad4b9899021e7cd3619, type: 2}
+  m_StaticBatchInfo:
+    firstSubMesh: 0
+    subMeshCount: 0
+  m_StaticBatchRoot: {fileID: 0}
+  m_ProbeAnchor: {fileID: 0}
+  m_LightProbeVolumeOverride: {fileID: 0}
+  m_ScaleInLightmap: 1
+  m_ReceiveGI: 1
+  m_PreserveUVs: 0
+  m_IgnoreNormalsForChartDetection: 0
+  m_ImportantGI: 0
+  m_StitchLightmapSeams: 1
+  m_SelectedEditorRenderState: 3
+  m_MinimumChartSize: 4
+  m_AutoUVMaxDistance: 0.5
+  m_AutoUVMaxAngle: 89
+  m_LightmapParameters: {fileID: 0}
+  m_SortingLayerID: 0
+  m_SortingLayer: 0
+  m_SortingOrder: 0
+  m_Positions:
+  - {x: 0, y: 0, z: 0}
+  - {x: 0, y: 0, z: 1}
+  m_Parameters:
+    serializedVersion: 3
+    widthMultiplier: 0.015
+    widthCurve:
+      serializedVersion: 2
+      m_Curve:
+      - serializedVersion: 3
+        time: 0
+        value: 1
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0.33333334
+        outWeight: 0.33333334
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 4
+    colorGradient:
+      serializedVersion: 2
+      key0: {r: 0.24528301, g: 0.21381274, b: 0.21381274, a: 1}
+      key1: {r: 0.24528301, g: 0.21381274, b: 0.21381274, a: 1}
+      key2: {r: 0, g: 0, b: 0, a: 0}
+      key3: {r: 0, g: 0, b: 0, a: 0}
+      key4: {r: 0, g: 0, b: 0, a: 0}
+      key5: {r: 0, g: 0, b: 0, a: 0}
+      key6: {r: 0, g: 0, b: 0, a: 0}
+      key7: {r: 0, g: 0, b: 0, a: 0}
+      ctime0: 0
+      ctime1: 65535
+      ctime2: 0
+      ctime3: 0
+      ctime4: 0
+      ctime5: 0
+      ctime6: 0
+      ctime7: 0
+      atime0: 0
+      atime1: 65535
+      atime2: 0
+      atime3: 0
+      atime4: 0
+      atime5: 0
+      atime6: 0
+      atime7: 0
+      m_Mode: 0
+      m_ColorSpace: 0
+      m_NumColorKeys: 2
+      m_NumAlphaKeys: 2
+    numCornerVertices: 5
+    numCapVertices: 5
+    alignment: 0
+    textureMode: 0
+    textureScale: {x: 1, y: 1}
+    shadowBias: 0.5
+    generateLightingData: 0
+  m_MaskInteraction: 0
+  m_UseWorldSpace: 1
+  m_Loop: 0
+  m_ApplyActiveColorSpace: 1
 --- !u!224 &1145141834 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 5042774312186203800, guid: b42ac328e9da76847bfd2fb4d60e227f, type: 3}
@@ -306956,11 +307067,6 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: b42ac328e9da76847bfd2fb4d60e227f, type: 3}
---- !u!1 &1248333203 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 3382922049917248832, guid: 089279d21a51fba4fb9f2bb93809e14a, type: 3}
-  m_PrefabInstance: {fileID: 823380826}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &1265846979
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -309272,6 +309378,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 2836866105814495558, guid: 498980d332d5f6b4fad8306b40a26bff, type: 3}
       insertIndex: -1
       addedObject: {fileID: 1136911368}
+    - targetCorrespondingSourceObject: {fileID: 2836866105814495558, guid: 498980d332d5f6b4fad8306b40a26bff, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1136911372}
   m_SourcePrefab: {fileID: 100100000, guid: 498980d332d5f6b4fad8306b40a26bff, type: 3}
 --- !u!224 &1789078888 stripped
 RectTransform:
@@ -747796,6 +747905,7 @@ MonoBehaviour:
   playerFishingScript: {fileID: 1136911362}
   splashEffectPrefab: {fileID: 0}
   shadow: {fileID: 957149224}
+  hotBar: {fileID: 860400377}
   audioSource: {fileID: 2059788783}
   splashSound: {fileID: 8300000, guid: c8257008a050eee45926ce75b9da89a5, type: 3}
   thudSound: {fileID: 0}
