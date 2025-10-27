@@ -14,6 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   id: 
   icon: {fileID: 1561976234, guid: 4dc57df14bc5e7445b93db5487cfa5f1, type: 3}
+  type: 1
   stackable: 1
   canSell: 0
   buyPrice: 0
