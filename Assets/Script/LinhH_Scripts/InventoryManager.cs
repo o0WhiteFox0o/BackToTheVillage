@@ -35,26 +35,28 @@ namespace Management
             }
 
             // đăng ký các sự kiện cần thiết
-            InputManager.OnItemSelected += ChangeSelectedItem;
+            InputManager.OnItemSelected += ChangeHoldingItem;
+            GameplayUIManager.OnPlayerClickHotBarItem += ChangeHoldingItem;
         }
 
 
         void OnDisable()
         {
-            InputManager.OnItemSelected -= ChangeSelectedItem;
+            InputManager.OnItemSelected -= ChangeHoldingItem;
+            GameplayUIManager.OnPlayerClickHotBarItem -= ChangeHoldingItem;
         }
 
 
-        private void ChangeSelectedItem(int itemSelected)
+        private void ChangeHoldingItem(int itemSelected)
         {
             holdingItemIndex = (itemSelected == 0) ? 9 : itemSelected - 1;
 
             // cập nhật UI hotbar
-            SetHoldingItem();
+            HighlightHoldingItem();
         }
 
 
-        private void SetHoldingItem()
+        private void HighlightHoldingItem()
         {
             // tắt highlight của tất cả các item trong inventory
             foreach (var slot in _inventorySlots)
