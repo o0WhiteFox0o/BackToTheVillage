@@ -19,6 +19,7 @@ public class Bobber : MonoBehaviour
     [Header("Cấu trúc Prefab")]
     [Tooltip("Kéo child 'Sprite' (chứa hình ảnh phao câu) vào đây")]
     [SerializeField] private Transform spriteTransform;
+    public Transform SpriteTransform => spriteTransform;
 
     private Collider2D col;
     private Coroutine moveCoroutine;

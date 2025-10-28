@@ -6,6 +6,8 @@ using UnityEngine.UI;
 
 public class PlayerFishing : MonoBehaviour
 {
+    private Bobber currentBobberScript;
+
     [Header("Components (Các thành phần)")]
     [Tooltip("Kéo script di chuyển của Player (ví dụ: Player) vào đây")]
     [SerializeField] private Player playerMovement;
@@ -41,6 +43,12 @@ public class PlayerFishing : MonoBehaviour
     [SerializeField] private TMP_Text fishWeightText;
     [SerializeField] private TMP_Text fishLengthText;
     [SerializeField] private float caughtFishDisplayTime = 3.0f;
+
+    [Header("Cá câu được")]
+    [SerializeField] private GameObject fishIconPrefab;
+    [SerializeField] private float fishPullDuration = 0.5f;
+    private Coroutine pullFishCoroutine;
+
     private Coroutine displayFishCoroutine;
 
     [Header("Isometric Settings")]
@@ -54,6 +62,7 @@ public class PlayerFishing : MonoBehaviour
     [SerializeField] private AudioSource audioSource;
     [SerializeField] private AudioClip castSound;
     [SerializeField] private AudioClip successSound;
+    [SerializeField] private AudioClip onBaitSound;
 
     // Biến trạng thái
     private float currentCharge = 0f;
@@ -61,7 +70,7 @@ public class PlayerFishing : MonoBehaviour
     private GameObject currentBobber;
     private FishData currentBitingFish;
     private Coroutine waitingForBiteCoroutine;
-    private enum FishingState { Idle, Charging, Casting, BobberWaiting, FightingFish }
+    private enum FishingState { Idle, Charging, Casting, BobberWaiting, FightingFish , PullingFish}
     private FishingState currentState = FishingState.Idle;
 
     void Start()
@@ -76,19 +85,16 @@ public class PlayerFishing : MonoBehaviour
         if (playerMovement == null) playerMovement = GetComponent<Player>();
         if (caughtFishPanel != null) caughtFishPanel.SetActive(false);
         currentState = FishingState.Idle;
-
-        // --- SỬA: Kiểm tra LineRenderer đã gán ---
-        // lineRenderer = GetComponent<LineRenderer>(); // Không cần tìm nữa nếu dùng SerializeField
+        if(fishIconPrefab == null)Debug.LogError("fishIconPrefab chưa được gán trong Inspector!");
         if (lineRenderer != null)
         {
-            lineRenderer.positionCount = 2; // Đảm bảo có 2 điểm
+            lineRenderer.positionCount = 20;
             lineRenderer.enabled = false;
         }
         else
         {
             Debug.LogError("Line Renderer chưa được gán trong Inspector!");
         }
-        // --- KẾT THÚC SỬA ---
     }
 
     void Update()
@@ -128,51 +134,72 @@ public class PlayerFishing : MonoBehaviour
         }
     }
 
-    // --- HÀM CẬP NHẬT DÂY CÂU ĐÃ SỬA ĐỂ VẼ CONG ---
+    // --- HÀM CẬP NHẬT DÂY CÂU - VẼ VÕNG MỀM MẠI ---
     void UpdateFishingLine()
     {
-        if (lineRenderer == null) return;
+        // Kiểm tra lineRenderer và script phao câu
+        if (lineRenderer == null || currentBobber == null || currentBobberScript == null) // Thêm kiểm tra currentBobberScript
+        {
+            if (lineRenderer != null && lineRenderer.enabled)
+                lineRenderer.enabled = false;
+            return;
+        }
 
-        // Chỉ vẽ dây khi đang bay (Casting), chờ (BobberWaiting), hoặc câu (FightingFish)
+        // Kiểm tra trạng thái
         bool shouldShowLine = (currentState == FishingState.Casting ||
                                currentState == FishingState.BobberWaiting ||
-                               currentState == FishingState.FightingFish)
-                              && currentBobber != null;
+                               currentState == FishingState.FightingFish ||
+                               currentState == FishingState.PullingFish); // PullingFish có thể không cần dây nếu phao bị hủy sớm
 
-        lineRenderer.enabled = shouldShowLine;
+        Vector3 startPoint = castPoint.position;
+        // Lấy vị trí từ SpriteTransform của phao
+        Vector3 endPoint = currentBobberScript.SpriteTransform.position;
 
-        if (shouldShowLine)
+        // Tắt renderer nếu không cần hoặc quá gần
+        lineRenderer.enabled = shouldShowLine && Vector3.Distance(startPoint, endPoint) > 0.1f;
+        if (!lineRenderer.enabled) return; // Thoát nếu không cần vẽ
+
+        int pointCount = lineRenderer.positionCount; // Lấy số điểm đã đặt (ví dụ: 21)
+        int segments = pointCount - 1; // Số đoạn = số điểm - 1
+
+        // Tính hướng và khoảng cách
+        Vector3 dir = endPoint - startPoint;
+        float distance = dir.magnitude;
+        dir.Normalize();
+
+        // Tạo vector "võng" (kết hợp trọng lực và hướng vuông góc)
+        Vector3 sagDirection = Vector3.Cross(dir, Vector3.up).normalized; // Hướng vuông góc
+        Vector3 gravityDir = Vector3.down;
+        Vector3 finalSagDir = (gravityDir + sagDirection * 0.2f).normalized; // Kết hợp (điều chỉnh 0.2f nếu muốn lệch nhiều/ít)
+
+        // Độ võng tỷ lệ với khoảng cách, có giới hạn
+        float sagAmount = Mathf.Min(distance * 0.1f, 1.0f); // Điều chỉnh 0.1f và 1.0f để thay đổi độ võng
+
+        // Hiệu ứng sóng nhỏ (tùy chọn)
+        float waveFrequency = 5f; // Tần số sóng
+        float waveAmplitude = Mathf.Min(0.05f, distance * 0.01f); // Biên độ sóng
+        float timeOffset = Time.time * 3f; // Tốc độ sóng
+
+        // Tính toán các điểm
+        for (int i = 0; i <= segments; i++)
         {
-            int pointCount = lineRenderer.positionCount; // Lấy số điểm đã đặt (ví dụ: 20)
-            Vector3[] points = new Vector3[pointCount];
-            points[0] = castPoint.position; // Điểm đầu luôn là cần câu
+            float t = i / (float)segments; // Tỉ lệ dọc theo đường dây (0 đến 1)
 
-            // Tính toán thời gian đã trôi qua và tỉ lệ hoàn thành hiện tại
-            float timeElapsed = Time.time - lineCastStartTime;
-            float currentT = Mathf.Clamp01(timeElapsed / lineTotalDuration); // Tỉ lệ từ 0 đến 1
+            // Vị trí cơ bản trên đường thẳng
+            Vector3 basePos = Vector3.Lerp(startPoint, endPoint, t);
 
-            // Tính các điểm trung gian dọc theo quỹ đạo cong *tại thời điểm hiện tại*
-            for (int i = 1; i < pointCount; i++)
-            {
-                // Tính tỉ lệ t cho điểm này (chỉ vẽ đường cong đến vị trí hiện tại của phao)
-                float tSegment = ((float)i / (pointCount - 1)) * currentT; // Chia đều từ 0 đến currentT
+            // Thêm độ võng (dùng sin để tạo đường cong mềm)
+            float sagFactor = Mathf.Sin(Mathf.PI * t); // = 0 ở đầu/cuối, = 1 ở giữa
+            basePos += finalSagDir * sagAmount * sagFactor;
 
-                // Tính vị trí "trên mặt đất" của điểm này
-                Vector2 groundPos = Vector2.Lerp(lineStartPoint, lineEndPoint, tSegment);
+            // Thêm hiệu ứng sóng nhỏ (tùy chọn)
+            basePos += Vector3.up * Mathf.Sin(t * waveFrequency + timeOffset) * waveAmplitude * sagFactor; // Sóng mạnh hơn ở giữa
 
-                // Tính độ cao Y offset bằng công thức Parabol
-                // Lưu ý: Dùng lineCurrentArcHeight đã lưu để đảm bảo độ cao đúng
-                float yOffset = -4 * lineCurrentArcHeight * (Mathf.Pow(tSegment, 2) - tSegment);
-
-                // Kết hợp vị trí mặt đất và độ cao Y
-                // Dùng Z của castPoint để đảm bảo dây không bị lệch Z
-                points[i] = new Vector3(groundPos.x, groundPos.y + yOffset, castPoint.position.z);
-            }
-
-            // Gán mảng điểm cho LineRenderer
-            lineRenderer.SetPositions(points);
+            lineRenderer.SetPosition(i, basePos);
         }
     }
+    // --- KẾT THÚC SỬA ---
+
 
 
     private void HandleMovementLock()
@@ -210,6 +237,7 @@ public class PlayerFishing : MonoBehaviour
         lineCastStartTime = Time.time;
 
         currentBobber = bobberGO;
+        currentBobberScript = bobberScript;
         currentState = FishingState.Casting; // Chuyển sang trạng thái đang bay
 
         // Không cần bật LineRenderer ở đây, UpdateFishingLine sẽ xử lý
@@ -240,7 +268,20 @@ public class PlayerFishing : MonoBehaviour
         if (currentState == FishingState.BobberWaiting && currentBobber != null)
         {
             Debug.Log("CÁ CẮN CÂU!");
-            StartFishingAttempt();
+            float biteSoundDuration = 0f;
+            if (onBaitSound != null && audioSource != null)
+            {
+                audioSource.PlayOneShot(onBaitSound);
+                biteSoundDuration = onBaitSound.length;
+            }
+            float delayDuration = Mathf.Max(0f,biteSoundDuration);
+            Debug.Log($"Chờ thêm {delayDuration} giây trước khi bắt đầu QTE...");
+            yield return new WaitForSeconds(delayDuration);
+            if (currentState == FishingState.BobberWaiting && currentBobber != null)
+            { 
+                StartFishingAttempt();
+            }
+                
         }
     }
     private void StartFishingAttempt()
@@ -267,19 +308,17 @@ public class PlayerFishing : MonoBehaviour
         // Không cần tắt lineRenderer ở đây, CleanUp đã làm
     }
 
-    private void HandleFishingSuccess()
+    public void HandleFishingSuccess()
     {
         if (currentState != FishingState.FightingFish || currentBitingFish == null) return;
+        FishData caughtFish = currentBitingFish;
+        
+        currentState = FishingState.PullingFish;
+
+        if(pullFishCoroutine != null) StopCoroutine(pullFishCoroutine);
+        pullFishCoroutine = StartCoroutine(AnimateReelInAndPullFish(caughtFish, currentBobber));
 
         Debug.Log($"Bạn đã bắt được: {currentBitingFish.displayName}!");
-        bool addedSuccessfully = false;
-        try
-        {
-            addedSuccessfully = inventory.AddItem(currentBitingFish, 1);
-            if (!addedSuccessfully) Debug.LogWarning("Inventory full!");
-        }
-        catch (System.Exception e) { Debug.LogError($"Không thể thêm cá vào túi đồ! Lỗi: {e.Message}"); }
-
         if (successSound != null && audioSource != null)
         {
             audioSource.PlayOneShot(successSound);
@@ -290,9 +329,6 @@ public class PlayerFishing : MonoBehaviour
             if (displayFishCoroutine != null) StopCoroutine(displayFishCoroutine);
             displayFishCoroutine = StartCoroutine(ShowCaughtFishUI(currentBitingFish));
         }
-
-        CleanUpAfterSuccess();
-        // Không cần tắt lineRenderer ở đây, CleanUp đã làm
     }
 
     private void HandleFishingFailure()
@@ -302,6 +338,65 @@ public class PlayerFishing : MonoBehaviour
         Debug.Log($"Con {currentBitingFish.displayName} đã trốn thoát!");
         CleanUpAfterFailure();
         // Không cần tắt lineRenderer ở đây, CleanUp đã làm
+    }
+
+    private IEnumerator AnimateReelInAndPullFish(FishData fish, GameObject bobberToReel)
+    {
+        if (bobberToReel == null || fishIconPrefab == null || castPoint == null)
+        {
+            Debug.LogError("Thiếu đối tượng để thực hiện AnimateReelInAndPullFish.");
+            TryAddItemAndCleanup(fish); // Dọn dẹp nếu lỗi
+            yield break;
+        }
+
+        Vector3 startPos = bobberToReel.transform.position; // Vị trí bắt đầu (của cả phao và cá)
+        Vector3 endPos = castPoint.position;           // Vị trí đích
+
+        // --- Tạo icon cá NGAY TỪ ĐẦU ---
+        GameObject fishIconGO = Instantiate(fishIconPrefab, startPos, Quaternion.identity);
+        SpriteRenderer fishSpriteRenderer = fishIconGO.GetComponent<SpriteRenderer>();
+        if (fishSpriteRenderer != null)
+        {
+            fishSpriteRenderer.sprite = fish.icon;
+        }
+        else
+        {
+            Debug.LogWarning("fishIconPrefab không có SpriteRenderer!");
+        }
+        // --- Kết thúc tạo icon ---
+
+        // Tắt script Bobber để nó không tự di chuyển
+        Bobber bobberScript = bobberToReel.GetComponent<Bobber>();
+        if (bobberScript != null) bobberScript.enabled = false;
+
+        // Tắt dây câu đi vì phao và cá đang bay về rồi
+        if (lineRenderer != null) lineRenderer.enabled = false;
+
+
+        Debug.Log("Reeling in bobber AND pulling fish icon...");
+        float timeElapsed = 0f;
+        while (timeElapsed < fishPullDuration) // Dùng toàn bộ thời gian fishPullDuration
+        {
+            // Kiểm tra xem các object còn tồn tại không
+            if (bobberToReel == null || fishIconGO == null) yield break;
+
+            float t = timeElapsed / fishPullDuration;
+            // Di chuyển CẢ PHAO và ICON CÁ cùng lúc
+            bobberToReel.transform.position = Vector3.Lerp(startPos, endPos, t);
+            fishIconGO.transform.position = Vector3.Lerp(startPos, endPos, t); // Bay cùng tốc độ
+
+            timeElapsed += Time.deltaTime;
+            yield return null;
+        }
+
+        // --- Dọn dẹp cuối animation ---
+        if (bobberToReel != null) Destroy(bobberToReel); // Hủy phao câu
+        currentBobber = null;
+        if (fishIconGO != null) Destroy(fishIconGO); // Hủy icon cá
+        pullFishCoroutine = null;
+
+        // Thêm cá vào inventory và reset state
+        TryAddItemAndCleanup(fish);
     }
 
     private IEnumerator ShowCaughtFishUI(FishData fish)
@@ -323,19 +418,30 @@ public class PlayerFishing : MonoBehaviour
         displayFishCoroutine = null;
     }
 
-
-    // --- HÀM DỌN DẸP ĐÃ SỬA ---
-    private void CleanUpAfterSuccess()
+    // --- HÀM DỌN DẸP ---
+    private void TryAddItemAndCleanup(FishData fish)
     {
+        bool addedSuccessfully = false;
+        try
+        {
+            if (inventory != null && fish != null)
+            {
+                addedSuccessfully = inventory.AddItem(fish, 1);
+                if (!addedSuccessfully) Debug.LogWarning("Inventory full!");
+            }
+            else
+            {
+                Debug.LogError("Inventory or FishData is null during TryAddItemAndCleanup!");
+            }
+        }
+        catch (System.Exception e) { Debug.LogError($"Lỗi thêm cá sau khi kéo: {e.Message}"); }
+
+        // Reset trạng thái về Idle
         currentState = FishingState.Idle;
-        if (currentBobber != null) Destroy(currentBobber);
-        currentBobber = null;
-        currentBitingFish = null;
+        currentBitingFish = null; // Đã xử lý xong con cá này
         if (waitingForBiteCoroutine != null) StopCoroutine(waitingForBiteCoroutine);
         waitingForBiteCoroutine = null;
-        // Tắt dây câu
-        if (lineRenderer != null) lineRenderer.enabled = false;
-        hotBar.SetActive(true);
+        if (hotBar != null) hotBar.SetActive(true);
     }
 
     private void CleanUpAfterFailure()
