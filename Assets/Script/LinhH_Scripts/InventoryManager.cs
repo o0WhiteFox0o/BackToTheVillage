@@ -8,6 +8,7 @@ namespace Management
     {
         // danh sách các slot item, bao gồm cả trong túi đồ
         [SerializeField] private InventorySlot[] _inventorySlots;
+        [SerializeField] private TileCursorFollow tileCursorFollow;
 
         // vị trí của item nhân vật đang mang trong inventory
         private int holdingItemIndex;
@@ -22,7 +23,24 @@ namespace Management
         /// <summary>
         /// Trả về vật phẩm và nhân vật đang mang.
         /// </summary>
-        public ItemScriptableObject holdingItem { get => _inventorySlots[holdingItemIndex].GetComponentInChildren<DragableItem>().itemScriptableObj; }
+        public ItemScriptableObject holdingItem
+        {
+            get
+            {
+                if (_inventorySlots == null || _inventorySlots.Length == 0)
+                    return null;
+
+                if (holdingItemIndex < 0 || holdingItemIndex >= _inventorySlots.Length)
+                    return null;
+
+                var dragItem = _inventorySlots[holdingItemIndex].GetComponentInChildren<DragableItem>();
+                if (dragItem == null)
+                    return null;
+
+                return dragItem.itemScriptableObj;
+            }
+        }
+
 
 
         void Start()
@@ -45,13 +63,38 @@ namespace Management
         }
 
 
-        private void ChangeSelectedItem(int itemSelected)
-        {
-            holdingItemIndex = (itemSelected == 0) ? 9 : itemSelected - 1;
+private void ChangeSelectedItem(int itemSelected)
+{
+    holdingItemIndex = (itemSelected == 0) ? 9 : itemSelected - 1;
+    SetHoldingItem();
 
-            // cập nhật UI hotbar
-            SetHoldingItem();
+    var currentSlot = _inventorySlots[holdingItemIndex];
+    var itemInSlot = currentSlot.GetComponentInChildren<DragableItem>();
+
+    if (itemInSlot != null && itemInSlot.itemScriptableObj != null)
+    {
+        var id = itemInSlot.itemScriptableObj.id;
+        Debug.Log($"[Hotbar] Đang chọn: {id}");
+
+        // 🔹 Hiển thị hoặc ẩn con trỏ tùy ID bắt đầu bằng T hoặc S
+        if (tileCursorFollow != null)
+        {
+            bool shouldShowCursor =
+                id.StartsWith("T", StringComparison.OrdinalIgnoreCase) ||
+                id.StartsWith("S", StringComparison.OrdinalIgnoreCase);
+
+            tileCursorFollow.SetCursorActive(shouldShowCursor);
         }
+    }
+    else
+    {
+        Debug.Log("[Hotbar] Ô này đang trống.");
+        if (tileCursorFollow != null)
+            tileCursorFollow.SetCursorActive(false);
+    }
+}
+
+
 
 
         private void SetHoldingItem()

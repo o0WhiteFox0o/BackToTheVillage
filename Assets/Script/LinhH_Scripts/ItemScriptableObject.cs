@@ -1,6 +1,6 @@
 using UnityEngine;
 
-[CreateAssetMenu(fileName = "New Item", menuName = "Item")]
+[CreateAssetMenu(fileName = "New Item", menuName = "BasicItem/Item")]
 public class ItemScriptableObject : ScriptableObject
 {
     [Header("Overview")]

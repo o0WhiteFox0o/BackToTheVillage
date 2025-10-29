@@ -3,20 +3,32 @@ using UnityEngine.Tilemaps;
 
 public class TileCursorFollow : MonoBehaviour
 {
-    public Tilemap targetTilemap;     // Tilemap chính
-    public Transform cursorObject;    // Object di chuy?n theo chu?t
+    public Tilemap targetTilemap;
+    public Transform cursorObject;
+
+    private Vector3Int lastCellPos;
+
+    void Start()
+    {
+        lastCellPos = new Vector3Int(int.MinValue, int.MinValue, int.MinValue);
+    }
 
     void Update()
     {
+        if (cursorObject == null || targetTilemap == null)
+            return;
+
+        // N?u con tr? ?ang t?t thì không c?n c?p nh?t v? trí
+        if (!cursorObject.gameObject.activeSelf)
+            return;
+
         // L?y v? trí chu?t trên màn hình
         Vector3 mouseScreenPos = Input.mousePosition;
-
-        // Quan tr?ng: gán z = kho?ng cách t? camera ??n tilemap
         mouseScreenPos.z = Mathf.Abs(Camera.main.transform.position.z);
 
         // Chuy?n sang t?a ?? th? gi?i
         Vector3 mouseWorldPos = Camera.main.ScreenToWorldPoint(mouseScreenPos);
-        mouseWorldPos.z = 0; // ??m b?o nó n?m trên m?t ph?ng 2D
+        mouseWorldPos.z = 0;
 
         // Chuy?n sang t?a ?? tile
         Vector3Int cellPos = targetTilemap.WorldToCell(mouseWorldPos);
@@ -26,5 +38,24 @@ public class TileCursorFollow : MonoBehaviour
 
         // ??t object t?i ô ?ó
         cursorObject.position = cellCenter;
+
+        // N?u con tr? ?ang ? ô m?i
+        //if (cellPos != lastCellPos)
+        //{
+        //    lastCellPos = cellPos;
+        //    TileBase tile = targetTilemap.GetTile(cellPos);
+
+        //    if (tile != null)
+        //        Debug.Log($"?ang tr? vào tile: {tile.name}");
+        //    else
+        //        Debug.Log("Ô tr?ng, không có tile ? ?ây.");
+        //}
+    }
+
+    // ?? Hàm b?t/t?t con tr?
+    public void SetCursorActive(bool active)
+    {
+        if (cursorObject != null)
+            cursorObject.gameObject.SetActive(active);
     }
 }
