@@ -18,7 +18,6 @@ namespace Management
 
         private GameObject itemPrefab;
 
-        public InventorySlot[] inventorySlots { get => _inventorySlots; set => _inventorySlots = value; }
 
         /// <summary>
         /// Trả về vật phẩm và nhân vật đang mang.
@@ -53,58 +52,48 @@ namespace Management
             }
 
             // đăng ký các sự kiện cần thiết
-            InputManager.OnItemSelected += ChangeHoldingItem;
-            GameplayUIManager.OnPlayerClickHotBarItem += ChangeHoldingItem;
+            InputManager.OnItemSelected += ChangeSelectedItem;
+            GameplayUIManager.OnPlayerClickHotBarItem += ChangeSelectedItem;
         }
 
 
         void OnDisable()
         {
-            InputManager.OnItemSelected -= ChangeHoldingItem;
-            GameplayUIManager.OnPlayerClickHotBarItem -= ChangeHoldingItem;
+            InputManager.OnItemSelected -= ChangeSelectedItem;
+            GameplayUIManager.OnPlayerClickHotBarItem -= ChangeSelectedItem;
         }
 
 
-<<<<<<< HEAD
-private void ChangeSelectedItem(int itemSelected)
-{
-    holdingItemIndex = (itemSelected == 0) ? 9 : itemSelected - 1;
-    SetHoldingItem();
-
-    var currentSlot = _inventorySlots[holdingItemIndex];
-    var itemInSlot = currentSlot.GetComponentInChildren<DragableItem>();
-
-    if (itemInSlot != null && itemInSlot.itemScriptableObj != null)
-    {
-        var id = itemInSlot.itemScriptableObj.id;
-        Debug.Log($"[Hotbar] Đang chọn: {id}");
-
-        // 🔹 Hiển thị hoặc ẩn con trỏ tùy ID bắt đầu bằng T hoặc S
-        if (tileCursorFollow != null)
-        {
-            bool shouldShowCursor =
-                id.StartsWith("T", StringComparison.OrdinalIgnoreCase) ||
-                id.StartsWith("S", StringComparison.OrdinalIgnoreCase);
-
-            tileCursorFollow.SetCursorActive(shouldShowCursor);
-=======
-        private void ChangeHoldingItem(int itemSelected)
+        private void ChangeSelectedItem(int itemSelected)
         {
             holdingItemIndex = (itemSelected == 0) ? 9 : itemSelected - 1;
-
-            // cập nhật UI hotbar
             HighlightHoldingItem();
->>>>>>> 8d5a0d410eeac573723646388f08a591b5b22e01
-        }
-    }
-    else
-    {
-        Debug.Log("[Hotbar] Ô này đang trống.");
-        if (tileCursorFollow != null)
-            tileCursorFollow.SetCursorActive(false);
-    }
-}
 
+            var currentSlot = _inventorySlots[holdingItemIndex];
+            var itemInSlot = currentSlot.GetComponentInChildren<DragableItem>();
+
+            if (itemInSlot != null && itemInSlot.itemScriptableObj != null)
+            {
+                var id = itemInSlot.itemScriptableObj.id;
+                Debug.Log($"[Hotbar] Đang chọn: {id}");
+
+                // 🔹 Hiển thị hoặc ẩn con trỏ tùy ID bắt đầu bằng T hoặc S
+                if (tileCursorFollow != null)
+                {
+                    bool shouldShowCursor =
+                        id.StartsWith("T", StringComparison.OrdinalIgnoreCase) ||
+                        id.StartsWith("S", StringComparison.OrdinalIgnoreCase);
+
+                    tileCursorFollow.SetCursorActive(shouldShowCursor);
+                }
+            }
+            else
+            {
+                Debug.Log("[Hotbar] Ô này đang trống.");
+                if (tileCursorFollow != null)
+                    tileCursorFollow.SetCursorActive(false);
+            }
+        }
 
 
 
@@ -178,9 +167,9 @@ private void ChangeSelectedItem(int itemSelected)
         /// </summary>
         public void AddItemToSlot(ItemScriptableObject item, int slotIndex, int quantity)
         {
-            SpawnNewItem(item, inventorySlots[slotIndex]);
+            SpawnNewItem(item, _inventorySlots[slotIndex]);
 
-            var newItem = inventorySlots[slotIndex].GetComponentInChildren<DragableItem>();
+            var newItem = _inventorySlots[slotIndex].GetComponentInChildren<DragableItem>();
 
             newItem.UpdateCount(quantity);
             newItem.RefreshCount();
