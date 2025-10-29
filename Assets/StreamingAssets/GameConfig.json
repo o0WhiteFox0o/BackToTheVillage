@@ -8,6 +8,10 @@
         {
             "action": "OpenGeneralUI",
             "keyCode": "Escape"
+        },
+        {
+            "action": "Fishing",
+            "keyCode": "F"
         }
     ]
 }

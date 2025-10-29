@@ -146,7 +146,7 @@
 >   - **Fish Name**: Tên loại cá.
 > - **Độ khó QTE**:
 >   - **QTE Bar Speed**: Tốc độ quay của QTE bar.
->   - **Success Window Size**: 
+>   - **Success Window Size**: Vùng màu xanh quay tròn của minigame.
 >   - **Max Game Time**: Thời gian câu tối đa.
 >   - **Progress Increase**: Số điểm được cộng khi nhấn trúng.
 >   - **Progress Decrease**: Số điểm bị trừ khi nhấn trượt.  
@@ -213,9 +213,10 @@
 
 # Data
 > ## Game Config
-> 
+> Vị trí lưu trữ: *Assets/StreamingAssets/GameConfig.json*
+> Các thành phần được lưu trữ:
 
 ---
 
 > ## Farm Config
-> 
+> Vị trí lưu trữ: *Assets/StreamingAssets/SavedFarms/<farm_name>.json*

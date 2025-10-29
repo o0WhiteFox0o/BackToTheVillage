@@ -4,6 +4,7 @@ using UnityEngine.UI;
 
 public class FishingQTE : MonoBehaviour
 {
+
     [Header("UI Components")]
     [SerializeField] private GameObject qtePanel;
     [SerializeField] private Image timerBar;         // Thanh xoay (TimerBar.png)
@@ -90,14 +91,14 @@ public class FishingQTE : MonoBehaviour
 
         // 4. Kích hoạt QTE
         isQTEActive = true;
-        qtePanel.SetActive(true);
+        qtePanel.SetActive(true);      
 
         // 5. Audio
         if (qteAudioSource != null && qteBackgroundMusic != null)
         {
             qteAudioSource.clip = qteBackgroundMusic;
             qteAudioSource.Play();
-        }
+        }          
     }
 
     void Update()

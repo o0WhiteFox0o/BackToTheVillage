@@ -53,16 +53,19 @@ namespace Management
             }
 
             // đăng ký các sự kiện cần thiết
-            InputManager.OnItemSelected += ChangeSelectedItem;
+            InputManager.OnItemSelected += ChangeHoldingItem;
+            GameplayUIManager.OnPlayerClickHotBarItem += ChangeHoldingItem;
         }
 
 
         void OnDisable()
         {
-            InputManager.OnItemSelected -= ChangeSelectedItem;
+            InputManager.OnItemSelected -= ChangeHoldingItem;
+            GameplayUIManager.OnPlayerClickHotBarItem -= ChangeHoldingItem;
         }
 
 
+<<<<<<< HEAD
 private void ChangeSelectedItem(int itemSelected)
 {
     holdingItemIndex = (itemSelected == 0) ? 9 : itemSelected - 1;
@@ -84,6 +87,14 @@ private void ChangeSelectedItem(int itemSelected)
                 id.StartsWith("S", StringComparison.OrdinalIgnoreCase);
 
             tileCursorFollow.SetCursorActive(shouldShowCursor);
+=======
+        private void ChangeHoldingItem(int itemSelected)
+        {
+            holdingItemIndex = (itemSelected == 0) ? 9 : itemSelected - 1;
+
+            // cập nhật UI hotbar
+            HighlightHoldingItem();
+>>>>>>> 8d5a0d410eeac573723646388f08a591b5b22e01
         }
     }
     else
@@ -97,7 +108,7 @@ private void ChangeSelectedItem(int itemSelected)
 
 
 
-        private void SetHoldingItem()
+        private void HighlightHoldingItem()
         {
             // tắt highlight của tất cả các item trong inventory
             foreach (var slot in _inventorySlots)
