@@ -105707,6 +105707,7 @@ GameObject:
   m_Component:
   - component: {fileID: 313294121}
   - component: {fileID: 313294122}
+  - component: {fileID: 313294123}
   m_Layer: 8
   m_Name: Circle
   m_TagString: Untagged
@@ -105724,7 +105725,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0.037, y: -0.056, z: 0}
-  m_LocalScale: {x: 0.7594, y: 0.8713, z: 1}
+  m_LocalScale: {x: 0.61, y: 0.61, z: 0.61}
   m_ConstrainProportionsScale: 1
   m_Children: []
   m_Father: {fileID: 2059788781}
@@ -105770,17 +105771,31 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 2
-  m_Sprite: {fileID: 21300000, guid: 895b730d2aa275f489ed84fc2478411e, type: 3}
+  m_Sprite: {fileID: 21300000, guid: eede043db974ce345aabf929e32d73ae, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
-  m_Size: {x: 1, y: 1}
+  m_Size: {x: 0.75, y: 1}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!114 &313294123
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 313294120}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c186c26cbcafb464cb0c0f74fbe71845, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  bobbingSpeed: 5
+  bobbingHeight: 0.1
 --- !u!1001 &318555055
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -306721,6 +306736,7 @@ MonoBehaviour:
   - {fileID: 2142927098}
   - {fileID: 596474797}
   - {fileID: 1021379186}
+  tileCursorFollow: {fileID: 0}
 --- !u!224 &1128524003 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 5042774312186203800, guid: b42ac328e9da76847bfd2fb4d60e227f, type: 3}
@@ -306873,7 +306889,7 @@ MonoBehaviour:
   fishLengthText: {fileID: 426380808}
   caughtFishDisplayTime: 3
   fishIconPrefab: {fileID: 4367683429145098906, guid: d925951b382562c4bb7e55472bc7c1ae, type: 3}
-  fishPullDuration: 1
+  fishPullDuration: 0.75
   arcHeight: 1.5
   minWaitTime: 2
   maxWaitTime: 2
@@ -748174,9 +748190,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   playerFishingScript: {fileID: 1136911362}
+  flyingSprite: {fileID: 21300000, guid: eede043db974ce345aabf929e32d73ae, type: 3}
+  floatingSprite: {fileID: 21300000, guid: 96b71b9b52c4c3340a9b8dd3a5003893, type: 3}
+  bobberSpriteRenderer: {fileID: 313294122}
+  bobbingAnim: {fileID: 313294123}
   splashEffectPrefab: {fileID: 0}
   shadow: {fileID: 957149224}
-  hotBar: {fileID: 976151608}
   audioSource: {fileID: 2059788783}
   splashSound: {fileID: 8300000, guid: c8257008a050eee45926ce75b9da89a5, type: 3}
   thudSound: {fileID: 0}
