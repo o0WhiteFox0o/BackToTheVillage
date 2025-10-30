@@ -1,21 +1,40 @@
+// 
+// Member   : Linh
+// Date     : 
+// 
+
+
 using System;
 using System.Collections.Generic;
-using Management;
+using TMPro;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
+
+/// <summary>
+/// Quản lý các thành phần giao diện trong gameplay
+/// </summary>
 public class GameplayUIManager : MonoBehaviour
 {
-    [Header("UIs")]
+    [Header("Menu UIs")]
     [SerializeField] public GameObject bagUI;
     [SerializeField] public GameObject generalUI;
     [SerializeField] public GameObject npcUI;
     [SerializeField] public GameObject settingUI;
 
+
+    [Header("Conversation")]
+    [SerializeField] public GameObject conversationPanel;
+    [SerializeField] public TMP_Text npcNameText;
+    [SerializeField] public Image npcPortraitImage;
+    [SerializeField] public TMP_Text conversationDisplayText;
+
+
     [Header("Other")]
     [SerializeField] public GraphicRaycaster uiRaycaster;
     [SerializeField] public EventSystem eventSystem;
+
 
     /// <summary>
     /// Event kiểm tra người chơi có click chuột vào item trong hot bar không.
@@ -120,5 +139,33 @@ public class GameplayUIManager : MonoBehaviour
     public void EnableGeneralSubUI(Transform subUI)
     {
         subUI.SetAsLastSibling();
+    }
+
+
+    public void SetActiveConversationPanel(bool value)
+    {
+        conversationPanel.SetActive(value);
+    }
+
+
+    /// <summary>
+    /// Cập nhật tên và avatar của NPC đang nói chuyện.
+    /// </summary>
+    public void UpdateDisplayedNPC(string npcName, Sprite npcPortrait)
+    {
+        npcNameText.SetText(npcName);
+        npcPortraitImage.sprite = npcPortrait;
+    }
+
+
+    public void UpdateConversationText(string npcDialogue)
+    {
+        conversationDisplayText.SetText(npcDialogue);
+    }
+
+
+    public void AddLetterToDialogueText(char letter)
+    {
+        conversationDisplayText.text += letter;
     }
 }

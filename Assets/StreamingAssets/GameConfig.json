@@ -12,6 +12,10 @@
         {
             "action": "Fishing",
             "keyCode": "F"
+        },
+        {
+            "action": "SkipDialogue",
+            "keyCode": "Space"
         }
     ]
 }

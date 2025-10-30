@@ -20,6 +20,11 @@ public class InputManager : MonoBehaviour
     /// </summary>
     public static event GetSelectItemInput OnItemSelected;
 
+    /// <summary>
+    /// Bắt sự kiện khi người chơi nhấn skip dialogue trong khi đang hội thoại
+    /// </summary>
+    public static event Action OnSkipDialoguePress;
+
     private Dictionary<string, KeyCode> keyBindings = new Dictionary<string, KeyCode>();
 
 
@@ -34,6 +39,7 @@ public class InputManager : MonoBehaviour
         HandleBagUIPress();
         HandleGeneralUIPress();
         HandleSelectItemInput();
+        HandleSkipDialoguePress();
     }
 
 
@@ -72,6 +78,15 @@ public class InputManager : MonoBehaviour
         if (Input.GetKeyDown(keyBindings["OpenGeneralUI"]))
         {
             OnGeneralUIPress?.Invoke();
+        }
+    }
+
+
+    public void HandleSkipDialoguePress()
+    {
+        if (Input.GetKeyDown(keyBindings["SkipDialogue"]))
+        {
+            OnSkipDialoguePress?.Invoke();
         }
     }
 
