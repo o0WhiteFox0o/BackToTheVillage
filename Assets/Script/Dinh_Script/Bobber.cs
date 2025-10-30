@@ -6,7 +6,6 @@ public class Bobber : MonoBehaviour
 {
     public PlayerFishing playerFishingScript;
 
-    // --- THÊM BIẾN SPRITE VÀ RENDERER ---
     [Header("Sprites & Renderer")]
     [Tooltip("Sprite phao câu khi đang bay")]
     [SerializeField] private Sprite flyingSprite;
@@ -14,7 +13,9 @@ public class Bobber : MonoBehaviour
     [SerializeField] private Sprite floatingSprite;
     [Tooltip("Kéo Sprite Renderer của child 'Sprite' vào đây")]
     [SerializeField] private SpriteRenderer bobberSpriteRenderer;
-    // --- KẾT THÚC THÊM ---
+
+    [Tooltip("Kéo child 'Sprite' (chứa script BobbingAnimation) vào đây")]
+    [SerializeField] private BobbingAnimation bobbingAnim;
 
     [Header("Visual Effects")] // Đổi tên Header cho rõ
     [Tooltip("Kéo Prefab hiệu ứng 'Splash' vào đây")]
@@ -153,6 +154,7 @@ public class Bobber : MonoBehaviour
     // --- SỬA HÀM HANDLEHITWATER ---
     private void HandleHitWater(FishData pickedFish)
     {
+        if (bobbingAnim != null) bobbingAnim.enabled = true;
         Debug.Log("Hạ cánh trên NƯỚC");
         if (moveCoroutine != null) StopCoroutine(moveCoroutine);
         spriteTransform.localPosition = Vector3.zero; // Reset vị trí local
@@ -192,8 +194,9 @@ public class Bobber : MonoBehaviour
 
 
     // --- SỬA NHẸ HÀM HANDLEHITGROUND ---
-    private void HandleHitGround()
+    private void HandleHitGround()  
     {
+        if (bobbingAnim != null) bobbingAnim.enabled = false;
         Debug.Log("Hạ cánh trên ĐẤT!");
         if (moveCoroutine != null) StopCoroutine(moveCoroutine); // Dừng coroutine nếu chạm đất sớm
         spriteTransform.localPosition = Vector3.zero; // Reset vị trí local
@@ -213,5 +216,4 @@ public class Bobber : MonoBehaviour
         // Báo cho Player
         if (playerFishingScript != null) playerFishingScript.OnBobberLandedOnGround();
     }
-    // --- KẾT THÚC SỬA ---
 }

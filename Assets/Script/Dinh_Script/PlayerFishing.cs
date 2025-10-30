@@ -510,7 +510,6 @@ public class PlayerFishing : MonoBehaviour
         reactionTimerCoroutine = null;
         canReactToBite = false;
         if (exclaimation != null) exclaimation.SetActive(false);
-        // --- KẾT THÚC DỪNG ---
         if (hotBar != null) hotBar.SetActive(true);
     }
 
