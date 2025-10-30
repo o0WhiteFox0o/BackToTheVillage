@@ -53,14 +53,12 @@ namespace Management
 
             // đăng ký các sự kiện cần thiết
             InputManager.OnItemSelected += ChangeSelectedItem;
-            GameplayUIManager.OnPlayerClickHotBarItem += ChangeSelectedItem;
         }
 
 
         void OnDisable()
         {
             InputManager.OnItemSelected -= ChangeSelectedItem;
-            GameplayUIManager.OnPlayerClickHotBarItem -= ChangeSelectedItem;
         }
 
 
@@ -191,16 +189,8 @@ namespace Management
         }
 
 
-
-        // tiêu thụ item
-        public void ConsumeItem()
-        {
-
-        }
-
-
         /// <summary>
-        /// Bỏ nhiều item ra khỏi inventory, dùng khi bán item.
+        /// Bỏ một số lượng item ra khỏi inventory.
         /// </summary>
         private void RemoveItems(ItemScriptableObject removedItem, int removedQuantity)
         {

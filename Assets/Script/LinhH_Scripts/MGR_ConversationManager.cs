@@ -16,9 +16,6 @@ using UnityEngine.Localization.Tables;
 /// </summary>
 public class MGR_ConversationManager : MonoBehaviour
 {
-    // _________ TEST ___________
-    [SerializeField] public SO_ConversationData testDialogueData;
-
     public const float TYPE_SPEED = 0.1f;
 
     [SerializeField] public GameplayUIManager gameplayUIManager;
@@ -69,8 +66,8 @@ public class MGR_ConversationManager : MonoBehaviour
         // hiển thị giao diên hội thoại
         gameplayUIManager.SetActiveConversationPanel(true);
 
+        // laod câu thoại đầu và hiển thị nó
         currentLine = conversationData.dialogues[dialogueIndex].dialogue.GetLocalizedString();
-
         DisplayCurrentLine();
     }
 
