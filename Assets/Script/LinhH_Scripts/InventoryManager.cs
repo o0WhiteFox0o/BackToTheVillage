@@ -2,6 +2,17 @@ using System;
 using GameUI;
 using UnityEngine;
 
+public enum ItemType
+{
+    FishingRod,
+    Hoe,
+    WateringCan,
+    Axe,
+    Seed,
+    Consumable,
+    ItemQuest,
+    Miscellaneous
+}
 namespace Management
 {
     public class InventoryManager : MonoBehaviour

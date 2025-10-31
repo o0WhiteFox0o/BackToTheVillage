@@ -118,20 +118,35 @@ public class PlayerFishing : MonoBehaviour
 
     void HandleFishingInput()
     {
-        if (currentState == FishingState.Idle && Input.GetKeyDown(KeyCode.F))
-        {
+        bool isHoldingRod = false;
+        if (inventory != null && inventory.holdingItem != null) { 
+            isHoldingRod = (inventory.holdingItem.itemType == ItemType.FishingRod);
+        }
+
+        if (!isHoldingRod) { 
+        if (isCharging)
+            {
+            isCharging = false;
+            castingPanel.SetActive(false);
+            currentState = FishingState.Idle;
+            }
+            return;
+        }
+        if (currentState == FishingState.Idle && Input.GetKeyDown(KeyCode.F)){ 
             currentState = FishingState.Charging;
             isCharging = true;
             currentCharge = 0f;
             castingPanel.SetActive(true);
+            if(hotBar != null) hotBar.SetActive(false);
         }
-
-        if (isCharging)
+        if(isCharging)
         {
-            currentCharge += Time.deltaTime * chargeSpeed;
-            castingBar.fillAmount = currentCharge;
-            if (currentCharge >= 1f) currentCharge = 1f;
-
+            currentCharge += chargeSpeed * Time.deltaTime;
+            currentCharge = Mathf.Clamp01(currentCharge);
+            if (castingBar != null)
+            {
+                castingBar.fillAmount = currentCharge;
+            }
             if (Input.GetKeyUp(KeyCode.F))
             {
                 isCharging = false;
@@ -139,11 +154,11 @@ public class PlayerFishing : MonoBehaviour
                 CastBobber();
             }
         }
-
         if (currentState == FishingState.BobberWaiting && !canReactToBite && Input.GetKeyDown(KeyCode.F))
         {
             CancelFishing();
         }
+        
     }
 
     // --- HÀM CẬP NHẬT DÂY CÂU - VỚI CHUYỂN ĐỔI MƯỢT ---
@@ -544,6 +559,7 @@ public class PlayerFishing : MonoBehaviour
         // --- KẾT THÚC DỪNG ---
         CleanUpAfterFailure();
     }
+
     void OnDestroy()
     {
         if (fishingQTE != null)
