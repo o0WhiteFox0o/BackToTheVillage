@@ -20,8 +20,21 @@ public class MGR_ConversationManager : MonoBehaviour
 
     [SerializeField] public GameplayUIManager gameplayUIManager;
 
-    private SO_ConversationData conversationData;
+    // ----------------------------------
 
+    /// <summary>
+    /// Danh sách chứa các cuộc hội thoại nằm trong cốt truyện.
+    /// </summary>
+    [SerializeField] public List<SO_ConversationData> storyConversation_List;
+    private int storyConversationIndex;
+
+    /// <summary>
+    /// NPC kích hoạt cuộc hội thoại cốt truyện.
+    /// </summary>
+    private SO_NPCData triggerStorylineNPC;
+
+    // -------------------------------
+    private SO_ConversationData conversationData;
 
     private bool isTyping;
     private bool isConversationActive;
@@ -33,27 +46,52 @@ public class MGR_ConversationManager : MonoBehaviour
 
     private void Start()
     {
+        // TODO: lấy story index trong file saved game
+        storyConversationIndex = 0;
+        triggerStorylineNPC = storyConversation_List[storyConversationIndex].dialogues[0].npcData;
+
         InputManager.OnSkipDialoguePress += PlayNextLine;
+        InputManager.OnRightClickNPC += SetupConversation;
     }
 
 
     private void OnDisable()
     {
         InputManager.OnSkipDialoguePress -= PlayNextLine;
+        InputManager.OnRightClickNPC -= SetupConversation;
+    }
+
+
+    private void SetupConversation(GameObject npc)
+    {
+        // kiểm tra npc mà người chơi tương tác có phải là npc kích hoạt hội thoại cốt truyện không
+        var npcController = npc.GetComponent<C_NPCController>();
+
+        // thiết lập đoạn hội thoại bình thường cho cuộc thoại hiện tại
+        conversationData = npcController.priorityConversation;
+
+        // kiểm tra danh sách cốt truyện còn cuộc hội thoại nào không
+        if (storyConversationIndex < storyConversation_List.Count)
+        {
+            if (triggerStorylineNPC == npcController.npcData)
+            {
+                // thiết lập đoạn hội thoại stroy cho cuộc thoại hiện tại
+                conversationData = storyConversation_List[storyConversationIndex];
+            }
+        }
+        totalDialogueCount = conversationData.dialogues.Count;
+
+        StartConversation();
     }
 
 
     /// <summary>
     /// Bắt đầu một cuộc trò chuyện mới.
     /// </summary>
-    public void StartConversation(SO_ConversationData conversation)
+    public void StartConversation()
     {
         // nếu có một cuộc hội thoại đang diễn ra thì dừng
         if (isConversationActive) { return; }
-
-        // thiết lập các thông tin cần thiết
-        conversationData = conversation;
-        totalDialogueCount = conversation.dialogues.Count;
 
         isConversationActive = true;
         dialogueIndex = 0;
@@ -148,5 +186,19 @@ public class MGR_ConversationManager : MonoBehaviour
     {
         gameplayUIManager.SetActiveConversationPanel(false);
         isConversationActive = false;
+
+        // nếu cuộc hội thoại story vừa kết thúc thì cập nhật cuộc hội thoại mới
+        if (conversationData.isStoryConversation)
+        {
+            // nếu không còn hội thoại cốt truyện thì đặt npc kích hoạt bằng null
+            if (++storyConversationIndex >= storyConversation_List.Count)
+            {
+                triggerStorylineNPC = null;
+            }
+            else
+            {
+                triggerStorylineNPC = storyConversation_List[storyConversationIndex].dialogues[0].npcData;
+            }
+        }
     }
 }

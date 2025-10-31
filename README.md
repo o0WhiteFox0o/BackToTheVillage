@@ -201,8 +201,12 @@
 > ## Main Character set up
 > Nhân vật chính di chuyển theo 4 hướng (Đông Bắc, Tây Bắc, Đông Nam, Tây Nam).
 >
+> ---
+> 
 > ## Add a NPC
->
+> 
+> ![NPC Data Setup](./README_Images/npc_data_setup.png)
+> 
 
 ---
 

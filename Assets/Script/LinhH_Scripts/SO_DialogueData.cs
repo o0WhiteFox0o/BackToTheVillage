@@ -22,6 +22,11 @@ public class SO_ConversationData : ScriptableObject
     /// Danh sách câu thoại của từng NPC trong cuộc hội thoại.
     /// </summary>
     public List<NPCDialogue> dialogues;
+
+    /// <summary>
+    /// Đánh dấu đây có phải là đoạn hội thoại nằm trong một tuyến cốt truyện hay không.
+    /// </summary>
+    public bool isStoryConversation;
 }
 
 

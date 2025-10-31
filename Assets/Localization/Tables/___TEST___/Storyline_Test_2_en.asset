@@ -10,24 +10,24 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: e9620f8c34305754d8cc9a7e49e852d9, type: 3}
-  m_Name: testConversation_1_en
+  m_Name: Storyline_Test_2_en
   m_EditorClassIdentifier: 
   m_LocaleId:
     m_Code: en
-  m_SharedData: {fileID: 11400000, guid: 9012d4cc004d73244b351160b5034c56, type: 2}
+  m_SharedData: {fileID: 11400000, guid: 2a28ebaaeec34f94fa2c3bb825d4e298, type: 2}
   m_Metadata:
     m_Items: []
   m_TableData:
-  - m_Id: 6053576704
-    m_Localized: normal conversation
+  - m_Id: 4426186752
+    m_Localized: Hi
     m_Metadata:
       m_Items: []
-  - m_Id: 42967646208
-    m_Localized: normal conversation
+  - m_Id: 7467057152
+    m_Localized: I'm NPC 2, where are you form?
     m_Metadata:
       m_Items: []
-  - m_Id: 67240083456
-    m_Localized: normal conversation
+  - m_Id: 13276168192
+    m_Localized: Go to NPC 3 to continue storyline.
     m_Metadata:
       m_Items: []
   references:

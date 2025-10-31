@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
@@ -8,8 +9,11 @@ public class InputManager : MonoBehaviour
 {
     [SerializeField] private EventSystem eventSystem;
     [SerializeField] private GraphicRaycaster uiRaycaster;
+    [SerializeField] private Camera mainCamera;
 
     public delegate void GetSelectItemInput(int index);
+    public delegate void GetObjectClicked(GameObject gameObject);
+
 
     /// <summary>
     /// Bắt sự kiện khi người chơi nhấn phím đóng/mở túi đồ.
@@ -30,6 +34,11 @@ public class InputManager : MonoBehaviour
     /// Bắt sự kiện khi người chơi nhấn skip dialogue trong khi đang hội thoại
     /// </summary>
     public static event Action OnSkipDialoguePress;
+
+    /// <summary>
+    /// Bắt sự kiện khi người chơi click chuột phải vào NPC.
+    /// </summary>
+    public static event GetObjectClicked OnRightClickNPC;
 
     private Dictionary<string, KeyCode> keyBindings = new Dictionary<string, KeyCode>();
 
@@ -137,7 +146,7 @@ public class InputManager : MonoBehaviour
             // lấy vị trí của item trong hotbar
             var itemIndex = clickedObject.transform.GetSiblingIndex();
 
-            // inventory manager check item index từ 1 
+            // kiểm tra item index từ 1 
             OnItemSelected?.Invoke(itemIndex + 1);
         }
     }
@@ -145,6 +154,16 @@ public class InputManager : MonoBehaviour
 
     private void CheckPlayerRightClick()
     {
-        
+        if (!Input.GetMouseButtonDown(1)) { return; }
+
+        Vector2 mouseWorldPos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+        RaycastHit2D hit = Physics2D.Raycast(mouseWorldPos, Vector2.zero);
+
+        if (hit.collider == null) { return; }
+
+        if (hit.collider.CompareTag("NPC"))
+        {
+            OnRightClickNPC?.Invoke(hit.collider.gameObject);
+        }
     }
 }

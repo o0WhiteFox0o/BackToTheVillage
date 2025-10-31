@@ -10,41 +10,41 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: ca280bb00da42514bac848751bd156f3, type: 3}
-  m_Name: newDialogue
+  m_Name: Storyline_Conversation_3
   m_EditorClassIdentifier: 
-  conversationId: test
+  conversationId: storyline3
   dialogues:
-  - npcData: {fileID: 11400000, guid: d117ede488320124c947aa1076e1fc17, type: 2}
+  - npcData: {fileID: 11400000, guid: af5e305b970d58b4bbdae84a5b3038c2, type: 2}
     dialogue:
       m_TableReference:
-        m_TableCollectionName: GUID:9012d4cc004d73244b351160b5034c56
+        m_TableCollectionName: GUID:aa9c0ab0813b5bf468a6ab8858823af3
       m_TableEntryReference:
-        m_KeyId: 6053576704
+        m_KeyId: 5747392512
         m_Key: 
       m_FallbackState: 0
       m_WaitForCompletion: 0
       m_LocalVariables: []
-  - npcData: {fileID: 11400000, guid: d117ede488320124c947aa1076e1fc17, type: 2}
+  - npcData: {fileID: 11400000, guid: af5e305b970d58b4bbdae84a5b3038c2, type: 2}
     dialogue:
       m_TableReference:
-        m_TableCollectionName: GUID:9012d4cc004d73244b351160b5034c56
+        m_TableCollectionName: GUID:aa9c0ab0813b5bf468a6ab8858823af3
       m_TableEntryReference:
-        m_KeyId: 42967646208
+        m_KeyId: 10512121856
         m_Key: 
       m_FallbackState: 0
       m_WaitForCompletion: 0
       m_LocalVariables: []
-  - npcData: {fileID: 11400000, guid: d117ede488320124c947aa1076e1fc17, type: 2}
+  - npcData: {fileID: 11400000, guid: af5e305b970d58b4bbdae84a5b3038c2, type: 2}
     dialogue:
       m_TableReference:
-        m_TableCollectionName: GUID:9012d4cc004d73244b351160b5034c56
+        m_TableCollectionName: GUID:aa9c0ab0813b5bf468a6ab8858823af3
       m_TableEntryReference:
-        m_KeyId: 67240083456
+        m_KeyId: 18091229184
         m_Key: 
       m_FallbackState: 0
       m_WaitForCompletion: 0
       m_LocalVariables: []
-  isStoryConversation: 0
+  isStoryConversation: 1
   references:
     version: 2
     RefIds: []
