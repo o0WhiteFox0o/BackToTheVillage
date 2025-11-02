@@ -10,6 +10,9 @@
     - [Hướng dẫn lập trình](#coding-guideline)  
 
 - [Nhân vật](#characters)  
+    - [Thiết lập nhân vật chính](#main-character-set-up)
+    - [Dữ liệu NPC](#npc-data)
+    - [Hội thoại](#npc-covnersation)
 - [Cây trồng](#plants)  
 - [Cá](#fish)  
 - [Động vật](#animals)  
@@ -203,10 +206,38 @@
 >
 > ---
 > 
-> ## Add a NPC
+> ## NPC Data
+> 
+> ### Thiết lập NPC Data
 > 
 > ![NPC Data Setup](./README_Images/npc_data_setup.png)
 > 
+> Các thành phần của NPC Data:
+> - **NPC Id**: Id của NPC
+> - **NPC Name**: Tên của NPC
+> - **Portrait**: Ảnh avatar của NPC
+> - **Can Dating**: NPC có thể hẹn hò được không
+> - **Like Item List**: Danh sách các [vật phẩm](#items) yêu thích của nhân vât.
+> - **Hate Item List**: Danh sách các [vật phẩm](#items) mà nhân vật ghét.
+> 
+> Vị trí lưu trữ: NPC Data được lưu trong thư mục *Assets/Resources/NPC/NPC_Data*.
+> 
+> ---
+> 
+> ## NPC Covnersation
+> 
+> ### Thiết lập NPC Data
+> 
+> ![NPC Conversation Setup](./README_Images/npc_conversation_setup.png)
+> 
+> Các thành phẩn của NPC Conversation:
+> - **Conversatoin Id**:
+> - **Dialogues**: Danh sách các Câu thoại của cuộc hội thoại. Mỗi câu thoại gồm:
+>   - *NPC Data*: [NPC Data](#npc-data) của nhân vật thực hiện câu thoại.
+>   - *Dialogue*: Câu thoại của nhân vật. Là một Localization String.
+> - **Is Story Conversation**: Cuộc hội thoại có nằm trong storyline không.
+> 
+> Vị trí lưu trữ: NPC Conversation được lưu trữ trong thư mục *Assets/Resources/NPC/NPC_Conversation*.
 
 ---
 
