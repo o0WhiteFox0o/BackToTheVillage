@@ -5,6 +5,8 @@ using UnityEngine;
 public enum ItemType
 {
     FishingRod,
+    Bait,
+    Trap,
     Hoe,
     WateringCan,
     Axe,
@@ -76,25 +78,32 @@ namespace Management
         private void ChangeSelectedItem(int itemSelected)
         {
             holdingItemIndex = (itemSelected == 0) ? 9 : itemSelected - 1;
-            HighlightHoldingItem();
+            HighlightHoldingItem(); // Giả sử hàm này bạn đã có
 
             var currentSlot = _inventorySlots[holdingItemIndex];
             var itemInSlot = currentSlot.GetComponentInChildren<DragableItem>();
 
             if (itemInSlot != null && itemInSlot.itemScriptableObj != null)
             {
-                var id = itemInSlot.itemScriptableObj.id;
-                Debug.Log($"[Hotbar] Đang chọn: {id}");
+                // --- THAY ĐỔI BẮT ĐẦU TỪ ĐÂY ---
 
-                // 🔹 Hiển thị hoặc ẩn con trỏ tùy ID bắt đầu bằng T hoặc S
+                // 1. Lấy ItemType thay vì ID
+                var itemType = itemInSlot.itemScriptableObj.itemType;
+                Debug.Log($"[Hotbar] Đang chọn item: {itemInSlot.itemScriptableObj.displayName}, Loại: {itemType}");
+
+                // 2. Kiểm tra dựa trên Enum
                 if (tileCursorFollow != null)
                 {
+                    // Kiểm tra xem item có phải là Tool, Seed, hoặc Trap không
+                    // (Giả định T = Tool/Trap, S = Seed)
                     bool shouldShowCursor =
-                        id.StartsWith("T", StringComparison.OrdinalIgnoreCase) ||
-                        id.StartsWith("S", StringComparison.OrdinalIgnoreCase);
+                        (itemType == ItemType.Hoe) ||
+                        (itemType == ItemType.Seed) ||
+                        (itemType == ItemType.Trap); // Thêm bất kỳ type nào khác cần con trỏ
 
                     tileCursorFollow.SetCursorActive(shouldShowCursor);
                 }
+                // --- KẾT THÚC THAY ĐỔI ---
             }
             else
             {
@@ -199,12 +208,75 @@ namespace Management
             // newItem.transform.SetParent(slot.transform);
         }
 
+        /// <summary>
+        /// Hàm hỗ trợ: Đếm tổng số lượng của một item trong túi đồ.
+        /// </summary>
+        public int GetTotalItemQuantity(ItemScriptableObject item)
+        {
+            int totalAvailable = 0;
+            foreach (var slot in _inventorySlots)
+            {
+                var itemInSlot = slot.GetComponentInChildren<DragableItem>();
+                if (itemInSlot != null && itemInSlot.itemScriptableObj == item)
+                {
+                    totalAvailable += itemInSlot.quantity;
+                }
+            }
+            return totalAvailable;
+        }
 
         /// <summary>
         /// Bỏ một số lượng item ra khỏi inventory.
         /// </summary>
-        private void RemoveItems(ItemScriptableObject removedItem, int removedQuantity)
+        public bool RemoveItem(ItemScriptableObject itemToRemove, int quantityToRemove)
         {
+            if (itemToRemove == null || quantityToRemove <= 0) return false;
+
+            // Bước 1: Kiểm tra xem có đủ hàng không
+            int totalAvailable = GetTotalItemQuantity(itemToRemove);
+            if (totalAvailable < quantityToRemove)
+            {
+                Debug.Log($"Không đủ {itemToRemove.id}. Cần {quantityToRemove} nhưng chỉ có {totalAvailable}");
+                return false; // Không đủ, không trừ
+            }
+
+            // Bước 2: Nếu đủ, bắt đầu trừ
+            int quantityLeftToRemove = quantityToRemove;
+
+            // Vòng lặp ngược (từ cuối lên) an toàn hơn khi xóa
+            for (int i = _inventorySlots.Length - 1; i >= 0; i--)
+            {
+                var itemInSlot = _inventorySlots[i].GetComponentInChildren<DragableItem>();
+
+                // Bỏ qua nếu ô trống hoặc không đúng item
+                if (itemInSlot == null || itemInSlot.itemScriptableObj != itemToRemove)
+                {
+                    continue;
+                }
+
+                // Nếu stack này nhiều hơn số cần xóa
+                if (itemInSlot.quantity > quantityLeftToRemove)
+                {
+                    // Chỉ cần trừ stack này là đủ
+                    itemInSlot.UpdateCount(itemInSlot.quantity - quantityLeftToRemove);
+                    quantityLeftToRemove = 0; // Đã xóa đủ
+                    break; // Thoát vòng lặp
+                }
+                else // Nếu stack này ít hơn hoặc bằng số cần xóa
+                {
+                    // Xóa hết stack này
+                    quantityLeftToRemove -= itemInSlot.quantity; // Trừ số lượng đã xóa
+                    Destroy(itemInSlot.gameObject); // Xóa object item khỏi slot
+                }
+
+                // Nếu đã xóa đủ, dừng lại
+                if (quantityLeftToRemove <= 0)
+                {
+                    break;
+                }
+            }
+
+            return true; // Xóa thành công
         }
 
 

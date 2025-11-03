@@ -18,7 +18,7 @@ TagManager:
   - 
   - 
   - Bobber
-  - 
+  - Interactable
   - 
   - 
   - 
@@ -68,4 +68,7 @@ TagManager:
     locked: 0
   - name: Decor
     uniqueID: 3707339925
+    locked: 0
+  - name: Interactable
+    uniqueID: 1617754629
     locked: 0
