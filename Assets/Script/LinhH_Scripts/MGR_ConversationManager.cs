@@ -182,7 +182,7 @@ public class MGR_ConversationManager : MonoBehaviour
     }
 
 
-    private void EndConversation()
+    public void EndConversation()
     {
         gameplayUIManager.SetActiveConversationPanel(false);
         isConversationActive = false;
