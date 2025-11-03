@@ -9,7 +9,7 @@ public class Player : MonoBehaviour
     public Animator animator;
 
     private Vector2 movement;
-    private Vector2 lastMovement;
+    public Vector2 lastMovement;
 
     void Start()
     {
