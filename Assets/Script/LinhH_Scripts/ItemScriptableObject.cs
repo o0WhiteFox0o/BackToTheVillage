@@ -8,7 +8,7 @@ public class ItemScriptableObject : ScriptableObject
     public Sprite icon;
     public bool stackable;
     public bool canSell;
-
+    public ItemType itemType;
     [Header("Price")]
     public int buyPrice;
     public int sellPrice;
