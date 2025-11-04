@@ -27,6 +27,12 @@ public class SO_ConversationData : ScriptableObject
     /// Đánh dấu đây có phải là đoạn hội thoại nằm trong một tuyến cốt truyện hay không.
     /// </summary>
     public bool isStoryConversation;
+
+
+    /// <summary>
+    /// Nhiệm vụ cho nhân vật chính (nếu có).
+    /// </summary>
+    public SO_Quest quest;
 }
 
 

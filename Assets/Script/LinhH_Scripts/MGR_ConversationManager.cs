@@ -187,6 +187,15 @@ public class MGR_ConversationManager : MonoBehaviour
         gameplayUIManager.SetActiveConversationPanel(false);
         isConversationActive = false;
 
+        // kiểm tra có nhiệm vụ nào được giao hay không
+        if (conversationData.quest != null)
+        {
+            // thêm nhiệm vụ vào danh sách nhiệm vụ
+            MGR_QuestManager.Instance.AddQuest(conversationData.quest);
+
+            Debug.Log("Thêm nhiệm vụ " + conversationData.quest.title);
+        }
+
         // nếu cuộc hội thoại story vừa kết thúc thì cập nhật cuộc hội thoại mới
         if (conversationData.isStoryConversation)
         {

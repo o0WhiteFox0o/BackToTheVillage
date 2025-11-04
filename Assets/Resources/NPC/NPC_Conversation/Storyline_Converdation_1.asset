@@ -45,6 +45,7 @@ MonoBehaviour:
       m_WaitForCompletion: 0
       m_LocalVariables: []
   isStoryConversation: 1
+  quest: {fileID: 11400000, guid: 8b89ccb6f700f0a4c891a0dd97c1e3f0, type: 2}
   references:
     version: 2
     RefIds: []

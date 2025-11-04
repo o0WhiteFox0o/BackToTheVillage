@@ -23,6 +23,12 @@ namespace Management
         [SerializeField] private InventorySlot[] _inventorySlots;
         [SerializeField] private TileCursorFollow tileCursorFollow;
 
+        // /// <summary>
+        // /// Được gọi khi người chơi thu thập một vật phẩm. Quest Manager sẽ kiểm tra xem có nhiệm vụ nào cần cập nhật không.
+        // /// </summary>
+        // public static event MGR_QuestManager.QuestUpdatedHandler OnCollectItem;
+
+
         // vị trí của item nhân vật đang mang trong inventory
         private int holdingItemIndex;
 
@@ -161,6 +167,9 @@ namespace Management
                 // cập nhật số lượng item
                 itemInSlot.UpdateCount(quantity);
 
+                // kiểm tra có nhiệm vụ nào cần cập nhật không
+                // OnCollectItem?.Invoke(item.id, ObjectiveType.Colect);
+
                 return true;
             }
 
@@ -172,6 +181,10 @@ namespace Management
                 if (slot.transform.childCount != GameConstants.DEFAULT_INVENTORY_SLOT_CHILDREN_COUNT) { continue; }
 
                 SpawnNewItem(item, slot);
+
+                // kiểm tra có nhiệm vụ nào cần cập nhật không
+                // OnCollectItem?.Invoke(item.id, ObjectiveType.Colect); 
+
                 return true;
             }
 
