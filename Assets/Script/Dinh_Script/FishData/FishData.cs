@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-[CreateAssetMenu(fileName = "New Fish", menuName = "Item/Fish Data")]
+[CreateAssetMenu(fileName = "New Fish", menuName = "Scriptable Object/Item/Fish Data")]
 public class FishData : ItemScriptableObject
 {
     [Header("Thông tin cơ bản")]

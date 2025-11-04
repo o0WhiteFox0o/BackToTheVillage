@@ -10,7 +10,7 @@ using UnityEngine;
 /// <summary>
 /// Scriptable object chứa dữ liệu của NPC.
 /// </summary>
-[CreateAssetMenu(fileName = "New NPC", menuName = "NPC/NPC Data")]
+[CreateAssetMenu(fileName = "New NPC", menuName = "Scriptable Object/NPC/NPC Data")]
 public class SO_NPCData : ScriptableObject
 {
     public string npcId;

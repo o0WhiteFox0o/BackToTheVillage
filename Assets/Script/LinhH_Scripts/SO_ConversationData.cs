@@ -13,7 +13,7 @@ using UnityEngine.Localization;
 /// Scriptable object chứa dữ liệu của cuộc hội thoại giữa người chơi và NPC.
 /// </summary>
 [Serializable]
-[CreateAssetMenu(fileName = "New Conversation", menuName = "NPC/NPC Conversation")]
+[CreateAssetMenu(fileName = "New Conversation", menuName = "Scriptable Object/NPC/NPC Conversation")]
 public class SO_ConversationData : ScriptableObject
 {
     public string conversationId;
