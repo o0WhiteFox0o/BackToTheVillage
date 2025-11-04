@@ -17,7 +17,7 @@
 - [Cá](#fish)  
 - [Động vật](#animals)  
 - [Vật phẩm](#items)  
-    - [Tổng quan](#overview)
+    - [Tổng quan](#item-overview)
     - [Công cụ](#tools)
     - [Nguyên liệu](#materials)
     - [Chế tạo](#crafting)
@@ -26,7 +26,9 @@
     - [Sản phẩm động vật](#animal-products)  
     - [Thức ăn](#food)
     - [Trang trí](#decoration)
-    - [Vật phẩm khác](#other)  
+    - [Vật phẩm khác](#other) 
+
+- [Nhiệm vụ](#quests)
 
 - [Công trình](#constructs)  
 - [Dữ liệu](#data)
@@ -217,7 +219,7 @@
 > - **NPC Name**: Tên của NPC
 > - **Portrait**: Ảnh avatar của NPC
 > - **Can Dating**: NPC có thể hẹn hò được không
-> - **Like Item List**: Danh sách các [vật phẩm](#items) yêu thích của nhân vât.
+> - **Like Item List**: Danh sách các [vật phẩm](#item) yêu thích của nhân vât.
 > - **Hate Item List**: Danh sách các [vật phẩm](#items) mà nhân vật ghét.
 > 
 > Vị trí lưu trữ: NPC Data được lưu trong thư mục *Assets/Resources/NPC/NPC_Data*.
@@ -259,7 +261,7 @@
 ---
 
 # Items
-> ## Overview
+> ## Item Overview
 > ### Chuẩn bị
 > 
 > ---
@@ -289,7 +291,7 @@
 > 
 > ### Thiết lập Tools Item
 > Các thành phần chính của Tools Item:
-> - Các thành phần từ [Item cơ bản](#items).
+> - Các thành phần từ [Item cơ bản](#item-overview).
 > 
 > Vị trí lưu trữ:
 > - Scriptable Object Tools Item được lưu trong *Assets/Resources/Items/Tools*.
@@ -306,7 +308,7 @@
 > 
 > ### Thiết lập Material Item
 > Các thành phần chính của Materials Item:
-> - Các thành phần từ [Item cơ bản](#items).
+> - Các thành phần từ [Item cơ bản](#item-overview).
 > 
 > Vị trí lưu trữ:
 > - Scriptable Object Materials Item được lưu trong *Assets/Resources/Items/Materials*.
@@ -323,7 +325,7 @@
 > 
 > ### Thiết lập Crafting Item
 > Các thành phần chính của Crafting Item:
-> - Các thành phần từ [Item cơ bản](#items).
+> - Các thành phần từ [Item cơ bản](#item-overview).
 > 
 > Vị trí lưu trữ:
 > - Scriptable Object Crafting Item được lưu trong *Assets/Resources/Items/Crafting*.
@@ -340,7 +342,7 @@
 > 
 > ### Thiết lập Crops Item
 > Các thành phần chính của Crops Item:
-> - Các thành phần từ [Item cơ bản](#items).
+> - Các thành phần từ [Item cơ bản](#item-overview).
 > 
 > Vị trí lưu trữ:
 > - Scriptable Object Crops Item được lưu trong *Assets/Resources/Items/Crops*.
@@ -359,7 +361,7 @@
 > ![Các thành phần trong Fish Item](./README_Images/FishItem_Setup.png)  
 > 
 > Các thành phần chính của Fish Item:
-> - Các thành phần từ [Item cơ bản](#items).
+> - Các thành phần từ [Item cơ bản](#item-overview).
 > - **Thông tin cơ bản**:
 >   - **Fish Name**: Tên loại cá.
 > - **Độ khó QTE**:
@@ -384,7 +386,7 @@
 > 
 > ### Thiết lập Animal products Item
 > Các thành phần chính của Animal products Item:
-> - Các thành phần từ [Item cơ bản](#items).
+> - Các thành phần từ [Item cơ bản](#item-overview).
 > 
 > Vị trí lưu trữ:
 > - Scriptable Object Animal products Item được lưu trong *Assets/Resources/Items/Animal_Products*.
@@ -401,7 +403,7 @@
 > 
 > ### Thiết lập Food Item
 > Các thành phần chính của Food Item:
-> - Các thành phần từ [Item cơ bản](#items).
+> - Các thành phần từ [Item cơ bản](#item-overview).
 > 
 > Vị trí lưu trữ:
 > - Scriptable Object Food Item được lưu trong *Assets/Resources/Items/Food*.
@@ -418,7 +420,7 @@
 > 
 > ### Thiết lập Decoration Item
 > Các thành phần chính của Decoration Item:
-> - Các thành phần từ [Item cơ bản](#items).
+> - Các thành phần từ [Item cơ bản](#item-overview).
 > 
 > Vị trí lưu trữ:
 > - Scriptable Object Decoration Item được lưu trong *Assets/Resources/Items/Decoration*.
@@ -428,6 +430,50 @@
  
 > ## Other
  
+---
+
+# Quests
+> 
+> ## Quest Overview
+> 
+> ![Cấu trúc quest](./README_Images/quest_overview.png) 
+> 
+> Các thành phần cơ bản của một nhiệm vụ:
+> - **Quest Id**: Id của nhiệm vụ.
+> - **Tittle**: Tên của nhiệm vụ.
+> - **Description**: Mô tả của nhiệm vụ.
+> - **Quest Reward**: [Phần thưởng](#quest-reward) cho nhiệm vụ.
+>  
+> Nhiệm vụ được chia ra làm các loại:
+> - Nhiệm vụ thu thập (Collection Quest).
+> - Nhiệm vụ trò chuyện (Talking Quest).
+> 
+> ## Nhiệm vụ thu thập
+> 
+> Vị trí lưu trữ Collection Quest Scriptable Object: *Resources/Quests/Collection_Quests*.  
+> Các bước thêm một nhiệm vụ thu thập: *Right click -> Create -> Scriptable Object -> Quest -> Collection Quest*.
+> 
+> ![Collection quest](./README_Images/collection_quest.png)
+> 
+> Các thành phần của nhiệm vụ thu thập:
+> - Các thành phần có trong [nhiệm vụ cơ bản](#quest-overview).
+> - **Target Items**: Danh sách các item cần thu thập của nhiệm vụ.
+>   - *Item*: [Vật phẩm](#items) cần thu thập.
+>   - *Amount*: Số lượng vật phẩm cần thu thập.
+> 
+> ---
+> 
+> ## Nhiệm vụ trò chuyện
+> 
+> Vị trí lưu trữ Talking Quest Scriptable Object: *Resources/Quests/Talking_Quests*.  
+> Các bước thêm một nhiệm vụ trò chuyện: *Right click -> Create -> Scriptable Object -> Quest -> Talking Quest*.
+> 
+> ---
+> 
+> ## Quest Reward
+> 
+> 
+
 ---
 
 # Constructs

@@ -3,6 +3,8 @@
 // Date: 03/11/2025
 // 
 
+using System;
+using System.Collections.Generic;
 using UnityEngine;
 
 public class SO_Quest : ScriptableObject
@@ -22,7 +24,14 @@ public class SO_Quest : ScriptableObject
 public class SO_CollectionQuest : SO_Quest
 {
     [Header("Quest Details")]
-    public ItemScriptableObject targetItem;
+    public List<QuestItemRequirement> targetItems;
+}
+
+
+[Serializable]
+public class QuestItemRequirement
+{
+    public ItemScriptableObject item;
     public int amount;
 }
 

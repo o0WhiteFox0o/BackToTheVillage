@@ -19,5 +19,6 @@ MonoBehaviour:
     experience: 0
     gold: 0
     items: []
-  item: {fileID: 0}
-  amount: 0
+  targetItems:
+  - item: {fileID: 0}
+    amount: 0
