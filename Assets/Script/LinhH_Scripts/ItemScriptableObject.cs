@@ -1,4 +1,4 @@
-using UnityEngine;
+ï»¿using UnityEngine;
 
 [CreateAssetMenu(fileName = "New Item", menuName = "Item/Basic Item")]
 public class ItemScriptableObject : ScriptableObject
@@ -13,6 +13,4 @@ public class ItemScriptableObject : ScriptableObject
     [Header("Price")]
     public int buyPrice;
     public int sellPrice;
-    [Header("Prefab c?a item có th? ??t xu?ng")]
-    public GameObject itemPrefab;
 }
