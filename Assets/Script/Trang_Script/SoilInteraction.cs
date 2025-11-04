@@ -29,56 +29,82 @@ public class TrangSoilInteraction : MonoBehaviour
 
     void Update()
     {
-        if (tilemap == null || tileCursorFollow.cursorObject == null || inventory == null )
+        if (tilemap == null || tileCursorFollow.cursorObject == null || inventory == null)
             return;
 
         // Kiểm tra khi nhấn chuột trái
         if (Input.GetMouseButtonDown(0))
         {
-            // Lấy item hiện tại
             var currentItem = inventory.holdingItem;
             if (currentItem == null)
                 return;
 
-            // Nếu đang cầm cuốc (T001)
-            if (currentItem.id == "T001")
+            Vector3Int cellPos = tilemap.WorldToCell(tileCursorFollow.cursorObject.position);
+            TileBase tile = tilemap.GetTile(cellPos);
+            if (tile == null) return;
+
+            Sprite currentSprite = tilemap.GetSprite(cellPos);
+
+            // =========================
+            // 🔹 XÉT THEO ITEM TYPE TRƯỚC
+            // =========================
+            switch (currentItem.itemType)
             {
-                Vector3Int cellPos = tilemap.WorldToCell(tileCursorFollow.cursorObject.position);
-                TileBase tile = tilemap.GetTile(cellPos);
+                // ----- Dụng cụ cuốc đất -----
+                case ItemType.Hoe:
+                    if (currentSprite == grassSprite)
+                    {
+                        Tile newTile = ScriptableObject.CreateInstance<Tile>();
+                        newTile.sprite = tilledSprite;
+                        newTile.name = "TilledSoil";
+                        tilemap.SetTile(cellPos, newTile);
+                        Debug.Log($"⛏ Đã xới đất tại {cellPos}");
+                    }
+                    break;
 
-                if (tile == null) return;
+                // ----- Dụng cụ tưới nước -----
+                case ItemType.WateringCan:
+                    if (currentSprite == tilledSprite)
+                    {
+                        Tile newTile = ScriptableObject.CreateInstance<Tile>();
+                        newTile.sprite = wateredSprite;
+                        newTile.name = "WateredSoil";
+                        tilemap.SetTile(cellPos, newTile);
+                        Debug.Log($"💧 Đã tưới đất tại {cellPos}");
+                    }
+                    break;
 
-                Sprite currentSprite = tilemap.GetSprite(cellPos);
+                // ----- Hạt giống -----
+                case ItemType.Seed:
+                    // Chỉ trồng trên đất xới hoặc đất có nước
+                    if (currentSprite == tilledSprite || currentSprite == wateredSprite)
+                    {
+                        // Lấy prefab từ item
+                        if (currentItem.plantPrefab != null)
+                        {
+                            // Tính vị trí trung tâm ô tile
+                            Vector3 spawnPos = tilemap.CellToWorld(cellPos) + new Vector3(0f, 0.5f, 0f);
 
-                // Nếu là đất cỏ -> đổi thành đất xới
-                if (currentSprite == grassSprite)
-                {
-                    Tile newTile = ScriptableObject.CreateInstance<Tile>();
-                    newTile.sprite = tilledSprite;
-                    newTile.name = "TilledSoil";
-                    tilemap.SetTile(cellPos, newTile);
-                    Debug.Log($"⛏ Đã xới đất tại {cellPos}");
-                }
-            }
+                            // Sinh cây ra tại ô được chọn
+                            Instantiate(currentItem.plantPrefab, spawnPos, Quaternion.identity);
 
-            // Nếu đang cầm bình tưới (S001)
-            else if (currentItem.id == "S001")
-            {
-                Vector3Int cellPos = tilemap.WorldToCell(tileCursorFollow.cursorObject.position);
-                TileBase tile = tilemap.GetTile(cellPos);
-                if (tile == null) return;
+                            Debug.Log($"🌱 Đã trồng {currentItem.id} tại {cellPos}");
+                        }
+                        else
+                        {
+                            Debug.LogWarning($"⚠ Hạt giống {currentItem.id} chưa có prefab cây để trồng!");
+                        }
+                    }
+                    else
+                    {
+                        Debug.Log("❌ Không thể trồng ở đây. Cần đất đã xới hoặc tưới.");
+                    }
+                    break;
 
-                Sprite currentSprite = tilemap.GetSprite(cellPos);
-
-                // Nếu là đất xới -> đổi thành đất xới có nước
-                if (currentSprite == tilledSprite)
-                {
-                    Tile newTile = ScriptableObject.CreateInstance<Tile>();
-                    newTile.sprite = wateredSprite;
-                    newTile.name = "WateredSoil";
-                    tilemap.SetTile(cellPos, newTile);
-                    Debug.Log($"💧 Đã tưới đất tại {cellPos}");
-                }
+                // ----- Các loại khác -----
+                default:
+                    Debug.Log($"⚙ Không có hành động với item type {currentItem.itemType}");
+                    break;
             }
         }
     }

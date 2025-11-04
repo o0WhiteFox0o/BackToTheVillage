@@ -6,10 +6,13 @@ public class ItemScriptableObject : ScriptableObject
     [Header("Overview")]
     public string id;
     public Sprite icon;
+    public string displayName;
     public bool stackable;
     public bool canSell;
     public ItemType itemType;
     [Header("Price")]
     public int buyPrice;
     public int sellPrice;
+    [Header("Prefab c?a item có th? ??t xu?ng")]
+    public GameObject itemPrefab;
 }
