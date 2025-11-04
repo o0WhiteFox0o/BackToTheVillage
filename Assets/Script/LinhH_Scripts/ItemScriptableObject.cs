@@ -13,4 +13,9 @@ public class ItemScriptableObject : ScriptableObject
     [Header("Price")]
     public int buyPrice;
     public int sellPrice;
+    [Header("Prefab của item có thể đặt xuống")]
+    public GameObject itemPrefab;
+
+    [Header("Seed Settings")]
+    public GameObject plantPrefab;
 }
