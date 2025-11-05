@@ -25,8 +25,8 @@ public class CollectionQuestProgress : IQuestProgress
     public bool isCompleted = false;
     public List<QuestItemRequirement> itemRequirements_List = new List<QuestItemRequirement>();
 
-
     public delegate void UpdateCollectionQuestHandler(CollectionQuestProgress collectionProgress);
+
     /// <summary>
     /// Được gọi khi tiến trình của nhiệm vụ thu thập được cập nhật.
     /// </summary>
@@ -49,7 +49,7 @@ public class CollectionQuestProgress : IQuestProgress
 
 
     /// <summary>
-    /// Cập nhật tiến trình cho nhiệm vụ thu thập.
+    /// Cập nhật tiến trình cho nhiệm vụ thu thập vật phẩm.
     /// </summary>
     public void UpdateProgress(ItemScriptableObject updatedItem, int updatedQuantity)
     {
@@ -64,7 +64,6 @@ public class CollectionQuestProgress : IQuestProgress
             OnCollectionQuestUpdate?.Invoke(this);
             Debug.Log("Cập nhật số lượng cho " + requirementItem.item);
         }
-
 
         CheckProgress();
     }
@@ -85,7 +84,6 @@ public class CollectionQuestProgress : IQuestProgress
 
 
     public SO_Quest GetQuest() => quest;
-
     public bool IsComplete() => isCompleted;
 }
 
@@ -97,9 +95,14 @@ public class TalkingQuestProgress : IQuestProgress
     public bool isCompleted;
 
 
-    public void UpdateProgress(SO_NPCData targetNpc)
+    public void UpdateProgress(SO_NPCData npc)
     {
         Debug.Log("Cập nhật nhiệm vụ trò chuyện");
+
+        // nếu không phải npc cần trò chuyện thì dừng cập nhật
+        if (quest.targetNPC.npcId != npc.npcId) { return; }
+
+        CheckProgress();
     }
 
 

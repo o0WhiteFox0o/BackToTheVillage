@@ -26,6 +26,7 @@ public class UI_QuestUI : MonoBehaviour
                 break;
 
             case QuestType.Talking:
+                SetupTalkingQuestUI(quest);
                 break;
 
             case QuestType.Giving:
@@ -51,6 +52,9 @@ public class UI_QuestUI : MonoBehaviour
     }
 
 
+    /// <summary>
+    /// Thiết lập các thành phần UI của nhiệm vụ thu thập.
+    /// </summary>
     private void SetupCollectionQuestUI(SO_Quest quest)
     {
         questTittle_Text.SetText(quest.tittle);
@@ -66,5 +70,23 @@ public class UI_QuestUI : MonoBehaviour
         }
 
         // TODO: thiết lập UI phần thưởng của nhiệm vụ
+        questReward_Text.text = "";
+    }
+
+
+    private void SetupTalkingQuestUI(SO_Quest quest)
+    {
+        questTittle_Text.SetText(quest.tittle);
+
+        // thiết lập UI tiến trình của nhiệm vụ thu thập
+        if (quest is SO_TalkingQuest talkingQuest)
+        {
+            questProgress_Text.text = "";
+            // TODO: chỉnh sửa lại đề dùng với Localization
+            questProgress_Text.text += $"Talking with {talkingQuest.targetNPC.npcName}";
+        }
+
+        // TODO: thiết lập UI phần thưởng của nhiệm vụ
+        questReward_Text.text = "";
     }
 }

@@ -140,6 +140,9 @@ public class GameplayUIManager : MonoBehaviour
     }
 
 
+    /// <summary>
+    /// Làm mới danh sách nhiệm vụ khi thêm hoặc loại bỏ một nhiệm vụ.
+    /// </summary>
     private void RefreshQuestUIList()
     {
         // ẩn tất cả các nhiệm vụ trong giao diện nhiệm vụ
@@ -148,20 +151,20 @@ public class GameplayUIManager : MonoBehaviour
             questUI.gameObject.SetActive(false);
         }
 
-        // cập nhật giao diện nhiệm vụ
+        // cập nhật giao diện nhiệm vụ cho từng nhiệm vụ trong danh sách
         foreach (var quest in MGR_QuestManager.Instance.activeQuests_List)
         {
             // tạo các quest UI
             var questUI = MGR_ObjectPoolManager.SpawnObject(questUI_Prefab, questPanel);
 
-            // thiết lập quest UI
+            // thiết lập các thành phần của quest UI
             questUI.GetComponent<UI_QuestUI>().SetupQuestUI(quest.GetQuest());
         }
     }
 
 
     /// <summary>
-    /// Cập nhật UI nhiệm vụ thu thập vật phẩm khi một vật phẩm được thêm vào.
+    /// Cập nhật UI nhiệm vụ thu thập vật phẩm khi có một vật phẩm được thêm vào.
     /// </summary>
     private void RefreshCollectionProgressUI(CollectionQuestProgress collectionProgress)
     {
