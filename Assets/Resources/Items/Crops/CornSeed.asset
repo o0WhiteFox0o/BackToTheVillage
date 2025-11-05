@@ -17,7 +17,7 @@ MonoBehaviour:
   displayName: 
   stackable: 1
   canSell: 0
-  itemType: 4
+  itemType: 6
   buyPrice: 0
   sellPrice: 0
   itemPrefab: {fileID: 0}

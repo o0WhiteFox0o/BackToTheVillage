@@ -9,13 +9,17 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4f2974b2ff9ce3345bcd8931ef4e710c, type: 3}
-  m_Name: FishingRod
+  m_Script: {fileID: 11500000, guid: db766a737ed415342a314cad8549aa3c, type: 3}
+  m_Name: FiberglassRod
   m_EditorClassIdentifier: 
   id: 
-  icon: {fileID: -6005813300880225227, guid: f5bf46f907f2af84da699853cfe9babf, type: 3}
+  icon: {fileID: -5980919446317078327, guid: f5bf46f907f2af84da699853cfe9babf, type: 3}
+  displayName: Fiberglass Fishing Rod
   stackable: 0
-  canSell: 0
+  canSell: 1
   itemType: 0
   buyPrice: 0
   sellPrice: 0
+  itemPrefab: {fileID: 0}
+  plantPrefab: {fileID: 0}
+  canUseBait: 1
