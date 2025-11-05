@@ -193,7 +193,7 @@ public class MGR_ConversationManager : MonoBehaviour
             // thêm nhiệm vụ vào danh sách nhiệm vụ
             MGR_QuestManager.Instance.AddQuest(conversationData.quest);
 
-            Debug.Log("Thêm nhiệm vụ " + conversationData.quest.title);
+            Debug.Log("Thêm nhiệm vụ " + conversationData.quest.tittle);
         }
 
         // nếu cuộc hội thoại story vừa kết thúc thì cập nhật cuộc hội thoại mới

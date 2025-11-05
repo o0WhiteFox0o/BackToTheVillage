@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Test Talking Quest
   m_EditorClassIdentifier: Assembly-CSharp::SO_TalkingQuest
   questID: test_talking
-  title: Test Talking
+  tittle: Test Talking
   description: 
   questType: 1
   reward:

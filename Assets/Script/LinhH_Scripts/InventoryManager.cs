@@ -23,10 +23,11 @@ namespace Management
         [SerializeField] private InventorySlot[] _inventorySlots;
         [SerializeField] private TileCursorFollow tileCursorFollow;
 
+        public delegate void CollectionItemHandler(ItemScriptableObject updatedItem, int quantity);
         /// <summary>
         /// Được gọi khi người chơi thu thập một vật phẩm. Quest Manager sẽ kiểm tra xem có nhiệm vụ nào cần cập nhật không.
         /// </summary>
-        public static event MGR_QuestManager.CollectionQuestUpdatedHandler OnCollectItem;
+        public static event CollectionItemHandler OnCollectItem;
 
 
         // vị trí của item nhân vật đang mang trong inventory

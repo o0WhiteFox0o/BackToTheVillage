@@ -10,7 +10,7 @@ public class SO_Quest : ScriptableObject
 {
     [Header("Overview")]
     public string questID;
-    public string title;
+    public string tittle;
     public string description;
     public QuestType questType;
     public QuestReward reward;

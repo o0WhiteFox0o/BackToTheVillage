@@ -7,7 +7,6 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using Unity.VisualScripting;
 using UnityEngine;
 
 
@@ -25,6 +24,13 @@ public class CollectionQuestProgress : IQuestProgress
     public bool isActive;
     public bool isCompleted = false;
     public List<QuestItemRequirement> itemRequirements_List = new List<QuestItemRequirement>();
+
+
+    public delegate void UpdateCollectionQuestHandler(CollectionQuestProgress collectionProgress);
+    /// <summary>
+    /// Được gọi khi tiến trình của nhiệm vụ thu thập được cập nhật.
+    /// </summary>
+    public static event UpdateCollectionQuestHandler OnCollectionQuestUpdate;
 
 
     public CollectionQuestProgress(SO_CollectionQuest collectionQuest)
@@ -55,6 +61,7 @@ public class CollectionQuestProgress : IQuestProgress
         if (requirementItem != null)
         {
             requirementItem.currentQuantity += updatedQuantity;
+            OnCollectionQuestUpdate?.Invoke(this);
             Debug.Log("Cập nhật số lượng cho " + requirementItem.item);
         }
 

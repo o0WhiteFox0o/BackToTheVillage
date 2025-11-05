@@ -4,6 +4,7 @@
 // 
 
 
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using Management;
@@ -13,12 +14,13 @@ public class MGR_QuestManager : MonoBehaviour
 {
     public static MGR_QuestManager Instance;
 
-    private List<IQuestProgress> activeQuests_List = new List<IQuestProgress>();
+    public List<IQuestProgress> activeQuests_List { get; private set; }
+
 
     /// <summary>
-    /// Kích hoạt khi một vật phẩm được thu thập. Dùng để cập nhật nhiệm vụ thu thập.
+    /// Được gọi khi một nhiệm vụ được thêm vào hoặc loại bỏ khỏi danh sách nhiệm vụ.
     /// </summary>
-    public delegate void CollectionQuestUpdatedHandler(ItemScriptableObject updatedItem, int quantity);
+    public static event Action OnQuestListUpdate;
 
 
     private void Start()
@@ -28,7 +30,9 @@ public class MGR_QuestManager : MonoBehaviour
             Instance = this;
         }
 
+        activeQuests_List = new List<IQuestProgress>();
 
+        // đăng ký sự kiện cần thiết
         InventoryManager.OnCollectItem += UpdateCollectionProgress;
     }
 
@@ -46,6 +50,8 @@ public class MGR_QuestManager : MonoBehaviour
 
         var addedQuest = QuestProgressFactory.CreateQuestProgress(newQuest);
         activeQuests_List.Add(addedQuest);
+
+        OnQuestListUpdate?.Invoke();
     }
 
 
@@ -70,6 +76,7 @@ public class MGR_QuestManager : MonoBehaviour
         if (completedQuest != null)
         {
             activeQuests_List.Remove(completedQuest);
+            OnQuestListUpdate?.Invoke();
         }
     }
 
@@ -80,23 +87,6 @@ public class MGR_QuestManager : MonoBehaviour
         if (activeQuests_List.Count == 0) { return; }
 
     }
-
-
-    // public void RemoveQuest(SO_Quest quest)
-    // {
-    //     var removedQuest = activeQuests_List.FirstOrDefault(q => q.GetQuest().questID == quest.questID);
-    //     if (removedQuest != null)
-    //     {
-    //         // loại bỏ nhiệm vụ ra khỏi danh sách nhiệm vụ
-    //         activeQuests_List.Remove(removedQuest);
-
-    //         // nếu không có nhiệm vụ nào tiếp theo (trong chuỗi nhiệm vụ) thì bỏ qua
-    //         if (removedQuest.GetQuest().nextQuest == null) { return; }
-    //         AddQuest(removedQuest.GetQuest().nextQuest);
-
-    //         Debug.Log($"Loại nhiệm vụ {quest.title} ra khỏi danh sách nhiệm vụ.");
-    //     }
-    // }
 }
 
 
@@ -104,5 +94,6 @@ public enum QuestType
 {
     Collection,
     Talking,
-    Giving
+    Giving,
+    Selling
 }

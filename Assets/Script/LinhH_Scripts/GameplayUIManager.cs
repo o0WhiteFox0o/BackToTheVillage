@@ -7,6 +7,7 @@
 using System;
 using System.Collections.Generic;
 using TMPro;
+using UnityEditor.Localization.Plugins.XLIFF.V12;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
@@ -22,6 +23,7 @@ public class GameplayUIManager : MonoBehaviour
     [SerializeField] public GameObject generalUI;
     [SerializeField] public GameObject npcUI;
     [SerializeField] public GameObject settingUI;
+    [SerializeField] public GameObject questUI;
 
 
     [Header("Conversation")]
@@ -31,9 +33,15 @@ public class GameplayUIManager : MonoBehaviour
     [SerializeField] public TMP_Text conversationDisplayText;
 
 
+    [Header("Quests")]
+    [SerializeField] GameObject questUI_Prefab;
+    [SerializeField] Transform questPanel;
+
+
     [Header("Other")]
     [SerializeField] public GraphicRaycaster uiRaycaster;
     [SerializeField] public EventSystem eventSystem;
+
 
     private bool isAnyUIOpen;
 
@@ -45,6 +53,9 @@ public class GameplayUIManager : MonoBehaviour
         // đăng ký sự kiện cần thiết
         InputManager.OnOpenBagPress += ToggleBagUI;
         InputManager.OnGeneralUIPress += ToggleGeneralUI;
+
+        MGR_QuestManager.OnQuestListUpdate += RefreshQuestUIList;
+        CollectionQuestProgress.OnCollectionQuestUpdate += RefreshCollectionProgressUI;
     }
 
 
@@ -52,6 +63,9 @@ public class GameplayUIManager : MonoBehaviour
     {
         InputManager.OnOpenBagPress -= ToggleBagUI;
         InputManager.OnGeneralUIPress -= ToggleGeneralUI;
+
+        MGR_QuestManager.OnQuestListUpdate -= RefreshQuestUIList;
+        CollectionQuestProgress.OnCollectionQuestUpdate -= RefreshCollectionProgressUI;
     }
 
 
@@ -123,5 +137,42 @@ public class GameplayUIManager : MonoBehaviour
     public void AddLetterToDialogueText(char letter)
     {
         conversationDisplayText.text += letter;
+    }
+
+
+    private void RefreshQuestUIList()
+    {
+        // ẩn tất cả các nhiệm vụ trong giao diện nhiệm vụ
+        foreach (Transform questUI in questPanel)
+        {
+            questUI.gameObject.SetActive(false);
+        }
+
+        // cập nhật giao diện nhiệm vụ
+        foreach (var quest in MGR_QuestManager.Instance.activeQuests_List)
+        {
+            // tạo các quest UI
+            var questUI = MGR_ObjectPoolManager.SpawnObject(questUI_Prefab, questPanel);
+
+            // thiết lập quest UI
+            questUI.GetComponent<UI_QuestUI>().SetupQuestUI(quest.GetQuest());
+        }
+    }
+
+
+    /// <summary>
+    /// Cập nhật UI nhiệm vụ thu thập vật phẩm khi một vật phẩm được thêm vào.
+    /// </summary>
+    private void RefreshCollectionProgressUI(CollectionQuestProgress collectionProgress)
+    {
+        foreach (Transform questUI in questPanel)
+        {
+            // nếu nhiệm vụ được duyệt không phải là nhiệm vụ cần cập nhật thì bỏ qua nó
+            if (questUI.GetComponent<UI_QuestUI>().questTittle_Text.text != collectionProgress.quest.tittle) { continue; }
+
+            questUI.GetComponent<UI_QuestUI>().RefreshCollectionProgressUI(collectionProgress);
+
+            Debug.Log("Update collection quest UI");
+        }
     }
 }

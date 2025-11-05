@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Test Collection Quest
   m_EditorClassIdentifier: Assembly-CSharp::SO_CollectionQuest
   questID: test_collection
-  title: Test Collection
+  tittle: Test Collection
   description: 
   questType: 0
   reward:
