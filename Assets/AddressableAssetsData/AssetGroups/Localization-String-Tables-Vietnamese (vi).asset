@@ -41,6 +41,18 @@ MonoBehaviour:
     m_SerializedLabels:
     - Locale-vi
     FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 9a49ebcb45a82304d9e2e350a7bdb03d
+    m_Address: Shark Quest Conversation_vi
+    m_ReadOnly: 1
+    m_SerializedLabels:
+    - Locale-vi
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 2b82d7b1a51f933489b3a7b61c44e357
+    m_Address: After Shark Quest Conversation_vi
+    m_ReadOnly: 1
+    m_SerializedLabels:
+    - Locale-vi
+    FlaggedDuringContentUpdateRestriction: 0
   m_ReadOnly: 1
   m_Settings: {fileID: 11400000, guid: 59d7c3f32b95b404abe6e0218659eb6d, type: 2}
   m_SchemaSet:

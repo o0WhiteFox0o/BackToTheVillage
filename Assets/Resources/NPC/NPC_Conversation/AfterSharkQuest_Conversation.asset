@@ -1,0 +1,41 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ca280bb00da42514bac848751bd156f3, type: 3}
+  m_Name: AfterSharkQuest_Conversation
+  m_EditorClassIdentifier: 
+  conversationId: after_shark_quest
+  dialogues:
+  - npcData: {fileID: 11400000, guid: 0d41ac691e554844289c137b71106c80, type: 2}
+    dialogue:
+      m_TableReference:
+        m_TableCollectionName: GUID:d7721ed1e30dff74b81d3b1bede93c78
+      m_TableEntryReference:
+        m_KeyId: 4216471552
+        m_Key: 
+      m_FallbackState: 0
+      m_WaitForCompletion: 0
+      m_LocalVariables: []
+  - npcData: {fileID: 11400000, guid: 0d41ac691e554844289c137b71106c80, type: 2}
+    dialogue:
+      m_TableReference:
+        m_TableCollectionName: GUID:d7721ed1e30dff74b81d3b1bede93c78
+      m_TableEntryReference:
+        m_KeyId: 7928430592
+        m_Key: 
+      m_FallbackState: 0
+      m_WaitForCompletion: 0
+      m_LocalVariables: []
+  isStoryConversation: 0
+  quest: {fileID: 0}
+  references:
+    version: 2
+    RefIds: []
