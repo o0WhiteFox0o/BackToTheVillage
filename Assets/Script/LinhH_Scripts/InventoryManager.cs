@@ -4,6 +4,8 @@ using UnityEngine;
 
 public enum ItemType
 {
+    None,
+    Fish,
     FishingRod,
     Bait,
     Trap,
@@ -59,7 +61,20 @@ namespace Management
                 return dragItem.itemScriptableObj;
             }
         }
+        /// <summary>
+        /// Lấy DragableItem COMPONENT mà nhân vật đang mang.
+        /// Dùng để đọc dữ liệu động (như mồi câu).
+        /// </summary>
+        public DragableItem GetHoldingItemComponent(){
+            if(_inventorySlots == null || _inventorySlots.Length == 0)
+                return null;
+            if(holdingItemIndex < 0 || holdingItemIndex >= _inventorySlots.Length)
+                return null;
 
+            var currentSlot = _inventorySlots[holdingItemIndex];
+            var itemInSlot = currentSlot.GetComponentInChildren<DragableItem>();
+            return itemInSlot;
+        }
 
 
         void Start()

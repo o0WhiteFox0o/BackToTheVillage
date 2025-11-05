@@ -16,4 +16,10 @@ public class FishData : ItemScriptableObject
     [Range(5f, 50)] public float maxGameTime = 10f;
     [Range(0.01f, 0.2f)] public float progressIncrease = 0.1f;
     [Range(0.01f, 0.2f)] public float progressDecrease = 0.05f;
+
+    private void OnValidate()
+    {
+        itemType = ItemType.Fish;
+        stackable = true;
+    }
 }

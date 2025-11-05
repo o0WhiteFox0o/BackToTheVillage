@@ -1,6 +1,7 @@
 using GameUI;
 using UnityEngine;
 using UnityEngine.EventSystems;
+using Management;
 
 public class InventorySlot : MonoBehaviour, IDropHandler
 {
@@ -11,31 +12,77 @@ public class InventorySlot : MonoBehaviour, IDropHandler
     {
         if (eventData.pointerDrag == null) return; // không có gì để thả
 
-        var originSlot = eventData.pointerDrag.GetComponent<DragableItem>().parentBeforeDrag;
+        Transform originSlot = eventData.pointerDrag.GetComponent<DragableItem>().parentBeforeDrag;
+        DragableItem draggedItem = eventData.pointerDrag.GetComponent<DragableItem>();
 
-        // thả item vào slot nếu slot trống
+        // TH1: Thả vào ô trống
         if (transform.childCount == GameConstants.DEFAULT_INVENTORY_SLOT_CHILDREN_COUNT)
         {
-            DragableItem inventoryItem = eventData.pointerDrag.GetComponent<DragableItem>();
-            inventoryItem.parentAfterDrag = transform;
+            draggedItem.parentAfterDrag = transform;
         }
-        // đổi chổ 2 item nếu slot có chứa item
+        // TH2: Thả vào ô đã có item
         else
         {
-            // lấy vị trí slot của item được kéo và item tại vị trí người chơi thả
-            var dragItem = eventData.pointerDrag.GetComponent<DragableItem>();
-            var itemInSlot = transform.GetComponentInChildren<DragableItem>();
+            DragableItem itemInSlot = transform.GetComponentInChildren<DragableItem>();
+            if (itemInSlot == null) return;
 
-            // thiết lập vị trí của item tại vị trí thả
-            itemInSlot.transform.SetParent(originSlot);
-            itemInSlot.transform.localPosition = Vector3.zero;
+            // --- KIỂM TRA MỒI CÂU ---
+            var draggedSO = draggedItem.itemScriptableObj;
+            var inSlotSO = itemInSlot.itemScriptableObj;
 
-            // thiết lập vị trí của item được kéo
-            dragItem.parentAfterDrag = transform;
+            // 1: Kéo MỒI (dragged) thả vào CẦN CÂU (inSlot)
+            if (draggedSO is BaitSO baitData && inSlotSO is FishingRodSO)
+            {
+                // Thử gắn mồi vào Cần câu (itemInSlot)
+                bool success = itemInSlot.TryAttachBait(baitData, draggedItem.quantity);
+                if (success)
+                {
+                    // Gắn thành công -> Hủy GameObject mồi vừa kéo
+                    Destroy(draggedItem.gameObject);
+                }
+                else
+                {
+                    // Gắn thất bại (cần tre, khác loại mồi) -> Hoán đổi như cũ
+                    PerformSwap(draggedItem, itemInSlot, originSlot);
+                }
+            }
+            //  2: Kéo CẦN CÂU (dragged) thả vào MỒI (inSlot)
+            else if (draggedSO is FishingRodSO && inSlotSO is BaitSO baitDataSlot)
+            {
+                // Thử gắn mồi (itemInSlot) vào Cần câu (draggedItem)
+                bool success = draggedItem.TryAttachBait(baitDataSlot, itemInSlot.quantity);
+                if (success)
+                {
+                    // Gắn thành công -> Hủy GameObject mồi (itemInSlot)
+                    Destroy(itemInSlot.gameObject);
+                    // Di chuyển cần câu vào slot mới
+                    draggedItem.parentAfterDrag = transform;
+                }
+                else
+                {
+                    // Gắn thất bại -> Hoán đổi như cũ
+                    PerformSwap(draggedItem, itemInSlot, originSlot);
+                }
+            }
+            // 3: Không liên quan -> Hoán đổi như cũ
+            else
+            {
+                PerformSwap(draggedItem, itemInSlot, originSlot);
+            }
         }
     }
+    /// <summary>
+    /// Tách hàm hoán đổi (swap) ra cho sạch
+    /// </summary>
+    private void PerformSwap(DragableItem dragItem, DragableItem itemInSlot, Transform originSlot)
+    {
+        // thiết lập vị trí của item tại vị trí thả
+        itemInSlot.transform.SetParent(originSlot);
+        itemInSlot.transform.localPosition = Vector3.zero;
 
-
+        // thiết lập vị trí của item được kéo
+        dragItem.parentAfterDrag = transform;
+    }
     public void HighlightSlot()
     {
         selectedHighlight.SetActive(true);

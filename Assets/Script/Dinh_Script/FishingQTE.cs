@@ -1,4 +1,4 @@
-﻿using System; // Cần thiết để dùng 'Action' (events)
+﻿using System;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -51,6 +51,8 @@ public class FishingQTE : MonoBehaviour
     private float progressIncrease;
     private float progressDecrease;
 
+
+
     // Biến logic cho vùng xanh
     private float successMin;
     private float successMax;
@@ -71,17 +73,42 @@ public class FishingQTE : MonoBehaviour
         qtePanel.SetActive(false); // Ẩn khi bắt đầu
     }
 
-    public void StartQTE(FishData fishData)
+    public void StartQTE(FishData fishData, QTEBuff buff)
     {
-        // 1. Tải độ khó từ FishData
-        this.qteBarSpeed = fishData.qteBarSpeed;
-        this.successWindowSize = fishData.successWindowSize;
+
+        //// 1. Tải độ khó từ FishData
+        //this.qteBarSpeed = fishData.qteBarSpeed;
+        //this.successWindowSize = fishData.successWindowSize;
+        //this.maxGameTime = fishData.maxGameTime;
+        //this.progressIncrease = fishData.progressIncrease;
+        //this.progressDecrease = fishData.progressDecrease;
+
+        // Logic "fishingBarSpeedModifier":
+        float baseSpeed = fishData.qteBarSpeed;
+        this.qteBarSpeed = baseSpeed * (1.0f - buff.barSpeedMod);
+        if (this.qteBarSpeed <= 0.01f) this.qteBarSpeed = 0.01f;
+
+        Debug.Log($"[FishingQTE] Tốc độ thanh (Gốc: {baseSpeed} | Buff: -{buff.barSpeedMod * 100}% | Cuối cùng: {this.qteBarSpeed})");
+
+        // Logic "successWindowSizeModifier":
+        float baseWindow = fishData.successWindowSize;
+        this.successWindowSize = baseWindow * (1.0f + buff.successWindowMod);
+        if (this.successWindowSize > 1.0f) this.successWindowSize = 1.0f;
+
+        Debug.Log($"[FishingQTE] Kích thước vùng (Gốc: {baseWindow} | Buff: +{buff.successWindowMod * 100}% | Cuối cùng: {this.successWindowSize})");
+
+        // Logic "progressIncreaseModifier":
+        float baseProgress = fishData.progressIncrease;
+        this.progressIncrease = baseProgress * (1.0f + buff.progressIncreaseMod);
+
+        Debug.Log($"[FishingQTE] Tăng tiến độ (Gốc: {baseProgress} | Buff: +{buff.progressIncreaseMod * 100}% | Cuối cùng: {this.progressIncrease})");
+
+        // Các giá trị này không bị mồi ảnh hưởng
         this.maxGameTime = fishData.maxGameTime;
-        this.progressIncrease = fishData.progressIncrease;
         this.progressDecrease = fishData.progressDecrease;
 
         // 2. Reset trạng thái
-        currentProgress = startProgress; // Sẽ lấy giá trị 0.333f mới
+        currentProgress = startProgress;
         visualProgress = startProgress;
         currentGameTime = maxGameTime;
         currentFill = 0f;
@@ -223,5 +250,22 @@ public class FishingQTE : MonoBehaviour
         isQTEActive = false;
         qtePanel.SetActive(false);
         qteAudioSource.Stop();
+    }
+}
+public struct QTEBuff {
+    public float barSpeedMod;
+    public float successWindowMod;
+    public float progressIncreaseMod;
+
+    public static QTEBuff Default {
+        get
+            {
+            return new QTEBuff 
+            {
+                barSpeedMod = 0f,
+                successWindowMod = 0f,
+                progressIncreaseMod = 0f
+            };
+        } 
     }
 }

@@ -1,12 +1,14 @@
-﻿using Management; // Đảm bảo bạn có namespace này cho Inventory
+﻿using GameUI;
+using Management; // Đảm bảo bạn có namespace này cho Inventory
 using System.Collections;
-using UnityEngine;
 using TMPro;
+using UnityEngine;
 using UnityEngine.UI;
 
 public class PlayerFishing : MonoBehaviour
 {
     private Bobber currentBobberScript;
+    private BaitSO activeBaitEffect;
 
     [Header("Components (Các thành phần)")]
     [Tooltip("Kéo script di chuyển của Player (ví dụ: Player) vào đây")]
@@ -262,6 +264,33 @@ public class PlayerFishing : MonoBehaviour
 
     private void CastBobber()
     {
+        activeBaitEffect = null; // Reset buff mỗi lần quăng câu
+
+        if (inventory != null)
+        {
+            // GIẢ ĐỊNH: inventory của bạn có hàm GetHoldingItemComponent()
+            // trả về 'DragableItem' đang cầm.
+            DragableItem heldRodItem = inventory.GetHoldingItemComponent();
+
+            if (heldRodItem != null && heldRodItem.itemScriptableObj is FishingRodSO)
+            {
+                // Tiêu thụ mồi trực tiếp từ component 'DragableItem'
+                activeBaitEffect = heldRodItem.ConsumeBait(); // Hàm này trả về BaitSO nếu thành công
+
+                if (activeBaitEffect != null)
+                {
+                    Debug.Log($"[PlayerFishing] ĐÃ TIÊU THỤ: {activeBaitEffect.displayName}. Áp dụng buff.");
+                }
+                else
+                {
+                    Debug.LogWarning("[PlayerFishing] Quăng câu không mồi (hoặc cần câu hết mồi).");
+                }
+            }
+            else
+            {
+                Debug.LogWarning("[PlayerFishing] Không tìm thấy Cần câu (heldRodItem) để tiêu thụ mồi.");
+            }
+        }
         // ... (Code tính toán destination, duration giữ nguyên) ...
         Vector3 mouseScreenPos = Input.mousePosition;
         mouseScreenPos.z = Camera.main.WorldToScreenPoint(castPoint.position).z;
@@ -313,6 +342,20 @@ public class PlayerFishing : MonoBehaviour
     }
     private IEnumerator WaitForBite()
     {
+        //Áp dụng mồi
+        float currentMinWait = minWaitTime;
+        float currentMaxWait = maxWaitTime;
+
+        if (activeBaitEffect != null) 
+        { 
+            Debug.Log($"Áp dụng hiệu ứng mồi câu: {activeBaitEffect.displayName}");
+            float multiplier = 1f - activeBaitEffect.biteTimeMultiplier;
+
+            if(multiplier < 0f) multiplier = 0f; // Không cho âm thời gian
+            currentMinWait *= multiplier;
+            currentMaxWait *= multiplier;
+        }
+        //
         float waitTime = Random.Range(minWaitTime, maxWaitTime);
         Debug.Log($"Đang ngâm phao, chờ {waitTime} giây...");
         yield return new WaitForSeconds(waitTime);
@@ -328,7 +371,6 @@ public class PlayerFishing : MonoBehaviour
             {
                 audioSource.PlayOneShot(onBaitSound);
             }
-            // --- KẾT THÚC ---
 
             // --- BẮT ĐẦU COROUTINE CHỜ PHẢN ỨNG ---
             canReactToBite = true; // Cho phép nhấn F
@@ -354,7 +396,25 @@ public class PlayerFishing : MonoBehaviour
     {        
         Debug.Log($"Một con {currentBitingFish.displayName} đã cắn câu!");
         currentState = FishingState.FightingFish;
-        fishingQTE.StartQTE(currentBitingFish);
+        QTEBuff buffToSend;
+        if (activeBaitEffect != null)
+        {
+            // Có mồi -> lấy buff từ BaitSO 
+            buffToSend = new QTEBuff
+            {
+                barSpeedMod = activeBaitEffect.fishingBarSpeedModifier,
+                successWindowMod = activeBaitEffect.successWindowSizeModifier,
+                progressIncreaseMod = activeBaitEffect.progressIncreaseModifier
+            };
+            Debug.Log($"[PlayerFishing] GỬI Buffs QTE: BarSpeedMod={buffToSend.barSpeedMod}, WindowMod={buffToSend.successWindowMod}, ProgressMod={buffToSend.progressIncreaseMod}");
+        }
+        else 
+        {
+            // Không có mồi
+            buffToSend = QTEBuff.Default;
+            Debug.Log("[PlayerFishing] GỬI Buffs QTE: Mặc định (Không mồi).");
+        }
+        fishingQTE.StartQTE(currentBitingFish, buffToSend);
     }
 
     public void HandleFishingSuccess()
@@ -511,16 +571,40 @@ public class PlayerFishing : MonoBehaviour
             }
         }
     }
-
-    // --- HÀM DỌN DẸP ---
     private void TryAddItemAndCleanup(FishData fish)
     {
-        // ... (Thêm item) ...
+        // --- BẮT ĐẦU SỬA LỖI (THÊM CÁ VÀO TÚI) ---
+        if (inventory != null && fish != null)
+        {
+            // 'fish' là một FishData, cũng là một ItemScriptableObject
+            // Gọi hàm AddItem từ InventoryManager của bạn
+            bool addedSuccessfully = inventory.AddItem(fish, 1);
+
+            if (!addedSuccessfully)
+            {
+                Debug.LogWarning($"[PlayerFishing] Thêm cá {fish.displayName} thất bại! (Túi đồ có thể đã đầy?)");
+                // GHI CHÚ: Nếu túi đồ đầy, bạn có thể muốn 
+                // thả item ra đất ở đây thay vì làm mất nó.
+            }
+            else
+            {
+                Debug.Log($"[PlayerFishing] Đã thêm {fish.displayName} vào túi đồ.");
+            }
+        }
+        else
+        {
+            Debug.LogError("[PlayerFishing] Không thể thêm cá! Inventory hoặc FishData bị null!");
+        }
+        // --- KẾT THÚC SỬA LỖI ---
+
+
+        // --- PHẦN DỌN DẸP (Giữ nguyên code cũ của bạn) ---
+        activeBaitEffect = null; // Reset buff mồi
         currentState = FishingState.Idle;
         currentBitingFish = null;
         if (waitingForBiteCoroutine != null) StopCoroutine(waitingForBiteCoroutine);
         waitingForBiteCoroutine = null;
-        // --- DỪNG COROUTINE PHẢN ỨNG ---
+
         if (reactionTimerCoroutine != null) StopCoroutine(reactionTimerCoroutine);
         reactionTimerCoroutine = null;
         canReactToBite = false;
