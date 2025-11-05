@@ -12,11 +12,13 @@ MonoBehaviour:
   m_Script: {fileID: 0}
   m_Name: Test Talking Quest
   m_EditorClassIdentifier: Assembly-CSharp::SO_TalkingQuest
-  questID: 
-  title: 
+  questID: test_talking
+  title: Test Talking
   description: 
+  questType: 1
   reward:
     experience: 0
     gold: 0
     items: []
-  npc: {fileID: 0}
+  nextQuest: {fileID: 0}
+  targetNPC: {fileID: 0}

@@ -12,13 +12,16 @@ MonoBehaviour:
   m_Script: {fileID: 0}
   m_Name: Test Collection Quest
   m_EditorClassIdentifier: Assembly-CSharp::SO_CollectionQuest
-  questID: 
-  title: 
+  questID: test_collection
+  title: Test Collection
   description: 
+  questType: 0
   reward:
-    experience: 0
-    gold: 0
+    experience: 10
+    gold: 100
     items: []
-  targetItems:
-  - item: {fileID: 0}
-    amount: 0
+  nextQuest: {fileID: 11400000, guid: 517a7ba8da5406e45bf5cc2a2b7f673b, type: 2}
+  targetItems_List:
+  - item: {fileID: 11400000, guid: 273b3ee5cff4e9e49a5aaf20ac342e8d, type: 2}
+    currentQuantity: 0
+    requirementQuantity: 5
