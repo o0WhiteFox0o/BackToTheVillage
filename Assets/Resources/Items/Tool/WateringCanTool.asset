@@ -14,8 +14,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   id: T002
   icon: {fileID: 21300000, guid: b25d31ff82a376b4badc1a2cacbcb9ac, type: 3}
+  displayName: 
   stackable: 0
   canSell: 0
-  itemType: 2
+  itemType: 4
   buyPrice: 0
   sellPrice: 0
+  itemPrefab: {fileID: 0}
+  plantPrefab: {fileID: 0}

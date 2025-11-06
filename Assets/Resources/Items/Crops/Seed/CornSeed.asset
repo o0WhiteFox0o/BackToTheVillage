@@ -17,8 +17,8 @@ MonoBehaviour:
   displayName: 
   stackable: 1
   canSell: 0
-  itemType: 4
+  itemType: 6
   buyPrice: 0
   sellPrice: 0
   itemPrefab: {fileID: 0}
-  plantPrefab: {fileID: 1579493313338095699, guid: 93f0069c7d40cd041ae2eee7fc0d0cdd, type: 3}
+  plantPrefab: {fileID: 16270002444062354, guid: 76458b647dc1f974db511500dedeb318, type: 3}
