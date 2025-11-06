@@ -26,6 +26,10 @@ public class MGR_ConversationManager : MonoBehaviour
     /// Danh sách chứa các cuộc hội thoại nằm trong cốt truyện.
     /// </summary>
     [SerializeField] public List<SO_ConversationData> storyConversation_List;
+
+    /// <summary>
+    /// Tiến trình hiện tại của cốt truyện.
+    /// </summary>
     private int storyConversationIndex;
 
     /// <summary>
@@ -42,6 +46,13 @@ public class MGR_ConversationManager : MonoBehaviour
 
     private int dialogueIndex;
     private int totalDialogueCount;
+
+
+    public delegate void ConversationHandler(SO_NPCData npc);
+    /// <summary>
+    /// Được gọi khi người chơi thực hiện một cuộc hội thoại với NPC.
+    /// </summary>
+    public static event ConversationHandler OnStartConversation;
 
 
     private void Start()
@@ -103,6 +114,8 @@ public class MGR_ConversationManager : MonoBehaviour
 
         // hiển thị giao diên hội thoại
         gameplayUIManager.SetActiveConversationPanel(true);
+
+        OnStartConversation?.Invoke(conversationData.dialogues[dialogueIndex].npcData);
 
         // laod câu thoại đầu và hiển thị nó
         currentLine = conversationData.dialogues[dialogueIndex].dialogue.GetLocalizedString();
@@ -192,8 +205,6 @@ public class MGR_ConversationManager : MonoBehaviour
         {
             // thêm nhiệm vụ vào danh sách nhiệm vụ
             MGR_QuestManager.Instance.AddQuest(conversationData.quest);
-
-            Debug.Log("Thêm nhiệm vụ " + conversationData.quest.title);
         }
 
         // nếu cuộc hội thoại story vừa kết thúc thì cập nhật cuộc hội thoại mới

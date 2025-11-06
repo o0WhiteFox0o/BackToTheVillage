@@ -1,3 +1,9 @@
+// 
+// Member: LinhH
+// Date: 03/11/2025
+// 
+
+
 using System;
 using System.Collections.Generic;
 using UnityEngine;
@@ -18,7 +24,7 @@ public class QuestReward
     /// </summary>
     public void GrantReward()
     {
-        Debug.Log($"Player received {gold} gold!");
+        Debug.Log($"Hoàn thành nhiệm vụ");
 
         // TODO: Hook into player inventory or stats system
     }

@@ -9,15 +9,20 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4f2974b2ff9ce3345bcd8931ef4e710c, type: 3}
-  m_Name: bait
+  m_Script: {fileID: 11500000, guid: b84687898edd87647badb1083221a118, type: 3}
+  m_Name: Worm
   m_EditorClassIdentifier: 
   id: 
-  icon: {fileID: 21300000, guid: c313179dc15697a478477088a6982d29, type: 3}
-  displayName: bait
+  icon: {fileID: -3040461, guid: 077424963b4f749408fc3a14e818b0ba, type: 3}
+  displayName: Worm
   stackable: 1
   canSell: 0
   itemType: 1
   buyPrice: 0
   sellPrice: 0
   itemPrefab: {fileID: 0}
+  plantPrefab: {fileID: 0}
+  biteTimeMultiplier: 0.5
+  fishingBarSpeedModifier: 0.5
+  successWindowSizeModifier: 0.5
+  progressIncreaseModifier: 0.5

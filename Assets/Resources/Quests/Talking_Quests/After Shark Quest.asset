@@ -9,11 +9,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 0}
-  m_Name: Test Talking Quest
-  m_EditorClassIdentifier: Assembly-CSharp::SO_TalkingQuest
-  questID: test_talking
-  tittle: Test Talking
+  m_Script: {fileID: 11500000, guid: fc219c9973e7a574c9780315f3597cff, type: 3}
+  m_Name: After Shark Quest
+  m_EditorClassIdentifier: 
+  questID: after_shark
+  tittle: After Shark
   description: 
   questType: 1
   reward:
@@ -21,4 +21,4 @@ MonoBehaviour:
     gold: 0
     items: []
   nextQuest: {fileID: 0}
-  targetNPC: {fileID: 11400000, guid: 96086c508f67b1d42889f437d0749b63, type: 2}
+  targetNPC: {fileID: 11400000, guid: 0d41ac691e554844289c137b71106c80, type: 2}

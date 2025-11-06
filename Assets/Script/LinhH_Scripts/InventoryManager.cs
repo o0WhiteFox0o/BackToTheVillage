@@ -4,6 +4,8 @@ using UnityEngine;
 
 public enum ItemType
 {
+    None,
+    Fish,
     FishingRod,
     Bait,
     Trap,
@@ -23,10 +25,11 @@ namespace Management
         [SerializeField] private InventorySlot[] _inventorySlots;
         [SerializeField] private TileCursorFollow tileCursorFollow;
 
-        // /// <summary>
-        // /// Được gọi khi người chơi thu thập một vật phẩm. Quest Manager sẽ kiểm tra xem có nhiệm vụ nào cần cập nhật không.
-        // /// </summary>
-        // public static event MGR_QuestManager.QuestUpdatedHandler OnCollectItem;
+        public delegate void CollectionItemHandler(ItemScriptableObject updatedItem, int quantity);
+        /// <summary>
+        /// Được gọi khi người chơi thu thập một vật phẩm. Quest Manager sẽ kiểm tra xem có nhiệm vụ nào cần cập nhật không.
+        /// </summary>
+        public static event CollectionItemHandler OnCollectItem;
 
 
         // vị trí của item nhân vật đang mang trong inventory
@@ -58,7 +61,20 @@ namespace Management
                 return dragItem.itemScriptableObj;
             }
         }
+        /// <summary>
+        /// Lấy DragableItem COMPONENT mà nhân vật đang mang.
+        /// Dùng để đọc dữ liệu động (như mồi câu).
+        /// </summary>
+        public DragableItem GetHoldingItemComponent(){
+            if(_inventorySlots == null || _inventorySlots.Length == 0)
+                return null;
+            if(holdingItemIndex < 0 || holdingItemIndex >= _inventorySlots.Length)
+                return null;
 
+            var currentSlot = _inventorySlots[holdingItemIndex];
+            var itemInSlot = currentSlot.GetComponentInChildren<DragableItem>();
+            return itemInSlot;
+        }
 
 
         void Start()
@@ -168,7 +184,7 @@ namespace Management
                 itemInSlot.UpdateCount(quantity);
 
                 // kiểm tra có nhiệm vụ nào cần cập nhật không
-                // OnCollectItem?.Invoke(item.id, ObjectiveType.Colect);
+                OnCollectItem?.Invoke(item, quantity);
 
                 return true;
             }
@@ -183,7 +199,7 @@ namespace Management
                 SpawnNewItem(item, slot);
 
                 // kiểm tra có nhiệm vụ nào cần cập nhật không
-                // OnCollectItem?.Invoke(item.id, ObjectiveType.Colect); 
+                OnCollectItem?.Invoke(item, quantity);
 
                 return true;
             }
