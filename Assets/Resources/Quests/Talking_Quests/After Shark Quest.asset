@@ -16,9 +16,11 @@ MonoBehaviour:
   tittle: After Shark
   description: 
   questType: 1
+  displayRewardInUI: 0
   reward:
     experience: 0
     gold: 0
     items: []
   nextQuest: {fileID: 0}
   targetNPC: {fileID: 11400000, guid: 0d41ac691e554844289c137b71106c80, type: 2}
+  conversationData: {fileID: 11400000, guid: 3b76bd89f998dc84f8f5649b1aa5bf14, type: 2}

@@ -16,6 +16,10 @@
         {
             "action": "SkipDialogue",
             "keyCode": "Space"
+        },
+        {
+            "action": "OpenQuestUI",
+            "keyCode": "J"
         }
     ]
 }

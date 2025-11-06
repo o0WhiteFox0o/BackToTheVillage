@@ -24,25 +24,26 @@ public class GameplayUIManager : MonoBehaviour
     [SerializeField] public GameObject npcUI;
     [SerializeField] public GameObject settingUI;
     [SerializeField] public GameObject questUI;
+    [SerializeField] public GameObject generalUI_Notification;
 
 
     [Header("Conversation")]
-    [SerializeField] public GameObject conversationPanel;
-    [SerializeField] public TMP_Text npcNameText;
-    [SerializeField] public Image npcPortraitImage;
-    [SerializeField] public TMP_Text conversationDisplayText;
+    [SerializeField] public GameObject conversation_UI;
+    [SerializeField] public TMP_Text npcName_Text;
+    [SerializeField] public Image npcPortrait_Image;
+    [SerializeField] public TMP_Text conversationDisplay_Text;
 
 
     [Header("Quests")]
     [SerializeField] GameObject questUI_Prefab;
     [SerializeField] Transform questPanel;
+    [SerializeField] public GameObject questUI_Notification;
 
 
     [Header("Other")]
     [SerializeField] public GraphicRaycaster uiRaycaster;
-    [SerializeField] public EventSystem eventSystem;
 
-
+    private EventSystem eventSystem;
     private bool isAnyUIOpen;
 
 
@@ -50,9 +51,16 @@ public class GameplayUIManager : MonoBehaviour
     {
         isAnyUIOpen = false;
 
+        eventSystem = FindObjectOfType<EventSystem>();
+        if (eventSystem == null)
+        {
+            Debug.LogError("Can't load event system.");
+        }
+
         // đăng ký sự kiện cần thiết
         InputManager.OnOpenBagPress += ToggleBagUI;
         InputManager.OnGeneralUIPress += ToggleGeneralUI;
+        InputManager.OnQuestUIButtonPress += ToggleQuestUI;
 
         MGR_QuestManager.OnQuestListUpdate += RefreshQuestUIList;
         CollectionQuestProgress.OnCollectionQuestUpdate += RefreshCollectionProgressUI;
@@ -63,6 +71,7 @@ public class GameplayUIManager : MonoBehaviour
     {
         InputManager.OnOpenBagPress -= ToggleBagUI;
         InputManager.OnGeneralUIPress -= ToggleGeneralUI;
+        InputManager.OnQuestUIButtonPress -= ToggleQuestUI;
 
         MGR_QuestManager.OnQuestListUpdate -= RefreshQuestUIList;
         CollectionQuestProgress.OnCollectionQuestUpdate -= RefreshCollectionProgressUI;
@@ -98,23 +107,68 @@ public class GameplayUIManager : MonoBehaviour
         else if (!isAnyUIOpen)
         {
             generalUI.SetActive(true);
+            // isAnyUIOpen = true;
+        }
+    }
+
+
+    public void ToggleNPC_UI()
+    {
+        // tắt UI npc nếu nó đang bật
+        if (npcUI.activeInHierarchy)
+        {
+            npcUI.SetActive(false);
+            isAnyUIOpen = false;
+        }
+        // bật UI npc nếu nó đang tắt và không có UI nào khác đang được bật
+        else if (!isAnyUIOpen)
+        {
+            npcUI.SetActive(true);
             isAnyUIOpen = true;
         }
     }
 
 
-    /// <summary>
-    /// Hiển thị UI con trong general UI.
-    /// </summary>
-    public void EnableGeneralSubUI(Transform subUI)
+    public void ToggleQuestUI()
     {
-        subUI.SetAsLastSibling();
+        // tắt UI quest nếu nó đang bật
+        if (questUI.activeInHierarchy)
+        {
+            questUI.SetActive(false);
+            isAnyUIOpen = false;
+        }
+        // bật UI quest nếu nó đang tắt và không có UI nào khác đang được bật
+        else if (!isAnyUIOpen)
+        {
+            questUI.SetActive(true);
+            isAnyUIOpen = true;
+
+            // tắt thông báo quest khi người chơi mở giao diện nhiệm vụ
+            DisableQuestNotification();
+        }
+    }
+
+
+    public void ToggleSettingUI()
+    {
+        // tắt UI setting nếu nó đang bật
+        if (settingUI.activeInHierarchy)
+        {
+            settingUI.SetActive(false);
+            isAnyUIOpen = false;
+        }
+        // bật UI setting nếu nó đang tắt và không có UI nào khác đang được bật
+        else if (!isAnyUIOpen)
+        {
+            settingUI.SetActive(true);
+            isAnyUIOpen = true;
+        }
     }
 
 
     public void SetActiveConversationPanel(bool value)
     {
-        conversationPanel.SetActive(value);
+        conversation_UI.SetActive(value);
     }
 
 
@@ -123,20 +177,53 @@ public class GameplayUIManager : MonoBehaviour
     /// </summary>
     public void UpdateDisplayedNPC(string npcName, Sprite npcPortrait)
     {
-        npcNameText.SetText(npcName);
-        npcPortraitImage.sprite = npcPortrait;
+        npcName_Text.SetText(npcName);
+        npcPortrait_Image.sprite = npcPortrait;
     }
 
 
     public void UpdateConversationText(string npcDialogue)
     {
-        conversationDisplayText.SetText(npcDialogue);
+        conversationDisplay_Text.SetText(npcDialogue);
     }
 
 
     public void AddLetterToDialogueText(char letter)
     {
-        conversationDisplayText.text += letter;
+        conversationDisplay_Text.text += letter;
+    }
+
+
+    public void EnableQuestNotification()
+    {
+        questUI_Notification.SetActive(true);
+        generalUI_Notification.SetActive(true);
+    }
+
+
+    public void DisableQuestNotification()
+    {
+        questUI_Notification.SetActive(false);
+
+        UpdateGeneralUINotification();
+    }
+
+
+    /// <summary>
+    /// Cập nhật thông báo của general UI dựa theo thông báo của các UI con nằm trong nó.
+    /// </summary>
+    private void UpdateGeneralUINotification()
+    {
+        // kiểm tra thông báo của tất cả các UI của general UI
+        // nếu có bất kỳ thông báo nào được bật thì bật thông báo general
+        if (questUI_Notification.activeSelf)
+        {
+            generalUI_Notification.SetActive(true);
+            return;
+        }
+
+        // nếu không có thông báo nào được bật thì tắt thông báo general
+        generalUI_Notification.SetActive(false);
     }
 
 

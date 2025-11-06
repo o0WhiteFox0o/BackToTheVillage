@@ -13,7 +13,16 @@ public class SO_Quest : ScriptableObject
     public string tittle;
     public string description;
     public QuestType questType;
+
+    [Header("Reward")]
+
+    /// <summary>
+    /// Có hiển thị phần thưởng trong Quest UI không.
+    /// </summary>
+    public bool displayRewardInUI;
     public QuestReward reward;
+
+    [Header("Next Quest")]
 
     /// <summary>
     /// Nhiệm vụ tiếp theo trong chuỗi nhiệm vụ (nếu có).

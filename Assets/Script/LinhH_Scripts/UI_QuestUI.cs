@@ -69,8 +69,12 @@ public class UI_QuestUI : MonoBehaviour
             }
         }
 
-        // TODO: thiết lập UI phần thưởng của nhiệm vụ
         questReward_Text.text = "";
+
+        // nếu nhiệm vụ không cần hiển thị phần thưởng trong UI thì không làm gì
+        if (!quest.displayRewardInUI) { return; }
+
+        // TODO: thiết lập UI phần thưởng của nhiệm vụ
     }
 
 

@@ -33,12 +33,34 @@ namespace Management
 
 
         // vị trí của item nhân vật đang mang trong inventory
-        private int holdingItemIndex;
+        private int holdingItemIndex = 1;
 
         // tiền của nhân vật chính
         public static int gold;
 
         private GameObject itemPrefab;
+
+
+        void Start()
+        {
+            itemPrefab = Resources.Load<GameObject>("Prefabs/ItemPrefab");
+
+            if (itemPrefab == null)
+            {
+                Debug.LogError("Can't load item prefab from resources.");
+            }
+
+            ChangeSelectedItem(holdingItemIndex);
+
+            // đăng ký các sự kiện cần thiết
+            InputManager.OnItemSelected += ChangeSelectedItem;
+        }
+
+
+        void OnDisable()
+        {
+            InputManager.OnItemSelected -= ChangeSelectedItem;
+        }
 
 
         /// <summary>
@@ -65,35 +87,16 @@ namespace Management
         /// Lấy DragableItem COMPONENT mà nhân vật đang mang.
         /// Dùng để đọc dữ liệu động (như mồi câu).
         /// </summary>
-        public DragableItem GetHoldingItemComponent(){
-            if(_inventorySlots == null || _inventorySlots.Length == 0)
+        public DragableItem GetHoldingItemComponent()
+        {
+            if (_inventorySlots == null || _inventorySlots.Length == 0)
                 return null;
-            if(holdingItemIndex < 0 || holdingItemIndex >= _inventorySlots.Length)
+            if (holdingItemIndex < 0 || holdingItemIndex >= _inventorySlots.Length)
                 return null;
 
             var currentSlot = _inventorySlots[holdingItemIndex];
             var itemInSlot = currentSlot.GetComponentInChildren<DragableItem>();
             return itemInSlot;
-        }
-
-
-        void Start()
-        {
-            itemPrefab = Resources.Load<GameObject>("Prefabs/ItemPrefab");
-
-            if (itemPrefab == null)
-            {
-                Debug.LogError("Can't load item prefab from resources.");
-            }
-
-            // đăng ký các sự kiện cần thiết
-            InputManager.OnItemSelected += ChangeSelectedItem;
-        }
-
-
-        void OnDisable()
-        {
-            InputManager.OnItemSelected -= ChangeSelectedItem;
         }
 
 
