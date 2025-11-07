@@ -32,6 +32,8 @@ public class GameplayUIManager : MonoBehaviour
     [SerializeField] public TMP_Text npcName_Text;
     [SerializeField] public Image npcPortrait_Image;
     [SerializeField] public TMP_Text conversationDisplay_Text;
+    [SerializeField] public GameObject decisionButton_Prefab;
+    [SerializeField] public Transform decisionPanel;
 
 
     [Header("Quests")]
@@ -264,5 +266,37 @@ public class GameplayUIManager : MonoBehaviour
 
             Debug.Log("Update collection quest UI");
         }
+    }
+
+
+    public void DisplayConversationDecisions(List<SO_Decision> decision_List)
+    {
+        decisionPanel.gameObject.SetActive(true);
+
+        foreach (var decision in decision_List)
+        {
+            var decisionPrefab = MGR_ObjectPoolManager.SpawnObject(decisionButton_Prefab, decisionPanel);
+
+            // lấy các thành phần trong game object decision
+            var decisionController = decisionPrefab.GetComponent<C_DecisionController>();
+            var decisionBtn = decisionPrefab.GetComponent<Button>();
+
+            // thiết lập các thành phần của game object decision
+            decisionController.SetupDecisionUI(decision);
+            decisionBtn.onClick.AddListener(decisionController.ImplementDecision);
+            decisionBtn.onClick.AddListener(HideDecisionPanel);
+        }
+    }
+
+
+    public void HideDecisionPanel()
+    {
+        foreach (Transform decision in decisionPanel)
+        {
+            decision.GetComponent<Button>().onClick.RemoveAllListeners();
+            MGR_ObjectPoolManager.ReturnObjectToPool(decision.gameObject);
+        }
+
+        decisionPanel.gameObject.SetActive(false);
     }
 }

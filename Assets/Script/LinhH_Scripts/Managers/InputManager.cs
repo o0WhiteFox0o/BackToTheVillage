@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
@@ -180,5 +179,11 @@ public class InputManager : MonoBehaviour
         {
             OnRightClickNPC?.Invoke(hit.collider.gameObject);
         }
+    }
+
+
+    public void EnableDecisionUI(List<SO_Decision> decisions)
+    {
+        
     }
 }

@@ -17,7 +17,8 @@ using UnityEngine.Localization.Tables;
 public class MGR_ConversationManager : MonoBehaviour
 {
     public const float TYPE_SPEED = 0.1f;
-    [SerializeField] public GameplayUIManager gameplayUIManager;
+
+    private GameplayUIManager gameplayUIManager;
 
     private SO_ConversationData conversationData;
     private bool isTyping;
@@ -35,12 +36,11 @@ public class MGR_ConversationManager : MonoBehaviour
 
     private void Start()
     {
-        // TODO: lấy story index trong file saved game
-        // storyConversationIndex = 0;
-        // if (storyConversation_List.Count != 0)
-        // {
-        //     triggerStorylineNPC = storyConversation_List[storyConversationIndex].dialogues[0].npcData;
-        // }
+        gameplayUIManager = FindObjectOfType<GameplayUIManager>();
+        if (gameplayUIManager == null)
+        {
+            Debug.LogError("Can't load gameplay UI manager");
+        }
 
         InputManager.OnSkipDialoguePress += PlayNextLine;
         InputManager.OnRightClickNPC += SetupConversation;
@@ -81,9 +81,6 @@ public class MGR_ConversationManager : MonoBehaviour
 
         // thực hiện cuộc hội thoại bình thường của nhân vật
         conversationData = talkingNPC.priorityConversation;
-
-        Debug.Log($"npc default conversation count: {talkingNPC.conversation_List.Count}");
-
         StartConversation();
     }
 
@@ -93,8 +90,6 @@ public class MGR_ConversationManager : MonoBehaviour
     /// </summary>
     public void StartConversation()
     {
-        Debug.Log($"số lượng câu thoại trong cuộc hội thoại: {conversationData.dialogue_List.Count}");
-
         // nếu có một cuộc hội thoại đang diễn ra thì dừng
         if (isConversationActive) { return; }
 
@@ -134,6 +129,8 @@ public class MGR_ConversationManager : MonoBehaviour
         }
 
         isTyping = false;
+
+        UpdateDecisionOptions();
     }
 
 
@@ -151,9 +148,10 @@ public class MGR_ConversationManager : MonoBehaviour
 
             gameplayUIManager.UpdateConversationText(currentLine);
             isTyping = false;
-
             skipTyping = true;
         }
+
+        UpdateDecisionOptions();
 
         // nếu đây là câu thoại cuối của cuộc hội thoại và người chơi không skip câu thoại thì kết thúc cuộc hội thoại
         if (dialogueIndex >= conversationData.dialogue_List.Count && !skipTyping)
@@ -171,7 +169,6 @@ public class MGR_ConversationManager : MonoBehaviour
         {
             // load câu thoại tiếp theo
             currentLine = conversationData.dialogue_List[dialogueIndex].dialogue.GetLocalizedString();
-
             DisplayCurrentLine();
         }
         // kết thúc cuộc hội thoại
@@ -189,7 +186,7 @@ public class MGR_ConversationManager : MonoBehaviour
     }
 
 
-    public void EndConversation()
+    private void EndConversation()
     {
         gameplayUIManager.SetActiveConversationPanel(false);
         isConversationActive = false;
@@ -201,18 +198,29 @@ public class MGR_ConversationManager : MonoBehaviour
             MGR_QuestManager.Instance.AddQuest(conversationData.quest);
         }
 
-        // nếu cuộc hội thoại story vừa kết thúc thì cập nhật cuộc hội thoại mới
-        // if (conversationData.isStoryConversation)
-        // {
-        //     // nếu không còn hội thoại cốt truyện thì đặt npc kích hoạt bằng null
-        //     if (++storyConversationIndex >= storyConversation_List.Count)
-        //     {
-        //         triggerStorylineNPC = null;
-        //     }
-        //     else
-        //     {
-        //         triggerStorylineNPC = storyConversation_List[storyConversationIndex].dialogues[0].npcData;
-        //     }
-        // }
+        gameplayUIManager.HideDecisionPanel();
+    }
+
+
+    public void SkipConversation()
+    {
+        // kiểm tra có câu thoại lựa chọn nào không
+        // nếu có thì skip tới câu thoại lựa chọn đó
+
+        // không có câu thoại lựa chọn nào thì kết thúc cuộc trò chuyện
+        EndConversation();
+    }
+
+
+    private void UpdateDecisionOptions()
+    {
+        // nếu cuộc hội thoại không có lựa chọn thì dừng
+        if (conversationData.decisionIndex == -1) { return; }
+
+        // nếu câu thoại hiện tại chưa phải là câu thoại lựa chọn thì dừng
+        if (dialogueIndex < conversationData.decisionIndex) { return; }
+
+        // hiển thị các lựa chọn hội thoại
+        gameplayUIManager.DisplayConversationDecisions(conversationData.decision_List);
     }
 }

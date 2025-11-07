@@ -24,15 +24,19 @@ public class SO_ConversationData : ScriptableObject
     public List<NPCDialogue> dialogue_List;
 
     /// <summary>
-    /// Đánh dấu đây có phải là đoạn hội thoại nằm trong một tuyến cốt truyện hay không.
-    /// </summary>
-    public bool isStoryConversation;
-
-
-    /// <summary>
     /// Nhiệm vụ cho nhân vật chính (nếu có).
     /// </summary>
     public SO_Quest quest;
+
+    /// <summary>
+    /// Vị trí câu thoại hiển thị các lựa chọn trong cuộc hội thoại.
+    /// </summary>
+    public int decisionIndex = -1;
+
+    /// <summary>
+    /// Danh sách các lựa chọn được hiển thị.
+    /// </summary>
+    public List<SO_Decision> decision_List;
 }
 
 
