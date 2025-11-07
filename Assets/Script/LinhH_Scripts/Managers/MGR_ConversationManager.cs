@@ -19,6 +19,7 @@ public class MGR_ConversationManager : MonoBehaviour
     public const float TYPE_SPEED = 0.1f;
 
     private GameplayUIManager gameplayUIManager;
+    private MGR_QuestManager questManager;
 
     private SO_ConversationData conversationData;
     private bool isTyping;
@@ -37,9 +38,11 @@ public class MGR_ConversationManager : MonoBehaviour
     private void Start()
     {
         gameplayUIManager = FindObjectOfType<GameplayUIManager>();
-        if (gameplayUIManager == null)
+        questManager = FindObjectOfType<MGR_QuestManager>();
+
+        if (gameplayUIManager == null || questManager == null)
         {
-            Debug.LogError("Can't load gameplay UI manager");
+            Debug.LogError("Can't load a manager component.");
         }
 
         InputManager.OnSkipDialoguePress += PlayNextLine;
@@ -60,9 +63,9 @@ public class MGR_ConversationManager : MonoBehaviour
         var talkingNPC = npc.GetComponent<C_NPCController>();
 
         // thực hiện cuộc hội thoại nhiệm vụ
-        if (MGR_QuestManager.Instance.activeQuests_List.Count != 0)
+        if (questManager.activeQuests_List.Count != 0)
         {
-            foreach (var quest in MGR_QuestManager.Instance.activeQuests_List)
+            foreach (var quest in questManager.activeQuests_List)
             {
                 if (quest is TalkingQuestProgress talkingQuest)
                 {
@@ -195,10 +198,26 @@ public class MGR_ConversationManager : MonoBehaviour
         if (conversationData.quest != null)
         {
             // thêm nhiệm vụ vào danh sách nhiệm vụ
-            MGR_QuestManager.Instance.AddQuest(conversationData.quest);
+            questManager.AddQuest(conversationData.quest);
         }
 
         gameplayUIManager.HideDecisionPanel();
+    }
+
+
+    public void ContinueConversation(SO_ConversationData newConversation)
+    {
+        conversationData = newConversation;
+        dialogueIndex = 0;
+
+        // thiết lập avatar và tên NPC
+        var npcName = conversationData.dialogue_List[dialogueIndex].npcData.npcName;
+        var npcPortrait = conversationData.dialogue_List[dialogueIndex].npcData.portrait;
+        gameplayUIManager.UpdateDisplayedNPC(npcName, npcPortrait);
+
+        // laod câu thoại đầu và hiển thị nó
+        currentLine = conversationData.dialogue_List[dialogueIndex].dialogue.GetLocalizedString();
+        DisplayCurrentLine();
     }
 
 
@@ -217,10 +236,11 @@ public class MGR_ConversationManager : MonoBehaviour
         // nếu cuộc hội thoại không có lựa chọn thì dừng
         if (conversationData.decisionIndex == -1) { return; }
 
-        // nếu câu thoại hiện tại chưa phải là câu thoại lựa chọn thì dừng
-        if (dialogueIndex < conversationData.decisionIndex) { return; }
+        if (dialogueIndex == conversationData.decisionIndex)
+        {
+            // hiển thị các lựa chọn hội thoại
+            gameplayUIManager.DisplayConversationDecisions(conversationData.decision_List);
+        }
 
-        // hiển thị các lựa chọn hội thoại
-        gameplayUIManager.DisplayConversationDecisions(conversationData.decision_List);
     }
 }

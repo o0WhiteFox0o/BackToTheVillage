@@ -11,7 +11,20 @@ public class C_DecisionController : MonoBehaviour
 {
     [SerializeField] public TMP_Text decision_Text;
 
+    private MGR_ConversationManager conversationManager;
+    private MGR_QuestManager questManager;
     private SO_Decision decisionData;
+
+
+    private void Start() {
+        conversationManager = FindObjectOfType<MGR_ConversationManager>();
+        questManager = FindObjectOfType<MGR_QuestManager>();
+
+        if (conversationManager == null || questManager == null)
+        {
+            Debug.LogError("Can't get a manager component.");
+        }
+    }
 
 
     public void SetupDecisionUI(SO_Decision decision)
@@ -26,11 +39,12 @@ public class C_DecisionController : MonoBehaviour
     {
         if (decisionData is SO_ConversationDecision conversationDecision)
         {
-
+            conversationManager.ContinueConversation(conversationDecision.conversationData);
         }
         else if (decisionData is SO_GetQuestDecision questDecision)
         {
-
+            questManager.AddQuest(questDecision.quest);
+            conversationManager.PlayNextLine();
         }
         else if (decisionData is SO_OpenUIDecision uiDecision)
         {

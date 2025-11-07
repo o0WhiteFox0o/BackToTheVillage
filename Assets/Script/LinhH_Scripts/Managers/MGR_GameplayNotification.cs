@@ -13,6 +13,7 @@ using UnityEngine;
 public class MGR_GameplayNotification : MonoBehaviour
 {
     private GameplayUIManager gameplayUIManager;
+    private MGR_QuestManager questManager;
 
     private int questAmount = 0;
 
@@ -20,9 +21,11 @@ public class MGR_GameplayNotification : MonoBehaviour
     private void Start()
     {
         gameplayUIManager = FindObjectOfType<GameplayUIManager>();
-        if (gameplayUIManager == null)
+        questManager = FindObjectOfType<MGR_QuestManager>();
+
+        if (gameplayUIManager == null || questManager == null)
         {
-            Debug.LogError("Can't load gameplay UI manager.");
+            Debug.LogError("Can't load a manager component.");
         }
 
         MGR_QuestManager.OnQuestListUpdate += UpdateQuestNotification;
@@ -40,9 +43,9 @@ public class MGR_GameplayNotification : MonoBehaviour
     private void UpdateQuestNotification()
     {
         // nếu có nhiệm vụ nào bị loại bỏ khỏi danh sách thì không cần hiển thị thông báo
-        if (questAmount > MGR_QuestManager.Instance.activeQuests_List.Count)
+        if (questAmount > questManager.activeQuests_List.Count)
         {
-            questAmount = MGR_QuestManager.Instance.activeQuests_List.Count;
+            questAmount = questManager.activeQuests_List.Count;
             gameplayUIManager.DisableQuestNotification();
             return;
         }

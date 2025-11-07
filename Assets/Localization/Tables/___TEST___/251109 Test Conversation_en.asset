@@ -42,6 +42,10 @@ MonoBehaviour:
     m_Localized: Bye.
     m_Metadata:
       m_Items: []
+  - m_Id: 275108099932160
+    m_Localized: I will wait here.
+    m_Metadata:
+      m_Items: []
   references:
     version: 2
     RefIds: []

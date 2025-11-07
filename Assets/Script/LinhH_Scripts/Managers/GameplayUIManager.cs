@@ -45,6 +45,8 @@ public class GameplayUIManager : MonoBehaviour
     [Header("Other")]
     [SerializeField] public GraphicRaycaster uiRaycaster;
 
+
+    private MGR_QuestManager questManager;
     private EventSystem eventSystem;
     private bool isAnyUIOpen;
 
@@ -54,9 +56,10 @@ public class GameplayUIManager : MonoBehaviour
         isAnyUIOpen = false;
 
         eventSystem = FindObjectOfType<EventSystem>();
-        if (eventSystem == null)
+        questManager = FindObjectOfType<MGR_QuestManager>();
+        if (eventSystem == null || questManager == null)
         {
-            Debug.LogError("Can't load event system.");
+            Debug.LogError("Can't load a manager component.");
         }
 
         // đăng ký sự kiện cần thiết
@@ -241,7 +244,7 @@ public class GameplayUIManager : MonoBehaviour
         }
 
         // cập nhật giao diện nhiệm vụ cho từng nhiệm vụ trong danh sách
-        foreach (var quest in MGR_QuestManager.Instance.activeQuests_List)
+        foreach (var quest in questManager.activeQuests_List)
         {
             // tạo các quest UI
             var questUI = MGR_ObjectPoolManager.SpawnObject(questUI_Prefab, questPanel);
