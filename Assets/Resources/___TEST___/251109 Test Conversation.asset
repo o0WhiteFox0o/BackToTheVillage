@@ -44,6 +44,7 @@ MonoBehaviour:
       m_FallbackState: 0
       m_WaitForCompletion: 0
       m_LocalVariables: []
+  oneTimeConversation: 1
   quest: {fileID: 0}
   decisionIndex: 1
   decision_List:

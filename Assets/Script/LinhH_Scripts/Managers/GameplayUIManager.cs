@@ -57,6 +57,7 @@ public class GameplayUIManager : MonoBehaviour
 
         eventSystem = FindObjectOfType<EventSystem>();
         questManager = FindObjectOfType<MGR_QuestManager>();
+
         if (eventSystem == null || questManager == null)
         {
             Debug.LogError("Can't load a manager component.");
@@ -68,6 +69,7 @@ public class GameplayUIManager : MonoBehaviour
         InputManager.OnQuestUIButtonPress += ToggleQuestUI;
 
         MGR_QuestManager.OnQuestListUpdate += RefreshQuestUIList;
+
         CollectionQuestProgress.OnCollectionQuestUpdate += RefreshCollectionProgressUI;
     }
 
@@ -289,6 +291,9 @@ public class GameplayUIManager : MonoBehaviour
             decisionBtn.onClick.AddListener(decisionController.ImplementDecision);
             decisionBtn.onClick.AddListener(HideDecisionPanel);
         }
+
+        // tắt tính năng skip dialogue
+        ToggleSkipDialogueButton(false);
     }
 
 
@@ -301,5 +306,12 @@ public class GameplayUIManager : MonoBehaviour
         }
 
         decisionPanel.gameObject.SetActive(false);
+    }
+
+
+    public void ToggleSkipDialogueButton(bool state)
+    {
+        var skipDialogueButton = conversationDisplay_Text.GetComponentInParent<Button>();
+        skipDialogueButton.enabled = state;
     }
 }

@@ -308095,12 +308095,16 @@ PrefabInstance:
       objectReference: {fileID: 11400000, guid: 0d41ac691e554844289c137b71106c80, type: 2}
     - target: {fileID: 497581700963811469, guid: 8988bff13cd187d4cb6e617d0c10c92b, type: 3}
       propertyPath: conversation_List.Array.size
-      value: 1
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 497581700963811469, guid: 8988bff13cd187d4cb6e617d0c10c92b, type: 3}
       propertyPath: conversation_List.Array.data[0]
       value: 
       objectReference: {fileID: 11400000, guid: 371bd19f4273a184996ceaece9e37a6a, type: 2}
+    - target: {fileID: 497581700963811469, guid: 8988bff13cd187d4cb6e617d0c10c92b, type: 3}
+      propertyPath: conversation_List.Array.data[1]
+      value: 
+      objectReference: {fileID: 11400000, guid: 3856085b314ea1c42a1e728420d5d6b0, type: 2}
     - target: {fileID: 2572554721983723964, guid: 8988bff13cd187d4cb6e617d0c10c92b, type: 3}
       propertyPath: m_LocalScale.x
       value: 2.5

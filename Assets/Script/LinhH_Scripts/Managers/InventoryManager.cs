@@ -240,6 +240,7 @@ namespace Management
             // newItem.transform.SetParent(slot.transform);
         }
 
+
         /// <summary>
         /// Hàm hỗ trợ: Đếm tổng số lượng của một item trong túi đồ.
         /// </summary>
@@ -256,6 +257,7 @@ namespace Management
             }
             return totalAvailable;
         }
+
 
         /// <summary>
         /// Bỏ một số lượng item ra khỏi inventory.

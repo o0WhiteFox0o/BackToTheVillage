@@ -13,14 +13,17 @@ public class C_DecisionController : MonoBehaviour
 
     private MGR_ConversationManager conversationManager;
     private MGR_QuestManager questManager;
+    private GameplayUIManager gameplayUIManager;
+
     private SO_Decision decisionData;
 
 
     private void Start() {
         conversationManager = FindObjectOfType<MGR_ConversationManager>();
         questManager = FindObjectOfType<MGR_QuestManager>();
+        gameplayUIManager = FindObjectOfType<GameplayUIManager>();
 
-        if (conversationManager == null || questManager == null)
+        if (conversationManager == null || questManager == null || gameplayUIManager == null)
         {
             Debug.LogError("Can't get a manager component.");
         }
@@ -54,5 +57,7 @@ public class C_DecisionController : MonoBehaviour
         {
 
         }
+
+        gameplayUIManager.ToggleSkipDialogueButton(true);
     }
 }

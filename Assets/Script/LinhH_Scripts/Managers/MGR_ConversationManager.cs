@@ -11,6 +11,10 @@ using UnityEngine.Localization.Settings;
 using UnityEngine.Localization.Tables;
 
 
+public delegate void ConversationHandler(SO_NPCData npc);
+public delegate void EndConversationHandler(SO_ConversationData conversationData);
+
+
 /// <summary>
 /// Quản lý các chức năng hội thoại.
 /// </summary>
@@ -28,7 +32,11 @@ public class MGR_ConversationManager : MonoBehaviour
     private int dialogueIndex;
 
 
-    public delegate void ConversationHandler(SO_NPCData npc);
+    /// <summary>
+    /// Được gọi khi một cuộc trò chuyện kết thúc.
+    /// </summary>
+    public static event EndConversationHandler OnConversationEnd;
+
     /// <summary>
     /// Được gọi khi người chơi thực hiện một cuộc hội thoại với NPC.
     /// </summary>
@@ -201,12 +209,16 @@ public class MGR_ConversationManager : MonoBehaviour
             questManager.AddQuest(conversationData.quest);
         }
 
+        OnConversationEnd?.Invoke(conversationData);
+
         gameplayUIManager.HideDecisionPanel();
     }
 
 
     public void ContinueConversation(SO_ConversationData newConversation)
     {
+        OnConversationEnd?.Invoke(conversationData);
+
         conversationData = newConversation;
         dialogueIndex = 0;
 
@@ -241,6 +253,5 @@ public class MGR_ConversationManager : MonoBehaviour
             // hiển thị các lựa chọn hội thoại
             gameplayUIManager.DisplayConversationDecisions(conversationData.decision_List);
         }
-
     }
 }
