@@ -15,8 +15,8 @@ MonoBehaviour:
   questID: shark_fishing
   tittle: Shark Fishing
   description: 
+  questCategorize: 2
   questType: 0
-  displayRewardInUI: 0
   reward:
     experience: 10
     gold: 100

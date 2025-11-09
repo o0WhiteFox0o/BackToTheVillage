@@ -6,6 +6,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using TMPro;
 using UnityEditor.Localization.Plugins.XLIFF.V12;
 using UnityEngine;
@@ -39,7 +40,12 @@ public class GameplayUIManager : MonoBehaviour
     [Header("Quests")]
     [SerializeField] GameObject questUI_Prefab;
     [SerializeField] Transform questPanel;
+
+    [Tooltip("Danh sách các đối tượng highlight của các nút phân loại nhiệm vụ.")]
+    [SerializeField] public List<GameObject> questCategorizeHighlights_List;
+    [SerializeField] GameObject noQuestInList_Text;
     [SerializeField] public GameObject questUI_Notification;
+    [SerializeField] public UI_QuestUI questUIController;
 
 
     [Header("Other")]
@@ -68,9 +74,9 @@ public class GameplayUIManager : MonoBehaviour
         InputManager.OnGeneralUIPress += ToggleGeneralUI;
         InputManager.OnQuestUIButtonPress += ToggleQuestUI;
 
-        MGR_QuestManager.OnQuestListUpdate += RefreshQuestUIList;
+        // MGR_QuestManager.OnQuestListUpdate += RefreshQuestUIList;
 
-        CollectionQuestProgress.OnCollectionQuestUpdate += RefreshCollectionProgressUI;
+        // CollectionQuestProgress.OnCollectionQuestUpdate += RefreshCollectionProgressUI;
     }
 
 
@@ -80,11 +86,12 @@ public class GameplayUIManager : MonoBehaviour
         InputManager.OnGeneralUIPress -= ToggleGeneralUI;
         InputManager.OnQuestUIButtonPress -= ToggleQuestUI;
 
-        MGR_QuestManager.OnQuestListUpdate -= RefreshQuestUIList;
-        CollectionQuestProgress.OnCollectionQuestUpdate -= RefreshCollectionProgressUI;
+        // MGR_QuestManager.OnQuestListUpdate -= RefreshQuestUIList;
+        // CollectionQuestProgress.OnCollectionQuestUpdate -= RefreshCollectionProgressUI;
     }
 
 
+    #region General
     public void ToggleBagUI()
     {
         // tắt UI túi đồ nếu nó đang bật
@@ -150,6 +157,8 @@ public class GameplayUIManager : MonoBehaviour
             questUI.SetActive(true);
             isAnyUIOpen = true;
 
+            FillQuestCategorize(0);
+
             // tắt thông báo quest khi người chơi mở giao diện nhiệm vụ
             DisableQuestNotification();
         }
@@ -171,8 +180,10 @@ public class GameplayUIManager : MonoBehaviour
             isAnyUIOpen = true;
         }
     }
+    #endregion
 
 
+    #region Conversation
     public void SetActiveConversationPanel(bool value)
     {
         conversation_UI.SetActive(value);
@@ -198,79 +209,6 @@ public class GameplayUIManager : MonoBehaviour
     public void AddLetterToDialogueText(char letter)
     {
         conversationDisplay_Text.text += letter;
-    }
-
-
-    public void EnableQuestNotification()
-    {
-        questUI_Notification.SetActive(true);
-        generalUI_Notification.SetActive(true);
-    }
-
-
-    public void DisableQuestNotification()
-    {
-        questUI_Notification.SetActive(false);
-
-        UpdateGeneralUINotification();
-    }
-
-
-    /// <summary>
-    /// Cập nhật thông báo của general UI dựa theo thông báo của các UI con nằm trong nó.
-    /// </summary>
-    private void UpdateGeneralUINotification()
-    {
-        // kiểm tra thông báo của tất cả các UI của general UI
-        // nếu có bất kỳ thông báo nào được bật thì bật thông báo general
-        if (questUI_Notification.activeSelf)
-        {
-            generalUI_Notification.SetActive(true);
-            return;
-        }
-
-        // nếu không có thông báo nào được bật thì tắt thông báo general
-        generalUI_Notification.SetActive(false);
-    }
-
-
-    /// <summary>
-    /// Làm mới danh sách nhiệm vụ khi thêm hoặc loại bỏ một nhiệm vụ.
-    /// </summary>
-    private void RefreshQuestUIList()
-    {
-        // ẩn tất cả các nhiệm vụ trong giao diện nhiệm vụ
-        foreach (Transform questUI in questPanel)
-        {
-            questUI.gameObject.SetActive(false);
-        }
-
-        // cập nhật giao diện nhiệm vụ cho từng nhiệm vụ trong danh sách
-        foreach (var quest in questManager.activeQuests_List)
-        {
-            // tạo các quest UI
-            var questUI = MGR_ObjectPoolManager.SpawnObject(questUI_Prefab, questPanel);
-
-            // thiết lập các thành phần của quest UI
-            questUI.GetComponent<UI_QuestUI>().SetupQuestUI(quest.GetQuest());
-        }
-    }
-
-
-    /// <summary>
-    /// Cập nhật UI nhiệm vụ thu thập vật phẩm khi có một vật phẩm được thêm vào.
-    /// </summary>
-    private void RefreshCollectionProgressUI(CollectionQuestProgress collectionProgress)
-    {
-        foreach (Transform questUI in questPanel)
-        {
-            // nếu nhiệm vụ được duyệt không phải là nhiệm vụ cần cập nhật thì bỏ qua nó
-            if (questUI.GetComponent<UI_QuestUI>().questTittle_Text.text != collectionProgress.quest.tittle) { continue; }
-
-            questUI.GetComponent<UI_QuestUI>().RefreshCollectionProgressUI(collectionProgress);
-
-            Debug.Log("Update collection quest UI");
-        }
     }
 
 
@@ -314,4 +252,130 @@ public class GameplayUIManager : MonoBehaviour
         var skipDialogueButton = conversationDisplay_Text.GetComponentInParent<Button>();
         skipDialogueButton.enabled = state;
     }
+    #endregion
+
+
+    #region Quest
+    /// <summary>
+    /// Hiển thị tất cả nhiệm vụ của loại nhiệm vụ được truyền vào trên giao diện nhiệm vụ.
+    /// </summary>
+    public void FillQuestCategorize(int questCategorize)
+    {
+        HighlightQuestCategorizeButton(questCategorize);
+
+        switch ((QuestCategorize)questCategorize)
+        {
+            case QuestCategorize.StoryQuest:
+                var storyQuest = questManager.activeQuests_List.Where(q => q.GetQuest().questCategorize == QuestCategorize.StoryQuest).ToList();
+                DisplayQuestList(storyQuest);
+                break;
+
+            case QuestCategorize.EventQuest:
+                var eventQuest_List = questManager.activeQuests_List.Where(q => q.GetQuest().questCategorize == QuestCategorize.EventQuest).ToList();
+                DisplayQuestList(eventQuest_List);
+                break;
+
+            case QuestCategorize.CompanionQuest:
+                var companionQuest_List = questManager.activeQuests_List.Where(q => q.GetQuest().questCategorize == QuestCategorize.CompanionQuest).ToList();
+                DisplayQuestList(companionQuest_List);
+                break;
+
+            case QuestCategorize.Other:
+                var otherQuest_List = questManager.activeQuests_List.Where(q => q.GetQuest().questCategorize == QuestCategorize.Other).ToList();
+                DisplayQuestList(otherQuest_List);
+                break;
+
+            default:
+                break;
+        }
+    }
+
+
+    private void HighlightQuestCategorizeButton(int index)
+    {
+        foreach (var questCategorize in questCategorizeHighlights_List)
+        {
+            questCategorize.SetActive(false);
+        }
+
+        questCategorizeHighlights_List[index].SetActive(true);
+    }
+
+
+    private void DisplayQuestList(List<IQuestProgress> questProgress_List)
+    {
+        // clear các nhiệm vụ danh có trong panel
+        foreach (Transform questUI in questPanel)
+        {
+            MGR_ObjectPoolManager.ReturnObjectToPool(questUI.gameObject);
+        }
+
+        // nếu không có nhiệm vụ để hiển thị thì hiển thị text thông báo
+        if (questProgress_List.Count == 0)
+        {
+            noQuestInList_Text.SetActive(true);
+            questUIController.HandleQuestDetails(false);
+            return;
+        }
+
+        noQuestInList_Text.SetActive(false);
+
+        // hiển thị các nhiệm vụ trong danh sách được truyền vào
+        foreach (var quest in questProgress_List)
+        {
+            var newQuestUI = MGR_ObjectPoolManager.SpawnObject(questUI_Prefab, questPanel);
+
+            newQuestUI.GetComponentInChildren<TMP_Text>().SetText(quest.GetQuest().tittle);
+
+            // đăng ký sự kiện cho nút nhiệm vụ mới
+            var questButton = newQuestUI.GetComponent<Button>();
+            questButton.onClick.AddListener(() => DisplayQuestDetail(quest));
+        }
+
+        // hiển thị chi tiết của nhiệm vụ đầu tiên trong danh sách
+        DisplayQuestDetail(questProgress_List[0]);
+    }
+
+
+    private void DisplayQuestDetail(IQuestProgress quest)
+    {
+        questUIController.SetupQuestDetails(quest);
+    }
+    #endregion
+
+
+    #region Notification
+    public void EnableQuestNotification()
+    {
+        questUI_Notification.SetActive(true);
+        generalUI_Notification.SetActive(true);
+    }
+
+
+    public void DisableQuestNotification()
+    {
+        questUI_Notification.SetActive(false);
+
+        UpdateGeneralUINotification();
+    }
+
+
+    /// <summary>
+    /// Cập nhật thông báo của general UI dựa theo thông báo của các UI con nằm trong nó.
+    /// </summary>
+    private void UpdateGeneralUINotification()
+    {
+        // kiểm tra thông báo của tất cả các UI của general UI
+        // nếu có bất kỳ thông báo nào được bật thì bật thông báo general
+        if (questUI_Notification.activeSelf)
+        {
+            generalUI_Notification.SetActive(true);
+            return;
+        }
+
+        // nếu không có thông báo nào được bật thì tắt thông báo general
+        generalUI_Notification.SetActive(false);
+    }
+
+    #endregion
 }

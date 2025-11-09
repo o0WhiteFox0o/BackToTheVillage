@@ -109,12 +109,3 @@ public class MGR_QuestManager : MonoBehaviour
         }
     }
 }
-
-
-public enum QuestType
-{
-    Collection,
-    Talking,
-    Giving,
-    Selling
-}
