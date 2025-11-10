@@ -124,7 +124,7 @@ namespace Management
                     bool shouldShowCursor =
                         (itemType == ItemType.Hoe) ||
                         (itemType == ItemType.Seed) ||
-                        (itemType == ItemType.Trap); // Thêm bất kỳ type nào khác cần con trỏ
+                        (itemType == ItemType.Trap);
 
                     tileCursorFollow.SetCursorActive(shouldShowCursor);
                 }

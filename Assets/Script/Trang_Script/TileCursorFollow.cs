@@ -1,61 +1,97 @@
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.Tilemaps;
 
 public class TileCursorFollow : MonoBehaviour
 {
     public Tilemap targetTilemap;
-    public Transform cursorObject;
+    public Transform cursorObject; // Object con trỏ (phải có SpriteRenderer)
 
-    private Vector3Int lastCellPos;
+    private SpriteRenderer spriteRenderer; // Tham chiếu đến SpriteRenderer của con trỏ
+    [SerializeField] private Color validColor = Color.white;   // Màu khi vị trí hợp lệ
+    [SerializeField] private Color invalidColor = Color.red; // Màu khi vị trí không hợp lệ
 
-    void Start()
+    private bool isActive = false; // Biến nội bộ để lưu trạng thái bật/tắt
+
+    void Start()
     {
-        lastCellPos = new Vector3Int(int.MinValue, int.MinValue, int.MinValue);
-    }
+        // --- SỬA HÀM START ---
+        if (cursorObject != null)
+        {
+            // Lấy SpriteRenderer từ cursorObject
+            spriteRenderer = cursorObject.GetComponent<SpriteRenderer>();
+            if (spriteRenderer == null)
+            {
+                Debug.LogError("Cursor Object không có SpriteRenderer!", cursorObject);
+            }
+        }
+        else
+        {
+            Debug.LogError("Chưa gán Cursor Object cho TileCursorFollow!", this.gameObject);
+        }
+
+        SetCursorActive(false); // Tắt con trỏ khi bắt đầu game
+        // --- KẾT THÚC SỬA ---
+    }
 
     void Update()
     {
         if (cursorObject == null || targetTilemap == null)
             return;
 
-        // N?u con tr? ?ang t?t th� kh�ng c?n c?p nh?t v? tr�
-        if (!cursorObject.gameObject.activeSelf)
+        // --- SỬA KIỂM TRA ---
+        // Nếu con trỏ đang tắt (theo biến nội bộ) thì không cập nhật
+        if (!isActive)
             return;
+        // --- KẾT THÚC SỬA ---
 
-        // L?y v? tr� chu?t tr�n m�n h�nh
-        Vector3 mouseScreenPos = Input.mousePosition;
+        // Lấy vị trí chuột trên màn hình
+        Vector3 mouseScreenPos = Input.mousePosition;
         mouseScreenPos.z = Mathf.Abs(Camera.main.transform.position.z);
 
-        // Chuy?n sang t?a ?? th? gi?i
-        Vector3 mouseWorldPos = Camera.main.ScreenToWorldPoint(mouseScreenPos);
+        // Chuyển sang tọa độ thế giới
+        Vector3 mouseWorldPos = Camera.main.ScreenToWorldPoint(mouseScreenPos);
         mouseWorldPos.z = 0;
 
-        // Chuy?n sang t?a ?? tile
-        Vector3Int cellPos = targetTilemap.WorldToCell(mouseWorldPos);
+        // Chuyển sang tọa độ tile
+        Vector3Int cellPos = targetTilemap.WorldToCell(mouseWorldPos);
 
-        // L?y t�m c?a � tile
-        Vector3 cellCenter = targetTilemap.GetCellCenterWorld(cellPos);
+        // Lấy tâm của ô tile
+        Vector3 cellCenter = targetTilemap.GetCellCenterWorld(cellPos);
 
-        // ??t object t?i � ?�
-        cursorObject.position = cellCenter;
-
-        // N?u con tr? ?ang ? � m?i
-        //if (cellPos != lastCellPos)
-        //{
-        //    lastCellPos = cellPos;
-        //    TileBase tile = targetTilemap.GetTile(cellPos);
-
-        //    if (tile != null)
-        //        Debug.Log($"?ang tr? v�o tile: {tile.name}");
-        //    else
-        //        Debug.Log("� tr?ng, kh�ng c� tile ? ?�y.");
-        //}
+        // Đặt object tại ô đó
+        cursorObject.position = cellCenter;
     }
 
-    // ?? H�m b?t/t?t con tr?
-    public void SetCursorActive(bool active)
+    // Hàm bật/tắt con trỏ
+    public void SetCursorActive(bool active)
     {
-        if (cursorObject != null)
+        isActive = active; // Cập nhật trạng thái nội bộ
+        if (cursorObject != null)
+        {
             cursorObject.gameObject.SetActive(active);
+        }
+
+        // Khi bật con trỏ, luôn reset màu về trạng thái hợp lệ
+        if (active)
+        {
+            SetPlacementValid(true);
+        }
     }
+
+    // Hàm để script TrapInteraction kiểm tra xem con trỏ có đang bật không
+    public bool IsCursorActive()
+    {
+        return isActive;
+    }
+
+    // Hàm mới để cập nhật màu sắc con trỏ (đỏ hoặc trắng)
+    public void SetPlacementValid(bool isValid)
+    {
+        // Chỉ đổi màu nếu con trỏ đang được bật
+        if (!isActive || spriteRenderer == null) return;
+
+        // Đặt màu dựa trên tính hợp lệ
+        spriteRenderer.color = isValid ? validColor : invalidColor;
+    }
+    // --- KẾT THÚC HÀM MỚI ---
 }
