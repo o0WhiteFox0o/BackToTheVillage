@@ -16,6 +16,7 @@ MonoBehaviour:
   tittle: Shark Fishing
   description: 
   questType: 0
+  displayRewardInUI: 0
   reward:
     experience: 10
     gold: 100
@@ -24,4 +25,4 @@ MonoBehaviour:
   targetItems_List:
   - item: {fileID: 11400000, guid: 333ff93dcffdac447988a721089da030, type: 2}
     currentQuantity: 0
-    requirementQuantity: 5
+    requirementQuantity: 3

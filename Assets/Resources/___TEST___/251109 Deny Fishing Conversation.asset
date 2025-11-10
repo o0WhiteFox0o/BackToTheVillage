@@ -10,16 +10,16 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: ca280bb00da42514bac848751bd156f3, type: 3}
-  m_Name: Storyline_Converdation_1
+  m_Name: 251109 Deny Fishing Conversation
   m_EditorClassIdentifier: 
-  conversationId: storyline_1
-  dialogues:
+  conversationId: deny_fishing
+  dialogue_List:
   - npcData: {fileID: 11400000, guid: 0d41ac691e554844289c137b71106c80, type: 2}
     dialogue:
       m_TableReference:
-        m_TableCollectionName: GUID:a1101b90838586f45bede8b64ef293f9
+        m_TableCollectionName: GUID:85ea88046982e994483720dcad30a939
       m_TableEntryReference:
-        m_KeyId: 5755781120
+        m_KeyId: 2443267162112
         m_Key: 
       m_FallbackState: 0
       m_WaitForCompletion: 0
@@ -27,25 +27,17 @@ MonoBehaviour:
   - npcData: {fileID: 11400000, guid: 0d41ac691e554844289c137b71106c80, type: 2}
     dialogue:
       m_TableReference:
-        m_TableCollectionName: GUID:a1101b90838586f45bede8b64ef293f9
+        m_TableCollectionName: GUID:85ea88046982e994483720dcad30a939
       m_TableEntryReference:
-        m_KeyId: 9694232576
+        m_KeyId: 2466440691712
         m_Key: 
       m_FallbackState: 0
       m_WaitForCompletion: 0
       m_LocalVariables: []
-  - npcData: {fileID: 11400000, guid: 0d41ac691e554844289c137b71106c80, type: 2}
-    dialogue:
-      m_TableReference:
-        m_TableCollectionName: GUID:a1101b90838586f45bede8b64ef293f9
-      m_TableEntryReference:
-        m_KeyId: 13200670720
-        m_Key: 
-      m_FallbackState: 0
-      m_WaitForCompletion: 0
-      m_LocalVariables: []
-  isStoryConversation: 1
-  quest: {fileID: 11400000, guid: 004a108995d122748ace3e9acd94dcfa, type: 2}
+  oneTimeConversation: 1
+  quest: {fileID: 0}
+  decisionIndex: -1
+  decision_List: []
   references:
     version: 2
     RefIds: []

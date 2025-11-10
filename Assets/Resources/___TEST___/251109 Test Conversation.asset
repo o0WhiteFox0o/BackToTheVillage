@@ -10,41 +10,46 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: ca280bb00da42514bac848751bd156f3, type: 3}
-  m_Name: Storyline_Conversation_3
+  m_Name: 251109 Test Conversation
   m_EditorClassIdentifier: 
-  conversationId: storyline3
-  dialogues:
-  - npcData: {fileID: 11400000, guid: af5e305b970d58b4bbdae84a5b3038c2, type: 2}
+  conversationId: 251109_conversation_test
+  dialogue_List:
+  - npcData: {fileID: 11400000, guid: 0d41ac691e554844289c137b71106c80, type: 2}
     dialogue:
       m_TableReference:
-        m_TableCollectionName: GUID:aa9c0ab0813b5bf468a6ab8858823af3
+        m_TableCollectionName: GUID:85ea88046982e994483720dcad30a939
       m_TableEntryReference:
-        m_KeyId: 5747392512
+        m_KeyId: 5864833024
         m_Key: 
       m_FallbackState: 0
       m_WaitForCompletion: 0
       m_LocalVariables: []
-  - npcData: {fileID: 11400000, guid: af5e305b970d58b4bbdae84a5b3038c2, type: 2}
+  - npcData: {fileID: 11400000, guid: 0d41ac691e554844289c137b71106c80, type: 2}
     dialogue:
       m_TableReference:
-        m_TableCollectionName: GUID:aa9c0ab0813b5bf468a6ab8858823af3
+        m_TableCollectionName: GUID:85ea88046982e994483720dcad30a939
       m_TableEntryReference:
-        m_KeyId: 10512121856
+        m_KeyId: 9849421824
         m_Key: 
       m_FallbackState: 0
       m_WaitForCompletion: 0
       m_LocalVariables: []
-  - npcData: {fileID: 11400000, guid: af5e305b970d58b4bbdae84a5b3038c2, type: 2}
+  - npcData: {fileID: 11400000, guid: 0d41ac691e554844289c137b71106c80, type: 2}
     dialogue:
       m_TableReference:
-        m_TableCollectionName: GUID:aa9c0ab0813b5bf468a6ab8858823af3
+        m_TableCollectionName: GUID:85ea88046982e994483720dcad30a939
       m_TableEntryReference:
-        m_KeyId: 18091229184
+        m_KeyId: 275108099932160
         m_Key: 
       m_FallbackState: 0
       m_WaitForCompletion: 0
       m_LocalVariables: []
-  isStoryConversation: 1
+  oneTimeConversation: 1
+  quest: {fileID: 0}
+  decisionIndex: 1
+  decision_List:
+  - {fileID: 11400000, guid: cda556025f9d2c242a1534c8cafa329b, type: 2}
+  - {fileID: 11400000, guid: 35d100bcbe140f443955d44d56e29c74, type: 2}
   references:
     version: 2
     RefIds: []

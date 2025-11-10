@@ -71,6 +71,8 @@ public class InventorySlot : MonoBehaviour, IDropHandler
             }
         }
     }
+
+
     /// <summary>
     /// Tách hàm hoán đổi (swap) ra cho sạch
     /// </summary>
@@ -83,6 +85,8 @@ public class InventorySlot : MonoBehaviour, IDropHandler
         // thiết lập vị trí của item được kéo
         dragItem.parentAfterDrag = transform;
     }
+
+
     public void HighlightSlot()
     {
         selectedHighlight.SetActive(true);

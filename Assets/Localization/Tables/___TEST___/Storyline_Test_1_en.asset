@@ -19,15 +19,15 @@ MonoBehaviour:
     m_Items: []
   m_TableData:
   - m_Id: 5755781120
-    m_Localized: Hello
+    m_Localized: Hello. I'm a NPC.
     m_Metadata:
       m_Items: []
   - m_Id: 9694232576
-    m_Localized: This is storyline 1
+    m_Localized: Who are you? Where are you from?
     m_Metadata:
       m_Items: []
   - m_Id: 13200670720
-    m_Localized: Interact with NPC 2 to play storyline 2
+    m_Localized: How are you today?
     m_Metadata:
       m_Items: []
   references:

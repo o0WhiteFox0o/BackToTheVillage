@@ -16,23 +16,42 @@ using UnityEngine.Localization;
 [CreateAssetMenu(fileName = "New Conversation", menuName = "Scriptable Object/NPC/NPC Conversation")]
 public class SO_ConversationData : ScriptableObject
 {
+    [Header("Overview")]
     public string conversationId;
 
     /// <summary>
     /// Danh sách câu thoại của từng NPC trong cuộc hội thoại.
     /// </summary>
-    public List<NPCDialogue> dialogues;
+    public List<NPCDialogue> dialogue_List;
 
     /// <summary>
-    /// Đánh dấu đây có phải là đoạn hội thoại nằm trong một tuyến cốt truyện hay không.
+    /// Đánh dấu đoạn hội thoại chỉ dùng một lần (e.g. các đoạn hội thoại giao nhiệm vụ, ...)
     /// </summary>
-    public bool isStoryConversation;
+    [Tooltip(" Đánh dấu đoạn hội thoại chỉ dùng một lần (e.g. các đoạn hội thoại giao nhiệm vụ, ...)")]
+    public bool oneTimeConversation;
 
+
+    [Header("Quest")]
 
     /// <summary>
     /// Nhiệm vụ cho nhân vật chính (nếu có).
     /// </summary>
+    [Tooltip("Nhiệm vụ được giao trong cuộc hội thoại (nếu có).")]
     public SO_Quest quest;
+
+
+    [Header("Decision")]
+
+    /// <summary>
+    /// Vị trí câu thoại hiển thị các lựa chọn trong cuộc hội thoại.
+    /// </summary>
+    [Tooltip("Vị trí của câu thoại hiển thị các lựa chọn trong cuộc hội thoại.")]
+    public int decisionIndex = -1;
+
+    /// <summary>
+    /// Danh sách các lựa chọn được hiển thị.
+    /// </summary>
+    public List<SO_Decision> decision_List;
 }
 
 

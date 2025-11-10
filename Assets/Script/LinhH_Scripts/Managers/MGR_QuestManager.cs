@@ -12,8 +12,6 @@ using UnityEngine;
 
 public class MGR_QuestManager : MonoBehaviour
 {
-    public static MGR_QuestManager Instance;
-
     public List<IQuestProgress> activeQuests_List { get; private set; }
 
 
@@ -25,11 +23,6 @@ public class MGR_QuestManager : MonoBehaviour
 
     private void Start()
     {
-        if (Instance == null)
-        {
-            Instance = this;
-        }
-
         activeQuests_List = new List<IQuestProgress>();
 
         // đăng ký sự kiện cần thiết

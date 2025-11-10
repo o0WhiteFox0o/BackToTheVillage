@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
@@ -21,7 +20,7 @@ public class InputManager : MonoBehaviour
     public static event Action OnOpenBagPress;
 
     /// <summary>
-    /// Bắt sự kiện khi người chơi nhận phím đóng/mở giao diện tổng hợp
+    /// Bắt sự kiện khi người chơi nhận phím đóng/mở giao diện tổng hợp.
     /// </summary>
     public static event Action OnGeneralUIPress;
 
@@ -31,7 +30,7 @@ public class InputManager : MonoBehaviour
     public static event GetSelectItemInput OnItemSelected;
 
     /// <summary>
-    /// Bắt sự kiện khi người chơi nhấn skip dialogue trong khi đang hội thoại
+    /// Bắt sự kiện khi người chơi nhấn skip dialogue trong khi đang hội thoại.
     /// </summary>
     public static event Action OnSkipDialoguePress;
 
@@ -39,6 +38,11 @@ public class InputManager : MonoBehaviour
     /// Bắt sự kiện khi người chơi click chuột phải vào NPC.
     /// </summary>
     public static event GetObjectClicked OnRightClickNPC;
+
+    /// <summary>
+    /// Bắt sự kiện khi người chơi nhấn phím tắt mở giao diện nhiệm vụ.
+    /// </summary>
+    public static event Action OnQuestUIButtonPress;
 
     private Dictionary<string, KeyCode> keyBindings = new Dictionary<string, KeyCode>();
 
@@ -54,6 +58,7 @@ public class InputManager : MonoBehaviour
         HandleBagUIPress();
         HandleGeneralUIPress();
         HandleSelectItemInput();
+        HandleQuestUIPress();
         CheckPlayerClickHotBar();
         CheckPlayerRightClick();
         HandleSkipDialoguePress();
@@ -95,6 +100,15 @@ public class InputManager : MonoBehaviour
         if (Input.GetKeyDown(keyBindings["OpenGeneralUI"]))
         {
             OnGeneralUIPress?.Invoke();
+        }
+    }
+
+
+    private void HandleQuestUIPress()
+    {
+        if (Input.GetKeyDown(keyBindings["OpenQuestUI"]))
+        {
+            OnQuestUIButtonPress?.Invoke();
         }
     }
 
@@ -165,5 +179,11 @@ public class InputManager : MonoBehaviour
         {
             OnRightClickNPC?.Invoke(hit.collider.gameObject);
         }
+    }
+
+
+    public void EnableDecisionUI(List<SO_Decision> decisions)
+    {
+        
     }
 }

@@ -14,4 +14,5 @@ public class SO_TalkingQuest : SO_Quest
 {
     [Header("Quest Details")]
     public SO_NPCData targetNPC;
+    public SO_ConversationData conversationData;
 }
