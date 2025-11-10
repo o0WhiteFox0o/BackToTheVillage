@@ -1060,6 +1060,7 @@ GameObject:
   m_Component:
   - component: {fileID: 275112269}
   - component: {fileID: 275112270}
+  - component: {fileID: 275112271}
   m_Layer: 0
   m_Name: SoilManager
   m_TagString: Untagged
@@ -1096,9 +1097,22 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   tileCursorFollow: {fileID: 1273313950}
   inventory: {fileID: 233802201}
+  plantedManager: {fileID: 275112271}
   grassSprite: {fileID: 447010241, guid: 4dc57df14bc5e7445b93db5487cfa5f1, type: 3}
   tilledSprite: {fileID: -2131238831, guid: 4dc57df14bc5e7445b93db5487cfa5f1, type: 3}
   wateredSprite: {fileID: 1611544715, guid: 4dc57df14bc5e7445b93db5487cfa5f1, type: 3}
+--- !u!114 &275112271
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 275112268}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7d1661c8e268f7c458c7ee5435166372, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &294883249
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -4108,10 +4122,13 @@ MonoBehaviour:
   generalUI: {fileID: 1903536296}
   npcUI: {fileID: 1037337452}
   settingUI: {fileID: 1209084933}
+  questUI: {fileID: 0}
   conversationPanel: {fileID: 0}
   npcNameText: {fileID: 0}
   npcPortraitImage: {fileID: 0}
   conversationDisplayText: {fileID: 0}
+  questUI_Prefab: {fileID: 0}
+  questPanel: {fileID: 0}
   uiRaycaster: {fileID: 0}
   eventSystem: {fileID: 0}
 --- !u!114 &721425583
