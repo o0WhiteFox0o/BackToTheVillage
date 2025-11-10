@@ -1,20 +1,24 @@
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.UI;
 
 public class DayNight : MonoBehaviour
 {
+    // === THÊM SINGLETON ===
+    public static DayNight Instance { get; private set; }
+    // === KẾT THÚC THÊM ===
+
     [Header("Time Settings")]
     [Range(0, 24)]
-    public float timeOfDay = 6f;             
+    public float timeOfDay = 6f;
     public float realMinutesPerPeriod = 6f;
     public int currentDay = 1;
 
     [Header("Lighting Overlay (2D)")]
-    public Image overlay;           // L?p ph? m�u 2D
-    public Color morningColor = new Color(1f, 1f, 1f, 0f);   // G?n nh? trong su?t
-    public Color afternoonColor = new Color(1f, 0.75f, 0.5f, 0.1f); // Cam nh?t
-    public Color nightColor = new Color(0.1f, 0.2f, 0.4f, 0.4f);    // Xanh ??m t?i
+    public Image overlay;
+    public Color morningColor = new Color(1f, 1f, 1f, 0f);
+    public Color afternoonColor = new Color(1f, 0.75f, 0.5f, 0.1f);
+    public Color nightColor = new Color(0.1f, 0.2f, 0.4f, 0.4f);
 
     [Header("Events")]
     public UnityEvent onMorning;
@@ -26,12 +30,27 @@ public class DayNight : MonoBehaviour
     private float timeSpeed;
     private string currentPeriod = "";
 
+    // === THÊM HÀM AWAKE ===
+    void Awake()
+    {
+        // Khởi tạo Singleton
+        if (Instance != null && Instance != this)
+        {
+            Destroy(gameObject);
+        }
+        else
+        {
+            Instance = this;
+        }
+    }
+    // === KẾT THÚC THÊM ===
+
     void Start()
     {
         dayLengthInMinutes = realMinutesPerPeriod * 3;
-        timeSpeed = 24f / (dayLengthInMinutes * 60f);
+        // Sửa lại công thức tính timeSpeed cho đúng với 18 giờ (từ 6h đến 24h)
+        timeSpeed = 18f / (dayLengthInMinutes * 60f);
 
-        // Khi qua ng�y m?i th� t?t c? c�y s? l?n th�m 1 ng�y
         onNewDay.AddListener(GrowAllCrops);
     }
     void GrowAllCrops()
@@ -49,7 +68,7 @@ public class DayNight : MonoBehaviour
 
         if (timeOfDay >= 24f)
         {
-            timeOfDay = 6f; // Reset v? s�ng h�m sau
+            timeOfDay = 6f; // Reset về sáng hôm sau
             currentDay++;
             currentPeriod = "";
             onNewDay?.Invoke();
@@ -65,35 +84,31 @@ public class DayNight : MonoBehaviour
         {
             currentPeriod = "morning";
             onMorning?.Invoke();
-            //Debug.Log("?? Bu?i s�ng");
         }
         else if (timeOfDay >= 14f && timeOfDay < 20f && currentPeriod != "afternoon")
         {
             currentPeriod = "afternoon";
             onAfternoon?.Invoke();
-            //Debug.Log("?? Bu?i chi?u");
         }
         else if ((timeOfDay >= 20f || timeOfDay < 6f) && currentPeriod != "night")
         {
+            // Cập nhật lại điều kiện logic cho ban đêm (vì timeOfDay không bao giờ < 6)
             currentPeriod = "night";
             onNight?.Invoke();
-            //Debug.Log("?? Bu?i t?i");
         }
     }
 
     void UpdateOverlayColor()
     {
-        // T�nh ph?n tr?m th?i gian trong ng�y (0�1)
-        float t = timeOfDay / 24f;
-
-        // Chuy?n m�u d?n gi?a c�c bu?i
+        // (Giữ nguyên hàm này)
         if (timeOfDay >= 6f && timeOfDay < 14f)
             overlay.color = Color.Lerp(afternoonColor, morningColor, (timeOfDay - 6f) / 8f);
         else if (timeOfDay >= 14f && timeOfDay < 20f)
             overlay.color = Color.Lerp(morningColor, afternoonColor, (timeOfDay - 14f) / 6f);
         else
         {
-            float nT = (timeOfDay >= 20f) ? (timeOfDay - 20f) / 10f : (timeOfDay + 4f) / 10f;
+            // Sửa lại logic Lerp ban đêm
+            float nT = (timeOfDay - 20f) / 4f; // 20h -> 24h (4 tiếng)
             overlay.color = Color.Lerp(afternoonColor, nightColor, nT);
         }
     }

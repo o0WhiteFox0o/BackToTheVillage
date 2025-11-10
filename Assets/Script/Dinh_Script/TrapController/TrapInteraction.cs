@@ -13,53 +13,46 @@ public class TrapInteraction : MonoBehaviour
     [SerializeField] private LayerMask fishingZoneLayer;
     [SerializeField] private LayerMask placedObjectLayer;
 
-    // Biến nội bộ
     private FishingZone currentValidZone;
     private Vector3 cursorGridPosition;
     private bool isPlacementValid = false;
 
     void Update()
     {
-        // 1. Lấy vật phẩm đang cầm
         ItemScriptableObject holdingItem = inventoryManager.holdingItem;
 
         bool isHoldingTrap = (holdingItem != null && holdingItem.itemType == ItemType.Trap);
-        bool isHoldingBait = (holdingItem != null && holdingItem.itemType == ItemType.Bait); //
+        bool isHoldingBait = (holdingItem != null && holdingItem.itemType == ItemType.Bait);
 
-        // 2. Logic ĐẶT BẪY (Ưu tiên cao nhất)
-        // Kích hoạt khi cầm bẫy và con trỏ đang bật
         if (isHoldingTrap && tileCursorFollow.IsCursorActive())
         {
             HandlePlacement(holdingItem);
         }
-        // 3. Logic TƯƠNG TÁC (Thêm mồi / Thu hoạch)
-        // Kích hoạt khi nhấn chuột phải
-        else if (Input.GetMouseButtonDown(1))
+        else if (Input.GetKeyDown(KeyCode.F))
         {
             HandleInteraction(holdingItem, isHoldingBait);
         }
-        // 4. (Tùy chọn) Tắt con trỏ nếu đang bật mà không cầm bẫy
         else if (!isHoldingTrap && tileCursorFollow.IsCursorActive())
         {
-            // Lỗi này không nên xảy ra vì InventoryManager xử lý, nhưng đây là dự phòng
             tileCursorFollow.SetCursorActive(false);
         }
     }
 
-    /// <summary>
-    /// Xử lý logic khi đang cầm bẫy (kiểm tra vị trí, đặt bẫy)
-    /// </summary>
     private void HandlePlacement(ItemScriptableObject trapItem)
     {
-        // (Phần này giữ nguyên từ code trước)
-        Vector3 mouseWorldPos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+        Vector3 mouseScreenPos = Input.mousePosition;
+        mouseScreenPos.z = -Camera.main.transform.position.z;
+        Vector3 mouseWorldPos = Camera.main.ScreenToWorldPoint(mouseScreenPos);
+        mouseWorldPos.z = 0;
+
         Vector3Int cellPos = targetTilemap.WorldToCell(mouseWorldPos);
         cursorGridPosition = targetTilemap.GetCellCenterWorld(cellPos);
+        cursorGridPosition.z = 0;
 
         ValidatePlacement();
-        tileCursorFollow.SetPlacementValid(isPlacementValid); //
+        tileCursorFollow.SetPlacementValid(isPlacementValid);
 
-        if (isPlacementValid && Input.GetMouseButtonDown(0))
+        if (isPlacementValid && Input.GetKeyDown(KeyCode.F))
         {
             if (inventoryManager.RemoveItem(trapItem, 1))
             {
@@ -68,9 +61,6 @@ public class TrapInteraction : MonoBehaviour
         }
     }
 
-    /// <summary>
-    /// (Hàm này giữ nguyên từ code trước)
-    /// </summary>
     private void ValidatePlacement()
     {
         Collider2D fishZoneHit = Physics2D.OverlapPoint(cursorGridPosition, fishingZoneLayer);
@@ -88,9 +78,6 @@ public class TrapInteraction : MonoBehaviour
         }
     }
 
-    /// <summary>
-    /// (Hàm này giữ nguyên từ code trước)
-    /// </summary>
     private void PlaceTrapObject(ItemScriptableObject trapItem)
     {
         if (trapItem.itemPrefab == null)
@@ -103,7 +90,6 @@ public class TrapInteraction : MonoBehaviour
         PlacedTrap placedTrap = trapInstance.GetComponent<PlacedTrap>();
         if (placedTrap != null)
         {
-            // Bẫy bây giờ tự động khởi tạo ở trạng thái Empty
             placedTrap.Initialize(currentValidZone);
         }
         else
@@ -114,35 +100,63 @@ public class TrapInteraction : MonoBehaviour
 
 
     /// <summary>
-    /// HÀM ĐƯỢC NÂNG CẤP: Xử lý click chuột phải (Thêm mồi hoặc Thu hoạch)
+    /// Xử lý tương tác (Thêm mồi, Thu hoạch, HOẶC Nhặt lại bẫy)
     /// </summary>
     private void HandleInteraction(ItemScriptableObject holdingItem, bool isHoldingBait)
     {
-        // Lấy vị trí chuột
-        Vector3 mouseWorldPos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+        Vector3 mouseScreenPos = Input.mousePosition;
+        mouseScreenPos.z = -Camera.main.transform.position.z;
+        Vector3 mouseWorldPos = Camera.main.ScreenToWorldPoint(mouseScreenPos);
         mouseWorldPos.z = 0;
 
-        // Kiểm tra xem có click trúng bẫy không
         Collider2D hit = Physics2D.OverlapPoint(mouseWorldPos, placedObjectLayer);
 
-        if (hit == null) return; // Click vào không khí
+        if (hit == null) return;
 
-        // Nếu click trúng, lấy script PlacedTrap
         PlacedTrap trap = hit.GetComponent<PlacedTrap>();
-        if (trap == null) return; // Click trúng vật gì đó không phải bẫy
+        if (trap == null) return;
 
-        // --- Logic TƯƠNG TÁC MỚI ---
         if (isHoldingBait)
         {
-            // 1. Nếu đang cầm mồi: Thử thêm mồi vào bẫy
-            // (Cần ép kiểu holdingItem sang BaitSO)
+            // 1. Ưu tiên: Cầm mồi -> Thử đặt mồi
             BaitSO bait = (BaitSO)holdingItem;
             trap.TryAddBait(bait, inventoryManager);
         }
         else
         {
-            // 2. Nếu không cầm mồi: Thử thu hoạch
-            trap.TryCollect(inventoryManager);
+            // 2. Không cầm mồi (cầm tay không, cầm cuốc, v.v.)
+            switch (trap.CurrentState)
+            {
+                case PlacedTrap.TrapState.ReadyToCollect:
+                    // 2a. Bẫy đầy -> Thu hoạch cá
+                    trap.TryCollect(inventoryManager);
+                    break;
+
+                case PlacedTrap.TrapState.Empty:
+                    // 2b. Bẫy rỗng -> Nhặt lại bẫy
+                    // (Kiểm tra xem trapItemSO đã được gán trong Prefab chưa)
+                    if (trap.trapItemSO != null)
+                    {
+                        if (inventoryManager.AddItem(trap.trapItemSO, 1))
+                        {
+                            Destroy(trap.gameObject); // Nhặt thành công, xóa bẫy
+                        }
+                        else
+                        {
+                            Debug.Log("Túi đồ đầy, không thể nhặt bẫy!");
+                        }
+                    }
+                    else
+                    {
+                        Debug.LogError("LỖI: Chưa gán 'Trap Item SO' trên Prefab bẫy!");
+                    }
+                    break;
+
+                case PlacedTrap.TrapState.Baited:
+                    // 2c. Bẫy đang có mồi -> Không làm gì cả
+                    Debug.Log("Bẫy đang hoạt động, không thể nhặt.");
+                    break;
+            }
         }
     }
 }

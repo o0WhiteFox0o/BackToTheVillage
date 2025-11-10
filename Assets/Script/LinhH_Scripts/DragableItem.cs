@@ -93,11 +93,19 @@ namespace GameUI
         /// Cập nhật số lượng item (thêm vào hoặc bớt đi một số lượng).
         /// </summary>
         /// <param name="count">Số lượng thêm vào hoặc bớt đi của item.</param>
-        public void UpdateCount(int count)
+        public void AddCount(int amount)
         {
-            _quantity += count;
+            _quantity += amount;
             RefreshCount();
         }
+
+        public void SubtractCount(int amount)
+        {
+            _quantity -= amount;
+            if (_quantity < 0) _quantity = 0;
+            RefreshCount();
+        }
+
 
         /// <summary>
         /// Thử gắn một stack mồi vào vật phẩm này (nếu đây là cần câu).

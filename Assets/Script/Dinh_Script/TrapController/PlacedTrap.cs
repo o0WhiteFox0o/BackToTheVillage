@@ -1,29 +1,36 @@
 ﻿using System.Collections;
 using UnityEngine;
-using Management; // Thêm namespace của InventoryManager
+using Management;
 
 public class PlacedTrap : MonoBehaviour
 {
     public enum TrapState
     {
-        Empty,          // Mới đặt, rỗng
-        Baited,         // Đã có mồi, đang chờ
-        ReadyToCollect  // Đã bắt được cá
+        Empty,
+        Baited,
+        ReadyToCollect
     }
 
     [Header("Trạng thái")]
     [SerializeField] private TrapState currentState = TrapState.Empty;
+    public TrapState CurrentState { get { return currentState; } }
 
     [Header("Cấu hình")]
-    [Tooltip("Thời gian (giây) CƠ BẢN để bắt được cá (chưa tính mồi)")]
-    public float baseTimeToCatch = 60f;
+    [Tooltip("Vật phẩm bẫy (chính nó) để trả về inventory khi nhặt")]
+    public ItemScriptableObject trapItemSO;
+
+    [Tooltip("Thời gian (GIỜ TRONG GAME) CƠ BẢN để bắt được cá")]
+    public float baseTimeToCatch = 8f;
+
+    [Header("Hiển thị Icon Cá")]
+    [Tooltip("Sprite Renderer dùng để hiển thị icon của con cá đã bắt")]
+    public SpriteRenderer fishIconRenderer;
+    [Tooltip("Sprite Renderer dùng để hiển thị background của icon cá")]
+    public SpriteRenderer fishIconBackgroundRenderer;
 
     [Header("Hình ảnh (Sprite)")]
-    [Tooltip("Hình ảnh bẫy rỗng (Trạng thái Empty)")]
     public Sprite emptySprite;
-    [Tooltip("Hình ảnh bẫy đã có mồi (Trạng thái Baited)")]
-    public Sprite baitedSprite; // <-- SPRITE MỚI
-    [Tooltip("Hình ảnh bẫy đầy (Trạng thái ReadyToCollect)")]
+    public Sprite baitedSprite;
     public Sprite readySprite;
 
     // Tham chiếu nội bộ
@@ -32,139 +39,214 @@ public class PlacedTrap : MonoBehaviour
     private SpriteRenderer spriteRenderer;
     private BaitSO currentBait;
 
+    // === BIẾN MỚI ĐỂ ĐỒNG BỘ THỜI GIAN ===
+    private bool isTimerRunning = false;
+    private float targetTimeOfDay;
+    private int targetDay;
+    // === KẾT THÚC BIẾN MỚI ===
+
     void Awake()
     {
         spriteRenderer = GetComponent<SpriteRenderer>();
-        SetState(TrapState.Empty); // Bắt đầu với trạng thái rỗng
+        if (trapItemSO == null)
+        {
+            Debug.LogError("LỖI: PlacedTrap Prefab chưa được gán 'Trap Item SO'!", this.gameObject);
+        }
+        if (fishIconRenderer == null || fishIconBackgroundRenderer == null)
+        {
+            Debug.LogWarning("Prefab bẫy chưa gán 'Fish Icon/Background Renderer'!", this.gameObject);
+        }
+        SetState(TrapState.Empty);
     }
 
-    /// <summary>
-    /// Được gọi bởi TrapInteraction khi bẫy được ĐẶT XUỐNG
-    /// </summary>
+    // === THÊM HÀM UPDATE ĐỂ KIỂM TRA THỜI GIAN ===
+    void Update()
+    {
+        // Chỉ chạy logic khi timer đang bật
+        if (!isTimerRunning) return;
+
+        // An toàn nếu DayNight chưa được load
+        if (DayNight.Instance == null) return;
+
+        int currentDay = DayNight.Instance.currentDay;
+        float currentTime = DayNight.Instance.timeOfDay;
+
+        // 1. Kiểm tra xem đã qua ngày target chưa
+        if (currentDay > targetDay)
+        {
+            OnTimerComplete();
+        }
+        // 2. Nếu cùng ngày, kiểm tra giờ
+        else if (currentDay == targetDay)
+        {
+            if (currentTime >= targetTimeOfDay)
+            {
+                OnTimerComplete();
+            }
+        }
+    }
+    // === KẾT THÚC HÀM UPDATE ===
+
     public void Initialize(FishingZone zone)
     {
         associatedZone = zone;
     }
 
-    /// <summary>
-    /// Cập nhật trạng thái và hình ảnh của bẫy
-    /// </summary>
+    // === HÀM SETSTATE ĐÃ ĐƯỢC SỬA LỖI ===
     private void SetState(TrapState newState)
     {
         currentState = newState;
+
+        // Dừng timer nếu bẫy rỗng hoặc sẵn sàng
+        if (newState == TrapState.Empty || newState == TrapState.ReadyToCollect)
+        {
+            isTimerRunning = false;
+        }
+
         switch (currentState)
         {
             case TrapState.Empty:
                 if (spriteRenderer != null && emptySprite != null)
                     spriteRenderer.sprite = emptySprite;
+
+                // Sửa lỗi copy-paste: Ẩn cả 2
+                if (fishIconRenderer != null) fishIconRenderer.enabled = false;
+                if (fishIconBackgroundRenderer != null) fishIconBackgroundRenderer.enabled = false;
+
                 currentBait = null;
                 caughtFish = null;
                 break;
+
             case TrapState.Baited:
                 if (spriteRenderer != null && baitedSprite != null)
                     spriteRenderer.sprite = baitedSprite;
+
+                // Sửa lỗi copy-paste: Ẩn cả 2
+                if (fishIconRenderer != null) fishIconRenderer.enabled = false;
+                if (fishIconBackgroundRenderer != null) fishIconBackgroundRenderer.enabled = false;
                 break;
+
             case TrapState.ReadyToCollect:
+                // Sửa lỗi: Thêm dòng gán sprite bẫy đầy
                 if (spriteRenderer != null && readySprite != null)
                     spriteRenderer.sprite = readySprite;
+
+                if (fishIconRenderer != null && caughtFish != null && caughtFish.icon != null)
+                {
+                    fishIconRenderer.sprite = caughtFish.icon;
+                    fishIconRenderer.enabled = true;
+                    if (fishIconBackgroundRenderer != null)
+                    {
+                        fishIconBackgroundRenderer.enabled = true;
+                    }
+                }
+                else
+                {
+                    if (fishIconRenderer != null) fishIconRenderer.enabled = false;
+                    if (fishIconBackgroundRenderer != null) fishIconBackgroundRenderer.enabled = false;
+                }
                 break;
         }
     }
+    // === KẾT THÚC HÀM SETSTATE ===
 
-    /// <summary>
-    /// Thử thêm mồi vào bẫy (được gọi bởi TrapInteraction)
-    /// </summary>
     public bool TryAddBait(BaitSO baitItem, InventoryManager invManager)
     {
-        // Chỉ thêm mồi nếu bẫy đang rỗng
         if (currentState != TrapState.Empty)
         {
-            Debug.Log("Bẫy không rỗng, không thể thêm mồi.");
             return false;
         }
 
-        // Thử trừ 1 mồi từ túi đồ
-        if (invManager.RemoveItem(baitItem, 1)) //
+        if (invManager.RemoveItem(baitItem, 1))
         {
-            Debug.Log($"Đã thêm mồi: {baitItem.displayName}");
             currentBait = baitItem;
             SetState(TrapState.Baited);
-            StartCatchTimer(); // Bắt đầu đếm giờ
+            StartCatchTimer(); // Bắt đầu timer mới
             return true;
         }
-
-        Debug.Log("Không thể thêm mồi (lỗi không rõ).");
         return false;
     }
 
+    // === HÀM NÀY ĐƯỢC VIẾT LẠI HOÀN TOÀN ===
     private void StartCatchTimer()
     {
-        if (currentBait == null)
+        if (currentBait == null) return;
+        if (DayNight.Instance == null)
         {
-            Debug.LogError("Lỗi: StartCatchTimer được gọi khi không có mồi!");
+            Debug.LogError("Không tìm thấy DayNight.Instance! Bẫy sẽ không hoạt động.");
             return;
         }
 
-        // Tính toán thời gian bắt cá dựa trên mồi
-        // (1.0 - 0.2) = 0.8 -> Nhanh hơn 20%
-        float multiplier = 1.0f - currentBait.biteTimeMultiplier; //
-        float finalTimeToCatch = baseTimeToCatch * multiplier;
-        finalTimeToCatch = Mathf.Max(1f, finalTimeToCatch); // Đảm bảo không ít hơn 1 giây
+        // 1. Tính toán thời gian chờ (bằng giờ trong game)
+        float hoursToWait = baseTimeToCatch * (1.0f - currentBait.biteTimeMultiplier);
+        hoursToWait = Mathf.Max(0.1f, hoursToWait); // Chờ ít nhất 0.1 giờ
 
-        Debug.Log($"Bẫy sẽ sẵn sàng trong {finalTimeToCatch} giây.");
-        StartCoroutine(CatchFishCoroutine(finalTimeToCatch));
+        // 2. Lấy thời gian hiện tại
+        float currentTime = DayNight.Instance.timeOfDay;
+        int currentDay = DayNight.Instance.currentDay;
+
+        // 3. Tính toán ngày/giờ mục tiêu
+        targetDay = currentDay;
+        targetTimeOfDay = currentTime + hoursToWait;
+
+        // 4. Xử lý nếu giờ mục tiêu vượt qua 24h
+        // (Giả sử DayNight reset về 6h, không phải 0h)
+        while (targetTimeOfDay >= 24f)
+        {
+            targetTimeOfDay = 6f + (targetTimeOfDay - 24f); // Bắt đầu ngày mới lúc 6h + thời gian dư
+            targetDay++;
+        }
+
+        // 5. Bật timer
+        isTimerRunning = true;
+        //Debug.Log($"Bẫy sẽ sẵn sàng vào Ngày {targetDay} lúc {targetTimeOfDay}:00");
     }
+    // === KẾT THÚC VIẾT LẠI ===
 
-    private IEnumerator CatchFishCoroutine(float waitTime)
+    // === HÀM COROUTINE CŨ ĐÃ BỊ XÓA ===
+    // private IEnumerator CatchFishCoroutine(float waitTime) { ... }
+
+    // === HÀM MỚI KHI TIMER HOÀN TẤT ===
+    private void OnTimerComplete()
     {
-        yield return new WaitForSeconds(waitTime);
+        isTimerRunning = false; // Dừng timer
 
         if (associatedZone != null)
         {
-            caughtFish = associatedZone.PickRandomFish(); //
+            caughtFish = associatedZone.PickRandomFish();
 
             if (caughtFish != null)
             {
                 SetState(TrapState.ReadyToCollect);
-                Debug.Log("Bẫy đã bắt được cá!");
             }
             else
             {
-                Debug.Log("Bẫy không bắt được gì, reset về rỗng.");
                 SetState(TrapState.Empty); // Mất mồi, không được cá
             }
         }
     }
+    // === KẾT THÚC HÀM MỚI ===
 
-    /// <summary>
-    /// Thử thu hoạch cá từ bẫy (được gọi bởi TrapInteraction)
-    /// </summary>
     public void TryCollect(InventoryManager invManager)
     {
-        // Chỉ thu hoạch khi đã sẵn sàng
         if (currentState != TrapState.ReadyToCollect)
         {
-            Debug.Log("Bẫy chưa sẵn sàng.");
             return;
         }
 
         if (caughtFish == null)
         {
-            Debug.LogError("Trạng thái sẵn sàng nhưng không có cá? Reset.");
             SetState(TrapState.Empty);
             return;
         }
 
-        // Thử thêm cá vào túi đồ
-        if (invManager.AddItem(caughtFish, 1)) //
+        if (invManager.AddItem(caughtFish, 1))
         {
-            Debug.Log($"Đã thu hoạch: {caughtFish.displayName}");
-            // Quan trọng: Sau khi thu hoạch, bẫy trở về rỗng (Empty)
             SetState(TrapState.Empty);
         }
         else
         {
-            Debug.Log("Túi đồ đầy, không thể thu hoạch!");
+            Debug.Log("Túi đồ đầy!");
         }
     }
 }

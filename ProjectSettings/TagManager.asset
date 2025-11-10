@@ -15,8 +15,8 @@ TagManager:
   - 
   - Water
   - UI
-  - FishingZone
   - PlacedObject
+  - FishingZone
   - Bobber
   - 
   - 
@@ -45,11 +45,14 @@ TagManager:
   - name: Default
     uniqueID: 0
     locked: 0
-  - name: Ground
-    uniqueID: 3476177607
+  - name: Interactable
+    uniqueID: 1617754629
     locked: 0
   - name: Water
     uniqueID: 822703387
+    locked: 0
+  - name: Ground
+    uniqueID: 3476177607
     locked: 0
   - name: Wall
     uniqueID: 2223377859
@@ -68,7 +71,4 @@ TagManager:
     locked: 0
   - name: Decor
     uniqueID: 3707339925
-    locked: 0
-  - name: Interactable
-    uniqueID: 1617754629
     locked: 0
