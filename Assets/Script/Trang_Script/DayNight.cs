@@ -33,6 +33,7 @@ public class DayNight : MonoBehaviour
 
         // Khi qua ngày m?i thì t?t c? cây s? l?n thêm 1 ngày
         onNewDay.AddListener(GrowAllCrops);
+        onNewDay.AddListener(DrySoil);
     }
     void GrowAllCrops()
     {
@@ -97,4 +98,17 @@ public class DayNight : MonoBehaviour
             overlay.color = Color.Lerp(afternoonColor, nightColor, nT);
         }
     }
+    void DrySoil()
+    {
+        SoilInteraction soil = FindObjectOfType<SoilInteraction>();
+        if (soil != null)
+        {
+            soil.DryAllWateredTiles();
+        }
+        else
+        {
+            Debug.LogWarning("? Không tìm th?y SoilInteraction trong scene!");
+        }
+    }
+
 }

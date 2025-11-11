@@ -124,6 +124,7 @@ namespace Management
                     bool shouldShowCursor =
                         (itemType == ItemType.Hoe) ||
                         (itemType == ItemType.Seed) ||
+                        (itemType == ItemType.WateringCan) ||
                         (itemType == ItemType.Trap);
 
                     tileCursorFollow.SetCursorActive(shouldShowCursor);

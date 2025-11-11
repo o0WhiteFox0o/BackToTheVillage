@@ -112,4 +112,32 @@ public class SoilInteraction : MonoBehaviour
             }
         }
     }
+    // 👇 Thêm vào trong SoilInteraction
+    public void DryAllWateredTiles()
+    {
+        if (tilemap == null) return;
+
+        BoundsInt bounds = tilemap.cellBounds;
+        int dryCount = 0;
+
+        foreach (var pos in bounds.allPositionsWithin)
+        {
+            TileBase tile = tilemap.GetTile(pos);
+            if (tile == null) continue;
+
+            Sprite sprite = tilemap.GetSprite(pos);
+            if (sprite == wateredSprite)
+            {
+                Tile newTile = ScriptableObject.CreateInstance<Tile>();
+                newTile.sprite = tilledSprite;
+                newTile.name = "TilledSoil";
+                tilemap.SetTile(pos, newTile);
+                dryCount++;
+            }
+        }
+
+        if (dryCount > 0)
+            Debug.Log($"🌤 {dryCount} ô đất đã khô lại sau khi qua ngày!");
+    }
+
 }
