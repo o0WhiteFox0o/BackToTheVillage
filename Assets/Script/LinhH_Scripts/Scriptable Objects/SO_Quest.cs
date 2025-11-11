@@ -9,7 +9,7 @@ using UnityEngine;
 public class SO_Quest : ScriptableObject
 {
     [Header("Overview")]
-    public string questID;
+    public string questId;
     public string tittle;
     public string description;
 

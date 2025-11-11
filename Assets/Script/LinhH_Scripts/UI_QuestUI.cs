@@ -40,7 +40,7 @@ public class UI_QuestUI : MonoBehaviour
     }
 
 
-    public void HandleQuestDetails(bool enable)
+    public void ToggleQuestDetails(bool enable)
     {
         questTittle_Text.gameObject.SetActive(enable);
         questDescription_Text.gameObject.SetActive(enable);
@@ -53,18 +53,21 @@ public class UI_QuestUI : MonoBehaviour
     /// </summary>
     private void SetupCollectionQuestUI(IQuestProgress questProgress)
     {
-        HandleQuestDetails(true);
+        ToggleQuestDetails(true);
+
+        Debug.Log($"{questProgress.GetType()}");
 
         questTittle_Text.SetText(questProgress.GetQuest().tittle);
 
         // thiết lập UI tiến trình của nhiệm vụ thu thập
         if (questProgress is CollectionQuestProgress collectionProgress)
         {
-            var collectionQuest = collectionProgress.quest;
-            foreach (var item in collectionQuest.targetItems_List)
+            foreach (var item in collectionProgress.itemRequirements_List)
             {
                 questProgress_Text.text = "";
                 questProgress_Text.text += $"{item.item.name}: {item.currentQuantity} / {item.requirementQuantity}; ";
+
+                Debug.Log($"{item.item.name}: {item.currentQuantity} / {item.requirementQuantity}; ");
             }
         }
 
@@ -77,19 +80,21 @@ public class UI_QuestUI : MonoBehaviour
 
     private void SetupTalkingQuestUI(IQuestProgress quest)
     {
-        // questTittle_Text.SetText(quest.tittle);
+        ToggleQuestDetails(true);
 
-        // // thiết lập UI tiến trình của nhiệm vụ thu thập
-        // if (quest is SO_TalkingQuest talkingQuest)
-        // {
-        //     questProgress_Text.text = "";
-        //     // TODO: chỉnh sửa lại đề dùng với Localization
-        //     questProgress_Text.text += $"Talking with {talkingQuest.targetNPC.npcName}";
-        // }
+        questTittle_Text.SetText(quest.GetQuest().tittle);
 
-        // // thiết lập mô tả nhiệm vụ
+        // thiết lập UI tiến trình của nhiệm vụ thu thập
+        if (quest is TalkingQuestProgress talkingQuest)
+        {
+            questProgress_Text.text = "";
+            // TODO: chỉnh sửa lại đề dùng với Localization
+            questProgress_Text.text += $"Talking with {talkingQuest.quest.targetNPC.npcName}";
+        }
 
-        // // TODO: thiết lập UI phần thưởng của nhiệm vụ
-        // // questReward_Text.text = "";
+        // thiết lập mô tả nhiệm vụ
+
+        // TODO: thiết lập UI phần thưởng của nhiệm vụ
+        // questReward_Text.text = "";
     }
 }

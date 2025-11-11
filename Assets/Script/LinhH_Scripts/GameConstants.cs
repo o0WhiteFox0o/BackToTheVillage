@@ -16,4 +16,5 @@ public class GameConstants
 
 
     public const string GAME_CONFIG_PATH = "GameConfig.json";
+    public const string SAVED_GAMES_FOLDER = "SavedGames";
 }

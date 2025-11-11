@@ -8,7 +8,6 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using TMPro;
-using UnityEditor.Localization.Plugins.XLIFF.V12;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
@@ -74,9 +73,7 @@ public class GameplayUIManager : MonoBehaviour
         InputManager.OnGeneralUIPress += ToggleGeneralUI;
         InputManager.OnQuestUIButtonPress += ToggleQuestUI;
 
-        // MGR_QuestManager.OnQuestListUpdate += RefreshQuestUIList;
-
-        // CollectionQuestProgress.OnCollectionQuestUpdate += RefreshCollectionProgressUI;
+        DontDestroyOnLoad(this);
     }
 
 
@@ -266,23 +263,23 @@ public class GameplayUIManager : MonoBehaviour
         switch ((QuestCategorize)questCategorize)
         {
             case QuestCategorize.StoryQuest:
-                var storyQuest = questManager.activeQuests_List.Where(q => q.GetQuest().questCategorize == QuestCategorize.StoryQuest).ToList();
-                DisplayQuestList(storyQuest);
+                var storyQuest = questManager?.activeQuests_List?.Where(q => q.GetQuest().questCategorize == QuestCategorize.StoryQuest);
+                DisplayQuestList(storyQuest.ToList());
                 break;
 
             case QuestCategorize.EventQuest:
-                var eventQuest_List = questManager.activeQuests_List.Where(q => q.GetQuest().questCategorize == QuestCategorize.EventQuest).ToList();
-                DisplayQuestList(eventQuest_List);
+                var eventQuest_List = questManager.activeQuests_List?.Where(q => q.GetQuest().questCategorize == QuestCategorize.EventQuest);
+                DisplayQuestList(eventQuest_List.ToList());
                 break;
 
             case QuestCategorize.CompanionQuest:
-                var companionQuest_List = questManager.activeQuests_List.Where(q => q.GetQuest().questCategorize == QuestCategorize.CompanionQuest).ToList();
-                DisplayQuestList(companionQuest_List);
+                var companionQuest_List = questManager.activeQuests_List?.Where(q => q.GetQuest().questCategorize == QuestCategorize.CompanionQuest);
+                DisplayQuestList(companionQuest_List.ToList());
                 break;
 
             case QuestCategorize.Other:
-                var otherQuest_List = questManager.activeQuests_List.Where(q => q.GetQuest().questCategorize == QuestCategorize.Other).ToList();
-                DisplayQuestList(otherQuest_List);
+                var otherQuest_List = questManager.activeQuests_List?.Where(q => q.GetQuest().questCategorize == QuestCategorize.Other);
+                DisplayQuestList(otherQuest_List.ToList());
                 break;
 
             default:
@@ -307,6 +304,7 @@ public class GameplayUIManager : MonoBehaviour
         // clear các nhiệm vụ danh có trong panel
         foreach (Transform questUI in questPanel)
         {
+            questUI.GetComponent<Button>().onClick.RemoveAllListeners();
             MGR_ObjectPoolManager.ReturnObjectToPool(questUI.gameObject);
         }
 
@@ -314,7 +312,7 @@ public class GameplayUIManager : MonoBehaviour
         if (questProgress_List.Count == 0)
         {
             noQuestInList_Text.SetActive(true);
-            questUIController.HandleQuestDetails(false);
+            questUIController.ToggleQuestDetails(false);
             return;
         }
 

@@ -54,6 +54,8 @@ namespace Management
 
             // đăng ký các sự kiện cần thiết
             InputManager.OnItemSelected += ChangeSelectedItem;
+
+            DontDestroyOnLoad(this);
         }
 
 
@@ -83,6 +85,9 @@ namespace Management
                 return dragItem.itemScriptableObj;
             }
         }
+
+
+
         /// <summary>
         /// Lấy DragableItem COMPONENT mà nhân vật đang mang.
         /// Dùng để đọc dữ liệu động (như mồi câu).

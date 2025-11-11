@@ -14,6 +14,8 @@ public class MGR_QuestManager : MonoBehaviour
 {
     public List<IQuestProgress> activeQuests_List { get; private set; }
 
+    public SO_Quest currentStoryQuest { get; private set; }
+
 
     /// <summary>
     /// Được gọi khi một nhiệm vụ được thêm vào hoặc loại bỏ khỏi danh sách nhiệm vụ.
@@ -21,13 +23,19 @@ public class MGR_QuestManager : MonoBehaviour
     public static event Action OnQuestListUpdate;
 
 
-    private void Start()
+    private void Awake()
     {
         activeQuests_List = new List<IQuestProgress>();
+    }
 
+
+    private void Start()
+    {
         // đăng ký sự kiện cần thiết
         InventoryManager.OnCollectItem += UpdateCollectionProgress;
         MGR_ConversationManager.OnStartConversation += UpdateTalkingProgress;
+
+        DontDestroyOnLoad(this);
     }
 
 
@@ -38,13 +46,51 @@ public class MGR_QuestManager : MonoBehaviour
     }
 
 
+    public void LoadFromSavedGame(SavedGameConfig savedGame)
+    {
+        // lấy danh sách các story quest có trong Resources
+        var storyQuest_List = Resources.LoadAll<SO_Quest>("Quests/StoryQuests");
+
+        // load story quest hiện tại
+        currentStoryQuest = storyQuest_List.FirstOrDefault(q => q.questId == savedGame.currentStoryQuestId);
+        if (currentStoryQuest != null)
+        {
+            AddQuest(currentStoryQuest);
+        }
+
+        // load danh sách các nhiệm vụ được lưu
+        foreach (var questData in savedGame.activeQuest_List)
+        {
+            switch (questData.questType)
+            {
+                case (int)QuestType.Collection:
+                    LoadCollectionQuest(questData);
+                    break;
+
+                case (int)QuestType.Talking:
+                    break;
+
+                case (int)QuestType.Giving:
+                    break;
+
+                case (int)QuestType.Selling:
+                    break;
+
+                default:
+                    break;
+            }
+        }
+    }
+
+
+
     /// <summary>
     /// Thêm nhiệm vụ mới vào danh sách nhiệm vụ.
     /// </summary>
     public void AddQuest(SO_Quest newQuest)
     {
         // nếu nhiệm vụ đã tồn tại trong danh sách nhiệm vụ thì không thêm nó vào nữa
-        if (activeQuests_List.Exists(q => q.GetQuest().questID == newQuest.questID)) { return; }
+        if (activeQuests_List.Exists(q => q.GetQuest().questId == newQuest.questId)) { return; }
 
         var addedQuest = QuestProgressFactory.CreateQuestProgress(newQuest);
         activeQuests_List.Add(addedQuest);
@@ -64,6 +110,8 @@ public class MGR_QuestManager : MonoBehaviour
             if (quest is CollectionQuestProgress collectionQuest)
             {
                 collectionQuest.UpdateProgress(item, quantity);
+
+                Debug.Log($"... Update collection quest");
             }
         }
 
@@ -107,5 +155,17 @@ public class MGR_QuestManager : MonoBehaviour
             activeQuests_List.Remove(completedQuest);
             OnQuestListUpdate?.Invoke();
         }
+    }
+
+
+    private void LoadCollectionQuest(QuestData questData)
+    {
+        // load danh sách tiến trình của vật phẩm
+        var itemProgress = JsonUtility.FromJson<CollectionQuestData>(questData.questJsonData);
+
+        // nếu danh sách tiến trình rỗng thì không làm gì cả
+        if (itemProgress == null || itemProgress.collectedItem_List.Count == 0) { return; }
+
+        activeQuests_List.Add(new CollectionQuestProgress(questData.questId, itemProgress.collectedItem_List));
     }
 }
