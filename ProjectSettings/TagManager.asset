@@ -45,6 +45,9 @@ TagManager:
   - name: Default
     uniqueID: 0
     locked: 0
+  - name: Player
+    uniqueID: 4040761875
+    locked: 0
   - name: Interactable
     uniqueID: 1617754629
     locked: 0
@@ -62,9 +65,6 @@ TagManager:
     locked: 0
   - name: Collision
     uniqueID: 52427787
-    locked: 0
-  - name: Player
-    uniqueID: 4040761875
     locked: 0
   - name: WalkBehind
     uniqueID: 1527080789

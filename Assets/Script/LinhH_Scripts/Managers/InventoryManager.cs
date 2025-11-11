@@ -22,6 +22,8 @@ namespace Management
 {
     public class InventoryManager : MonoBehaviour
     {
+        public static InventoryManager Instance { get; private set; }
+
         [Header("Cấu hình Inventory")]
         [SerializeField] private InventorySlot[] _inventorySlots;
         [SerializeField] private TileCursorFollow tileCursorFollow;
@@ -31,7 +33,19 @@ namespace Management
 
         private int holdingItemIndex = 1;
         public static int gold;
-        private GameObject itemPrefab;
+        public GameObject itemPrefab;
+
+        public void Awake()
+        {
+            if (Instance != null && Instance != this)
+            {
+                Destroy(gameObject);
+            }
+            else
+            {
+                Instance = this;
+            }
+        }
 
         void Start()
         {
@@ -50,28 +64,47 @@ namespace Management
 
         // --- GETTERS ---
 
+
+        /// <summary>
+        /// An toàn, sẽ trả về NULL nếu ô trống.
+        /// </summary>
+        public DragableItem GetHoldingItemComponent()
+        {
+            // Kiểm tra xem _inventorySlots có tồn tại và index có hợp lệ không
+            if (_inventorySlots == null || holdingItemIndex < 0 || holdingItemIndex >= _inventorySlots.Length)
+            {
+                return null; // Mảng slot không hợp lệ
+            }
+
+            InventorySlot slot = _inventorySlots[holdingItemIndex];
+            if (slot == null)
+            {
+                return null; // Slot không tồn tại
+            }
+
+            return slot.GetComponentInChildren<DragableItem>();
+        }
+
+        /// <summary>
+        /// An toàn, sẽ trả về NULL nếu đang cầm ô trống.
+        /// </summary>
         public ItemScriptableObject holdingItem
         {
             get
             {
-                if (_inventorySlots == null || _inventorySlots.Length == 0) return null;
-                if (holdingItemIndex < 0 || holdingItemIndex >= _inventorySlots.Length) return null;
+                DragableItem itemComponent = GetHoldingItemComponent();
 
-                var dragItem = _inventorySlots[holdingItemIndex].GetComponentInChildren<DragableItem>();
-                if (dragItem == null) return null;
+                // Kiểm tra an toàn: Nếu ô trống (component null), trả về null
+                if (itemComponent == null)
+                {
+                    return null;
+                }
 
-                return dragItem.itemScriptableObj;
+                // Nếu ô không trống, trả về item data
+                return itemComponent.itemScriptableObj;
             }
         }
 
-        public DragableItem GetHoldingItemComponent()
-        {
-            if (_inventorySlots == null || _inventorySlots.Length == 0) return null;
-            if (holdingItemIndex < 0 || holdingItemIndex >= _inventorySlots.Length) return null;
-
-            var currentSlot = _inventorySlots[holdingItemIndex];
-            return currentSlot.GetComponentInChildren<DragableItem>();
-        }
 
         // --- LOGIC ĐỔI SLOT ---
 
