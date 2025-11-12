@@ -4,6 +4,8 @@ using UnityEngine.UI;
 
 public class DayNight : MonoBehaviour
 {
+    public static DayNight Instance { get; private set; }
+
     [Header("Time Settings")]
     [Range(0, 24)]
     public float timeOfDay = 6f;             
@@ -26,6 +28,17 @@ public class DayNight : MonoBehaviour
     private float timeSpeed;
     private string currentPeriod = "";
 
+    private void Awake()
+    {
+        if (Instance != null && Instance != this)
+        {
+            Destroy(gameObject);
+        }
+        else
+        {
+            Instance = this;
+        }
+    }
     void Start()
     {
         dayLengthInMinutes = realMinutesPerPeriod * 3;
