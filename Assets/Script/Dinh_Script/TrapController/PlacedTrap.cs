@@ -64,28 +64,28 @@ public class PlacedTrap : MonoBehaviour
 
     void Update()
     {
-        // // Chỉ chạy logic khi timer đang bật
-        // if (!isTimerRunning) return;
+        // Chỉ chạy logic khi timer đang bật
+        if (!isTimerRunning) return;
 
-        // // An toàn nếu DayNight chưa được load
-        // if (DayNight.Instance == null) return;
+        // An toàn nếu DayNight chưa được load
+        if (DayNight.Instance == null) return;
 
-        // int currentDay = DayNight.Instance.currentDay;
-        // float currentTime = DayNight.Instance.timeOfDay;
+        int currentDay = DayNight.Instance.currentDay;
+        float currentTime = DayNight.Instance.timeOfDay;
 
-        // // 1. Kiểm tra xem đã qua ngày target chưa
-        // if (currentDay > targetDay)
-        // {
-        //     OnTimerComplete();
-        // }
-        // // 2. Nếu cùng ngày, kiểm tra giờ
-        // else if (currentDay == targetDay)
-        // {
-        //     if (currentTime >= targetTimeOfDay)
-        //     {
-        //         OnTimerComplete();
-        //     }
-        // }
+        // 1. Kiểm tra xem đã qua ngày target chưa
+        if (currentDay > targetDay)
+        {
+            OnTimerComplete();
+        }
+        // 2. Nếu cùng ngày, kiểm tra giờ
+        else if (currentDay == targetDay)
+        {
+            if (currentTime >= targetTimeOfDay)
+            {
+                OnTimerComplete();
+            }
+        }
     }
 
 
@@ -172,36 +172,36 @@ public class PlacedTrap : MonoBehaviour
 
     private void StartCatchTimer()
     {
-        // if (currentBait == null) return;
-        // if (DayNight.Instance == null)
-        // {
-        //     Debug.LogError("Không tìm thấy DayNight.Instance! Bẫy sẽ không hoạt động.");
-        //     return;
-        // }
+        if (currentBait == null) return;
+        if (DayNight.Instance == null)
+        {
+            Debug.LogError("Không tìm thấy DayNight.Instance! Bẫy sẽ không hoạt động.");
+            return;
+        }
 
-        // // 1. Tính toán thời gian chờ (bằng giờ trong game)
-        // float hoursToWait = baseTimeToCatch * (1.0f - currentBait.biteTimeMultiplier);
-        // hoursToWait = Mathf.Max(0.1f, hoursToWait); // Chờ ít nhất 0.1 giờ
+        // 1. Tính toán thời gian chờ (bằng giờ trong game)
+        float hoursToWait = baseTimeToCatch * (1.0f - currentBait.biteTimeMultiplier);
+        hoursToWait = Mathf.Max(0.1f, hoursToWait); // Chờ ít nhất 0.1 giờ
 
-        // // 2. Lấy thời gian hiện tại
-        // float currentTime = DayNight.Instance.timeOfDay;
-        // int currentDay = DayNight.Instance.currentDay;
+        // 2. Lấy thời gian hiện tại
+        float currentTime = DayNight.Instance.timeOfDay;
+        int currentDay = DayNight.Instance.currentDay;
 
-        // // 3. Tính toán ngày/giờ mục tiêu
-        // targetDay = currentDay;
-        // targetTimeOfDay = currentTime + hoursToWait;
+        // 3. Tính toán ngày/giờ mục tiêu
+        targetDay = currentDay;
+        targetTimeOfDay = currentTime + hoursToWait;
 
-        // // 4. Xử lý nếu giờ mục tiêu vượt qua 24h
-        // // (Giả sử DayNight reset về 6h, không phải 0h)
-        // while (targetTimeOfDay >= 24f)
-        // {
-        //     targetTimeOfDay = 6f + (targetTimeOfDay - 24f); // Bắt đầu ngày mới lúc 6h + thời gian dư
-        //     targetDay++;
-        // }
+        // 4. Xử lý nếu giờ mục tiêu vượt qua 24h
+        // (Giả sử DayNight reset về 6h, không phải 0h)
+        while (targetTimeOfDay >= 24f)
+        {
+            targetTimeOfDay = 6f + (targetTimeOfDay - 24f); // Bắt đầu ngày mới lúc 6h + thời gian dư
+            targetDay++;
+        }
 
-        // // 5. Bật timer
-        // isTimerRunning = true;
-        // //Debug.Log($"Bẫy sẽ sẵn sàng vào Ngày {targetDay} lúc {targetTimeOfDay}:00");
+        // 5. Bật timer
+        isTimerRunning = true;
+        //Debug.Log($"Bẫy sẽ sẵn sàng vào Ngày {targetDay} lúc {targetTimeOfDay}:00");
     }
 
 
