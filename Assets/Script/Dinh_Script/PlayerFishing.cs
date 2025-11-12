@@ -438,6 +438,7 @@ public class PlayerFishing : MonoBehaviour
             if (displayFishCoroutine != null) StopCoroutine(displayFishCoroutine);
             displayFishCoroutine = StartCoroutine(ShowCaughtFishUI(currentBitingFish));
         }
+        
     }
 
     private void HandleFishingFailure()
@@ -573,30 +574,28 @@ public class PlayerFishing : MonoBehaviour
     }
     private void TryAddItemAndCleanup(FishData fish)
     {
-        // --- BẮT ĐẦU SỬA LỖI (THÊM CÁ VÀO TÚI) ---
         if (inventory != null && fish != null)
         {
-            // 'fish' là một FishData, cũng là một ItemScriptableObject
-            // Gọi hàm AddItem từ InventoryManager của bạn
             bool addedSuccessfully = inventory.AddItem(fish, 1);
 
-            if (!addedSuccessfully)
+            if (addedSuccessfully)
             {
-                Debug.LogWarning($"[PlayerFishing] Thêm cá {fish.displayName} thất bại! (Túi đồ có thể đã đầy?)");
-                // GHI CHÚ: Nếu túi đồ đầy, bạn có thể muốn 
-                // thả item ra đất ở đây thay vì làm mất nó.
+                Debug.Log($"[PlayerFishing] Đã thêm {fish.displayName} vào túi đồ.");
+
+                if (SkillManager.Instance != null && fish.xpGranted > 0)
+                {
+                    SkillManager.Instance.AddXP(SkillType.Fishing, fish.xpGranted);
+                }
             }
             else
             {
-                Debug.Log($"[PlayerFishing] Đã thêm {fish.displayName} vào túi đồ.");
+                Debug.LogWarning($"[PlayerFishing] Thêm cá {fish.displayName} thất bại! (Túi đồ có thể đã đầy?)");
             }
         }
         else
         {
             Debug.LogError("[PlayerFishing] Không thể thêm cá! Inventory hoặc FishData bị null!");
         }
-        // --- KẾT THÚC SỬA LỖI ---
-
 
         // --- PHẦN DỌN DẸP (Giữ nguyên code cũ của bạn) ---
         activeBaitEffect = null; // Reset buff mồi

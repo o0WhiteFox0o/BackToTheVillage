@@ -48,7 +48,7 @@ public class GameplayUIManager : MonoBehaviour
 
     private MGR_QuestManager questManager;
     private EventSystem eventSystem;
-    private bool isAnyUIOpen;
+    public static bool isAnyUIOpen { get; private set; }
 
 
     private void Start()

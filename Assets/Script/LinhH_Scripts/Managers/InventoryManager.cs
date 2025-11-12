@@ -15,6 +15,7 @@ public enum ItemType
     Seed,
     Consumable,
     ItemQuest,
+    CraftingRecipe,
     Miscellaneous
 }
 

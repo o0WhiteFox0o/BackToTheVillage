@@ -22,6 +22,7 @@ MonoBehaviour:
   sellPrice: 0
   itemPrefab: {fileID: 0}
   plantPrefab: {fileID: 0}
+  xpGranted: 40
   rarity: 1
   min_weight: 10
   min_length: 100

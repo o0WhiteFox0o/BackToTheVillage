@@ -7,6 +7,7 @@ using Management;
 // GẮN SCRIPT NÀY VÀO PREFAB "InventorySlot"
 public class InventorySlot : MonoBehaviour, IDropHandler, IPointerClickHandler 
 {
+    public bool isHotBarSlot = false;
     [SerializeField] private GameObject selectedHighlight;
 
     /// <summary>

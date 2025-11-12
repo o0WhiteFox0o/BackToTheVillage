@@ -4,6 +4,7 @@
 public class FishData : ItemScriptableObject
 {
     [Header("Thông tin cơ bản")]
+    public int xpGranted = 10;
     public int rarity = 1;
     public float min_weight = 1f;
     public float min_length = 10f;

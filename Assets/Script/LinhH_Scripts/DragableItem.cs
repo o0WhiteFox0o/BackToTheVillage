@@ -67,6 +67,11 @@ namespace GameUI
 
         public void OnBeginDrag(PointerEventData eventData)
         {
+            if (GameplayUIManager.isAnyUIOpen == false) { 
+                eventData.pointerDrag = null;
+                if(_image != null)_image.raycastTarget = true;
+                return;
+            }
             if (_image == null || eventData.button != PointerEventData.InputButton.Left) return;
 
             itemBeingHeld = this;// Báo cho hệ thống biết "Tôi đang được cầm"
