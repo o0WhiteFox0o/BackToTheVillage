@@ -48,16 +48,6 @@ public class MGR_QuestManager : MonoBehaviour
 
     public void LoadFromSavedGame(SavedGameConfig savedGame)
     {
-        // lấy danh sách các story quest có trong Resources
-        var storyQuest_List = Resources.LoadAll<SO_Quest>("Quests/StoryQuests");
-
-        // load story quest hiện tại
-        currentStoryQuest = storyQuest_List.FirstOrDefault(q => q.questId == savedGame.currentStoryQuestId);
-        if (currentStoryQuest != null)
-        {
-            AddQuest(currentStoryQuest);
-        }
-
         // load danh sách các nhiệm vụ được lưu
         foreach (var questData in savedGame.activeQuest_List)
         {
@@ -68,6 +58,7 @@ public class MGR_QuestManager : MonoBehaviour
                     break;
 
                 case (int)QuestType.Talking:
+                    LoadTalkingProgress(questData);
                     break;
 
                 case (int)QuestType.Giving:
@@ -110,8 +101,6 @@ public class MGR_QuestManager : MonoBehaviour
             if (quest is CollectionQuestProgress collectionQuest)
             {
                 collectionQuest.UpdateProgress(item, quantity);
-
-                Debug.Log($"... Update collection quest");
             }
         }
 
@@ -167,5 +156,16 @@ public class MGR_QuestManager : MonoBehaviour
         if (itemProgress == null || itemProgress.collectedItem_List.Count == 0) { return; }
 
         activeQuests_List.Add(new CollectionQuestProgress(questData.questId, itemProgress.collectedItem_List));
+    }
+
+
+    private void LoadTalkingProgress(QuestData questData)
+    {
+        // load nhiệm vụ có cùng id trong Resource
+        var quest_List = Resources.LoadAll<SO_Quest>("Quests");
+        var quest = quest_List.FirstOrDefault(q => q.questId == questData.questId);
+
+        // thêm nhiệm vụ vừa được load vào danh sách nhiệm vụ
+        AddQuest(quest);
     }
 }

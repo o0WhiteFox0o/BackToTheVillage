@@ -9,9 +9,12 @@ using System.Collections.Generic;
 using System.IO;
 using UnityEngine;
 
+
+/// <summary>
+/// Dùng để lưu và load các thông tin của màn chơi được lưu.
+/// </summary>
 public class SavedGameConfig
 {
-    public string currentStoryQuestId;
     public List<QuestData> activeQuest_List = new List<QuestData>();
 
 

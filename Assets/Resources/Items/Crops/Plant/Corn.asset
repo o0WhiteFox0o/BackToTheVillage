@@ -21,4 +21,4 @@ MonoBehaviour:
   daysPerStage: 01000000010000000100000001000000
   isRegrowable: 0
   regrowDays: 0
-  harvestItem: {fileID: 0}
+  harvestItem: {fileID: 11400000, guid: 3a0e17dd38c938243b9653bb4e68778e, type: 2}

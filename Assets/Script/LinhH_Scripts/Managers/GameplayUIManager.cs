@@ -7,6 +7,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using GameUI;
 using TMPro;
 using UnityEngine;
 using UnityEngine.EventSystems;
@@ -24,6 +25,7 @@ public class GameplayUIManager : MonoBehaviour
     [SerializeField] public GameObject npcUI;
     [SerializeField] public GameObject settingUI;
     [SerializeField] public GameObject questUI;
+    [SerializeField] public GameObject characterUI;
     [SerializeField] public GameObject generalUI_Notification;
 
 
@@ -50,6 +52,9 @@ public class GameplayUIManager : MonoBehaviour
     [Header("Other")]
     [SerializeField] public GraphicRaycaster uiRaycaster;
 
+    private GameObject itemInfoUI;
+    private GameObject itemInfoUI_Prefab;
+
 
     private MGR_QuestManager questManager;
     private EventSystem eventSystem;
@@ -62,8 +67,9 @@ public class GameplayUIManager : MonoBehaviour
 
         eventSystem = FindObjectOfType<EventSystem>();
         questManager = FindObjectOfType<MGR_QuestManager>();
+        itemInfoUI_Prefab = Resources.Load<GameObject>("Prefabs/ItemInfoUI");
 
-        if (eventSystem == null || questManager == null)
+        if (eventSystem == null || questManager == null || itemInfoUI_Prefab == null)
         {
             Debug.LogError("Can't load a manager component.");
         }
@@ -174,6 +180,23 @@ public class GameplayUIManager : MonoBehaviour
         else if (!isAnyUIOpen)
         {
             settingUI.SetActive(true);
+            isAnyUIOpen = true;
+        }
+    }
+
+
+    public void ToggleCharacterUI()
+    {
+        // tắt UI thông tin nhân vật nếu nó đang bật
+        if (characterUI.activeSelf)
+        {
+            characterUI.SetActive(false);
+            isAnyUIOpen = false;
+        }
+        // bật UI thông tin nhân vật nếu nó đang tắt và không có UI nào khác đang được bật
+        else if (!isAnyUIOpen)
+        {
+            characterUI.SetActive(true);
             isAnyUIOpen = true;
         }
     }
@@ -376,4 +399,90 @@ public class GameplayUIManager : MonoBehaviour
     }
 
     #endregion
+
+
+    #region Inventory
+    public void EnableItemInfoUI(Transform inventorySlot)
+    {
+        itemInfoUI = MGR_ObjectPoolManager.SpawnObject(itemInfoUI_Prefab, transform);
+
+        // load vật phẩm có trong slot
+        var itemInSlot = inventorySlot.GetComponentInChildren<DragableItem>();
+        if (itemInSlot == null) { return; }
+
+        // thiết lập các thông tin item info ui
+        var itemName = itemInSlot.itemScriptableObj.displayName.GetLocalizedString();
+        var itemDesc = itemInSlot.itemScriptableObj.itemDescription.GetLocalizedString();
+        var itemPrice = itemInSlot.itemScriptableObj.sellPrice;
+        itemInfoUI.GetComponent<UI_ItemInfoUI>().SetUpItemInfo(itemName, itemDesc, itemPrice);
+
+        SetUpItemInfoPosition(inventorySlot);
+    }
+
+
+    public void DisableItemInfoUI()
+    {
+        // tắt ui thông tin item
+        MGR_ObjectPoolManager.ReturnObjectToPool(itemInfoUI);
+    }
+
+
+    /// <summary>
+    /// Thiết lập vị trí của item info UI dựa theo vị trí của slot trên màn hình.
+    /// </summary>
+    private void SetUpItemInfoPosition(Transform inventorySlot)
+    {
+        // lấy vị trí x và y của con trỏ chuột
+        var mousePosX = Input.mousePosition.x;
+        var mousePosY = Input.mousePosition.y;
+
+        var itemInfoUIRectTransform = itemInfoUI.GetComponent<RectTransform>();
+
+        // lấy vị trí 4 góc của inventory slot
+        Vector3[] worldCorners = new Vector3[4];
+        inventorySlot.gameObject.GetComponent<RectTransform>().GetWorldCorners(worldCorners);
+
+
+        // thiết lập vị trí của item info ui khi con trỏ chuột ở phần trên - trái
+        if ((mousePosY > Screen.height / 2) && (mousePosX < Screen.width / 2))
+        {
+            // thiết lập pivot của item info ui
+            itemInfoUIRectTransform.pivot = new Vector2(0, 1f);
+
+            // gán vị trí của item info ui tại góc dưới bên phải của slot
+            itemInfoUI.transform.position = worldCorners[3];
+        }
+
+        // thiết lập vị trí của item info ui khi con trỏ chuột ở phần trên - phải
+        else if ((mousePosY > Screen.height / 2) && (mousePosX > Screen.width / 2))
+        {
+            // thiết lập pivot của item info ui
+            itemInfoUIRectTransform.pivot = Vector2.one;
+
+            // gán vị trí của item info ui tại góc dưới bên phải của slot
+            itemInfoUI.transform.position = worldCorners[0];
+        }
+
+        // thiết lập vị trí của item info ui khi con trỏ chuột ở phần dưới - trái
+        else if ((mousePosY < Screen.height / 2) && (mousePosX < Screen.width / 2))
+        {
+            // thiết lập pivot của item info ui
+            itemInfoUIRectTransform.pivot = Vector2.zero;
+
+            // gán vị trí của item info ui tại góc dưới bên phải của slot
+            itemInfoUI.transform.position = worldCorners[2];
+        }
+
+        // thiết lập vị trí của item info ui khi con trỏ chuột ở phần dưới - phải
+        else
+        {
+            // thiết lập pivot của item info ui
+            itemInfoUIRectTransform.pivot = new Vector2(1f, 0);
+
+            // gán vị trí của item info ui tại góc dưới bên phải của slot
+            itemInfoUI.transform.position = worldCorners[1];
+        }
+
+        #endregion
+    }
 }

@@ -14,7 +14,7 @@ public class GameConfig
     /// </summary>
     public static GameConfig LoadGameConfig()
     {
-        string gameConfigPath = Path.Combine(Application.streamingAssetsPath, GameConstants.GAME_CONFIG_PATH);
+        string gameConfigPath = Path.Combine(Application.streamingAssetsPath, GameConstants.GAME_CONFIG_FILE);
 
         // nếu file không tồn tại thì trả về giá trị null
         if (!File.Exists(gameConfigPath))

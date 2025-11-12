@@ -40,9 +40,6 @@ public class MGR_GameplayManager : MonoBehaviour
     {
         SavedGameConfig savedGameConfig = new SavedGameConfig();
 
-        // lưu tiến độ nhiệm vụ cốt truyện
-        savedGameConfig.currentStoryQuestId = questManager.currentStoryQuest?.questId;
-
         // lưu danh sách các nhiệm vụ đang kích hoạt vào saved game config
         foreach (var quest in questManager.activeQuests_List)
         {

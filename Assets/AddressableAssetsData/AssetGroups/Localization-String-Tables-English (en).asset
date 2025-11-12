@@ -59,6 +59,24 @@ MonoBehaviour:
     m_SerializedLabels:
     - Locale-en
     FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 1436a39cbe4bb764e81d85d2b0857626
+    m_Address: ItemDescriptions_en
+    m_ReadOnly: 1
+    m_SerializedLabels:
+    - Locale-en
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 17c81a5f9ba21a04691ff0f9b5622c55
+    m_Address: ItemName_en
+    m_ReadOnly: 1
+    m_SerializedLabels:
+    - Locale-en
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: b90dc747e631bd244a1e4e5892878d1a
+    m_Address: GameplayMessage_en
+    m_ReadOnly: 1
+    m_SerializedLabels:
+    - Locale-en
+    FlaggedDuringContentUpdateRestriction: 0
   m_ReadOnly: 1
   m_Settings: {fileID: 11400000, guid: 59d7c3f32b95b404abe6e0218659eb6d, type: 2}
   m_SchemaSet:

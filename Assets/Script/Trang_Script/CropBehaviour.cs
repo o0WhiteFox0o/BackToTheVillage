@@ -1,5 +1,5 @@
 ﻿using UnityEngine;
-
+using Management;
 public class CropBehaviour : MonoBehaviour
 {
     public CropData cropData;         // Dữ liệu ScriptableObject của cây
@@ -60,21 +60,40 @@ public class CropBehaviour : MonoBehaviour
     {
         if (!isHarvestable) return;
 
-        // Có thể thêm logic sinh ra item ở đây
-        Debug.Log($"Thu hoạch {cropData.cropName}!");
-
-        if (cropData.isRegrowable)
+        // ✅ Tìm InventoryManager đang có trong scene
+        var inventoryManager = FindObjectOfType<Management.InventoryManager>();
+        if (inventoryManager != null)
         {
-            // Nếu là cây mọc lại → quay về giai đoạn gần cuối
-            currentStage = cropData.growthPrefabs.Length - 2;
-            daysInCurrentStage = 0;
-            isHarvestable = false;
-            LoadStage(currentStage);
+            inventoryManager.AddItem(cropData.harvestItem, 1);
+            Debug.Log($"Đã thu hoạch: {cropData.harvestItem.displayName}");
         }
         else
         {
-            // Nếu không mọc lại → phá huỷ cây
+            Debug.LogWarning("Không tìm thấy InventoryManager trong scene!");
+        }
+
+        // ✅ Nếu cây có thể tái sinh
+        if (cropData.isRegrowable)
+        {
+            isHarvestable = false;
+            currentStage = cropData.growthPrefabs.Length - 2; // quay về giai đoạn trước chín
+            daysInCurrentStage = 0;
+            UpdateVisual();
+        }
+        else
+        {
+            // ✅ Nếu cây chỉ thu hoạch 1 lần thì hủy
             Destroy(gameObject);
         }
+    }
+
+
+    private void UpdateVisual()
+    {
+        if (currentPrefab != null)
+            Destroy(currentPrefab);
+
+        if (cropData.growthPrefabs != null && currentStage < cropData.growthPrefabs.Length)
+            currentPrefab = Instantiate(cropData.growthPrefabs[currentStage], transform);
     }
 }
