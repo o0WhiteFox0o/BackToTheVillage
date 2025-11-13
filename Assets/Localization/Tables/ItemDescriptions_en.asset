@@ -29,6 +29,10 @@ MonoBehaviour:
       control prey effectively.
     m_Metadata:
       m_Items: []
+  - m_Id: 398125425516544
+    m_Localized: This is tomato seed
+    m_Metadata:
+      m_Items: []
   references:
     version: 2
     RefIds: []

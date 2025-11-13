@@ -23,6 +23,10 @@ MonoBehaviour:
     m_Key: itemName.rod
     m_Metadata:
       m_Items: []
+  - m_Id: 396176227590144
+    m_Key: itemName.tomatoSeed
+    m_Metadata:
+      m_Items: []
   m_Metadata:
     m_Items: []
   m_KeyGenerator:

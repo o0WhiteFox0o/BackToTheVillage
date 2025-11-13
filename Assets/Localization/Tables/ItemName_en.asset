@@ -26,6 +26,10 @@ MonoBehaviour:
     m_Localized: Rod
     m_Metadata:
       m_Items: []
+  - m_Id: 396176227590144
+    m_Localized: Tomato seed
+    m_Metadata:
+      m_Items: []
   references:
     version: 2
     RefIds: []
