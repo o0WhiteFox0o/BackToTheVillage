@@ -23,7 +23,11 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 3799151427584
-    m_Localized: Rod
+    m_Localized: Fishing Rod
+    m_Metadata:
+      m_Items: []
+  - m_Id: 362655727030272
+    m_Localized: Worm Bait
     m_Metadata:
       m_Items: []
   references:

@@ -34,7 +34,7 @@ MonoBehaviour:
   perkIcon: {fileID: 0}
   modifiers:
   - statType: 1
-    valueToAdd: 1
+    valueToAdd: 0.2
   references:
     version: 2
     RefIds: []

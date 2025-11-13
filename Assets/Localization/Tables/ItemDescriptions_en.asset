@@ -29,6 +29,10 @@ MonoBehaviour:
       control prey effectively.
     m_Metadata:
       m_Items: []
+  - m_Id: 364042154217472
+    m_Localized: Dig underground
+    m_Metadata:
+      m_Items: []
   references:
     version: 2
     RefIds: []

@@ -36,7 +36,7 @@ MonoBehaviour:
   canSell: 1
   itemType: 2
   buyPrice: 0
-  sellPrice: 0
+  sellPrice: 100
   itemPrefab: {fileID: 0}
   plantPrefab: {fileID: 0}
   canUseBait: 1

@@ -23,6 +23,10 @@ MonoBehaviour:
     m_Key: itemDesc.rod
     m_Metadata:
       m_Items: []
+  - m_Id: 364042154217472
+    m_Key: itemDesc.wormbait
+    m_Metadata:
+      m_Items: []
   m_Metadata:
     m_Items: []
   m_KeyGenerator:
