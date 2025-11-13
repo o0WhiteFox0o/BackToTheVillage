@@ -1,0 +1,36 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5b11a58205ec3474ca216360e9fa74a8, type: 3}
+  m_Name: ItemName Shared Data
+  m_EditorClassIdentifier: 
+  m_TableCollectionName: ItemName
+  m_TableCollectionNameGuidString: 617205a636be30b4ebf3ebb48dae06a2
+  m_Entries:
+  - m_Id: 6326206464
+    m_Key: itemName.shark
+    m_Metadata:
+      m_Items: []
+  - m_Id: 3799151427584
+    m_Key: itemName.rod
+    m_Metadata:
+      m_Items: []
+  m_Metadata:
+    m_Items: []
+  m_KeyGenerator:
+    rid: 9024185888079609860
+  references:
+    version: 2
+    RefIds:
+    - rid: 9024185888079609860
+      type: {class: DistributedUIDGenerator, ns: UnityEngine.Localization.Tables, asm: Unity.Localization}
+      data:
+        m_CustomEpoch: 1762933479240

@@ -518,7 +518,7 @@ public class PlayerFishing : MonoBehaviour
         float randomLength = Random.Range(fish.min_length, fish.max_length); // Giả sử là minLength
         // *** KẾT THÚC KIỂM TRA ***
 
-        if (fishNameText != null) fishNameText.text = fish.displayName;
+        if (fishNameText != null) fishNameText.text = fish.displayName.GetLocalizedString();
         if (fishingIcon != null) fishingIcon.sprite = fish.icon; // Cập nhật Icon
         if (fishWeightText != null) fishWeightText.text = $"Nặng: {randomWeight:F1} kg";
         if (fishLengthText != null) fishLengthText.text = $"Dài: {randomLength:F1} cm";

@@ -9,17 +9,18 @@ using UnityEngine;
 public class SO_Quest : ScriptableObject
 {
     [Header("Overview")]
-    public string questID;
+    public string questId;
     public string tittle;
     public string description;
-    public QuestType questType;
-
-    [Header("Reward")]
 
     /// <summary>
-    /// Có hiển thị phần thưởng trong Quest UI không.
+    /// Phân loại nhiệm vụ. E.g. Story quest, Event quest, ...
     /// </summary>
-    public bool displayRewardInUI;
+    public QuestCategorize questCategorize;
+
+    [HideInInspector] public QuestType questType;
+
+    [Header("Reward")]
     public QuestReward reward;
 
     [Header("Next Quest")]
@@ -28,4 +29,22 @@ public class SO_Quest : ScriptableObject
     /// Nhiệm vụ tiếp theo trong chuỗi nhiệm vụ (nếu có).
     /// </summary>
     public SO_Quest nextQuest;
+}
+
+
+public enum QuestType
+{
+    Collection,
+    Talking,
+    Giving,
+    Selling
+}
+
+
+public enum QuestCategorize
+{
+    StoryQuest,
+    EventQuest,
+    CompanionQuest,
+    Other
 }

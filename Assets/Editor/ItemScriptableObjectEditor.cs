@@ -11,7 +11,7 @@ public class ItemScriptableObjectEditor : Editor
         EditorGUILayout.LabelField("Overview", EditorStyles.boldLabel);
         item.id = EditorGUILayout.TextField("ID", item.id);
         item.icon = (Sprite)EditorGUILayout.ObjectField("Icon", item.icon, typeof(Sprite), false);
-        item.displayName = EditorGUILayout.TextField("Display Name", item.displayName);
+        // item.displayName = EditorGUILayout.TextField("Display Name", item.displayName);
         item.stackable = EditorGUILayout.Toggle("Stackable", item.stackable);
         item.canSell = EditorGUILayout.Toggle("Can Sell", item.canSell);
         item.itemType = (ItemType)EditorGUILayout.EnumPopup("Item Type", item.itemType);

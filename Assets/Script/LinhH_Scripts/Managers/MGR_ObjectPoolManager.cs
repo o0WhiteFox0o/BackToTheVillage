@@ -20,11 +20,16 @@ public class MGR_ObjectPoolManager : MonoBehaviour
     private static GameObject _plantHolder;
     private static GameObject _gameObjectHolder;
     public static ObjectPoolType poolType;
-    
+
 
     void Awake()
     {
         SetupObjectPoolsEmpty();
+    }
+    
+
+    private void Start() {
+        DontDestroyOnLoad(this);
     }
 
 
