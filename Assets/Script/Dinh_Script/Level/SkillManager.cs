@@ -125,9 +125,9 @@ public class SkillManager : MonoBehaviour
     /// </summary>
     private void GrantRewardsForLevel(SkillData skillData, int newLevel)
     {
-        Debug.LogWarning($"[DEBUG] Đang kiểm tra SkillData tên: '{skillData.name}'.");
-        Debug.LogWarning($"[DEBUG] File này có tổng cộng {skillData.recipeRewards.Count} công thức (trong Recipe Rewards).");
-        Debug.LogWarning($"[DEBUG] File này có tổng cộng {skillData.professionChoices.Count} lựa chọn (trong Profession Choices).");
+        //Debug.LogWarning($"[DEBUG] Đang kiểm tra SkillData tên: '{skillData.name}'.");
+        //Debug.LogWarning($"[DEBUG] File này có tổng cộng {skillData.recipeRewards.Count} công thức (trong Recipe Rewards).");
+        //Debug.LogWarning($"[DEBUG] File này có tổng cộng {skillData.professionChoices.Count} lựa chọn (trong Profession Choices).");
 
         // 1. Mở khóa Công thức
         var recipesToUnlock = skillData.recipeRewards.Where(r => r.levelToUnlock == newLevel).ToList();

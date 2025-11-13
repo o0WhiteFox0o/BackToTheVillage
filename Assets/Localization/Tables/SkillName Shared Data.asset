@@ -10,35 +10,35 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 5b11a58205ec3474ca216360e9fa74a8, type: 3}
-  m_Name: Skill Shared Data
+  m_Name: SkillName Shared Data
   m_EditorClassIdentifier: 
-  m_TableCollectionName: Skill
-  m_TableCollectionNameGuidString: 1b88249620600954aa24dfce230af472
+  m_TableCollectionName: SkillName
+  m_TableCollectionNameGuidString: 8768c13927a9f524b96cab58f276386f
   m_Entries:
-  - m_Id: 10792538112
-    m_Key: Skill.FishBonus10
+  - m_Id: 5881008128
+    m_Key: SkillName.FishBonus10
     m_Metadata:
       m_Items: []
-  - m_Id: 1078456815616
-    m_Key: Skill.FishBonus20
+  - m_Id: 9827848192
+    m_Key: SkillName.FishBonus20
     m_Metadata:
       m_Items: []
-  - m_Id: 1193858895872
-    m_Key: Skill.DoubleFishCatch
+  - m_Id: 15146225664
+    m_Key: SkillName.DoubleChance
     m_Metadata:
       m_Items: []
-  - m_Id: 1237794230272
-    m_Key: Skill.TrapCostReduce
+  - m_Id: 18921099264
+    m_Key: SkillName.TrapCostReduce
     m_Metadata:
       m_Items: []
   m_Metadata:
     m_Items: []
   m_KeyGenerator:
-    rid: 5972767343110520834
+    rid: 5972767365331419138
   references:
     version: 2
     RefIds:
-    - rid: 5972767343110520834
+    - rid: 5972767365331419138
       type: {class: DistributedUIDGenerator, ns: UnityEngine.Localization.Tables, asm: Unity.Localization}
       data:
-        m_CustomEpoch: 1762939339222
+        m_CustomEpoch: 1763018496952
