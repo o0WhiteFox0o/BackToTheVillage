@@ -55,6 +55,8 @@ public class MGR_ConversationManager : MonoBehaviour
 
         InputManager.OnSkipDialoguePress += PlayNextLine;
         InputManager.OnRightClickNPC += SetupConversation;
+
+        DontDestroyOnLoad(this);
     }
 
 

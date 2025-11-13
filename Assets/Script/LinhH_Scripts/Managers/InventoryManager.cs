@@ -15,8 +15,8 @@ public enum ItemType
     Seed,
     Consumable,
     ItemQuest,
-    CraftingRecipe,
-    Miscellaneous
+    Miscellaneous,
+CraftingRecipe
 }
 
 namespace Management
@@ -56,6 +56,8 @@ namespace Management
 
             ChangeSelectedItem(holdingItemIndex);
             InputManager.OnItemSelected += ChangeSelectedItem;
+
+            DontDestroyOnLoad(this);
         }
 
         void OnDisable()

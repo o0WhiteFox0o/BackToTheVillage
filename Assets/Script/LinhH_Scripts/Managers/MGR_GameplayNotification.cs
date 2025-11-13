@@ -29,6 +29,8 @@ public class MGR_GameplayNotification : MonoBehaviour
         }
 
         MGR_QuestManager.OnQuestListUpdate += UpdateQuestNotification;
+
+        DontDestroyOnLoad(this);
     }
     
 

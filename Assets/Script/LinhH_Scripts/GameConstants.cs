@@ -1,6 +1,3 @@
-using System.IO;
-using UnityEngine;
-
 public class GameConstants
 {
     /// <summary>
@@ -14,6 +11,13 @@ public class GameConstants
     /// Các game object con: Highlight slot
     public const int DEFAULT_INVENTORY_SLOT_CHILDREN_COUNT = 1;
 
+    /// <summary>
+    /// Tên file lưu trữ các thông tin chung của trò chơi.
+    /// </summary>
+    public const string GAME_CONFIG_FILE = "GameConfig.json";
 
-    public const string GAME_CONFIG_PATH = "GameConfig.json";
+    /// <summary>
+    /// Tên thư mục chứa các file lưu trữ của màn chơi.
+    /// </summary>
+    public const string SAVED_GAMES_FOLDER = "SavedGames";
 }

@@ -14,7 +14,24 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   id: fish_shark
   icon: {fileID: 21300000, guid: c5af0c832417a8343b15d839f6ccd5ff, type: 3}
-  displayName: Shark
+  displayName:
+    m_TableReference:
+      m_TableCollectionName: GUID:617205a636be30b4ebf3ebb48dae06a2
+    m_TableEntryReference:
+      m_KeyId: 6326206464
+      m_Key: 
+    m_FallbackState: 0
+    m_WaitForCompletion: 0
+    m_LocalVariables: []
+  itemDescription:
+    m_TableReference:
+      m_TableCollectionName: GUID:95ab3aa9c95b5c2448881d7d9476e40c
+    m_TableEntryReference:
+      m_KeyId: 8033288192
+      m_Key: 
+    m_FallbackState: 0
+    m_WaitForCompletion: 0
+    m_LocalVariables: []
   stackable: 1
   canSell: 0
   itemType: 1
@@ -33,3 +50,6 @@ MonoBehaviour:
   maxGameTime: 50
   progressIncrease: 0.1
   progressDecrease: 0.05
+  references:
+    version: 2
+    RefIds: []

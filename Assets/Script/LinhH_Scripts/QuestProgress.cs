@@ -33,6 +33,9 @@ public class CollectionQuestProgress : IQuestProgress
     public static event UpdateCollectionQuestHandler OnCollectionQuestUpdate;
 
 
+    /// <summary>
+    /// Tạo một tiến trình nhiệm vụ thu thập mới từ nhiệm vụ được truyền vào.
+    /// </summary>
     public CollectionQuestProgress(SO_CollectionQuest collectionQuest)
     {
         quest = collectionQuest;
@@ -49,15 +52,58 @@ public class CollectionQuestProgress : IQuestProgress
 
 
     /// <summary>
+    /// Tạo một tiến trình nhiệm vụ thu thập cho các nhiệm vụ được load từ file (không phải là một tiến trình mới).
+    /// </summary>
+    public CollectionQuestProgress(string questId, List<ItemCollectedData> targetItems_List)
+    {
+        // load nhiệm vụ từ Resources
+        var collectionQuest_List = Resources.LoadAll<SO_Quest>("Quests");
+        var resourceQuest = collectionQuest_List.FirstOrDefault(q => q.questId == questId);
+
+        // nếu nhiệm vụ được load là nhiệm vụ thu thập thì gán nó vào quest
+        if (resourceQuest is SO_CollectionQuest collectionQuest)
+        {
+            quest = collectionQuest;
+        }
+
+        // load danh sách item có trong Resources
+        var itemSO_List = Resources.LoadAll<ItemScriptableObject>("Items");
+
+        // thiết lập tiến trình của từng vật phẩm trong nhiệm vụ
+        itemRequirements_List.Clear();
+        foreach (var itemProgress in targetItems_List)
+        {
+            // load vật phẩm tương ứng với vật phẩm được lưu trong file
+            var requirementItem = itemSO_List.FirstOrDefault(i => i.id == itemProgress.itemId);
+
+            Debug.Log($"... {itemSO_List.Length}");
+
+
+            if (requirementItem == null) { continue; }
+
+            // thêm tiến trình của vật phẩm vào danh sách vật phẩm yêu cầu
+            itemRequirements_List.Add(new QuestItemRequirement
+            {
+                item = requirementItem,
+                currentQuantity = itemProgress.currentQuantity,
+                requirementQuantity = itemProgress.totalQuantity
+            });
+        }
+
+        isActive = true;
+    }
+
+
+    /// <summary>
     /// Cập nhật tiến trình cho nhiệm vụ thu thập vật phẩm.
     /// </summary>
     public void UpdateProgress(ItemScriptableObject updatedItem, int updatedQuantity)
     {
         // nếu vật phẩm không có trong danh sách cần thu thập thì dừng
-        if (!itemRequirements_List.Exists(i => i.item == updatedItem)) { return; }
+        if (!itemRequirements_List.Exists(i => i.item.id == updatedItem.id)) { return; }
 
         // cập nhật số lượng vật phẩm cho nhiệm vụ
-        var requirementItem = itemRequirements_List.FirstOrDefault(i => i.item == updatedItem);
+        var requirementItem = itemRequirements_List.FirstOrDefault(i => i.item.id == updatedItem.id);
         if (requirementItem != null)
         {
             requirementItem.currentQuantity += updatedQuantity;
@@ -69,6 +115,9 @@ public class CollectionQuestProgress : IQuestProgress
     }
 
 
+    /// <summary>
+    /// Kiểm tra tiến trình của nhiệm vụ thu thập.
+    /// </summary>
     public void CheckProgress()
     {
         // nếu có bất kỳ vật phẩm nào trong danh sách chưa thu thập đủ thì không làm gì
