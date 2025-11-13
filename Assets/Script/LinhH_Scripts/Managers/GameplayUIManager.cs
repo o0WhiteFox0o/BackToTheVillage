@@ -404,17 +404,27 @@ public class GameplayUIManager : MonoBehaviour
     #region Inventory
     public void EnableItemInfoUI(Transform inventorySlot)
     {
+        // 1. Tạo UI
         itemInfoUI = MGR_ObjectPoolManager.SpawnObject(itemInfoUI_Prefab, transform);
 
-        // load vật phẩm có trong slot
+        // 2. Lấy vật phẩm từ Slot
         var itemInSlot = inventorySlot.GetComponentInChildren<DragableItem>();
-        if (itemInSlot == null) { return; }
+        // Nếu không có vật phẩm thì dừng lại, không làm gì cả
+        if (itemInSlot == null) return;
 
-        // thiết lập các thông tin item info ui
+        // 3. Tính giá thực tế (Đã cộng Buff nghề nghiệp)
+        // Gọi Manager để lấy giá của 1 món đồ
+        int finalUnitPrice = PlayerStatManager.Instance.GetActualItemPrice(itemInSlot.itemScriptableObj);
+
+        // 4. Lấy thông tin hiển thị
         var itemName = itemInSlot.itemScriptableObj.displayName.GetLocalizedString();
         var itemDesc = itemInSlot.itemScriptableObj.itemDescription.GetLocalizedString();
-        var itemPrice = itemInSlot.itemScriptableObj.sellPrice;
-        var itemPriceStack = itemInSlot.itemScriptableObj.sellPrice * itemInSlot.quantity;
+
+        // 5. Cập nhật biến giá (Dùng giá mới tính được)
+        var itemPrice = finalUnitPrice; // Giá đơn lẻ
+        var itemPriceStack = finalUnitPrice * itemInSlot.quantity; // Giá tổng (Stack)
+
+        // 6. Gửi vào UI để hiển thị
         itemInfoUI.GetComponent<UI_ItemInfoUI>().SetUpItemInfo(itemName, itemDesc, itemPrice, itemPriceStack);
 
         SetUpItemInfoPosition(inventorySlot);
