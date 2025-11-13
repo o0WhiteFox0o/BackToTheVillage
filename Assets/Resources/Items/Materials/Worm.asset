@@ -14,15 +14,35 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   id: 
   icon: {fileID: -3040461, guid: 077424963b4f749408fc3a14e818b0ba, type: 3}
-  displayName: Worm
+  displayName:
+    m_TableReference:
+      m_TableCollectionName: GUID:617205a636be30b4ebf3ebb48dae06a2
+    m_TableEntryReference:
+      m_KeyId: 362655727030272
+      m_Key: 
+    m_FallbackState: 0
+    m_WaitForCompletion: 0
+    m_LocalVariables: []
+  itemDescription:
+    m_TableReference:
+      m_TableCollectionName: GUID:95ab3aa9c95b5c2448881d7d9476e40c
+    m_TableEntryReference:
+      m_KeyId: 364042154217472
+      m_Key: 
+    m_FallbackState: 0
+    m_WaitForCompletion: 0
+    m_LocalVariables: []
   stackable: 1
-  canSell: 0
-  itemType: 1
+  canSell: 1
+  itemType: 3
   buyPrice: 0
-  sellPrice: 0
+  sellPrice: 10
   itemPrefab: {fileID: 0}
   plantPrefab: {fileID: 0}
   biteTimeMultiplier: 0.5
   fishingBarSpeedModifier: 0.5
   successWindowSizeModifier: 0.5
   progressIncreaseModifier: 0.5
+  references:
+    version: 2
+    RefIds: []

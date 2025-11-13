@@ -7,12 +7,19 @@ using UnityEngine.Localization;
 public class PerkSO : ScriptableObject
 {
     [Header("Perk Detail")]
+    // Dùng để kiểm tra xem Player đã có Perk này chưa
+    public string perkID;
     public LocalizedString perkName;
-    [TextArea (3, 5)]
     public LocalizedString perkDescription;
     public Sprite perkIcon;
 
-    [Header("Định danh (Quan trọng)")]
-    // Dùng để kiểm tra xem Player đã có Perk này chưa
-    public string perkID;
+    [System.Serializable]
+    public class StatModifier
+    {
+        public StatType statType;
+        [Tooltip("Giá trị cộng thêm. VD: 0.25 là +25%, -0.1 là giảm 10%")]
+        public float valueToAdd;
+    }
+    [Header("Stat Modifiers")]
+    public List<StatModifier> modifiers;
 }

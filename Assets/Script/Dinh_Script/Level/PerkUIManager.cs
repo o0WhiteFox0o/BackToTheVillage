@@ -8,6 +8,7 @@ public class PerkUIManager : MonoBehaviour
     // (Tham chiếu đến Panel UI lựa chọn của bạn)
     public GameObject professionChoicePanel; 
     public GameObject professionChoiceLevelA, professionChoiceLevelB, professionChoiceLevelC, professionChoiceLevelD;
+    public GameObject titleProfession1, titleProfession2, titleProfession3, titleProfession4;
     public Button perkA_Button, perkB_Button;
 
     void Awake()
@@ -32,6 +33,10 @@ public class PerkUIManager : MonoBehaviour
             professionChoiceLevelB.SetActive(true);
             professionChoiceLevelC.SetActive(false);
             professionChoiceLevelD.SetActive(false);
+            titleProfession1.SetActive(true);
+            titleProfession2.SetActive(true);
+            titleProfession3.SetActive(false);
+            titleProfession4.SetActive(false);
         }
         else if (choice.levelToUnlock == 10)
         {
@@ -39,6 +44,10 @@ public class PerkUIManager : MonoBehaviour
             professionChoiceLevelB.SetActive(false);
             professionChoiceLevelC.SetActive(true);
             professionChoiceLevelD.SetActive(true);
+            titleProfession1.SetActive(false);
+            titleProfession2.SetActive(false);
+            titleProfession3.SetActive(true);
+            titleProfession4.SetActive(true);
         }
         professionChoicePanel.SetActive(true);
         Time.timeScale = 0f; // Dừng game
@@ -51,7 +60,8 @@ public class PerkUIManager : MonoBehaviour
     public void SelectPerk(PerkSO chosenPerk)
     {
          Debug.Log($"[PerkUIManager] Bạn đã chọn Perk: {chosenPerk.perkName}!");
-         professionChoicePanel.SetActive(false);
+        PlayerStatManager.Instance.ApplyProfessionBonus(chosenPerk);
+        professionChoicePanel.SetActive(false);
          Time.timeScale = 1f;
     }
 }

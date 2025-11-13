@@ -372,12 +372,10 @@ public class PlayerFishing : MonoBehaviour
                 audioSource.PlayOneShot(onBaitSound);
             }
 
-            // --- BẮT ĐẦU COROUTINE CHỜ PHẢN ỨNG ---
             canReactToBite = true; // Cho phép nhấn F
             // Dừng coroutine cũ nếu còn chạy (ít khả năng)
             if (reactionTimerCoroutine != null) StopCoroutine(reactionTimerCoroutine);
             reactionTimerCoroutine = StartCoroutine(ReactionTimerCoroutine());
-            // --- KẾT THÚC ---
 
             // KHÔNG gọi StartFishingAttempt hay delay ở đây nữa
         }
@@ -513,10 +511,8 @@ public class PlayerFishing : MonoBehaviour
     {
         if (fish == null) yield break;
 
-        // *** KIỂM TRA LẠI TÊN BIẾN TRONG FISHDATA CỦA BẠN ***
         float randomWeight = Random.Range(fish.min_weight, fish.max_weight); // Giả sử là minWeight
         float randomLength = Random.Range(fish.min_length, fish.max_length); // Giả sử là minLength
-        // *** KẾT THÚC KIỂM TRA ***
 
         if (fishNameText != null) fishNameText.text = fish.displayName.GetLocalizedString();
         if (fishingIcon != null) fishingIcon.sprite = fish.icon; // Cập nhật Icon
@@ -577,6 +573,7 @@ public class PlayerFishing : MonoBehaviour
         if (inventory != null && fish != null)
         {
             bool addedSuccessfully = inventory.AddItem(fish, 1);
+            float doubleChance = PlayerStatManager.Instance.GetStatValue(StatType.DoubleCatchChance,0.0f);
 
             if (addedSuccessfully)
             {
@@ -585,6 +582,14 @@ public class PlayerFishing : MonoBehaviour
                 if (SkillManager.Instance != null && fish.xpGranted > 0)
                 {
                     SkillManager.Instance.AddXP(SkillType.Fishing, fish.xpGranted);
+
+                    if(UnityEngine.Random.value < doubleChance) { 
+
+                        InventoryManager.Instance.AddItem(fish, 1); // Thêm 1 con cá nữa vào túi đồ
+                        Debug.Log($"<color=green>NHÂN ĐÔI CÁ! (Tỉ lệ: {doubleChance * 100}%)</color>");
+                        NotificationManager.Instance.ShowNotification("Tuyệt vời! Bạn bắt được 2 con!");
+                        SkillManager.Instance.AddXP(SkillType.Fishing, fish.xpGranted);
+                    }
                 }
             }
             else
@@ -597,7 +602,6 @@ public class PlayerFishing : MonoBehaviour
             Debug.LogError("[PlayerFishing] Không thể thêm cá! Inventory hoặc FishData bị null!");
         }
 
-        // --- PHẦN DỌN DẸP (Giữ nguyên code cũ của bạn) ---
         activeBaitEffect = null; // Reset buff mồi
         currentState = FishingState.Idle;
         currentBitingFish = null;

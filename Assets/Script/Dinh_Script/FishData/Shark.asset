@@ -33,10 +33,10 @@ MonoBehaviour:
     m_WaitForCompletion: 0
     m_LocalVariables: []
   stackable: 1
-  canSell: 0
+  canSell: 1
   itemType: 1
   buyPrice: 0
-  sellPrice: 0
+  sellPrice: 1000
   itemPrefab: {fileID: 0}
   plantPrefab: {fileID: 0}
   xpGranted: 40

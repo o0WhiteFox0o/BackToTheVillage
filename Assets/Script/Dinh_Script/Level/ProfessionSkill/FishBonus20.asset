@@ -12,6 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cfc13c8b5f0b7f845b60ea8f0fd0588a, type: 3}
   m_Name: FishBonus20
   m_EditorClassIdentifier: 
+  perkID: selling_fish_bonus20
   perkName:
     m_TableReference:
       m_TableCollectionName: GUID:1b88249620600954aa24dfce230af472
@@ -23,15 +24,17 @@ MonoBehaviour:
     m_LocalVariables: []
   perkDescription:
     m_TableReference:
-      m_TableCollectionName: 
+      m_TableCollectionName: GUID:8768c13927a9f524b96cab58f276386f
     m_TableEntryReference:
-      m_KeyId: 0
+      m_KeyId: 9827848192
       m_Key: 
     m_FallbackState: 0
     m_WaitForCompletion: 0
     m_LocalVariables: []
   perkIcon: {fileID: 0}
-  perkID: selling_fish_bonus20
+  modifiers:
+  - statType: 0
+    valueToAdd: 0.2
   references:
     version: 2
     RefIds: []
