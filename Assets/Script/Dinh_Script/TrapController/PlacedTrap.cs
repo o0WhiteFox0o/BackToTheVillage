@@ -15,7 +15,6 @@ public class PlacedTrap : MonoBehaviour
     [SerializeField] private TrapState currentState = TrapState.Empty;
     public TrapState CurrentState { get { return currentState; } }
 
-
     [Header("Cấu hình")]
     [Tooltip("Vật phẩm bẫy (chính nó) để trả về inventory khi nhặt")]
     public ItemScriptableObject trapItemSO;
@@ -23,13 +22,11 @@ public class PlacedTrap : MonoBehaviour
     [Tooltip("Thời gian (GIỜ TRONG GAME) CƠ BẢN để bắt được cá")]
     public float baseTimeToCatch = 8f;
 
-
     [Header("Hiển thị Icon Cá")]
     [Tooltip("Sprite Renderer dùng để hiển thị icon của con cá đã bắt")]
     public SpriteRenderer fishIconRenderer;
     [Tooltip("Sprite Renderer dùng để hiển thị background của icon cá")]
     public SpriteRenderer fishIconBackgroundRenderer;
-
 
     [Header("Hình ảnh (Sprite)")]
     public Sprite emptySprite;
@@ -42,10 +39,11 @@ public class PlacedTrap : MonoBehaviour
     private SpriteRenderer spriteRenderer;
     private BaitSO currentBait;
 
+    // === BIẾN MỚI ĐỂ ĐỒNG BỘ THỜI GIAN ===
     private bool isTimerRunning = false;
     private float targetTimeOfDay;
     private int targetDay;
-
+    // === KẾT THÚC BIẾN MỚI ===
 
     void Awake()
     {
@@ -61,7 +59,7 @@ public class PlacedTrap : MonoBehaviour
         SetState(TrapState.Empty);
     }
 
-
+    // === THÊM HÀM UPDATE ĐỂ KIỂM TRA THỜI GIAN ===
     void Update()
     {
         // Chỉ chạy logic khi timer đang bật
@@ -87,14 +85,14 @@ public class PlacedTrap : MonoBehaviour
             }
         }
     }
-
+    // === KẾT THÚC HÀM UPDATE ===
 
     public void Initialize(FishingZone zone)
     {
         associatedZone = zone;
     }
 
-
+    // === HÀM SETSTATE ĐÃ ĐƯỢC SỬA LỖI ===
     private void SetState(TrapState newState)
     {
         currentState = newState;
@@ -150,7 +148,7 @@ public class PlacedTrap : MonoBehaviour
                 break;
         }
     }
-
+    // === KẾT THÚC HÀM SETSTATE ===
 
     public bool TryAddBait(BaitSO baitItem, InventoryManager invManager)
     {
@@ -169,7 +167,7 @@ public class PlacedTrap : MonoBehaviour
         return false;
     }
 
-
+    // === HÀM NÀY ĐƯỢC VIẾT LẠI HOÀN TOÀN ===
     private void StartCatchTimer()
     {
         if (currentBait == null) return;
@@ -203,8 +201,12 @@ public class PlacedTrap : MonoBehaviour
         isTimerRunning = true;
         //Debug.Log($"Bẫy sẽ sẵn sàng vào Ngày {targetDay} lúc {targetTimeOfDay}:00");
     }
+    // === KẾT THÚC VIẾT LẠI ===
 
+    // === HÀM COROUTINE CŨ ĐÃ BỊ XÓA ===
+    // private IEnumerator CatchFishCoroutine(float waitTime) { ... }
 
+    // === HÀM MỚI KHI TIMER HOÀN TẤT ===
     private void OnTimerComplete()
     {
         isTimerRunning = false; // Dừng timer
@@ -223,7 +225,7 @@ public class PlacedTrap : MonoBehaviour
             }
         }
     }
-
+    // === KẾT THÚC HÀM MỚI ===
 
     public void TryCollect(InventoryManager invManager)
     {

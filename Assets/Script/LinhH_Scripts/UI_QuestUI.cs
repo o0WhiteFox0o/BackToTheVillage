@@ -11,16 +11,15 @@ public class UI_QuestUI : MonoBehaviour
 {
     [SerializeField] public TMP_Text questTittle_Text;
     [SerializeField] public TMP_Text questProgress_Text;
-    [SerializeField] public TMP_Text questDescription_Text;
-    // [SerializeField] public TMP_Text questReward_Text;
+    [SerializeField] public TMP_Text questReward_Text;
 
 
     /// <summary>
     /// Thiết lập quest UI.
     /// </summary>
-    public void SetupQuestDetails(IQuestProgress quest)
+    public void SetupQuestUI(SO_Quest quest)
     {
-        switch (quest.GetQuest().questType)
+        switch (quest.questType)
         {
             case QuestType.Collection:
                 SetupCollectionQuestUI(quest);
@@ -40,61 +39,58 @@ public class UI_QuestUI : MonoBehaviour
     }
 
 
-    public void ToggleQuestDetails(bool enable)
+    /// <summary>
+    /// Cập nhật UI tiến trình cho nhiệm vụ thu thập được truyền vào.
+    /// </summary>
+    public void RefreshCollectionProgressUI(CollectionQuestProgress collectionProgress)
     {
-        questTittle_Text.gameObject.SetActive(enable);
-        questDescription_Text.gameObject.SetActive(enable);
-        questProgress_Text.gameObject.SetActive(enable);
+        foreach (var item in collectionProgress.itemRequirements_List)
+        {
+            questProgress_Text.text = "";
+            questProgress_Text.text += $"{item.item.name}: {item.currentQuantity} / {item.requirementQuantity}; ";
+        }
     }
 
 
     /// <summary>
     /// Thiết lập các thành phần UI của nhiệm vụ thu thập.
     /// </summary>
-    private void SetupCollectionQuestUI(IQuestProgress questProgress)
+    private void SetupCollectionQuestUI(SO_Quest quest)
     {
-        ToggleQuestDetails(true);
-
-        Debug.Log($"{questProgress.GetType()}");
-
-        questTittle_Text.SetText(questProgress.GetQuest().tittle);
+        questTittle_Text.SetText(quest.tittle);
 
         // thiết lập UI tiến trình của nhiệm vụ thu thập
-        if (questProgress is CollectionQuestProgress collectionProgress)
+        if (quest is SO_CollectionQuest collectionQuest)
         {
-            foreach (var item in collectionProgress.itemRequirements_List)
+            foreach (var item in collectionQuest.targetItems_List)
             {
                 questProgress_Text.text = "";
                 questProgress_Text.text += $"{item.item.name}: {item.currentQuantity} / {item.requirementQuantity}; ";
-
-                Debug.Log($"{item.item.name}: {item.currentQuantity} / {item.requirementQuantity}; ");
             }
         }
 
-        // thiết lập mô tả nhiệm vụ
+        questReward_Text.text = "";
+
+        // nếu nhiệm vụ không cần hiển thị phần thưởng trong UI thì không làm gì
+        if (!quest.displayRewardInUI) { return; }
 
         // TODO: thiết lập UI phần thưởng của nhiệm vụ
-        // questReward_Text.text = "";
     }
 
 
-    private void SetupTalkingQuestUI(IQuestProgress quest)
+    private void SetupTalkingQuestUI(SO_Quest quest)
     {
-        ToggleQuestDetails(true);
-
-        questTittle_Text.SetText(quest.GetQuest().tittle);
+        questTittle_Text.SetText(quest.tittle);
 
         // thiết lập UI tiến trình của nhiệm vụ thu thập
-        if (quest is TalkingQuestProgress talkingQuest)
+        if (quest is SO_TalkingQuest talkingQuest)
         {
             questProgress_Text.text = "";
             // TODO: chỉnh sửa lại đề dùng với Localization
-            questProgress_Text.text += $"Talking with {talkingQuest.quest.targetNPC.npcName}";
+            questProgress_Text.text += $"Talking with {talkingQuest.targetNPC.npcName}";
         }
 
-        // thiết lập mô tả nhiệm vụ
-
         // TODO: thiết lập UI phần thưởng của nhiệm vụ
-        // questReward_Text.text = "";
+        questReward_Text.text = "";
     }
 }

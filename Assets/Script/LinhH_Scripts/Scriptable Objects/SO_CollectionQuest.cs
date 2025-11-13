@@ -17,11 +17,6 @@ public class SO_CollectionQuest : SO_Quest
 {
     [Header("Quest Details")]
     public List<QuestItemRequirement> targetItems_List;
-
-
-    private void OnValidate() {
-        questType = QuestType.Collection;
-    }
 }
 
 

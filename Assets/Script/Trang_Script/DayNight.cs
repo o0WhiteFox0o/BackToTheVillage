@@ -13,7 +13,7 @@ public class DayNight : MonoBehaviour
     public int currentDay = 1;
 
     [Header("Lighting Overlay (2D)")]
-    public Image overlay;           // L?p ph? mï¿½u 2D
+    public Image overlay;           // L?p ph? màu 2D
     public Color morningColor = new Color(1f, 1f, 1f, 0f);   // G?n nh? trong su?t
     public Color afternoonColor = new Color(1f, 0.75f, 0.5f, 0.1f); // Cam nh?t
     public Color nightColor = new Color(0.1f, 0.2f, 0.4f, 0.4f);    // Xanh ??m t?i
@@ -44,7 +44,7 @@ public class DayNight : MonoBehaviour
         dayLengthInMinutes = realMinutesPerPeriod * 3;
         timeSpeed = 24f / (dayLengthInMinutes * 60f);
 
-        // Khi qua ngï¿½y m?i thï¿½ t?t c? cï¿½y s? l?n thï¿½m 1 ngï¿½y
+        // Khi qua ngày m?i thì t?t c? cây s? l?n thêm 1 ngày
         onNewDay.AddListener(GrowAllCrops);
         onNewDay.AddListener(DrySoil);
     }
@@ -63,7 +63,7 @@ public class DayNight : MonoBehaviour
 
         if (timeOfDay >= 24f)
         {
-            timeOfDay = 6f; // Reset v? sï¿½ng hï¿½m sau
+            timeOfDay = 6f; // Reset v? sáng hôm sau
             currentDay++;
             currentPeriod = "";
             onNewDay?.Invoke();
@@ -79,7 +79,7 @@ public class DayNight : MonoBehaviour
         {
             currentPeriod = "morning";
             onMorning?.Invoke();
-            //Debug.Log("?? Bu?i sï¿½ng");
+            //Debug.Log("?? Bu?i sáng");
         }
         else if (timeOfDay >= 14f && timeOfDay < 20f && currentPeriod != "afternoon")
         {
@@ -97,10 +97,10 @@ public class DayNight : MonoBehaviour
 
     void UpdateOverlayColor()
     {
-        // Tï¿½nh ph?n tr?m th?i gian trong ngï¿½y (0ï¿½1)
+        // Tính ph?n tr?m th?i gian trong ngày (0–1)
         float t = timeOfDay / 24f;
 
-        // Chuy?n mï¿½u d?n gi?a cï¿½c bu?i
+        // Chuy?n màu d?n gi?a các bu?i
         if (timeOfDay >= 6f && timeOfDay < 14f)
             overlay.color = Color.Lerp(afternoonColor, morningColor, (timeOfDay - 6f) / 8f);
         else if (timeOfDay >= 14f && timeOfDay < 20f)
@@ -120,7 +120,7 @@ public class DayNight : MonoBehaviour
         }
         else
         {
-            Debug.LogWarning("? Khï¿½ng tï¿½m th?y SoilInteraction trong scene!");
+            Debug.LogWarning("? Không tìm th?y SoilInteraction trong scene!");
         }
     }
 

@@ -59,20 +59,8 @@ MonoBehaviour:
     m_SerializedLabels:
     - Locale-en
     FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: 1436a39cbe4bb764e81d85d2b0857626
-    m_Address: ItemDescriptions_en
-    m_ReadOnly: 1
-    m_SerializedLabels:
-    - Locale-en
-    FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: 17c81a5f9ba21a04691ff0f9b5622c55
-    m_Address: ItemName_en
-    m_ReadOnly: 1
-    m_SerializedLabels:
-    - Locale-en
-    FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: b90dc747e631bd244a1e4e5892878d1a
-    m_Address: GameplayMessage_en
+  - m_GUID: 1a5dca9e94d4f0c47890ba4687d60269
+    m_Address: Skill_en
     m_ReadOnly: 1
     m_SerializedLabels:
     - Locale-en

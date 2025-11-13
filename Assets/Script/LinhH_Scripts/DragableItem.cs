@@ -21,8 +21,6 @@ namespace GameUI
         [SerializeField] private Image _image;
         [SerializeField] private TMP_Text _countText;
 
-        private GameplayUIManager gameplayUIManager;
-
         //Biến này chỉ có tác dụng khi item là cần câu
         [HideInInspector] public BaitSO attachedBait;
         [HideInInspector] public int baitQuantity = 0;
@@ -36,8 +34,7 @@ namespace GameUI
 
         public void Update()
         {
-            if (itemBeingHeld == this)
-            {
+            if (itemBeingHeld == this) { 
                 transform.position = Input.mousePosition;
             }
         }
@@ -53,12 +50,6 @@ namespace GameUI
 
             RefreshCount();
             UpdateBaitVisuals();
-
-            gameplayUIManager = FindObjectOfType<GameplayUIManager>();
-            if (gameplayUIManager == null)
-            {
-                Debug.LogError("Can't load a manager component!!!");
-            }
         }
 
 
@@ -76,9 +67,12 @@ namespace GameUI
 
         public void OnBeginDrag(PointerEventData eventData)
         {
+            if (GameplayUIManager.isAnyUIOpen == false) { 
+                eventData.pointerDrag = null;
+                if(_image != null)_image.raycastTarget = true;
+                return;
+            }
             if (_image == null || eventData.button != PointerEventData.InputButton.Left) return;
-
-            gameplayUIManager.DisableItemInfoUI();
 
             itemBeingHeld = this;// Báo cho hệ thống biết "Tôi đang được cầm"
 
@@ -148,14 +142,14 @@ namespace GameUI
                 return false;
             }
             // Kiểm tra xem cần câu có thể sử dụng mồi không
-            if (!rodData.canUseBait)
+            if (!rodData.canUseBait) 
             {
                 Debug.Log("Cần câu này không thể sử dụng mồi!");
                 return false;
             }
             // Kiểm tra xem cần câu đã gắn mồi chưa
-            if (attachedBait != null && attachedBait != baitData)
-            {
+            if (attachedBait != null && attachedBait != baitData) 
+            { 
                 Debug.Log("Cần câu này đã gắn mồi khác!");
                 return false;
             }
@@ -178,29 +172,27 @@ namespace GameUI
                 Debug.Log("Không có mồi để tiêu thụ!");
                 return null;
             }
-            if (baitQuantity > 0 && attachedBait != null)
+            if (baitQuantity > 0 && attachedBait != null) { 
+
+            baitQuantity--;
+            BaitSO consumedBaitType = attachedBait;
+            Debug.Log($"Đã sử dụng 1 mồi {attachedBait.displayName}. Còn lại: {baitQuantity}.");
+
+            // Nếu hết mồi thì gỡ bỏ
+            if (baitQuantity == 0)
             {
-
-                baitQuantity--;
-                BaitSO consumedBaitType = attachedBait;
-                Debug.Log($"Đã sử dụng 1 mồi {attachedBait.displayName}. Còn lại: {baitQuantity}.");
-
-                // Nếu hết mồi thì gỡ bỏ
-                if (baitQuantity == 0)
-                {
-                    Debug.Log("Mồi đã hết, gỡ bỏ khỏi cần câu.");
-                    attachedBait = null;
-                    UpdateBaitVisuals();
-                }
-                return consumedBaitType;
+                Debug.Log("Mồi đã hết, gỡ bỏ khỏi cần câu.");
+                attachedBait = null;
+                UpdateBaitVisuals();
+            }
+            return consumedBaitType;
             }
             return null;
         }
 
-        public void UpdateBaitVisuals()
-        {
-            if (_baitIconImage == null || _baitCountText == null) return;
-            if (attachedBait != null && baitQuantity > 0)
+        public void UpdateBaitVisuals() { 
+            if(_baitIconImage == null || _baitCountText == null) return;
+            if(attachedBait != null && baitQuantity > 0)
             {
                 _baitIconImage.gameObject.SetActive(true);
                 _baitCountText.gameObject.SetActive(true);

@@ -5,23 +5,10 @@ using UnityEngine.EventSystems;
 using Management;
 
 // GẮN SCRIPT NÀY VÀO PREFAB "InventorySlot"
-public class InventorySlot : MonoBehaviour, IDropHandler, IPointerClickHandler, IPointerEnterHandler, IPointerExitHandler
+public class InventorySlot : MonoBehaviour, IDropHandler, IPointerClickHandler 
 {
+    public bool isHotBarSlot = false;
     [SerializeField] private GameObject selectedHighlight;
-
-    private GameplayUIManager gameplayUIManager;
-
-
-    private void Start()
-    {
-        gameplayUIManager = FindObjectOfType<GameplayUIManager>();
-
-        if (gameplayUIManager == null)
-        {
-            Debug.LogError("Can't load a component of Inventory Slot.");
-        }
-    }
-
 
     /// <summary>
     /// Xử lý CHUỘT PHẢI (Chia Stack / Gỡ Mồi)
@@ -212,29 +199,5 @@ public class InventorySlot : MonoBehaviour, IDropHandler, IPointerClickHandler, 
     public void DisableHighlight()
     {
         selectedHighlight.SetActive(false);
-    }
-
-
-    /// <summary>
-    /// Được gọi khi con trỏ chuột hover vào slot.
-    /// </summary>
-    public void OnPointerEnter(PointerEventData eventData)
-    {
-        // nếu slot không chứa vật phẩm nào thì không làm gì
-        if (transform.childCount == GameConstants.DEFAULT_INVENTORY_SLOT_CHILDREN_COUNT) { return; }
-
-        gameplayUIManager.EnableItemInfoUI(transform);
-    }
-
-
-    /// <summary>
-    /// Được gọi khi con trỏ chuột di chuyển ra khỏi slot.
-    /// </summary>
-    public void OnPointerExit(PointerEventData eventData)
-    {
-        // nếu slot không chứa vật phẩm nào thì không làm gì
-        if (transform.childCount == GameConstants.DEFAULT_INVENTORY_SLOT_CHILDREN_COUNT) { return; }
-
-        gameplayUIManager.DisableItemInfoUI();
     }
 }

@@ -55,18 +55,8 @@ MonoBehaviour:
     m_ReadOnly: 1
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: 95ab3aa9c95b5c2448881d7d9476e40c
-    m_Address: Assets/Localization/Tables/ItemDescriptions Shared Data.asset
-    m_ReadOnly: 1
-    m_SerializedLabels: []
-    FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: 617205a636be30b4ebf3ebb48dae06a2
-    m_Address: Assets/Localization/Tables/ItemName Shared Data.asset
-    m_ReadOnly: 1
-    m_SerializedLabels: []
-    FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: a4f1fd58825f4e74aa80b2a1821a8d8d
-    m_Address: Assets/Localization/Tables/GameplayMessage Shared Data.asset
+  - m_GUID: 1b88249620600954aa24dfce230af472
+    m_Address: Assets/Localization/Tables/Skill Shared Data.asset
     m_ReadOnly: 1
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
