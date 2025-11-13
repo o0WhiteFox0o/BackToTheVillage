@@ -414,7 +414,8 @@ public class GameplayUIManager : MonoBehaviour
         var itemName = itemInSlot.itemScriptableObj.displayName.GetLocalizedString();
         var itemDesc = itemInSlot.itemScriptableObj.itemDescription.GetLocalizedString();
         var itemPrice = itemInSlot.itemScriptableObj.sellPrice;
-        itemInfoUI.GetComponent<UI_ItemInfoUI>().SetUpItemInfo(itemName, itemDesc, itemPrice);
+        var itemPriceStack = itemInSlot.itemScriptableObj.sellPrice * itemInSlot.quantity;
+        itemInfoUI.GetComponent<UI_ItemInfoUI>().SetUpItemInfo(itemName, itemDesc, itemPrice, itemPriceStack);
 
         SetUpItemInfoPosition(inventorySlot);
     }
