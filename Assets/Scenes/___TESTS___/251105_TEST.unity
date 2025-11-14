@@ -425,6 +425,51 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 29798f26f07b15442b7bdad1e6c2e613, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!1 &53472160
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 53472161}
+  - component: {fileID: 53472162}
+  m_Layer: 0
+  m_Name: StatManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &53472161
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 53472160}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1030808281}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &53472162
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 53472160}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bc631fd918d2de843be8a32a136b2a00, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  activeProfessions: []
 --- !u!224 &62318487 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 5042774312186203800, guid: b42ac328e9da76847bfd2fb4d60e227f, type: 3}
@@ -107133,16 +107178,19 @@ MonoBehaviour:
   npcUI: {fileID: 1564967333}
   settingUI: {fileID: 2106144348}
   questUI: {fileID: 510373643}
+  characterUI: {fileID: 0}
   generalUI_Notification: {fileID: 150573392}
   conversation_UI: {fileID: 843200428}
   npcName_Text: {fileID: 1258121405}
   npcPortrait_Image: {fileID: 236120876}
   conversationDisplay_Text: {fileID: 176806679}
-  decisionButton_Prefab: {fileID: 1282374783856791000, guid: 4a2ae8e65957ecf40b2008a3378acc82, type: 3}
   decisionPanel: {fileID: 2117692622}
   questUI_Prefab: {fileID: 1032857510454798545, guid: 0f32f06da5692624b937b1dce20e0e7d, type: 3}
   questPanel: {fileID: 1238717140}
+  questCategorizeHighlights_List: []
+  noQuestInList_Text: {fileID: 0}
   questUI_Notification: {fileID: 218103226}
+  questUIController: {fileID: 0}
   uiRaycaster: {fileID: 400097599}
 --- !u!114 &400097599
 MonoBehaviour:
@@ -308232,6 +308280,7 @@ Transform:
   - {fileID: 1093417059}
   - {fileID: 284908238}
   - {fileID: 1172977611}
+  - {fileID: 53472161}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!224 &1040953686 stripped
@@ -308500,6 +308549,7 @@ MonoBehaviour:
   - {fileID: 596474797}
   - {fileID: 1021379186}
   tileCursorFollow: {fileID: 0}
+  itemPrefab: {fileID: 0}
 --- !u!224 &1128524003 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 5042774312186203800, guid: b42ac328e9da76847bfd2fb4d60e227f, type: 3}

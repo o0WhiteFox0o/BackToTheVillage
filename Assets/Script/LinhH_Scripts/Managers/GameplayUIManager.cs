@@ -34,8 +34,8 @@ public class GameplayUIManager : MonoBehaviour
     [SerializeField] public TMP_Text npcName_Text;
     [SerializeField] public Image npcPortrait_Image;
     [SerializeField] public TMP_Text conversationDisplay_Text;
-    [SerializeField] public GameObject decisionButton_Prefab;
     [SerializeField] public Transform decisionPanel;
+    private GameObject decisionButton_Prefab;
 
 
     [Header("Quests")]
@@ -67,9 +67,10 @@ public class GameplayUIManager : MonoBehaviour
 
         eventSystem = FindObjectOfType<EventSystem>();
         questManager = FindObjectOfType<MGR_QuestManager>();
-        itemInfoUI_Prefab = Resources.Load<GameObject>("Prefabs/ItemInfoUI");
+        itemInfoUI_Prefab = Resources.Load<GameObject>("Prefabs/UI/ItemInfoUI");
+        decisionButton_Prefab = Resources.Load<GameObject>("Prefabs/UI/DecisionButton");
 
-        if (eventSystem == null || questManager == null || itemInfoUI_Prefab == null)
+        if (eventSystem == null || questManager == null || itemInfoUI_Prefab == null || decisionButton_Prefab == null)
         {
             Debug.LogError("Can't load a manager component.");
         }

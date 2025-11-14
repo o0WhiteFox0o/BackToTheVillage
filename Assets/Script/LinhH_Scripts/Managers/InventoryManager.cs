@@ -50,7 +50,7 @@ namespace Management
 
         void Start()
         {
-            itemPrefab = Resources.Load<GameObject>("Prefabs/ItemPrefab");
+            itemPrefab = Resources.Load<GameObject>("Prefabs/UI/ItemPrefab");
             if (itemPrefab == null)
                 Debug.LogError("⚠️ Không thể load prefab ItemPrefab từ Resources.");
 
