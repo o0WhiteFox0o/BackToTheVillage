@@ -42,7 +42,7 @@ MonoBehaviour:
   biteTimeMultiplier: 0.5
   fishingBarSpeedModifier: 0.5
   successWindowSizeModifier: 0.5
-  progressIncreaseModifier: 0.5
+  progressIncreaseModifier: 1
   references:
     version: 2
     RefIds: []
