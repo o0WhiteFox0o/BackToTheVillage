@@ -206,9 +206,7 @@ namespace Management
             var dragable = newItem.GetComponent<DragableItem>();
 
             // Khởi tạo với số lượng ban đầu
-            dragable.InitializeItem(item, 0);
-            dragable.AddCount(quantity);
-            dragable.RefreshCount();
+            dragable.InitializeItem(item, quantity);
         }
 
         /// <summary>

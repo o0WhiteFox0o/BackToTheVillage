@@ -4,219 +4,196 @@ using UnityEngine.UI;
 
 public class FishingQTE : MonoBehaviour
 {
-
-    [Header("UI Components")]
+    [Header("--- UI Components ---")]
     [SerializeField] private GameObject qtePanel;
-    [SerializeField] private Image timerBar;         // Thanh xoay (TimerBar.png)
-    [SerializeField] private Image successZoneImage; // Vùng xanh (SuccessZone.png)
-    [SerializeField] private Image gameTimerBar;
 
-    // Thanh thời gian tổng
-    [Header("Game Timer Mask (Horizontal)")]
-    [Tooltip("Kéo object 'Image' CON NẰM TRONG MASK của Timer vào đây")]
-    [SerializeField] private RectTransform gameTimerFillRect;
-    [Tooltip("Vị trí Y của thanh fill Timer khi 0% (ví dụ: -100)")]
-    [SerializeField] private float timerEmptyXPos = -100f;
-    [Tooltip("Vị trí Y của thanh fill Timer khi 100% (ví dụ: 0)")]
-    [SerializeField] private float timerFullXPos = 0f;
-    //Thanh tiến độ
-    [Header("Progress Bar Mask (Vertical)")]
-    [Tooltip("Kéo object 'Image' CON NẰM TRONG MASK vào đây")]
-    [SerializeField] private RectTransform progressBarFillRect;
-    [Tooltip("Vị trí Y của thanh fill khi 0% (ví dụ: -100)")]
-    [SerializeField] private float barEmptyYPos = -100f;
-    [Tooltip("Vị trí Y của thanh fill khi 100% (ví dụ: 0)")]
-    [SerializeField] private float barFullYPos = 0f;
+    [Tooltip("Thanh xoay tròn (kim chỉ)")]
+    [SerializeField] private Image timerBar;
 
-    [Header("Settings")]
+    [Tooltip("Vùng màu xanh (vùng thắng)")]
+    [SerializeField] private Image successZoneImage;
+
+    [Header("--- Fill Bars ---")]
+    [Tooltip("Thanh thời gian tổng (Nằm ngang). Nhớ set Image Type = Filled")]
+    [SerializeField] private Image gameTimerImage;
+
+    [Tooltip("Thanh tiến độ câu (Dọc). Nhớ set Image Type = Filled")]
+    [SerializeField] private Image progressBarImage;
+
+    [Header("--- Settings ---")]
     [SerializeField] private KeyCode qteKey = KeyCode.F;
-    // --- ĐÃ THAY ĐỔI DÒNG NÀY ---
-    [SerializeField][Range(0.1f, 1.0f)] private float startProgress = 0.333f; // Bắt đầu ở 1/3
-    // --- KẾT THÚC THAY ĐỔI ---
+    [SerializeField][Range(0.1f, 1.0f)] private float startProgress = 0.3f; // Bắt đầu ở 30%
 
-    [Header("Visual Setting")]
-    [SerializeField] private float progressLerpSpeed = 5f;
-    private float visualProgress; // Tiến độ "ảo" để làm mượt
+    [Header("--- Visual Smoothing ---")]
+    [SerializeField] private float progressLerpSpeed = 10f; // Tốc độ làm mượt thanh tiến độ
+    private float visualProgress; // Biến ảo để hiển thị cho mượt
 
-    // Biến trạng thái
-    private bool isQTEActive = false;
-    private float currentFill;      // Vị trí thanh trắng (0-1)
-    private float currentProgress;  // Tiến độ "thật" (0-1)
-    private float currentGameTime;
+    // --- Biến Logic ---
+    private bool isQTEActive = false;
+    private float currentFill;      // Vị trí kim xoay (0-1)
+    private float currentProgress;  // Tiến độ thật (0-1)
+    private float currentGameTime;
 
-    // Biến logic (lấy từ FishData)
-    private float qteBarSpeed;
+    // --- Số liệu từ FishData ---
+    private float qteBarSpeed;
     private float successWindowSize;
     private float maxGameTime;
     private float progressIncrease;
     private float progressDecrease;
 
-
-
-    // Biến logic cho vùng xanh
-    private float successMin;
+    // --- Vùng Xanh ---
+    private float successMin;
     private float successMax;
 
-    // Events: Báo cho script khác biết kết quả
-    public event Action OnQTESuccess;
+    // --- Events ---
+    public event Action OnQTESuccess;
     public event Action OnQTEFailure;
 
-    // Audio 
-    [Header("Audio")] // Đổi tên Header cho rõ
-    [Tooltip("Âm thanh nền chạy trong lúc QTE diễn ra")]
-    [SerializeField] private AudioClip qteBackgroundMusic; // Đổi tên biến cho rõ
-    [Tooltip("Kéo AudioSource component (gắn trên cùng object này) vào đây")]
+    // --- Audio ---
+    [Header("--- Audio ---")]
+    [SerializeField] private AudioClip qteBackgroundMusic;
     [SerializeField] private AudioSource qteAudioSource;
 
     void Start()
     {
-        qtePanel.SetActive(false); // Ẩn khi bắt đầu
-    }
+        qtePanel.SetActive(false);
+    }
 
     public void StartQTE(FishData fishData, QTEBuff buff)
     {
-
-        //// 1. Tải độ khó từ FishData
-        //this.qteBarSpeed = fishData.qteBarSpeed;
-        //this.successWindowSize = fishData.successWindowSize;
-        //this.maxGameTime = fishData.maxGameTime;
-        //this.progressIncrease = fishData.progressIncrease;
-        //this.progressDecrease = fishData.progressDecrease;
-
-        // Logic "fishingBarSpeedModifier":
+        // 1. Tính toán chỉ số (Logic giữ nguyên)
         float baseSpeed = fishData.qteBarSpeed;
         this.qteBarSpeed = baseSpeed * (1.0f - buff.barSpeedMod);
         if (this.qteBarSpeed <= 0.01f) this.qteBarSpeed = 0.01f;
 
-        Debug.Log($"[FishingQTE] Tốc độ thanh (Gốc: {baseSpeed} | Buff: -{buff.barSpeedMod * 100}% | Cuối cùng: {this.qteBarSpeed})");
-
-        // Logic "successWindowSizeModifier":
         float baseWindow = fishData.successWindowSize;
         this.successWindowSize = baseWindow * (1.0f + buff.successWindowMod);
         if (this.successWindowSize > 1.0f) this.successWindowSize = 1.0f;
 
-        Debug.Log($"[FishingQTE] Kích thước vùng (Gốc: {baseWindow} | Buff: +{buff.successWindowMod * 100}% | Cuối cùng: {this.successWindowSize})");
-
-        // Logic "progressIncreaseModifier":
         float baseProgress = fishData.progressIncrease;
         this.progressIncrease = baseProgress * (1.0f + buff.progressIncreaseMod);
 
-        Debug.Log($"[FishingQTE] Tăng tiến độ (Gốc: {baseProgress} | Buff: +{buff.progressIncreaseMod * 100}% | Cuối cùng: {this.progressIncrease})");
-
-        // Các giá trị này không bị mồi ảnh hưởng
         this.maxGameTime = fishData.maxGameTime;
         this.progressDecrease = fishData.progressDecrease;
 
-        // 2. Reset trạng thái
-        currentProgress = startProgress;
-        visualProgress = startProgress;
+        Debug.Log($"[FishingQTE] Start: Speed={qteBarSpeed}, Zone={successWindowSize}, Inc={progressIncrease}");
+
+        // 2. Reset trạng thái
+        currentProgress = startProgress;
+        visualProgress = startProgress; // Đặt visual bằng real ngay lập tức để không bị giật lúc đầu
         currentGameTime = maxGameTime;
         currentFill = 0f;
 
-        // 3. Random VỊ TRÍ VÙNG XANH (1 LẦN)
-        RandomizeSuccessZone();
+        // 3. Setup hiển thị ban đầu
+        if (gameTimerImage != null) gameTimerImage.fillAmount = 1f;
+        if (progressBarImage != null) progressBarImage.fillAmount = startProgress;
 
-        // 4. Kích hoạt QTE
-        isQTEActive = true;
-        qtePanel.SetActive(true);      
+        RandomizeSuccessZone();
 
-        // 5. Audio
-        if (qteAudioSource != null && qteBackgroundMusic != null)
+        // 4. Kích hoạt
+        isQTEActive = true;
+        qtePanel.SetActive(true);
+
+        if (qteAudioSource != null && qteBackgroundMusic != null)
         {
             qteAudioSource.clip = qteBackgroundMusic;
             qteAudioSource.Play();
-        }          
+        }
     }
 
     void Update()
     {
         if (!isQTEActive) return;
 
-        // 1. XỬ LÝ THỜI GIAN TỔNG (Đếm ngược)
-        currentGameTime -= Time.deltaTime;
-        if (currentGameTime <= 0f)
+        float dt = Time.deltaTime;
+
+        // 1. Xử lý thời gian tổng (Timer)
+        currentGameTime -= dt;
+
+        // Cập nhật UI Timer (Mượt mà nhờ fillAmount)
+        if (gameTimerImage != null)
         {
-            FailQTE(); // Hết giờ -> Thua
-            return;
+            gameTimerImage.fillAmount = currentGameTime / maxGameTime;
         }
 
-        // 2. XỬ LÝ THANH TRẮNG (xoay 1 vòng)
-        UpdateFillBar();
+        if (currentGameTime <= 0f)
+        {
+            FailQTE();
+            return;
+        }
 
-        // 3. XỬ LÝ INPUT (Nhấn phím)
-        if (Input.GetKeyDown(qteKey))
+        // 2. Xử lý kim xoay (Thanh trắng)
+        UpdateFillBar(dt);
+
+        // 3. Xử lý Input
+        if (Input.GetKeyDown(qteKey))
         {
             HandleHit();
         }
 
-        // 4. CẬP NHẬT TẤT CẢ UI
+        // 4. Cập nhật Thanh Tiến Độ (Progress Bar) - LÀM MƯỢT
+        // Lerp từ giá trị hiển thị cũ -> giá trị thực tế mới
+        visualProgress = Mathf.Lerp(visualProgress, currentProgress, dt * progressLerpSpeed);
 
-        // Làm mượt tiến độ "ảo" (visual) chạy theo tiến độ "thật" (current)
-        visualProgress = Mathf.Lerp(visualProgress, currentProgress, Time.deltaTime * progressLerpSpeed);
+        if (progressBarImage != null)
+        {
+            progressBarImage.fillAmount = visualProgress;
+        }
 
-        // Cập nhật thanh bar bằng cách di chuyển vị trí Y của nó
-        float newY = Mathf.Lerp(barEmptyYPos, barFullYPos, visualProgress);
-        progressBarFillRect.anchoredPosition = new Vector2(progressBarFillRect.anchoredPosition.x, newY);
-
-        // Cập nhật thanh Game Timer (dùng Mask)
-        float timerPercent = currentGameTime / maxGameTime;
-        float newTimerX = Mathf.Lerp(timerEmptyXPos, timerFullXPos, timerPercent);
-        gameTimerFillRect.anchoredPosition = new Vector2(newTimerX, gameTimerFillRect.anchoredPosition.y);
-
-        // Cập nhật thanh xoay
-        timerBar.rectTransform.localRotation = Quaternion.Euler(0, 0, -currentFill * 360f);
+        // Cập nhật hình ảnh kim xoay
+        if (timerBar != null)
+        {
+            timerBar.rectTransform.localRotation = Quaternion.Euler(0, 0, -currentFill * 360f);
+        }
     }
 
-    private void UpdateFillBar()
+    private void UpdateFillBar(float dt)
     {
-        // Logic cho thanh trắng chạy 1 vòng tròn 0 -> 1 -> 0 -> 1...
-        float moveDelta = qteBarSpeed * Time.deltaTime;
-        currentFill += moveDelta;
+        currentFill += qteBarSpeed * dt;
         if (currentFill >= 1f)
         {
-            currentFill -= 1f; // Quay lại 0
-        }
+            currentFill -= 1f;
+        }
     }
 
     private void HandleHit()
     {
-        // Logic "Kéo co"
-        if (currentFill >= successMin && currentFill <= successMax)
+        // Logic kiểm tra trúng/trượt
+        if (currentFill >= successMin && currentFill <= successMax)
         {
-            // Trúng -> Tăng tiến độ
-            currentProgress += progressIncrease;
-            // Random vị trí mới
-            RandomizeSuccessZone();
+            currentProgress += progressIncrease; // Trúng
+            RandomizeSuccessZone();
         }
         else
         {
-            // Hụt -> Giảm tiến độ
-            currentProgress -= progressDecrease;
+            currentProgress -= progressDecrease; // Trượt
         }
 
-        // Giữ tiến độ trong khoảng 0 - 1
-        currentProgress = Mathf.Clamp01(currentProgress);
+        currentProgress = Mathf.Clamp01(currentProgress);
 
-        // Kiểm tra thắng / thua
-        if (currentProgress >= 1f)
+        // Kiểm tra Thắng/Thua ngay lập tức (Logic Game)
+        if (currentProgress >= 1f)
         {
-            SuccessQTE(); // Thắng
-        }
-        else if (currentProgress <= 0f) // Logic "Thua khi về 0" của bạn
-        {
-            FailQTE(); // Thua
-        }
+            progressBarImage.fillAmount = 1f; // Fill đầy ngay cho đẹp
+            SuccessQTE();
+        }
+        else if (currentProgress <= 0f)
+        {
+            progressBarImage.fillAmount = 0f; // Về 0 ngay cho đẹp
+            FailQTE();
+        }
     }
 
-    // Hàm này đặt vị trí và kích thước vùng xanh
-    private void UpdateSuccessZoneVisuals()
+    private void UpdateSuccessZoneVisuals()
     {
-        successZoneImage.rectTransform.localRotation = Quaternion.Euler(0, 0, -successMin * 360f);
-        successZoneImage.fillAmount = successWindowSize;
+        if (successZoneImage != null)
+        {
+            successZoneImage.rectTransform.localRotation = Quaternion.Euler(0, 0, -successMin * 360f);
+            successZoneImage.fillAmount = successWindowSize;
+        }
     }
 
-    // Hàm này random vị trí mới
-    private void RandomizeSuccessZone()
+    private void RandomizeSuccessZone()
     {
         successMin = UnityEngine.Random.Range(0f, 1f - successWindowSize);
         successMax = successMin + successWindowSize;
@@ -226,46 +203,32 @@ public class FishingQTE : MonoBehaviour
     private void SuccessQTE()
     {
         Debug.Log("Câu thành công!");
-        OnQTESuccess?.Invoke(); // Bắn sự kiện "Thành công"
-        StopQTE();
-        qteAudioSource.Stop();
-    }
-
-    // Hàm này để PlayerFishing kiểm tra
-    public bool IsQTEActive()
-    {
-        return isQTEActive;
+        OnQTESuccess?.Invoke();
+        StopQTE();
     }
 
     private void FailQTE()
     {
-        Debug.Log("Cá chạy mất rồi!");
-        OnQTEFailure?.Invoke(); // Bắn sự kiện "Thất bại"
-        StopQTE();
-        qteAudioSource.Stop();
+        Debug.Log("Thất bại!");
+        OnQTEFailure?.Invoke();
+        StopQTE();
     }
 
     private void StopQTE()
     {
         isQTEActive = false;
         qtePanel.SetActive(false);
-        qteAudioSource.Stop();
+        if (qteAudioSource != null) qteAudioSource.Stop();
     }
+
+    public bool IsQTEActive() => isQTEActive;
 }
-public struct QTEBuff {
+
+// Struct Buff giữ nguyên
+public struct QTEBuff
+{
     public float barSpeedMod;
     public float successWindowMod;
     public float progressIncreaseMod;
-
-    public static QTEBuff Default {
-        get
-            {
-            return new QTEBuff 
-            {
-                barSpeedMod = 0f,
-                successWindowMod = 0f,
-                progressIncreaseMod = 0f
-            };
-        } 
-    }
+    public static QTEBuff Default => new QTEBuff { barSpeedMod = 0f, successWindowMod = 0f, progressIncreaseMod = 0f };
 }

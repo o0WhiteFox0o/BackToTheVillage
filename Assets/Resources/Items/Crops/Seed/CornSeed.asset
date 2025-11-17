@@ -14,24 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   id: S001
   icon: {fileID: 21300000, guid: c313179dc15697a478477088a6982d29, type: 3}
-  displayName:
-    m_TableReference:
-      m_TableCollectionName: 
-    m_TableEntryReference:
-      m_KeyId: 0
-      m_Key: 
-    m_FallbackState: 0
-    m_WaitForCompletion: 0
-    m_LocalVariables: []
-  itemDescription:
-    m_TableReference:
-      m_TableCollectionName: 
-    m_TableEntryReference:
-      m_KeyId: 0
-      m_Key: 
-    m_FallbackState: 0
-    m_WaitForCompletion: 0
-    m_LocalVariables: []
+  displayName: 
   stackable: 1
   canSell: 0
   itemType: 8
@@ -39,6 +22,3 @@ MonoBehaviour:
   sellPrice: 0
   itemPrefab: {fileID: 0}
   plantPrefab: {fileID: 16270002444062354, guid: 76458b647dc1f974db511500dedeb318, type: 3}
-  references:
-    version: 2
-    RefIds: []
