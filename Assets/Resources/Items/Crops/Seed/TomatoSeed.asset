@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: TomatoSeed
   m_EditorClassIdentifier: 
   id: 1
-  icon: {fileID: 21300000, guid: b3db3ca6bb3a19045ba0f292cba64fe6, type: 3}
+  icon: {fileID: 21300000, guid: 3d442c0abe00d9b44a59623ffbbe3294, type: 3}
   displayName:
     m_TableReference:
       m_TableCollectionName: GUID:617205a636be30b4ebf3ebb48dae06a2
@@ -38,7 +38,7 @@ MonoBehaviour:
   buyPrice: 12
   sellPrice: 12
   itemPrefab: {fileID: 0}
-  plantPrefab: {fileID: 7836914895398897558, guid: 7d6dacf82141ee44abbb6c5bf03d3745, type: 3}
+  plantPrefab: {fileID: 4828149718743620126, guid: 43394949caa1bfb4dbb838463ab30076, type: 3}
   references:
     version: 2
     RefIds: []

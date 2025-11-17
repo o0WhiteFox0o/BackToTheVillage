@@ -9,10 +9,10 @@ public class Player : MonoBehaviour
     public Animator animator;
 
     [Header("References")]
-    public TileCursorFollow tileCursorFollow; // Con trỏ để xác định hướng tool
+    public TileCursorFollow tileCursorFollow;
 
     private Vector2 movement;
-    private Vector2 lastDirection; // hướng cuối cùng player nhìn
+    private Vector2 lastDirection;
     private bool isUsingTool = false;
 
     private void OnEnable()
@@ -27,25 +27,24 @@ public class Player : MonoBehaviour
 
     private void Start()
     {
-        if (animator == null) animator = GetComponent<Animator>();
-        if (rb == null) rb = GetComponent<Rigidbody2D>();
+        if (!animator) animator = GetComponent<Animator>();
+        if (!rb) rb = GetComponent<Rigidbody2D>();
     }
 
     private void Update()
     {
-        if (!isUsingTool)
+        if (isUsingTool) return;
+
+        movement.x = Input.GetAxisRaw("Horizontal");
+        movement.y = Input.GetAxisRaw("Vertical");
+
+        animator.SetBool("IsMoving", movement != Vector2.zero);
+
+        if (movement != Vector2.zero)
         {
-            // Lấy input di chuyển
-            movement.x = Input.GetAxisRaw("Horizontal");
-            movement.y = Input.GetAxisRaw("Vertical");
-
-            animator.SetBool("IsMoving", movement != Vector2.zero);
-
-            if (movement != Vector2.zero)
-            {
-                lastDirection = movement.normalized;
-                SetAnimatorDirection(lastDirection);
-            }
+            lastDirection = ConvertTo4Diagonal(movement);
+            animator.SetFloat("X", lastDirection.x);
+            animator.SetFloat("Y", lastDirection.y);
         }
     }
 
@@ -57,62 +56,44 @@ public class Player : MonoBehaviour
         }
     }
 
-    /// <summary>
-    /// Set hướng animator theo 8 hướng, dùng cho isometric
-    /// </summary>
-    private void SetAnimatorDirection(Vector2 dir)
+    // ====================================
+    // ÉP Input → 4 hướng XÉO isometric
+    // ====================================
+    private Vector2 ConvertTo4Diagonal(Vector2 input)
     {
-        float x = 0f;
-        float y = 0f;
+        // hướng chéo sẽ dựa vào input.x và input.y
+        float x = Mathf.Sign(input.x);
+        float y = Mathf.Sign(input.y);
 
-        // Chia 8 hướng cố định (-1,0,1)
-        if (Mathf.Abs(dir.x) > Mathf.Abs(dir.y))
-        {
-            x = Mathf.Sign(dir.x);
-            y = Mathf.Sign(dir.y);
-        }
-        else if (Mathf.Abs(dir.y) > Mathf.Abs(dir.x))
-        {
-            y = Mathf.Sign(dir.y);
-            x = Mathf.Sign(dir.x);
-        }
-        else
-        {
-            x = Mathf.Sign(dir.x);
-            y = Mathf.Sign(dir.y);
-        }
+        // Nếu người chơi chỉ nhấn lên/xuống hoặc trái/phải → vẫn ép sang hướng chéo
+        if (input.x == 0 && input.y > 0) return new Vector2(1, 1);      // Up (ép x = 1)
+        if (input.x == 0 && input.y < 0) return new Vector2(-1, -1);    // Down
+        if (input.y == 0 && input.x > 0) return new Vector2(1, -1);     // Right
+        if (input.y == 0 && input.x < 0) return new Vector2(-1, 1);     // Left
 
-        animator.SetFloat("X", x);
-        animator.SetFloat("Y", y);
+        // nếu có cả X và Y → giữ nguyên hướng chéo
+        return new Vector2(x, y);
     }
 
-    /// <summary>
-    /// Khi dùng tool, chỉ update hướng 1 lần theo con trỏ isometric
-    /// </summary>
+    // ====================================
+    // TOOL theo vị trí TILE — cũng 4 hướng XÉO
+    // ====================================
     private void PlayToolAnimation(string triggerName)
     {
-        if (tileCursorFollow == null || tileCursorFollow.cursorObject == null) return;
+        if (!tileCursorFollow || !tileCursorFollow.cursorObject) return;
 
         isUsingTool = true;
 
-        // Lấy vector từ player tới con trỏ
-        Vector2 dirToCursor = tileCursorFollow.cursorObject.position - transform.position;
+        Vector2 dir = tileCursorFollow.cursorObject.position - transform.position;
 
-        // Chuyển sang hệ trục isometric
-        Vector2 isoDir;
-        isoDir.x = dirToCursor.x + dirToCursor.y;
-        isoDir.y = dirToCursor.y - dirToCursor.x;
-        isoDir.Normalize();
+        lastDirection = ConvertTo4Diagonal(dir);
 
-        if (isoDir != Vector2.zero)
-            lastDirection = isoDir;
+        animator.SetFloat("X", lastDirection.x);
+        animator.SetFloat("Y", lastDirection.y);
 
-        SetAnimatorDirection(lastDirection);
-
-        animator.SetTrigger(triggerName);
         animator.SetBool("IsMoving", false);
+        animator.SetTrigger(triggerName);
 
-        // Thời gian animation tool (~0.5s)
         StartCoroutine(ToolCooldown(0.5f));
     }
 
