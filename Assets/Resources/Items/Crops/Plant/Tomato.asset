@@ -12,13 +12,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d5758aada1e4378478a03ec4641b1e82, type: 3}
   m_Name: Tomato
   m_EditorClassIdentifier: 
-  cropName: "C\xE0 chua"
+  cropName: Tomato
   growthPrefabs:
-  - {fileID: 413700372126848020, guid: 5e46abc34e6e6174ba75c1b7dbc86f79, type: 3}
-  - {fileID: 9071978093131786014, guid: 229140c4afdb60b4fb375dcf2c1113cb, type: 3}
-  - {fileID: 3912703221790551196, guid: 78c702ec64443264aad0c6ee51e701b5, type: 3}
-  - {fileID: 2481822161741791827, guid: caedf430090d7b942b5ee8bb2363b04e, type: 3}
-  daysPerStage: 01000000010000000100000001000000
+  - {fileID: 193917446380098983, guid: cfe4c69ec2262554f990b6f4cc48adf0, type: 3}
+  - {fileID: 2285067256661836775, guid: 844f32fd12eeeef4e8d05abcd5875bf6, type: 3}
+  - {fileID: 2631338813207620417, guid: d9fd7143fc96be341be285b066bd00ad, type: 3}
+  - {fileID: 1375761893717602737, guid: cbc2d1e9ff4415c4b935bf09f7b3b60b, type: 3}
+  daysPerStage: 01000000010000000100000002000000
   isRegrowable: 0
   regrowDays: 0
-  harvestItem: {fileID: 0}
+  harvestItem: {fileID: 11400000, guid: 90dfd499cace8ef4487fe8d1c06d99f5, type: 2}

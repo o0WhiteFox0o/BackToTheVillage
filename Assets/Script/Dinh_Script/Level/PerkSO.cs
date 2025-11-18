@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Localization;
 
-[CreateAssetMenu(fileName = "New Perk", menuName = "Scriptable Objects/PerkSO")]
+[CreateAssetMenu(fileName = "New Perk", menuName = "Scriptable Object/PerkSO")]
 public class PerkSO : ScriptableObject
 {
     [Header("Perk Detail")]

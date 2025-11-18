@@ -14,9 +14,9 @@ public class DayNight : MonoBehaviour
 
     [Header("Lighting Overlay (2D)")]
     public Image overlay;           // L?p ph? màu 2D
-    public Color morningColor = new Color(1f, 1f, 1f, 0f);   // G?n nh? trong su?t
-    public Color afternoonColor = new Color(1f, 0.75f, 0.5f, 0.1f); // Cam nh?t
-    public Color nightColor = new Color(0.1f, 0.2f, 0.4f, 0.4f);    // Xanh ??m t?i
+    public Color morningColor = new Color(1f, 0.95f, 0.8f, 0.05f);  // sáng vàng nh?
+    public Color afternoonColor = new Color(1f, 0.9f, 0.6f, 0.1f);  // vàng cam tr?a
+    public Color nightColor = new Color(0.05f, 0.1f, 0.2f, 0.4f);  // t?i nh?ng không ?en hoàn toàn
 
     [Header("Events")]
     public UnityEvent onMorning;
@@ -75,42 +75,57 @@ public class DayNight : MonoBehaviour
 
     void UpdatePeriod()
     {
-        if (timeOfDay >= 6f && timeOfDay < 14f && currentPeriod != "morning")
+        // Sáng: 6h ? 12h
+        if (timeOfDay >= 6f && timeOfDay < 12f && currentPeriod != "morning")
         {
             currentPeriod = "morning";
             onMorning?.Invoke();
-            //Debug.Log("?? Bu?i sáng");
         }
-        else if (timeOfDay >= 14f && timeOfDay < 20f && currentPeriod != "afternoon")
+        // Tr?a/Chi?u: 12h ? 18h
+        else if (timeOfDay >= 12f && timeOfDay < 18f && currentPeriod != "afternoon")
         {
             currentPeriod = "afternoon";
             onAfternoon?.Invoke();
-            //Debug.Log("?? Bu?i chi?u");
         }
-        else if ((timeOfDay >= 20f || timeOfDay < 6f) && currentPeriod != "night")
+        // T?i: 18h ? 6h hôm sau
+        else if ((timeOfDay >= 18f || timeOfDay < 6f) && currentPeriod != "night")
         {
             currentPeriod = "night";
             onNight?.Invoke();
-            //Debug.Log("?? Bu?i t?i");
         }
     }
+
 
     void UpdateOverlayColor()
     {
-        // Tính ph?n tr?m th?i gian trong ngày (0–1)
-        float t = timeOfDay / 24f;
-
-        // Chuy?n màu d?n gi?a các bu?i
-        if (timeOfDay >= 6f && timeOfDay < 14f)
-            overlay.color = Color.Lerp(afternoonColor, morningColor, (timeOfDay - 6f) / 8f);
-        else if (timeOfDay >= 14f && timeOfDay < 20f)
-            overlay.color = Color.Lerp(morningColor, afternoonColor, (timeOfDay - 14f) / 6f);
+        // SÁNG: 6h ? 12h (morning ? afternoon)
+        if (timeOfDay >= 6f && timeOfDay < 12f)
+        {
+            float t = (timeOfDay - 6f) / 6f;
+            overlay.color = Color.Lerp(morningColor, afternoonColor, t);
+        }
+        // TR?A/CHI?U: 12h ? 18h (afternoon ? night)
+        else if (timeOfDay >= 12f && timeOfDay < 24f)
+        {
+            float t = (timeOfDay - 13f) / 6f;
+            overlay.color = Color.Lerp(afternoonColor, nightColor, t);
+        }
+        // T?I: 18h ? 6h sáng hôm sau (night ? morning)
         else
         {
-            float nT = (timeOfDay >= 20f) ? (timeOfDay - 20f) / 10f : (timeOfDay + 4f) / 10f;
-            overlay.color = Color.Lerp(afternoonColor, nightColor, nT);
+            float t;
+
+            // 18h ? 24h
+            if (timeOfDay < 6f)
+                t = (timeOfDay - 18f) / 12f;
+            else
+                // 0h ? 6h
+                t = (timeOfDay + 6f) / 12f;
+
+            overlay.color = Color.Lerp(nightColor, morningColor, t);
         }
     }
+
     void DrySoil()
     {
         SoilInteraction soil = FindObjectOfType<SoilInteraction>();

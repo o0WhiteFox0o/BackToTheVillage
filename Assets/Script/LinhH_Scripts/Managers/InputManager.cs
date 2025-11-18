@@ -44,6 +44,11 @@ public class InputManager : MonoBehaviour
     /// </summary>
     public static event Action OnQuestUIButtonPress;
 
+    /// <summary>
+    /// Bắt sự kiện khi người chơi nhấn chuột trái.
+    /// </summary>
+    public static event Action<Vector2> OnLeftClick;
+
     private Dictionary<string, KeyCode> keyBindings = new Dictionary<string, KeyCode>();
 
 
@@ -64,6 +69,7 @@ public class InputManager : MonoBehaviour
         CheckPlayerClickHotBar();
         CheckPlayerRightClick();
         HandleSkipDialoguePress();
+        HandleOnLeftClick();
     }
 
 
@@ -86,6 +92,17 @@ public class InputManager : MonoBehaviour
             }
         }
     }
+
+
+    private void HandleOnLeftClick()
+    {
+        if (Input.GetMouseButtonDown(0))
+        {
+            Vector2 mouseWorldPos = mainCamera.ScreenToWorldPoint(Input.mousePosition);
+            OnLeftClick?.Invoke(mouseWorldPos);
+        }
+    }
+
 
 
     private void HandleBagUIPress()
