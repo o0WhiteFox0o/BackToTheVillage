@@ -51,6 +51,7 @@ public class UI_QuestUI : MonoBehaviour
     /// <summary>
     /// Thiết lập các thành phần UI của nhiệm vụ thu thập.
     /// </summary>
+    /// TODO: Chỉnh các text UI lại hiển thị theo Localized String
     private void SetupCollectionQuestUI(IQuestProgress questProgress)
     {
         ToggleQuestDetails(true);
@@ -62,7 +63,8 @@ public class UI_QuestUI : MonoBehaviour
         // thiết lập UI tiến trình của nhiệm vụ thu thập
         if (questProgress is CollectionQuestProgress collectionProgress)
         {
-            foreach (var item in collectionProgress.itemRequirements_List)
+            var collectionQuest = collectionProgress.quest;
+            foreach (var item in collectionQuest.targetItems_List)
             {
                 questProgress_Text.text = "";
                 questProgress_Text.text += $"{item.item.name}: {item.currentQuantity} / {item.requirementQuantity}; ";

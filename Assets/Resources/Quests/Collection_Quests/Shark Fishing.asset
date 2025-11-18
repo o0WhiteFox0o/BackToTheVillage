@@ -12,11 +12,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 126306aaee7456444b6f2e3702287b8f, type: 3}
   m_Name: Shark Fishing
   m_EditorClassIdentifier: 
-  questID: shark_fishing
+  questId: shark_fishing
   tittle: Shark Fishing
   description: 
+  questCategorize: 0
   questType: 0
-  displayRewardInUI: 0
   reward:
     experience: 10
     gold: 100

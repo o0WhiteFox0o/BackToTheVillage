@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   conversationId: 251109_conversation_test
   dialogue_List:
-  - npcData: {fileID: 11400000, guid: 0d41ac691e554844289c137b71106c80, type: 2}
+  - npcData: {fileID: 11400000, guid: 87e1b24d5bf1401428f4543557ffc158, type: 2}
     dialogue:
       m_TableReference:
         m_TableCollectionName: GUID:85ea88046982e994483720dcad30a939
@@ -24,7 +24,7 @@ MonoBehaviour:
       m_FallbackState: 0
       m_WaitForCompletion: 0
       m_LocalVariables: []
-  - npcData: {fileID: 11400000, guid: 0d41ac691e554844289c137b71106c80, type: 2}
+  - npcData: {fileID: 11400000, guid: 87e1b24d5bf1401428f4543557ffc158, type: 2}
     dialogue:
       m_TableReference:
         m_TableCollectionName: GUID:85ea88046982e994483720dcad30a939
@@ -34,7 +34,7 @@ MonoBehaviour:
       m_FallbackState: 0
       m_WaitForCompletion: 0
       m_LocalVariables: []
-  - npcData: {fileID: 11400000, guid: 0d41ac691e554844289c137b71106c80, type: 2}
+  - npcData: {fileID: 11400000, guid: 87e1b24d5bf1401428f4543557ffc158, type: 2}
     dialogue:
       m_TableReference:
         m_TableCollectionName: GUID:85ea88046982e994483720dcad30a939
