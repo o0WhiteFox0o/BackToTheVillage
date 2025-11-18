@@ -32,6 +32,18 @@ public class CraftingUI : MonoBehaviour
         CraftingManager.Instance.OnRecipeUnlocked += OnNewRecipeUnlocked;
 
         craftingPanel.SetActive(false); // Ẩn lúc bắt đầu
+
+        if(Management.InventoryManager.Instance != null)
+        {
+            Management.InventoryManager.Instance.OnInventoryChanged += OnInventoryUpdated;
+        }
+    }
+    private void OnDestroy()
+    {
+        if (Management.InventoryManager.Instance != null)
+        {
+            Management.InventoryManager.Instance.OnInventoryChanged -= OnInventoryUpdated;
+        }
     }
 
     // (Hàm này có thể được gọi từ nút Balo hoặc phím 'C')
@@ -53,7 +65,7 @@ public class CraftingUI : MonoBehaviour
     }
 
     // Tải lại toàn bộ danh sách công thức đã mở khóa
-    private void RefreshRecipeList()
+    public void RefreshRecipeList()
     {
         // Xóa danh sách cũ
         foreach (Transform child in recipeListContainer)
@@ -124,6 +136,7 @@ public class CraftingUI : MonoBehaviour
 
         // Cập nhật lại nút
         UpdateDetailPanel();
+        RefreshRecipeList();
     }
 
     // Khi học công thức mới lúc đang mở cửa sổ
@@ -132,6 +145,21 @@ public class CraftingUI : MonoBehaviour
         if (craftingPanel.activeSelf)
         {
             RefreshRecipeList();
+        }
+    }
+
+    private void OnInventoryUpdated()
+    {
+        // Chỉ cập nhật nếu bảng đang mở (để tiết kiệm hiệu năng)
+        if (craftingPanel.activeSelf)
+        {
+            // Vẽ lại danh sách bên trái (để cập nhật mờ/rõ)
+            RefreshRecipeList();
+
+            if (selectedRecipe != null)
+            {
+                UpdateDetailPanel();
+            }
         }
     }
 }

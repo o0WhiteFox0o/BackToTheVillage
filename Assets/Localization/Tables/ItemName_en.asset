@@ -30,6 +30,14 @@ MonoBehaviour:
     m_Localized: Worm Bait
     m_Metadata:
       m_Items: []
+  - m_Id: 2198662776688640
+    m_Localized: "Fish Trap\t"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2198796122001408
+    m_Localized: "Catfish\t"
+    m_Metadata:
+      m_Items: []
   references:
     version: 2
     RefIds: []

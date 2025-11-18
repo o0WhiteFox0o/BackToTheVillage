@@ -20,11 +20,7 @@ MonoBehaviour:
   m_TableData:
   - m_Id: 8033288192
     m_Localized: "C\xE1 m\u1EADp l\xE0 nh\u1EEFng lo\xE0i c\xE1 s\u0103n m\u1ED3i
-      m\u1EA1nh m\u1EBD, n\u1ED5i ti\u1EBFng v\u1EDBi b\u1ED9 h\xE0m s\u1EAFc b\xE9n
-      v\xE0 kh\u1EA3 n\u0103ng th\xEDch nghi tuy\u1EC7t v\u1EDDi trong m\xF4i tr\u01B0\u1EDDng
-      bi\u1EC3n. Ch\xFAng \u0111\xF3ng vai tr\xF2 quan tr\u1ECDng trong vi\u1EC7c
-      duy tr\xEC s\u1EF1 c\xE2n b\u1EB1ng c\u1EE7a h\u1EC7 sinh th\xE1i \u0111\u1EA1i
-      d\u01B0\u01A1ng."
+      m\u1EA1nh m\u1EBD"
     m_Metadata:
       m_Items: []
   - m_Id: 4717666254848
@@ -35,6 +31,14 @@ MonoBehaviour:
       m_Items: []
   - m_Id: 364042154217472
     m_Localized: "L\xE0 con giun \u0111\u01B0\u1EE3c \u0111\xE0o t\u1EEB \u0111\u1EA5t"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2200049312927744
+    m_Localized: "\u0110\xE2y L\xE0 B\u1EABy"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2200177235005440
+    m_Localized: "\u0110\xE2y l\xE0 c\xE1 Tr\xEA"
     m_Metadata:
       m_Items: []
   references:

@@ -9,11 +9,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 272e1ef824f163a4889cbe00fa6cc682, type: 3}
-  m_Name: Perch
+  m_Script: {fileID: 11500000, guid: 0ddea86ae8528a44db20444da8ab612f, type: 3}
+  m_Name: SampleRecipe2
   m_EditorClassIdentifier: 
   id: 
-  icon: {fileID: 21300000, guid: e821e01887a8cf7498b6649a8cc65a7e, type: 3}
+  icon: {fileID: 0}
   displayName:
     m_TableReference:
       m_TableCollectionName: 
@@ -32,24 +32,20 @@ MonoBehaviour:
     m_FallbackState: 0
     m_WaitForCompletion: 0
     m_LocalVariables: []
-  stackable: 1
+  stackable: 0
   canSell: 0
-  itemType: 1
+  itemType: 12
   buyPrice: 0
   sellPrice: 0
   itemPrefab: {fileID: 0}
   plantPrefab: {fileID: 0}
-  xpGranted: 10
-  rarity: 1
-  min_weight: 1
-  min_length: 10
-  max_weight: 20
-  max_length: 25
-  qteBarSpeed: 0.67
-  successWindowSize: 0.265
-  maxGameTime: 50
-  progressIncrease: 0.1
-  progressDecrease: 0.05
+  itemToCraft: {fileID: 11400000, guid: 333ff93dcffdac447988a721089da030, type: 2}
+  quantityCreated: 1
+  materials:
+  - item: {fileID: 11400000, guid: 3e031d73daec2c54d8c92cb97ff214cb, type: 2}
+    quantity: 1
+  - item: {fileID: 11400000, guid: 78c97074da2416246a8cd3d400a5e599, type: 2}
+    quantity: 1
   references:
     version: 2
     RefIds: []
