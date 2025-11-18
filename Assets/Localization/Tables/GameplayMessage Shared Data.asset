@@ -19,6 +19,38 @@ MonoBehaviour:
     m_Key: gMgs.itemCantSell
     m_Metadata:
       m_Items: []
+  - m_Id: 2165486843478016
+    m_Key: gMsg.storyQuestBtn
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2165644100517888
+    m_Key: gMsg.eventQuestBtn
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2165786467778560
+    m_Key: gMsg.companionQuestBtn
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2165954567094272
+    m_Key: gMsg.otherQuestBtn
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2167867442348032
+    m_Key: gMsg.noQuestMessage
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2168980170227712
+    m_Key: gMsg.characterBtn
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2169076324646912
+    m_Key: gMsg.questBtn
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2169218696101888
+    m_Key: gMsg.settingBtn
+    m_Metadata:
+      m_Items: []
   m_Metadata:
     m_Items: []
   m_KeyGenerator:

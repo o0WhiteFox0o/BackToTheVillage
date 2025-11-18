@@ -17,44 +17,6 @@ MonoBehaviour:
     m_SerializedData: []
   m_GUID: 9dc9cbee7bc236a4ab9fee8471319ce5
   m_SerializeEntries:
-  - m_GUID: 9012d4cc004d73244b351160b5034c56
-    m_Address: Assets/Localization/Tables/___TEST___/testConversation_1 Shared Data.asset
-    m_ReadOnly: 1
-    m_SerializedLabels: []
-    FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: a1101b90838586f45bede8b64ef293f9
-    m_Address: Assets/Localization/Tables/___TEST___/Storyline_Test_1 Shared Data.asset
-    m_ReadOnly: 1
-    m_SerializedLabels: []
-    FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: 2a28ebaaeec34f94fa2c3bb825d4e298
-    m_Address: Assets/Localization/Tables/___TEST___/Storyline_Test_2 Shared Data.asset
-    m_ReadOnly: 1
-    m_SerializedLabels: []
-    FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: aa9c0ab0813b5bf468a6ab8858823af3
-    m_Address: Assets/Localization/Tables/___TEST___/Storyline_Test_3 Shared Data.asset
-    m_ReadOnly: 1
-    m_SerializedLabels: []
-    FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: aafac9757a1564744a07bdb283d902fd
-    m_Address: Assets/Localization/Tables/___TEST___/Shark Quest Conversation Shared
-      Data.asset
-    m_ReadOnly: 1
-    m_SerializedLabels: []
-    FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: d7721ed1e30dff74b81d3b1bede93c78
-    m_Address: Assets/Localization/Tables/___TEST___/After Shark Quest Conversation
-      Shared Data.asset
-    m_ReadOnly: 1
-    m_SerializedLabels: []
-    FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: 85ea88046982e994483720dcad30a939
-    m_Address: Assets/Localization/Tables/___TEST___/251109 Test Conversation Shared
-      Data.asset
-    m_ReadOnly: 1
-    m_SerializedLabels: []
-    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 95ab3aa9c95b5c2448881d7d9476e40c
     m_Address: Assets/Localization/Tables/ItemDescriptions Shared Data.asset
     m_ReadOnly: 1
@@ -77,6 +39,16 @@ MonoBehaviour:
     FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 8768c13927a9f524b96cab58f276386f
     m_Address: Assets/Localization/Tables/SkillName Shared Data.asset
+    m_ReadOnly: 1
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: ee2b96dedb6d0b644a18ca229561383b
+    m_Address: Assets/Localization/Tables/Quest Shared Data.asset
+    m_ReadOnly: 1
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 14eab027c2e96e347ad94afb95e1a818
+    m_Address: Assets/Localization/Tables/Quest Description Shared Data.asset
     m_ReadOnly: 1
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0

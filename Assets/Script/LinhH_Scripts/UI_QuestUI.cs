@@ -58,7 +58,7 @@ public class UI_QuestUI : MonoBehaviour
 
         Debug.Log($"{questProgress.GetType()}");
 
-        questTittle_Text.SetText(questProgress.GetQuest().tittle);
+        questTittle_Text.SetText(questProgress.GetQuest().questTittle.GetLocalizedString());
 
         // thiết lập UI tiến trình của nhiệm vụ thu thập
         if (questProgress is CollectionQuestProgress collectionProgress)
@@ -67,13 +67,12 @@ public class UI_QuestUI : MonoBehaviour
             foreach (var item in collectionQuest.targetItems_List)
             {
                 questProgress_Text.text = "";
-                questProgress_Text.text += $"{item.item.name}: {item.currentQuantity} / {item.requirementQuantity}; ";
-
-                Debug.Log($"{item.item.name}: {item.currentQuantity} / {item.requirementQuantity}; ");
+                questProgress_Text.text += $"{item.item.displayName.GetLocalizedString()}: {item.currentQuantity} / {item.requirementQuantity}; ";
             }
         }
 
         // thiết lập mô tả nhiệm vụ
+        questDescription_Text.SetText(questProgress.GetQuest().questDescription.GetLocalizedString());
 
         // TODO: thiết lập UI phần thưởng của nhiệm vụ
         // questReward_Text.text = "";
@@ -84,7 +83,7 @@ public class UI_QuestUI : MonoBehaviour
     {
         ToggleQuestDetails(true);
 
-        questTittle_Text.SetText(quest.GetQuest().tittle);
+        questTittle_Text.SetText(quest.GetQuest().questTittle.GetLocalizedString());
 
         // thiết lập UI tiến trình của nhiệm vụ thu thập
         if (quest is TalkingQuestProgress talkingQuest)
