@@ -17,48 +17,6 @@ MonoBehaviour:
     m_SerializedData: []
   m_GUID: 1b916fa5504aa3e4d9067e58b42825b5
   m_SerializeEntries:
-  - m_GUID: b10082ebfe76e7a4d8935e4316a814f6
-    m_Address: testConversation_1_en
-    m_ReadOnly: 1
-    m_SerializedLabels:
-    - Locale-en
-    FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: 9f4a68205e5653b42a8625cb52734cd4
-    m_Address: Storyline_Test_1_en
-    m_ReadOnly: 1
-    m_SerializedLabels:
-    - Locale-en
-    FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: e76d1d00023a4df44a505dab78dd152c
-    m_Address: Storyline_Test_2_en
-    m_ReadOnly: 1
-    m_SerializedLabels:
-    - Locale-en
-    FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: b31ee309c7ef0da4e9e8a0450638607b
-    m_Address: Storyline_Test_3_en
-    m_ReadOnly: 1
-    m_SerializedLabels:
-    - Locale-en
-    FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: a5f3d487d56e1e643b8fc819eadfbcba
-    m_Address: Shark Quest Conversation_en
-    m_ReadOnly: 1
-    m_SerializedLabels:
-    - Locale-en
-    FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: 2a89a9fbc83005540b8dc701f508726a
-    m_Address: After Shark Quest Conversation_en
-    m_ReadOnly: 1
-    m_SerializedLabels:
-    - Locale-en
-    FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: ba4687b97f3710c44a40b8c79f447dc9
-    m_Address: 251109 Test Conversation_en
-    m_ReadOnly: 1
-    m_SerializedLabels:
-    - Locale-en
-    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 1436a39cbe4bb764e81d85d2b0857626
     m_Address: ItemDescriptions_en
     m_ReadOnly: 1
@@ -85,6 +43,18 @@ MonoBehaviour:
     FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 720bdd6c98ae56349b5464aea5d745b4
     m_Address: SkillName_en
+    m_ReadOnly: 1
+    m_SerializedLabels:
+    - Locale-en
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 887f4e65f40031042b3bd9065d8009ed
+    m_Address: QuestTittle_en
+    m_ReadOnly: 1
+    m_SerializedLabels:
+    - Locale-en
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 551a2d2fa7103e043acdb4814412d801
+    m_Address: Quest Description_en
     m_ReadOnly: 1
     m_SerializedLabels:
     - Locale-en

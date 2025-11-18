@@ -347,7 +347,7 @@ public class GameplayUIManager : MonoBehaviour
         {
             var newQuestUI = MGR_ObjectPoolManager.SpawnObject(questUI_Prefab, questPanel);
 
-            newQuestUI.GetComponentInChildren<TMP_Text>().SetText(quest.GetQuest().tittle);
+            newQuestUI.GetComponentInChildren<TMP_Text>().SetText(quest.GetQuest().questTittle.GetLocalizedString());
 
             // đăng ký sự kiện cho nút nhiệm vụ mới
             var questButton = newQuestUI.GetComponent<Button>();
