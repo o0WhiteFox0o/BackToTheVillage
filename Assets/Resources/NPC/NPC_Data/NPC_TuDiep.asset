@@ -13,8 +13,28 @@ MonoBehaviour:
   m_Name: NPC_TuDiep
   m_EditorClassIdentifier: 
   npcId: npc.tudiep
-  npcName: "\xD4ng T\u01B0 \u0110i\u1EC7p"
+  npcName:
+    m_TableReference:
+      m_TableCollectionName: GUID:bfa153e64575a224bb7f062205e56895
+    m_TableEntryReference:
+      m_KeyId: 11619418112
+      m_Key: 
+    m_FallbackState: 0
+    m_WaitForCompletion: 0
+    m_LocalVariables: []
+  npcDescription:
+    m_TableReference:
+      m_TableCollectionName: GUID:a231cad2e2336cf43822447612b04708
+    m_TableEntryReference:
+      m_KeyId: 5319573504
+      m_Key: 
+    m_FallbackState: 0
+    m_WaitForCompletion: 0
+    m_LocalVariables: []
   portrait: {fileID: 21300000, guid: 807c1ad0af1cec644bdd67416eb29136, type: 3}
   canDating: 0
   likeItem_List: []
   hateItem_List: []
+  references:
+    version: 2
+    RefIds: []

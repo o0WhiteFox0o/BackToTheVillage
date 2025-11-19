@@ -80,6 +80,12 @@ MonoBehaviour:
       m_Items: []
   - m_Id: 2532330423074816
     m_Localized: Giant River Prawn
+  - m_Id: 2198662776688640
+    m_Localized: "Fish Trap\t"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2198796122001408
+    m_Localized: "Catfish\t"
     m_Metadata:
       m_Items: []
   references:

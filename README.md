@@ -32,6 +32,7 @@
 
 - [Công trình](#constructs)  
 - [Dữ liệu](#data)
+    - [Localization](#localization)
     - [Dữ liệu chung](#game-config)
     - [Dữ liệu nông trại](#farm-config)
 
@@ -50,7 +51,7 @@
 > - **Art/** - Chứa các thành phần đồ họa của trò chơi như model, animation, ...
 >   - **Models/** - Chứa các model được dùng trong dự án.
 >       - **Items/** - 
->           - **Icons/** - Chứa các sprite icon của vật phẩm, tên các sprite icon được đặt theo dạng ***ICON_<tên_vật_phẩm>***.
+>           - **Icons/** - Chứa các sprite icon của vật phẩm.
 >               - **Tools/**
 >               - **Materials/**
 >               - **Crafting/**
@@ -62,30 +63,29 @@
 >               - **Others/**
 >           - **Sprites** - Chứa sprite cho các vật phẩm trong trò chơi, bao gồm các thư mục con tương tự trong thư mục Assets/Art/Models/Items/Icons/.
 >   - **Animations/**
->       - **Animation Clips/** - Chứa các file animation clip, được đặt tên theo dạng ***ANIM_<tên_animation>***.
->       - **Animator Controllers/** - Chứa các file animator controller, đặt tên theo dạng ***AC_<tên_animator>***.
->   - **VFX/** - Chứa các hiệu ứng hình ảnh cho trò chơi, đặt tên file theo dạng ***VFX_<tên_hiệu_ứng>***.
+>       - **Animation Clips/** - Chứa các file animation clip.
+>       - **Animator Controllers/** - Chứa các file animator controller.
+>   - **VFX/** - Chứa các hiệu ứng hình ảnh cho trò chơi.
 > - **Audio/**  
->   - **Music/** - Chứa các file nhạc trong trò chơi, quy tắc đặt tên ***MUS_<tên_nhạc>***.
->   - **SFX/** - Chứa các file hiệu ứng âm thanh trong trò chơi, quy tắc đặt tên ***SFX_<tên_âm_thanh>***.
-> - **Prefabs/** - Chứa các prefab dùng trong dự án, có thể chia ra làm nhiều thư mục con để quản lý, quy tắc đặt tên ***PFB_<tên_prefab>***.
-> - **Scenes/** - Chứa các màn chơi trong trò chơi, quy tắc đặt tên ***SCN_<tên_scene>***.
+>   - **Music/** - Chứa các file nhạc trong trò chơi.
+>   - **SFX/** - Chứa các file hiệu ứng âm thanh trong trò chơi.
+> - **Scenes/** - Chứa các màn chơi trong trò chơi.
 > - **Scripts/** - Chứa các file lệnh trong dự án.
->   - **Core/** - Chứa các lệnh về game logic, quy tắc đặt tên ***C_<tên_script>***.
->   - **User_Interfaces/** - Chứa các lệnh liên quan đến UI của trò chơi, quy tắc đặt tên ***UI_<tên_script>***.
->   - **Managers/** - Chứa các lệnh liên quan đến quản lý các đối tượng trong trò chơi, quy tắc đặt tên ***MGR_<tên_script>***.
->   - **Scriptable_Obj** - Chứa các file script của các scriptable object, quy tắc đặt tên ***SO_<tên_script>***.
->   - **Systems/** - Chứa các file lệnh liên quan đến hệ thống trò chơi, quy tắc đặt tên ***SYS_<tên_script>***.
+>   - **Core/** - Chứa các lệnh về game logic.
+>   - **User_Interfaces/** - Chứa các lệnh liên quan đến UI của trò chơi.
+>   - **Managers/** - Chứa các lệnh liên quan đến quản lý các đối tượng trong trò chơi.
+>   - **Scriptable_Obj** - Chứa các file script của các scriptable object.
+>   - **Systems/** - Chứa các file lệnh liên quan đến hệ thống trò chơi.
 > - **UI/**  
-> - **Resources/** - Chứa các file scriptable object về dữ liệu của các thành phần trong trò chơi, quy tắc đặt tên ***RES_<tên_file>***.
+> - **Resources/** - Chứa các file scriptable object về dữ liệu của các thành phần trong trò chơi.
 >   - **Items/** - *Chứa các Scriptable object của vật phẩm có trong trò chơi, bao gồm các thư mục con được liệt kê trong thư mục Assets/Art/Models/Items/Icons/*.
+>   - **Prefabs/** - Chứa các prefab dùng trong dự án, có thể chia ra làm nhiều thư mục con để quản lý.
 > 
 > ---
 > 
 > ### Files name guidelines table
 > | Loại file | Quy tắc đặt tên |
 > | --------- | --------------- |
-> | File sprite icon của vật phẩm | ICON_<tên_file> |
 > | File animation clip | ANIM_<tên_animation> |
 > | File animator controller | AC_<tên_file> |
 > | File visual effect | VFX_<tên_file> |
@@ -96,9 +96,8 @@
 > | Script logic game (Core) | C_<tên_script> |
 > | Script UI | UI_<tên_script> |
 > | Script quản lý | MGR_<tên_script> |
-> | Scriptable object | SO_<tên_script> |
 > | Script hệ thống trò chơi | SYS_<tên_script> | 
-> | File Resources | RES_<tên_file> |
+> | Scriptable object | SO_<tên_script> |
 > 
 
 ---
@@ -450,7 +449,7 @@
 > 
 > ## Nhiệm vụ thu thập
 > 
-> Vị trí lưu trữ Collection Quest Scriptable Object: *Resources/Quests/Collection_Quests*.  
+> Vị trí lưu trữ Collection Quest Scriptable Object: *Resources/Quests/...*.  
 > Các bước thêm một nhiệm vụ thu thập: *Right click -> Create -> Scriptable Object -> Quest -> Collection Quest*.
 > 
 > ![Collection quest](./README_Images/collection_quest.png)
@@ -465,7 +464,7 @@
 > 
 > ## Nhiệm vụ trò chuyện
 > 
-> Vị trí lưu trữ Talking Quest Scriptable Object: *Resources/Quests/Talking_Quests*.  
+> Vị trí lưu trữ Talking Quest Scriptable Object: *Resources/Quests/...*.  
 > Các bước thêm một nhiệm vụ trò chuyện: *Right click -> Create -> Scriptable Object -> Quest -> Talking Quest*.
 > 
 > ---
@@ -485,8 +484,29 @@
 > ## Game Config
 > Vị trí lưu trữ: *Assets/StreamingAssets/GameConfig.json*
 > Các thành phần được lưu trữ:
-
----
-
+> 
+> ---
+>
 > ## Farm Config
 > Vị trí lưu trữ: *Assets/StreamingAssets/SavedFarms/<farm_name>.json*
+> 
+> ---
+>
+> ## Localization
+> ### Localized Table Named
+> **Quy tắc đặt tên value**: Camel Case (Bắt đầu bằng chữ thường, từ tiếp theo viết hoa chữ cái đầu), e.g. questTittle.carpFishing
+> 
+> | Phân loại | Bảng | Cách đặt value | 
+> | --- | --- | --- |
+> | Tên NPC | NPC_Name | npcName.<tên_npc> |
+> | Mô tả NPC | NPC_Description | npcDesc.<mô_tả_npc> |
+> | Câu hội thoại | Conversation | conv.<tên_cuộc_hội_thoại>.<tên_npc>.<thứ_tự_câu_thoại> |
+> | Tên item cơ bản | ItemName | itemName.<tên_item> |
+> | Mô tả item cơ bản | ItemDescription | itemDesc.<mô_tả_item> |
+> | Tên item cá | ItemName | itemName.fish.<tên_item> |
+> | Mô tả item cá | ItemDescription | itemDesc.fish.<mô_tả_item> |
+> | Tiêu đề nhiệm vụ | QuestTittle | questTittle.<tiêu_đề_quest> |
+> | Mô tả nhiệm vụ | QuestDescription | questDesc.<mô_tả_quest> |
+> | Tên kỹ năng | SkillName | skillName.<tên_skill> |
+> | Mô tả kỹ năng | SkillDescription | skillDesc.<mô_tả_skill> |
+> | Thông báo, UI Text của gameplay | GameplayMessage | gMsg.<tên_thông_báo> |
