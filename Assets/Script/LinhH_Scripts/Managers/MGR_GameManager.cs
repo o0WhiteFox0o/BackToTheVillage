@@ -100,7 +100,7 @@ public class MGR_GameplayManager : MonoBehaviour
                 collectionQuestData.collectedItem_List.Add(
                     new ItemCollectedData
                     {
-                        itemId = collectedItem.item.id,
+                        itemId = collectedItem.item_SO.id,
                         currentQuantity = collectedItem.currentQuantity,
                         totalQuantity = collectedItem.requirementQuantity
                     }

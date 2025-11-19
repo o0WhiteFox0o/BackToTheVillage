@@ -45,7 +45,7 @@ public class CollectionQuestProgress : IQuestProgress
         itemRequirements_List.Clear();
         foreach (var targetItem in collectionQuest.targetItems_List)
         {
-            var newTargetItem = new QuestItemRequirement { item = targetItem.item, currentQuantity = 0, requirementQuantity = targetItem.requirementQuantity };
+            var newTargetItem = new QuestItemRequirement { item_SO = targetItem.item_SO, currentQuantity = 0, requirementQuantity = targetItem.requirementQuantity };
             itemRequirements_List.Add(newTargetItem);
         }
     }
@@ -65,6 +65,7 @@ public class CollectionQuestProgress : IQuestProgress
         {
             quest = collectionQuest;
         }
+        else { return; }
 
         // load danh sách item có trong Resources
         var itemSO_List = Resources.LoadAll<ItemScriptableObject>("Items");
@@ -84,7 +85,7 @@ public class CollectionQuestProgress : IQuestProgress
             // thêm tiến trình của vật phẩm vào danh sách vật phẩm yêu cầu
             itemRequirements_List.Add(new QuestItemRequirement
             {
-                item = requirementItem,
+                item_SO = requirementItem,
                 currentQuantity = itemProgress.currentQuantity,
                 requirementQuantity = itemProgress.totalQuantity
             });
@@ -100,15 +101,15 @@ public class CollectionQuestProgress : IQuestProgress
     public void UpdateProgress(ItemScriptableObject updatedItem, int updatedQuantity)
     {
         // nếu vật phẩm không có trong danh sách cần thu thập thì dừng
-        if (!itemRequirements_List.Exists(i => i.item.id == updatedItem.id)) { return; }
+        if (!itemRequirements_List.Exists(i => i.item_SO.id == updatedItem.id)) { return; }
 
         // cập nhật số lượng vật phẩm cho nhiệm vụ
-        var requirementItem = itemRequirements_List.FirstOrDefault(i => i.item.id == updatedItem.id);
+        var requirementItem = itemRequirements_List.FirstOrDefault(i => i.item_SO.id == updatedItem.id);
         if (requirementItem != null)
         {
             requirementItem.currentQuantity += updatedQuantity;
             OnCollectionQuestUpdate?.Invoke(this);
-            Debug.Log("Cập nhật số lượng cho " + requirementItem.item);
+            Debug.Log("Cập nhật số lượng cho " + requirementItem.item_SO);
         }
 
         CheckProgress();

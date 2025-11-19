@@ -30,6 +30,58 @@ MonoBehaviour:
     m_Localized: Worm Bait
     m_Metadata:
       m_Items: []
+  - m_Id: 2530850563571712
+    m_Localized: Bream
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2532151582146560
+    m_Localized: Carp
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2532187825127424
+    m_Localized: Catfish
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2532225376731136
+    m_Localized: Frog
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2532254174822400
+    m_Localized: Goby
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2532279151902720
+    m_Localized: Gourami
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2532436517994496
+    m_Localized: Lady Carp
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2532507716304896
+    m_Localized: Naked Catfish
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2532597688320000
+    m_Localized: Perch
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2532641678180352
+    m_Localized: Rasbora
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2533794600075264
+    m_Localized: Snake
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2533877945090048
+    m_Localized: Snakehead
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2532330423074816
+    m_Localized: Giant River Prawn
+    m_Metadata:
+      m_Items: []
   references:
     version: 2
     RefIds: []

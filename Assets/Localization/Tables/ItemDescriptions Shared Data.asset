@@ -27,6 +27,58 @@ MonoBehaviour:
     m_Key: itemDesc.wormbait
     m_Metadata:
       m_Items: []
+  - m_Id: 2532333300367360
+    m_Key: itemDesc.fish.bream
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2537154115944448
+    m_Key: itemDesc.fish.carp
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2537180233875456
+    m_Key: itemDesc.fish.catfish
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2537207194861568
+    m_Key: itemDesc.fish.frog
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2537237809086464
+    m_Key: itemDesc.fish.goby
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2537275138392064
+    m_Key: itemDesc.fish.gourami
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2537328028565504
+    m_Key: itemDesc.fish.grPrawn
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2537371779350528
+    m_Key: itemDesc.fish.ladyCarp
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2537421641236480
+    m_Key: itemDesc.fish.nakedCatfish
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2537465933086720
+    m_Key: itemDesc.fish.perch
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2537502184456192
+    m_Key: itemDesc.fish.rasbora
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2537577220554752
+    m_Key: itemDesc.fish.snake
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2537607591510016
+    m_Key: itemDesc.fish.snakehead
+    m_Metadata:
+      m_Items: []
   m_Metadata:
     m_Items: []
   m_KeyGenerator:
