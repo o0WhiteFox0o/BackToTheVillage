@@ -50,6 +50,8 @@ MonoBehaviour:
   currentStage: 0
   daysInCurrentStage: 0
   isHarvestable: 0
+  soilManager: {fileID: 0}
+  cellPosition: {x: 0, y: 0, z: 0}
 --- !u!212 &-8501003612597741645
 SpriteRenderer:
   m_ObjectHideFlags: 0

@@ -10,11 +10,12 @@ public class SoilInteraction : MonoBehaviour
     public TileCursorFollow tileCursorFollow;   // Con trỏ + tilemap
     public InventoryManager inventory;          // Lấy item hiện cầm
     public PlantedManager plantedManager;       // Quản lý các vị trí cây đã trồng
+    public SoilManager soilManager;             // Quản lý trạng thái đất
 
-    [Header("Các sprite tile")]
-    public Sprite grassSprite;    // đất cỏ
-    public Sprite tilledSprite;   // đất xới
-    public Sprite wateredSprite;  // đất xới có nước
+    [Header("Sprite đất")]
+    public List<Sprite> grassSprites;    // Các sprite cỏ
+    public Sprite tilledSprite;          // đất xới
+    public Sprite wateredSprite;         // đất đã tưới
 
     private Tilemap tilemap;
 
@@ -33,16 +34,9 @@ public class SoilInteraction : MonoBehaviour
 
     void Start()
     {
-        if (tileCursorFollow == null)
+        if (tileCursorFollow == null || plantedManager == null || soilManager == null)
         {
-            Debug.LogError("Chưa gán TileCursorFollow!");
-            enabled = false;
-            return;
-        }
-
-        if (plantedManager == null)
-        {
-            Debug.LogError("Chưa gán PlantedManager!");
+            Debug.LogError("Chưa gán TileCursorFollow / PlantedManager / SoilManager!");
             enabled = false;
             return;
         }
@@ -52,7 +46,7 @@ public class SoilInteraction : MonoBehaviour
 
     void Update()
     {
-        if (tileCursorFollow == null || tileCursorFollow.cursorObject == null || tilemap == null)
+        if (tileCursorFollow == null || tileCursorFollow.cursorObject == null || tilemap == null || inventory == null)
             return;
 
         Vector3Int playerCell = tilemap.WorldToCell(transform.position);
@@ -61,8 +55,32 @@ public class SoilInteraction : MonoBehaviour
         int dx = Mathf.Abs(cursorCell.x - playerCell.x);
         int dy = Mathf.Abs(cursorCell.y - playerCell.y);
 
-        // ❗ Hợp lệ khi 4 hướng hoặc chính giữa
-        bool isValid = (dx + dy == 1) || (dx == 0 && dy == 0);
+        bool isNearby = (dx + dy == 1) || (dx == 0 && dy == 0);
+        bool isValid = false;
+
+        var currentItem = inventory.holdingItem;
+        if (currentItem != null)
+        {
+            switch (currentItem.itemType)
+            {
+                case ItemType.Hoe:
+                    // Cuốc có thể xới cỏ hoặc đất bất kỳ gần người
+                    isValid = isNearby;
+                    break;
+
+                case ItemType.WateringCan:
+                    // Tưới chỉ hợp lệ trên đất đã xới nhưng chưa tưới
+                    isValid = isNearby && soilManager.IsHoed(cursorCell) && !soilManager.IsWatered(cursorCell);
+                    break;
+
+                case ItemType.Seed:
+                    // Trồng chỉ hợp lệ trên đất đã xới hoặc đã tưới, chưa có cây
+                    isValid = isNearby &&
+                              (soilManager.IsHoed(cursorCell) || soilManager.IsWatered(cursorCell)) &&
+                              !soilManager.IsPlanted(cursorCell);
+                    break;
+            }
+        }
 
         tileCursorFollow.SetPlacementValid(isValid);
     }
@@ -79,9 +97,7 @@ public class SoilInteraction : MonoBehaviour
         int dx = Mathf.Abs(cursorCell.x - playerCell.x);
         int dy = Mathf.Abs(cursorCell.y - playerCell.y);
 
-        // ❗ Cho 4 ô xung quanh + ô hiện tại
         bool isValidSpot = (dx + dy == 1) || (dx == 0 && dy == 0);
-
         if (!isValidSpot)
         {
             tileCursorFollow.SetPlacementValid(false);
@@ -99,43 +115,38 @@ public class SoilInteraction : MonoBehaviour
 
         Sprite currentSprite = tilemap.GetSprite(cursorCell);
 
-        // === Các case như cũ ===
         switch (currentItem.itemType)
         {
             case ItemType.Hoe:
-                if (currentSprite == grassSprite)
+                if (grassSprites.Contains(currentSprite))
                 {
-                    Tile newTile = ScriptableObject.CreateInstance<Tile>();
-                    newTile.sprite = tilledSprite;
-                    newTile.name = "TilledSoil";
-                    tilemap.SetTile(cursorCell, newTile);
-
-                    Debug.Log($"⛏ Đã xới đất tại {cursorCell}");
                     OnToolUse?.Invoke("isDigging");
+                    StartCoroutine(DelayedTilling(cursorCell, 0.8f));
                 }
                 break;
 
             case ItemType.WateringCan:
-                if (currentSprite == tilledSprite)
+                if (soilManager.IsHoed(cursorCell) && !soilManager.IsWatered(cursorCell))
                 {
-                    Tile newTile = ScriptableObject.CreateInstance<Tile>();
-                    newTile.sprite = wateredSprite;
-                    newTile.name = "WateredSoil";
-                    tilemap.SetTile(cursorCell, newTile);
-
-                    Debug.Log($"💧 Đã tưới đất tại {cursorCell}");
                     OnToolUse?.Invoke("isWatering");
+                    StartCoroutine(DelayedWatering(cursorCell, 0.8f));
                 }
                 break;
 
             case ItemType.Seed:
-                if (currentSprite != tilledSprite && currentSprite != wateredSprite)
+                if (!soilManager.IsHoed(cursorCell))
                 {
-                    Debug.Log("❌ Cần đất xới hoặc đất tưới để trồng!");
+                    Debug.Log("❌ Cần đất đã xới để trồng!");
                     return;
                 }
 
-                if (plantedManager.IsPositionOccupied(cursorCell))
+                //if (!soilManager.IsWatered(cursorCell))
+                //{
+                //    Debug.Log("❌ Cần tưới đất trước khi trồng!");
+                //    return;
+                //}
+
+                if (soilManager.IsPlanted(cursorCell))
                 {
                     Debug.Log("❌ Vị trí này đã có cây!");
                     return;
@@ -144,8 +155,16 @@ public class SoilInteraction : MonoBehaviour
                 if (currentItem.plantPrefab != null)
                 {
                     Vector3 spawnPos = tilemap.CellToWorld(cursorCell) + new Vector3(0f, 0.5f, 0f);
-                    Instantiate(currentItem.plantPrefab, spawnPos, Quaternion.identity);
+                    GameObject plant = Instantiate(currentItem.plantPrefab, spawnPos, Quaternion.identity);
+                    CropBehaviour cropBehaviour = plant.GetComponent<CropBehaviour>();
 
+                    if (cropBehaviour != null)
+                    {
+                        cropBehaviour.soilManager = soilManager;    // thêm tham chiếu
+                        cropBehaviour.cellPosition = cursorCell;    // lưu ô đất
+                    }
+
+                    soilManager.AddPlanted(cursorCell);
                     plantedManager.AddPosition(cursorCell);
                     inventory.RemoveItem(currentItem, 1);
 
@@ -156,7 +175,37 @@ public class SoilInteraction : MonoBehaviour
         }
     }
 
+    // --- Coroutine xới đất ---
+    private IEnumerator DelayedTilling(Vector3Int cell, float delay)
+    {
+        yield return new WaitForSeconds(delay);
 
+        Tile newTile = ScriptableObject.CreateInstance<Tile>();
+        newTile.sprite = tilledSprite;
+        newTile.name = "TilledSoil";
+        tilemap.SetTile(cell, newTile);
+
+        soilManager.AddHoed(cell);
+
+        Debug.Log($"⛏ Đã xới đất tại {cell}");
+    }
+
+    // --- Coroutine tưới đất ---
+    private IEnumerator DelayedWatering(Vector3Int cell, float delay)
+    {
+        yield return new WaitForSeconds(delay);
+
+        Tile newTile = ScriptableObject.CreateInstance<Tile>();
+        newTile.sprite = wateredSprite;
+        newTile.name = "WateredSoil";
+        tilemap.SetTile(cell, newTile);
+
+        soilManager.AddWatered(cell);
+
+        Debug.Log($"💧 Đã tưới đất tại {cell}");
+    }
+
+    // --- Làm khô tất cả ô đã tưới ---
     public void DryAllWateredTiles()
     {
         if (tilemap == null) return;
@@ -169,16 +218,19 @@ public class SoilInteraction : MonoBehaviour
             TileBase tile = tilemap.GetTile(pos);
             if (tile == null) continue;
 
-            Sprite sprite = tilemap.GetSprite(pos);
-            if (sprite == wateredSprite)
+            if (soilManager.IsWatered(pos))
             {
                 Tile newTile = ScriptableObject.CreateInstance<Tile>();
                 newTile.sprite = tilledSprite;
                 newTile.name = "TilledSoil";
                 tilemap.SetTile(pos, newTile);
+
                 dryCount++;
             }
         }
+
+        // Xoá trạng thái đã tưới
+        soilManager.ClearWateredTiles();
 
         if (dryCount > 0)
             Debug.Log($"🌤 {dryCount} ô đất đã khô lại sau khi qua ngày!");

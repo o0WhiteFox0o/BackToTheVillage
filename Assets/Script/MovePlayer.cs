@@ -94,7 +94,7 @@ public class Player : MonoBehaviour
         animator.SetBool("IsMoving", false);
         animator.SetTrigger(triggerName);
 
-        StartCoroutine(ToolCooldown(0.5f));
+        StartCoroutine(ToolCooldown(1f));
     }
 
     private IEnumerator ToolCooldown(float duration)

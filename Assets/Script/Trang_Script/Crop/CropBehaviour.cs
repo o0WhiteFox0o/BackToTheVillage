@@ -7,8 +7,10 @@ public class CropBehaviour : MonoBehaviour
     public int daysInCurrentStage = 0; // Số ngày đã trôi qua trong giai đoạn này
     public bool isHarvestable = false;
 
-    private GameObject currentPrefab;  // Prefab hiện tại đang hiển thị
-
+    private GameObject currentPrefab;
+    // Prefab hiện tại đang hiển thị
+    public SoilManager soilManager;    // tham chiếu đến SoilManager
+    public Vector3Int cellPosition;
     void Start()
     {
         if (cropData != null)
@@ -22,15 +24,21 @@ public class CropBehaviour : MonoBehaviour
     {
         if (cropData == null || isHarvestable) return;
 
+        // --- KIỂM TRA ĐẤT TƯỚI ---
+        if (soilManager != null && !soilManager.IsWatered(cellPosition))
+        {
+            Debug.Log($"{cropData.cropName} tại {cellPosition} không được tưới, không lớn hôm nay.");
+            return; // cây không tăng stage nếu đất chưa tưới
+        }
+
+        // --- Tăng stage như bình thường ---
         daysInCurrentStage++;
 
-        // Kiểm tra nếu đủ ngày để qua giai đoạn mới
         if (daysInCurrentStage >= cropData.daysPerStage[currentStage])
         {
             daysInCurrentStage = 0;
             currentStage++;
 
-            // Nếu vượt qua giai đoạn cuối
             if (currentStage >= cropData.growthPrefabs.Length)
             {
                 currentStage = cropData.growthPrefabs.Length - 1;
@@ -42,7 +50,9 @@ public class CropBehaviour : MonoBehaviour
                 LoadStage(currentStage);
             }
         }
+
     }
+
 
     // Tải prefab cho giai đoạn hiện tại
     private void LoadStage(int stageIndex)

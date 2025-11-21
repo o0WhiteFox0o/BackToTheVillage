@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 705507994}
-  m_IndirectSpecularColor: {r: 0.44657874, g: 0.49641275, b: 0.5748172, a: 1}
+  m_IndirectSpecularColor: {r: 0.44657898, g: 0.4964133, b: 0.5748178, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -107133,6 +107133,7 @@ MonoBehaviour:
   npcUI: {fileID: 1564967333}
   settingUI: {fileID: 2106144348}
   questUI: {fileID: 510373643}
+  characterUI: {fileID: 0}
   generalUI_Notification: {fileID: 150573392}
   conversation_UI: {fileID: 843200428}
   npcName_Text: {fileID: 1258121405}
@@ -107142,7 +107143,10 @@ MonoBehaviour:
   decisionPanel: {fileID: 2117692622}
   questUI_Prefab: {fileID: 1032857510454798545, guid: 0f32f06da5692624b937b1dce20e0e7d, type: 3}
   questPanel: {fileID: 1238717140}
+  questCategorizeHighlights_List: []
+  noQuestInList_Text: {fileID: 0}
   questUI_Notification: {fileID: 218103226}
+  questUIController: {fileID: 0}
   uiRaycaster: {fileID: 400097599}
 --- !u!114 &400097599
 MonoBehaviour:
@@ -108447,6 +108451,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Inventory UI
       objectReference: {fileID: 0}
+    - target: {fileID: 5466689424761652177, guid: 089279d21a51fba4fb9f2bb93809e14a, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 5583030923326609585, guid: 089279d21a51fba4fb9f2bb93809e14a, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
       value: 1
@@ -109734,14 +109742,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 0.65471697, b: 0.65471697, a: 1}
+  m_Color: {r: 0.9433962, g: 0.9433962, b: 0.9433962, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 0}
+  m_Sprite: {fileID: 21300000, guid: 14f8739607e762a44a9933924216b815, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -306650,7 +306658,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 0}
+  m_Sprite: {fileID: 21300000, guid: d700908bd2e1e43488536d20d30e2295, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -308500,6 +308508,7 @@ MonoBehaviour:
   - {fileID: 596474797}
   - {fileID: 1021379186}
   tileCursorFollow: {fileID: 0}
+  itemPrefab: {fileID: 0}
 --- !u!224 &1128524003 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 5042774312186203800, guid: b42ac328e9da76847bfd2fb4d60e227f, type: 3}
@@ -312703,13 +312712,8 @@ MonoBehaviour:
   qtePanel: {fileID: 702253627}
   timerBar: {fileID: 449114584}
   successZoneImage: {fileID: 1723700231}
-  gameTimerBar: {fileID: 228467579}
-  gameTimerFillRect: {fileID: 1768162214}
-  timerEmptyXPos: -100
-  timerFullXPos: 0
-  progressBarFillRect: {fileID: 1670293714}
-  barEmptyYPos: -70
-  barFullYPos: 0
+  gameTimerImage: {fileID: 0}
+  progressBarImage: {fileID: 0}
   qteKey: 102
   startProgress: 0.5
   progressLerpSpeed: 5
