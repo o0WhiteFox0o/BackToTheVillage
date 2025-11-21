@@ -34,8 +34,6 @@ public class MGR_QuestManager : MonoBehaviour
         // đăng ký sự kiện cần thiết
         InventoryManager.OnCollectItem += UpdateCollectionProgress;
         MGR_ConversationManager.OnStartConversation += UpdateTalkingProgress;
-
-        DontDestroyOnLoad(this);
     }
 
 

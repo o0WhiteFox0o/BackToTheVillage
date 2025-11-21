@@ -59,8 +59,6 @@ namespace Management
 
             ChangeSelectedItem(holdingItemIndex);
             InputManager.OnItemSelected += ChangeSelectedItem;
-
-            DontDestroyOnLoad(this);
         }
 
         void OnDisable()

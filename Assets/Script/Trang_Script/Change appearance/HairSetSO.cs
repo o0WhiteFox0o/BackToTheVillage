@@ -1,6 +1,6 @@
 using UnityEngine;
 
-[CreateAssetMenu(menuName = "Appearance/Hair")]
+[CreateAssetMenu(menuName = "Scriptable Object/Appearance/Hair")]
 public class HairSetSO : AppearanceSet {
 
 }

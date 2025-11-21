@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 7107644239412842308}
   - component: {fileID: -3961938771371161056}
   m_Layer: 5
-  m_Name: DecisionButton
+  m_Name: PFB_DecisionButton
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

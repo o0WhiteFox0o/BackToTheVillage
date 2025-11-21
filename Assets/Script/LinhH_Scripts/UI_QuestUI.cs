@@ -7,7 +7,7 @@
 using TMPro;
 using UnityEngine;
 
-public class UI_QuestUI : MonoBehaviour
+public class UI_QuestDetails : MonoBehaviour
 {
     [SerializeField] public TMP_Text questTittle_Text;
     [SerializeField] public TMP_Text questProgress_Text;

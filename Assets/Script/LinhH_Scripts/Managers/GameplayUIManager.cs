@@ -25,7 +25,6 @@ public class GameplayUIManager : MonoBehaviour
     [SerializeField] public GameObject generalUI;
     [SerializeField] public GameObject npcUI;
     [SerializeField] public GameObject settingUI;
-    [SerializeField] public GameObject questUI;
     [SerializeField] public GameObject characterUI;
     [SerializeField] public GameObject generalUI_Notification;
 
@@ -38,16 +37,7 @@ public class GameplayUIManager : MonoBehaviour
     [SerializeField] public Transform decisionPanel;
     private GameObject decisionButton_Prefab;
 
-
-    [Header("Quests")]
-    [SerializeField] GameObject questUI_Prefab;
-    [SerializeField] Transform questPanel;
-
-    [Tooltip("Danh sách các đối tượng highlight của các nút phân loại nhiệm vụ.")]
-    [SerializeField] public List<GameObject> questCategorizeHighlights_List;
-    [SerializeField] GameObject noQuestInList_Text;
-    [SerializeField] public GameObject questUI_Notification;
-    [SerializeField] public UI_QuestUI questUIController;
+    public MGR_QuestUIManager questUIManager { get; private set; }
 
 
     [Header("Other")]
@@ -56,8 +46,6 @@ public class GameplayUIManager : MonoBehaviour
     private GameObject itemInfoUI;
     private GameObject itemInfoUI_Prefab;
 
-
-    private MGR_QuestManager questManager;
     private EventSystem eventSystem;
     private bool isAnyUIOpen;
 
@@ -67,11 +55,12 @@ public class GameplayUIManager : MonoBehaviour
         isAnyUIOpen = false;
 
         eventSystem = FindObjectOfType<EventSystem>();
-        questManager = FindObjectOfType<MGR_QuestManager>();
-        itemInfoUI_Prefab = Resources.Load<GameObject>("Prefabs/UI/ItemInfoUI");
-        decisionButton_Prefab = Resources.Load<GameObject>("Prefabs/UI/DecisionButton");
+        itemInfoUI_Prefab = Resources.Load<GameObject>("Prefabs/UI/PFB_ItemInfoUI");
+        decisionButton_Prefab = Resources.Load<GameObject>("Prefabs/UI/PFB_DecisionButton");
 
-        if (eventSystem == null || questManager == null || itemInfoUI_Prefab == null || decisionButton_Prefab == null)
+        questUIManager = GetComponentInChildren<MGR_QuestUIManager>();
+
+        if (eventSystem == null || itemInfoUI_Prefab == null || decisionButton_Prefab == null || questUIManager == null)
         {
             Debug.LogError("Can't load a manager component.");
         }
@@ -151,21 +140,22 @@ public class GameplayUIManager : MonoBehaviour
     public void ToggleQuestUI()
     {
         // tắt UI quest nếu nó đang bật
-        if (questUI.activeInHierarchy)
+        if (questUIManager.backgroundImage.activeSelf)
         {
-            questUI.SetActive(false);
+            questUIManager.EnableQuestUI(false);
             isAnyUIOpen = false;
         }
         // bật UI quest nếu nó đang tắt và không có UI nào khác đang được bật
-        else if (!isAnyUIOpen)
+        else 
+        // if (!isAnyUIOpen)
         {
-            questUI.SetActive(true);
+            questUIManager.EnableQuestUI(true);
             isAnyUIOpen = true;
 
-            FillQuestCategorize(0);
+            questUIManager.FillQuestCategorize(0);
 
             // tắt thông báo quest khi người chơi mở giao diện nhiệm vụ
-            DisableQuestNotification();
+            // DisableQuestNotification();
         }
     }
 
@@ -276,131 +266,40 @@ public class GameplayUIManager : MonoBehaviour
     }
     #endregion
 
-
-    #region Quest
-    /// <summary>
-    /// Hiển thị tất cả nhiệm vụ của loại nhiệm vụ được truyền vào trên giao diện nhiệm vụ.
-    /// </summary>
-    public void FillQuestCategorize(int questCategorize)
-    {
-        HighlightQuestCategorizeButton(questCategorize);
-
-        switch ((QuestCategorize)questCategorize)
-        {
-            case QuestCategorize.StoryQuest:
-                var storyQuest = questManager?.activeQuests_List?.Where(q => q.GetQuest().questCategorize == QuestCategorize.StoryQuest);
-                DisplayQuestList(storyQuest.ToList());
-                break;
-
-            case QuestCategorize.EventQuest:
-                var eventQuest_List = questManager.activeQuests_List?.Where(q => q.GetQuest().questCategorize == QuestCategorize.EventQuest);
-                DisplayQuestList(eventQuest_List.ToList());
-                break;
-
-            case QuestCategorize.CompanionQuest:
-                var companionQuest_List = questManager.activeQuests_List?.Where(q => q.GetQuest().questCategorize == QuestCategorize.CompanionQuest);
-                DisplayQuestList(companionQuest_List.ToList());
-                break;
-
-            case QuestCategorize.Other:
-                var otherQuest_List = questManager.activeQuests_List?.Where(q => q.GetQuest().questCategorize == QuestCategorize.Other);
-                DisplayQuestList(otherQuest_List.ToList());
-                break;
-
-            default:
-                break;
-        }
-    }
+    // #region Notification
+    // public void EnableQuestNotification()
+    // {
+    //     questUI_Notification.SetActive(true);
+    //     generalUI_Notification.SetActive(true);
+    // }
 
 
-    private void HighlightQuestCategorizeButton(int index)
-    {
-        foreach (var questCategorize in questCategorizeHighlights_List)
-        {
-            questCategorize.SetActive(false);
-        }
+    // public void DisableQuestNotification()
+    // {
+    //     questUI_Notification.SetActive(false);
 
-        questCategorizeHighlights_List[index].SetActive(true);
-    }
+    //     UpdateGeneralUINotification();
+    // }
 
 
-    private void DisplayQuestList(List<IQuestProgress> questProgress_List)
-    {
-        // clear các nhiệm vụ danh có trong panel
-        foreach (Transform questUI in questPanel)
-        {
-            questUI.GetComponent<Button>().onClick.RemoveAllListeners();
-            MGR_ObjectPoolManager.ReturnObjectToPool(questUI.gameObject);
-        }
+    // /// <summary>
+    // /// Cập nhật thông báo của general UI dựa theo thông báo của các UI con nằm trong nó.
+    // /// </summary>
+    // private void UpdateGeneralUINotification()
+    // {
+    //     // kiểm tra thông báo của tất cả các UI của general UI
+    //     // nếu có bất kỳ thông báo nào được bật thì bật thông báo general
+    //     if (questUI_Notification.activeSelf)
+    //     {
+    //         generalUI_Notification.SetActive(true);
+    //         return;
+    //     }
 
-        // nếu không có nhiệm vụ để hiển thị thì hiển thị text thông báo
-        if (questProgress_List.Count == 0)
-        {
-            noQuestInList_Text.SetActive(true);
-            questUIController.ToggleQuestDetails(false);
-            return;
-        }
+    //     // nếu không có thông báo nào được bật thì tắt thông báo general
+    //     generalUI_Notification.SetActive(false);
+    // }
 
-        noQuestInList_Text.SetActive(false);
-
-        // hiển thị các nhiệm vụ trong danh sách được truyền vào
-        foreach (var quest in questProgress_List)
-        {
-            var newQuestUI = MGR_ObjectPoolManager.SpawnObject(questUI_Prefab, questPanel);
-
-            newQuestUI.GetComponentInChildren<TMP_Text>().SetText(quest.GetQuest().questTittle.GetLocalizedString());
-
-            // đăng ký sự kiện cho nút nhiệm vụ mới
-            var questButton = newQuestUI.GetComponent<Button>();
-            questButton.onClick.AddListener(() => DisplayQuestDetail(quest));
-        }
-
-        // hiển thị chi tiết của nhiệm vụ đầu tiên trong danh sách
-        DisplayQuestDetail(questProgress_List[0]);
-    }
-
-
-    private void DisplayQuestDetail(IQuestProgress quest)
-    {
-        questUIController.SetupQuestDetails(quest);
-    }
-    #endregion
-
-
-    #region Notification
-    public void EnableQuestNotification()
-    {
-        questUI_Notification.SetActive(true);
-        generalUI_Notification.SetActive(true);
-    }
-
-
-    public void DisableQuestNotification()
-    {
-        questUI_Notification.SetActive(false);
-
-        UpdateGeneralUINotification();
-    }
-
-
-    /// <summary>
-    /// Cập nhật thông báo của general UI dựa theo thông báo của các UI con nằm trong nó.
-    /// </summary>
-    private void UpdateGeneralUINotification()
-    {
-        // kiểm tra thông báo của tất cả các UI của general UI
-        // nếu có bất kỳ thông báo nào được bật thì bật thông báo general
-        if (questUI_Notification.activeSelf)
-        {
-            generalUI_Notification.SetActive(true);
-            return;
-        }
-
-        // nếu không có thông báo nào được bật thì tắt thông báo general
-        generalUI_Notification.SetActive(false);
-    }
-
-    #endregion
+    // #endregion
 
 
     #region Inventory

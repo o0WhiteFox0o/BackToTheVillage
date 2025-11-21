@@ -9,19 +9,36 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 0}
+  m_Script: {fileID: 11500000, guid: 126306aaee7456444b6f2e3702287b8f, type: 3}
   m_Name: Test Collection Quest
   m_EditorClassIdentifier: Assembly-CSharp::SO_CollectionQuest
-  questID: test_collection
-  tittle: Test Collection
-  description: 
+  questId: 
+  questTittle:
+    m_TableReference:
+      m_TableCollectionName: 
+    m_TableEntryReference:
+      m_KeyId: 0
+      m_Key: 
+    m_FallbackState: 0
+    m_WaitForCompletion: 0
+    m_LocalVariables: []
+  questDescription:
+    m_TableReference:
+      m_TableCollectionName: 
+    m_TableEntryReference:
+      m_KeyId: 0
+      m_Key: 
+    m_FallbackState: 0
+    m_WaitForCompletion: 0
+    m_LocalVariables: []
+  questCategorize: 0
   questType: 0
   reward:
-    experience: 10
-    gold: 100
+    experience: 0
+    gold: 0
     items: []
-  nextQuest: {fileID: 11400000, guid: 517a7ba8da5406e45bf5cc2a2b7f673b, type: 2}
-  targetItems_List:
-  - item: {fileID: 11400000, guid: 273b3ee5cff4e9e49a5aaf20ac342e8d, type: 2}
-    currentQuantity: 0
-    requirementQuantity: 5
+  nextQuest: {fileID: 0}
+  targetItems_List: []
+  references:
+    version: 2
+    RefIds: []

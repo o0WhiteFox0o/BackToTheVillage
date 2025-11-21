@@ -1,6 +1,6 @@
 using UnityEngine;
 
-[CreateAssetMenu(menuName = "Appearance/Face")]
+[CreateAssetMenu(menuName = "Scriptable Object/Appearance/Face")]
 public class FaceSetSO : AppearanceSet {
 
 

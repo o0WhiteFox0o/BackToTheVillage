@@ -34,7 +34,7 @@ public class PlayerFishing : MonoBehaviour
     [SerializeField] private FishingQTE fishingQTE;
 
     [Header("Hệ thống Quăng câu")]
-    [SerializeField] private GameObject bobberPrefab;
+    private GameObject bobberPrefab;
     [SerializeField] private Transform castPoint;
     [SerializeField] private GameObject castingPanel;
     [SerializeField] private Image castingBar;
@@ -108,6 +108,12 @@ public class PlayerFishing : MonoBehaviour
         else
         {
             Debug.LogError("Line Renderer chưa được gán trong Inspector!");
+        }
+
+        bobberPrefab = Resources.Load<GameObject>("Prefabs/PFB_Bobber");
+        if (bobberPrefab == null)
+        {
+            Debug.LogError("Can't load component in Player Fishing");
         }
     }
 

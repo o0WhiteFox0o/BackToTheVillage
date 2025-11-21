@@ -55,8 +55,6 @@ public class InputManager : MonoBehaviour
     private void Start()
     {
         LoadHotkeys();
-
-        DontDestroyOnLoad(this);
     }
 
 

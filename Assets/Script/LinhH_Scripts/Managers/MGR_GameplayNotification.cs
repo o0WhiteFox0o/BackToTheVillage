@@ -29,8 +29,6 @@ public class MGR_GameplayNotification : MonoBehaviour
         }
 
         MGR_QuestManager.OnQuestListUpdate += UpdateQuestNotification;
-
-        DontDestroyOnLoad(this);
     }
     
 
@@ -49,11 +47,11 @@ public class MGR_GameplayNotification : MonoBehaviour
         if (questAmount >= questManager.activeQuests_List.Count)
         {
             questAmount = questManager.activeQuests_List.Count;
-            gameplayUIManager.DisableQuestNotification();
+            // gameplayUIManager.DisableQuestNotification();
             return;
         }
 
         // bật thông báo trên giao diện gameplay
-        gameplayUIManager.EnableQuestNotification();
+        // gameplayUIManager.EnableQuestNotification();
     }
 }

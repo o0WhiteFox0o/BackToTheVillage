@@ -5,6 +5,11 @@
             "questId": "shark_fishing",
             "questType": 0,
             "questJsonData": "{\"collectedItem_List\":[{\"itemId\":\"fish_shark\",\"currentQuantity\":2,\"totalQuantity\":3}]}"
+        },
+        {
+            "questId": "shark_fishing_1",
+            "questType": 0,
+            "questJsonData": "{\"collectedItem_List\":[{\"itemId\":\"fish_shark\",\"currentQuantity\":0,\"totalQuantity\":3}]}"
         }
     ]
 }
