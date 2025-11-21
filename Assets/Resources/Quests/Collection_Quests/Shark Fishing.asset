@@ -37,9 +37,9 @@ MonoBehaviour:
     experience: 10
     gold: 100
     items: []
-  nextQuest: {fileID: 11400000, guid: 3a66066690ed4d741a1839518d991412, type: 2}
+  nextQuest: {fileID: 0}
   targetItems_List:
-  - item: {fileID: 11400000, guid: 333ff93dcffdac447988a721089da030, type: 2}
+  - item_SO: {fileID: 0}
     currentQuantity: 0
     requirementQuantity: 3
   references:

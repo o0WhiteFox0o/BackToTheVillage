@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   conversationId: shark_conversation
   dialogue_List:
-  - npcData: {fileID: 11400000, guid: 0d41ac691e554844289c137b71106c80, type: 2}
+  - npcData: {fileID: 11400000, guid: 87e1b24d5bf1401428f4543557ffc158, type: 2}
     dialogue:
       m_TableReference:
         m_TableCollectionName: GUID:aafac9757a1564744a07bdb283d902fd
@@ -24,7 +24,7 @@ MonoBehaviour:
       m_FallbackState: 0
       m_WaitForCompletion: 0
       m_LocalVariables: []
-  - npcData: {fileID: 11400000, guid: 0d41ac691e554844289c137b71106c80, type: 2}
+  - npcData: {fileID: 11400000, guid: 87e1b24d5bf1401428f4543557ffc158, type: 2}
     dialogue:
       m_TableReference:
         m_TableCollectionName: GUID:aafac9757a1564744a07bdb283d902fd
@@ -34,8 +34,10 @@ MonoBehaviour:
       m_FallbackState: 0
       m_WaitForCompletion: 0
       m_LocalVariables: []
-  isStoryConversation: 0
+  oneTimeConversation: 0
   quest: {fileID: 11400000, guid: e14f0b6b1586f60418cb2d5374f0cc2b, type: 2}
+  decisionIndex: -1
+  decision_List: []
   references:
     version: 2
     RefIds: []

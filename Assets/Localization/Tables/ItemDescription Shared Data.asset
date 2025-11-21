@@ -1,0 +1,96 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5b11a58205ec3474ca216360e9fa74a8, type: 3}
+  m_Name: ItemDescription Shared Data
+  m_EditorClassIdentifier: 
+  m_TableCollectionName: ItemDescription
+  m_TableCollectionNameGuidString: 95ab3aa9c95b5c2448881d7d9476e40c
+  m_Entries:
+  - m_Id: 8033288192
+    m_Key: itemDesc.shark
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4717666254848
+    m_Key: itemDesc.rod
+    m_Metadata:
+      m_Items: []
+  - m_Id: 364042154217472
+    m_Key: itemDesc.wormbait
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2532333300367360
+    m_Key: itemDesc.fish.bream
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2537154115944448
+    m_Key: itemDesc.fish.carp
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2537180233875456
+    m_Key: itemDesc.fish.catfish
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2537207194861568
+    m_Key: itemDesc.fish.frog
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2537237809086464
+    m_Key: itemDesc.fish.goby
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2537275138392064
+    m_Key: itemDesc.fish.gourami
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2537328028565504
+    m_Key: itemDesc.fish.grPrawn
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2537371779350528
+    m_Key: itemDesc.fish.ladyCarp
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2537421641236480
+    m_Key: itemDesc.fish.nakedCatfish
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2537465933086720
+    m_Key: itemDesc.fish.perch
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2537502184456192
+    m_Key: itemDesc.fish.rasbora
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2537577220554752
+    m_Key: itemDesc.fish.snake
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2537607591510016
+    m_Key: itemDesc.fish.snakehead
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2200049312927744
+    m_Key: itemDesc.trap
+    m_Metadata:
+      m_Items: []
+  m_Metadata:
+    m_Items: []
+  m_KeyGenerator:
+    rid: 9024185888079609858
+  references:
+    version: 2
+    RefIds:
+    - rid: 9024185888079609858
+      type: {class: DistributedUIDGenerator, ns: UnityEngine.Localization.Tables, asm: Unity.Localization}
+      data:
+        m_CustomEpoch: 1762933208300

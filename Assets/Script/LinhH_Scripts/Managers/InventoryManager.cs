@@ -16,7 +16,7 @@ public enum ItemType
     Consumable,
     ItemQuest,
     Miscellaneous,
-CraftingRecipe
+    CraftingRecipe
 }
 
 namespace Management
@@ -29,14 +29,15 @@ namespace Management
         [SerializeField] private InventorySlot[] _inventorySlots;
         [SerializeField] private TileCursorFollow tileCursorFollow;
 
-        public delegate void CollectionItemHandler(ItemScriptableObject updatedItem, int quantity);
+        [HideInInspector] public GameObject itemPrefab;
+
         public static event CollectionItemHandler OnCollectItem;
+        public event Action OnInventoryChanged;
+
 
         private int holdingItemIndex = 1;
         public static int gold;
-        public GameObject itemPrefab;
 
-        public event Action OnInventoryChanged;
 
         public void Awake()
         {
@@ -52,7 +53,7 @@ namespace Management
 
         void Start()
         {
-            itemPrefab = Resources.Load<GameObject>("Prefabs/UI/ItemPrefab");
+            itemPrefab = Resources.Load<GameObject>("Prefabs/UI/PFB_ItemPrefab");
             if (itemPrefab == null)
                 Debug.LogError("⚠️ Không thể load prefab ItemPrefab từ Resources.");
 
@@ -184,7 +185,7 @@ namespace Management
                 OnCollectItem?.Invoke(item, toAdd);
                 OnInventoryChanged?.Invoke();
                 return true;
-                
+
             }
 
             // 2️⃣ Nếu không có slot trùng, spawn mới
@@ -246,12 +247,10 @@ namespace Management
 
             int quantityLeftToRemove = quantityToRemove;
 
-            // Duyệt ngược từ cuối lên đầu
             for (int i = _inventorySlots.Length - 1; i >= 0; i--)
             {
                 var itemInSlot = _inventorySlots[i].GetComponentInChildren<DragableItem>();
 
-                // Nếu slot trống hoặc không phải item cần tìm -> Bỏ qua
                 if (itemInSlot == null || itemInSlot.itemScriptableObj != itemToRemove)
                     continue;
 
@@ -259,20 +258,24 @@ namespace Management
                 {
                     itemInSlot.SubtractCount(quantityLeftToRemove);
                     OnInventoryChanged?.Invoke();
-
-                    return true; // Đã trừ xong, thoát hàm
+                    return true;
                 }
                 else
                 {
                     quantityLeftToRemove -= itemInSlot.quantity;
+
+                    // 1. Đá item ra khỏi Slot NGAY LẬP TỨC để GetTotalItemQuantity không đếm nó nữa
+                    itemInSlot.transform.SetParent(null);
+
+                    // 2. Sau đó mới phá hủy
                     Destroy(itemInSlot.gameObject);
+
                 }
 
-                // Nếu sau khi trừ slot trên mà đã đủ chỉ tiêu
                 if (quantityLeftToRemove <= 0)
                 {
                     OnInventoryChanged?.Invoke();
-                    return true; 
+                    return true;
                 }
             }
 
@@ -294,3 +297,5 @@ namespace Management
         }
     }
 }
+
+public delegate void CollectionItemHandler(ItemScriptableObject updatedItem, int quantity);

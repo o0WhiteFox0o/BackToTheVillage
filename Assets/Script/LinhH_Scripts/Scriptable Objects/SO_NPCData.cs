@@ -5,16 +5,18 @@
 
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Localization;
 
 
 /// <summary>
 /// Scriptable object chứa dữ liệu của NPC.
 /// </summary>
-[CreateAssetMenu(fileName = "New NPC", menuName = "Scriptable Object/NPC/NPC Data")]
+[CreateAssetMenu(fileName = "SO_NewNPC", menuName = "Scriptable Object/NPC/NPC Data")]
 public class SO_NPCData : ScriptableObject
 {
     public string npcId;
-    public string npcName;
+    public LocalizedString npcName;
+    public LocalizedString npcDescription;
     public Sprite portrait;
     public bool canDating;
     public List<ItemScriptableObject> likeItem_List;

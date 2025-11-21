@@ -28,7 +28,7 @@ public class SO_CollectionQuest : SO_Quest
 [Serializable]
 public class QuestItemRequirement
 {
-    public ItemScriptableObject item;
+    public ItemScriptableObject item_SO;
     public int currentQuantity = 0;
     public int requirementQuantity;
 }

@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: FiberglassRod
   m_EditorClassIdentifier: 
   id: 
-  icon: {fileID: -5980919446317078327, guid: f5bf46f907f2af84da699853cfe9babf, type: 3}
+  icon: {fileID: 21300000, guid: eec1bb5dcf5f0234fa3fcb7cdc94bff6, type: 3}
   displayName:
     m_TableReference:
       m_TableCollectionName: GUID:617205a636be30b4ebf3ebb48dae06a2

@@ -8,8 +8,6 @@ public class SkillManager : MonoBehaviour
 
     [Header("Danh sách Kỹ năng")]
     [SerializeField] private List<SkillData> allSkillsData;
-
-    // (Giữ nguyên class PlayerSkill)
     public class PlayerSkill
     {
         public SkillData Data { get; private set; }
@@ -100,12 +98,10 @@ public class SkillManager : MonoBehaviour
             Debug.Log($"[LOG C] LÊN CẤP! {skill.Data.skillName} đạt cấp {skill.CurrentLevel}!");
 
             // (Sự kiện cho UI)
-            OnSkillLeveledUp?.Invoke(skill); // (Hoặc OnSkillUpgraded)
+            OnSkillLeveledUp?.Invoke(skill);
 
-            // === DÒNG CODE BẠN BỊ THIẾU LÀ DÒNG NÀY ===
             // Gọi hàm trao phần thưởng
             GrantRewardsForLevel(skill.Data, skill.CurrentLevel);
-            // === KẾT THÚC DÒNG BỊ THIẾU ===
 
             // Kiểm tra max level
             if (skill.CurrentLevel == maxLevel)
