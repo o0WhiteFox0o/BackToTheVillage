@@ -46,7 +46,6 @@ public class CraftingUI : MonoBehaviour
         }
     }
 
-    // (Hàm này có thể được gọi từ nút Balo hoặc phím 'C')
     public void TogglePanel()
     {
         bool isActive = !craftingPanel.activeSelf;
@@ -118,8 +117,6 @@ public class CraftingUI : MonoBehaviour
             // (Giả sử Prefab nguyên liệu có Image và Text)
             matSlotGO.GetComponent<Image>().sprite = material.item.icon;
             matSlotGO.GetComponentInChildren<TMP_Text>().text = material.quantity.ToString();
-
-            // (Tùy chọn: Đổi màu text sang đỏ nếu thiếu nguyên liệu)
         }
 
         // Kiểm tra xem có chế được không để bật/tắt nút
