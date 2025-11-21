@@ -18,7 +18,7 @@ MonoBehaviour:
   m_GUID: a1987412bd304034d9717b4571ac0225
   m_SerializeEntries:
   - m_GUID: b16f3fc587a30a94396549b68a6b77e9
-    m_Address: ItemDescriptions_vi
+    m_Address: ItemDescription_vi
     m_ReadOnly: 1
     m_SerializedLabels:
     - Locale-vi
@@ -36,7 +36,7 @@ MonoBehaviour:
     - Locale-vi
     FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 38b814053cdf0c049a7bb6dbf0eecd20
-    m_Address: Skill_vi
+    m_Address: SkillDescription_vi
     m_ReadOnly: 1
     m_SerializedLabels:
     - Locale-vi
@@ -54,7 +54,25 @@ MonoBehaviour:
     - Locale-vi
     FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 9e2a28f0092b88d42b21c5910d6a3b9a
-    m_Address: Quest Description_vi
+    m_Address: QuestDescription_vi
+    m_ReadOnly: 1
+    m_SerializedLabels:
+    - Locale-vi
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: eaa146d8707a1ad478edd64a6b237099
+    m_Address: NPC_Name_vi
+    m_ReadOnly: 1
+    m_SerializedLabels:
+    - Locale-vi
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: a3cca5056e0e2d042991ab7aa3b81b2d
+    m_Address: NPC_Description_vi
+    m_ReadOnly: 1
+    m_SerializedLabels:
+    - Locale-vi
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: d4238dd2965e5634eaa21fba7fe41547
+    m_Address: Conversation_vi
     m_ReadOnly: 1
     m_SerializedLabels:
     - Locale-vi

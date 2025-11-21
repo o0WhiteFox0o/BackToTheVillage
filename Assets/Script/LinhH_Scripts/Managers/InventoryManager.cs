@@ -16,7 +16,7 @@ public enum ItemType
     Consumable,
     ItemQuest,
     Miscellaneous,
-CraftingRecipe
+    CraftingRecipe
 }
 
 namespace Management
@@ -29,14 +29,15 @@ namespace Management
         [SerializeField] private InventorySlot[] _inventorySlots;
         [SerializeField] private TileCursorFollow tileCursorFollow;
 
-        public delegate void CollectionItemHandler(ItemScriptableObject updatedItem, int quantity);
+        [HideInInspector] public GameObject itemPrefab;
+
         public static event CollectionItemHandler OnCollectItem;
+        public event Action OnInventoryChanged;
+
 
         private int holdingItemIndex = 1;
         public static int gold;
-        public GameObject itemPrefab;
 
-        public event Action OnInventoryChanged;
 
         public void Awake()
         {
@@ -52,7 +53,7 @@ namespace Management
 
         void Start()
         {
-            itemPrefab = Resources.Load<GameObject>("Prefabs/UI/ItemPrefab");
+            itemPrefab = Resources.Load<GameObject>("Prefabs/UI/PFB_ItemPrefab");
             if (itemPrefab == null)
                 Debug.LogError("⚠️ Không thể load prefab ItemPrefab từ Resources.");
 
@@ -184,7 +185,7 @@ namespace Management
                 OnCollectItem?.Invoke(item, toAdd);
                 OnInventoryChanged?.Invoke();
                 return true;
-                
+
             }
 
             // 2️⃣ Nếu không có slot trùng, spawn mới
@@ -296,3 +297,5 @@ namespace Management
         }
     }
 }
+
+public delegate void CollectionItemHandler(ItemScriptableObject updatedItem, int quantity);

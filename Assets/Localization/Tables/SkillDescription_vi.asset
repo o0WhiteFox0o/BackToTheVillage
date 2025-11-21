@@ -1,0 +1,41 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e9620f8c34305754d8cc9a7e49e852d9, type: 3}
+  m_Name: SkillDescription_vi
+  m_EditorClassIdentifier: 
+  m_LocaleId:
+    m_Code: vi
+  m_SharedData: {fileID: 11400000, guid: 1b88249620600954aa24dfce230af472, type: 2}
+  m_Metadata:
+    m_Items: []
+  m_TableData:
+  - m_Id: 10792538112
+    m_Localized: "T\u0103ng gi\xE1 b\xE1n c\xE1 th\xEAm 10%"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1078456815616
+    m_Localized: "T\u0103ng gi\xE1 b\xE1n c\xE1 th\xEAm 20% n\u1EEFa"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1193858895872
+    m_Localized: "C\xF3 20% c\u01A1 c\xE2u \u0111\u01B0\u1EE3c g\u1EA5p \u0111\xF4i
+      C\xE1"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1237794230272
+    m_Localized: "Gi\u1EA3m 30% nguy\xEAn li\u1EC7u ti\xEAu hao khi ch\u1EBF t\u1EA1o
+      B\u1EABy C\xE1"
+    m_Metadata:
+      m_Items: []
+  references:
+    version: 2
+    RefIds: []

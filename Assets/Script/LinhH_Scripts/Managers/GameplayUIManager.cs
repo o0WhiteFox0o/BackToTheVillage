@@ -11,6 +11,7 @@ using GameUI;
 using TMPro;
 using UnityEngine;
 using UnityEngine.EventSystems;
+using UnityEngine.Localization;
 using UnityEngine.UI;
 
 
@@ -214,9 +215,9 @@ public class GameplayUIManager : MonoBehaviour
     /// <summary>
     /// Cập nhật tên và avatar của NPC đang nói chuyện.
     /// </summary>
-    public void UpdateDisplayedNPC(string npcName, Sprite npcPortrait)
+    public void UpdateDisplayedNPC(LocalizedString npcName, Sprite npcPortrait)
     {
-        npcName_Text.SetText(npcName);
+        npcName_Text.SetText(npcName.GetLocalizedString());
         npcPortrait_Image.sprite = npcPortrait;
     }
 
