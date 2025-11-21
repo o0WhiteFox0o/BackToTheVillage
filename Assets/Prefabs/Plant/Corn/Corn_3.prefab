@@ -10,7 +10,6 @@ GameObject:
   m_Component:
   - component: {fileID: 5009482079459687152}
   - component: {fileID: 4154133153045136191}
-  - component: {fileID: 2385063902968976611}
   m_Layer: 0
   m_Name: Corn_3
   m_TagString: Untagged
@@ -85,15 +84,3 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!114 &2385063902968976611
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4891888907039873166}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fa7a92516c0b2c844b663eecb19a050d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 

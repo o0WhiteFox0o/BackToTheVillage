@@ -245,12 +245,10 @@ namespace Management
 
             int quantityLeftToRemove = quantityToRemove;
 
-            // Duyệt ngược từ cuối lên đầu
             for (int i = _inventorySlots.Length - 1; i >= 0; i--)
             {
                 var itemInSlot = _inventorySlots[i].GetComponentInChildren<DragableItem>();
 
-                // Nếu slot trống hoặc không phải item cần tìm -> Bỏ qua
                 if (itemInSlot == null || itemInSlot.itemScriptableObj != itemToRemove)
                     continue;
 
@@ -258,16 +256,20 @@ namespace Management
                 {
                     itemInSlot.SubtractCount(quantityLeftToRemove);
                     OnInventoryChanged?.Invoke();
-
-                    return true; // Đã trừ xong, thoát hàm
+                    return true;
                 }
                 else
                 {
                     quantityLeftToRemove -= itemInSlot.quantity;
+
+                    // 1. Đá item ra khỏi Slot NGAY LẬP TỨC để GetTotalItemQuantity không đếm nó nữa
+                    itemInSlot.transform.SetParent(null);
+
+                    // 2. Sau đó mới phá hủy
                     Destroy(itemInSlot.gameObject);
+
                 }
 
-                // Nếu sau khi trừ slot trên mà đã đủ chỉ tiêu
                 if (quantityLeftToRemove <= 0)
                 {
                     OnInventoryChanged?.Invoke();

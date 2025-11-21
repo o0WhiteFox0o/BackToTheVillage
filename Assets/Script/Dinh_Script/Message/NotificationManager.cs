@@ -30,7 +30,6 @@ public class NotificationManager : MonoBehaviour
         }
     }
 
-    // === HÀM START() ĐÃ ĐƯỢC "TINH CHỈNH" ===
     void Start()
     {
         // 1. Tự kiểm tra lỗi cài đặt (thiếu UI)
@@ -45,8 +44,6 @@ public class NotificationManager : MonoBehaviour
         notificationPanel.SetActive(false);
         Debug.LogWarning("[NotificationManager] ĐÃ SẴN SÀNG! (Awake + Start đã chạy thành công).");
     }
-    // === KẾT THÚC TINH CHỈNH ===
-
 
     public void ShowNotification(string message)
     {

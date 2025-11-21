@@ -10,6 +10,8 @@ GameObject:
   m_Component:
   - component: {fileID: 2380284690495192910}
   - component: {fileID: 5746264214396180306}
+  - component: {fileID: 3603305939144404370}
+  - component: {fileID: 6404194068195648065}
   m_Layer: 0
   m_Name: Corn
   m_TagString: Untagged
@@ -48,3 +50,29 @@ MonoBehaviour:
   currentStage: 0
   daysInCurrentStage: 0
   isHarvestable: 0
+  soilManager: {fileID: 0}
+  cellPosition: {x: 0, y: 0, z: 0}
+--- !u!210 &3603305939144404370
+SortingGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 16270002444062354}
+  m_Enabled: 1
+  m_SortingLayerID: -254205421
+  m_SortingLayer: 6
+  m_SortingOrder: 0
+  m_SortAtRoot: 0
+--- !u!114 &6404194068195648065
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 16270002444062354}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fa7a92516c0b2c844b663eecb19a050d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
