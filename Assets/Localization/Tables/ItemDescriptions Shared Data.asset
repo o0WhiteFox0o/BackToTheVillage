@@ -27,6 +27,14 @@ MonoBehaviour:
     m_Key: itemDesc.wormbait
     m_Metadata:
       m_Items: []
+  - m_Id: 2200049312927744
+    m_Key: itemDesc.trap
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2200177235005440
+    m_Key: itemDesc.catfish
+    m_Metadata:
+      m_Items: []
   m_Metadata:
     m_Items: []
   m_KeyGenerator:

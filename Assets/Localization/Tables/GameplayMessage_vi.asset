@@ -22,6 +22,39 @@ MonoBehaviour:
     m_Localized: "V\u1EADt ph\u1EA9m n\xE0y kh\xF4ng th\u1EC3 b\xE1n."
     m_Metadata:
       m_Items: []
+  - m_Id: 2165486843478016
+    m_Localized: "Nhi\u1EC7m v\u1EE5 ch\xEDnh"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2165644100517888
+    m_Localized: "Nhi\u1EC7m v\u1EE5 s\u1EF1 ki\u1EC7n"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2165786467778560
+    m_Localized: "Nhi\u1EC7m v\u1EE5 \u0111\u1ED3ng h\xE0nh"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2165954567094272
+    m_Localized: "Nhi\u1EC7m v\u1EE5 kh\xE1c"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2167867442348032
+    m_Localized: "Kh\xF4ng c\xF3 nhi\u1EC7m v\u1EE5 n\xE0o trong ph\xE2n lo\u1EA1i
+      n\xE0y."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2168980170227712
+    m_Localized: "Nh\xE2n v\u1EADt"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2169076324646912
+    m_Localized: "Nhi\u1EC7m v\u1EE5"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2169218696101888
+    m_Localized: "C\xE0i \u0111\u1EB7t"
+    m_Metadata:
+      m_Items: []
   references:
     version: 2
     RefIds: []

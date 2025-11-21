@@ -1,0 +1,10 @@
+{
+    "currentStoryQuestId": "",
+    "activeQuest_List": [
+        {
+            "questId": "shark_fishing",
+            "questType": 0,
+            "questJsonData": "{\"collectedItem_List\":[{\"itemId\":\"fish_shark\",\"currentQuantity\":2,\"totalQuantity\":3}]}"
+        }
+    ]
+}

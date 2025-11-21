@@ -48,13 +48,15 @@ public class MGR_QuestManager : MonoBehaviour
 
     public void LoadFromSavedGame(SavedGameConfig savedGame)
     {
+        Debug.Log($"total quest in saved file: {savedGame.activeQuest_List.Count}");
+        
         // load danh sách các nhiệm vụ được lưu
         foreach (var questData in savedGame.activeQuest_List)
         {
             switch (questData.questType)
             {
                 case (int)QuestType.Collection:
-                    LoadCollectionQuest(questData);
+                    LoadCollectionProgress(questData);
                     break;
 
                 case (int)QuestType.Talking:
@@ -147,7 +149,7 @@ public class MGR_QuestManager : MonoBehaviour
     }
 
 
-    private void LoadCollectionQuest(QuestData questData)
+    private void LoadCollectionProgress(QuestData questData)
     {
         // load danh sách tiến trình của vật phẩm
         var itemProgress = JsonUtility.FromJson<CollectionQuestData>(questData.questJsonData);

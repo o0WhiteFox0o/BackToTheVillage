@@ -12,11 +12,27 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 126306aaee7456444b6f2e3702287b8f, type: 3}
   m_Name: Shark Fishing
   m_EditorClassIdentifier: 
-  questID: shark_fishing
-  tittle: Shark Fishing
-  description: 
+  questId: shark_fishing
+  questTittle:
+    m_TableReference:
+      m_TableCollectionName: GUID:ee2b96dedb6d0b644a18ca229561383b
+    m_TableEntryReference:
+      m_KeyId: 8326889472
+      m_Key: 
+    m_FallbackState: 0
+    m_WaitForCompletion: 0
+    m_LocalVariables: []
+  questDescription:
+    m_TableReference:
+      m_TableCollectionName: GUID:14eab027c2e96e347ad94afb95e1a818
+    m_TableEntryReference:
+      m_KeyId: 5894193152
+      m_Key: 
+    m_FallbackState: 0
+    m_WaitForCompletion: 0
+    m_LocalVariables: []
+  questCategorize: 1
   questType: 0
-  displayRewardInUI: 0
   reward:
     experience: 10
     gold: 100
@@ -26,3 +42,6 @@ MonoBehaviour:
   - item: {fileID: 11400000, guid: 333ff93dcffdac447988a721089da030, type: 2}
     currentQuantity: 0
     requirementQuantity: 3
+  references:
+    version: 2
+    RefIds: []

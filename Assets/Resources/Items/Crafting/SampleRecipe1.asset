@@ -1,0 +1,51 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0ddea86ae8528a44db20444da8ab612f, type: 3}
+  m_Name: SampleRecipe1
+  m_EditorClassIdentifier: 
+  id: 
+  icon: {fileID: 0}
+  displayName:
+    m_TableReference:
+      m_TableCollectionName: 
+    m_TableEntryReference:
+      m_KeyId: 0
+      m_Key: 
+    m_FallbackState: 0
+    m_WaitForCompletion: 0
+    m_LocalVariables: []
+  itemDescription:
+    m_TableReference:
+      m_TableCollectionName: 
+    m_TableEntryReference:
+      m_KeyId: 0
+      m_Key: 
+    m_FallbackState: 0
+    m_WaitForCompletion: 0
+    m_LocalVariables: []
+  stackable: 0
+  canSell: 0
+  itemType: 12
+  buyPrice: 0
+  sellPrice: 0
+  itemPrefab: {fileID: 0}
+  plantPrefab: {fileID: 0}
+  itemToCraft: {fileID: 11400000, guid: 500c8cd4428c2914e87a046200e4b7dd, type: 2}
+  quantityCreated: 1
+  materials:
+  - item: {fileID: 11400000, guid: 5f4a29f9f66c3fe4083f5df71befea22, type: 2}
+    quantity: 1
+  - item: {fileID: 11400000, guid: 3e031d73daec2c54d8c92cb97ff214cb, type: 2}
+    quantity: 1
+  references:
+    version: 2
+    RefIds: []

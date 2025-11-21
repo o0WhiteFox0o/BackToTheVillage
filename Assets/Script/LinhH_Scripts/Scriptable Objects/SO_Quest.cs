@@ -5,13 +5,14 @@
 
 
 using UnityEngine;
+using UnityEngine.Localization;
 
 public class SO_Quest : ScriptableObject
 {
     [Header("Overview")]
     public string questId;
-    public string tittle;
-    public string description;
+    public LocalizedString questTittle;
+    public LocalizedString questDescription;
 
     /// <summary>
     /// Phân loại nhiệm vụ. E.g. Story quest, Event quest, ...
