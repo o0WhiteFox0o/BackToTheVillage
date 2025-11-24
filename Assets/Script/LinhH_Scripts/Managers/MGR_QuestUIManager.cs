@@ -139,8 +139,6 @@ public class MGR_QuestUIManager : MonoBehaviour
 
     private void HighlightQuestSelected(int selectedIndex)
     {
-        Debug.Log($"press button: {selectedIndex}");
-
         // tắt highlight của toàn bộ quest
         foreach (var questUI in questPrefab_List)
         {

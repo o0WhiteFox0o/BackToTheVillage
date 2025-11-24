@@ -17,9 +17,9 @@ MonoBehaviour:
   - npcData: {fileID: 11400000, guid: 87e1b24d5bf1401428f4543557ffc158, type: 2}
     dialogue:
       m_TableReference:
-        m_TableCollectionName: GUID:85ea88046982e994483720dcad30a939
+        m_TableCollectionName: GUID:cbda8ead46749ef4baf0c5648633ae02
       m_TableEntryReference:
-        m_KeyId: 5864833024
+        m_KeyId: 1780583278723072
         m_Key: 
       m_FallbackState: 0
       m_WaitForCompletion: 0
@@ -27,29 +27,17 @@ MonoBehaviour:
   - npcData: {fileID: 11400000, guid: 87e1b24d5bf1401428f4543557ffc158, type: 2}
     dialogue:
       m_TableReference:
-        m_TableCollectionName: GUID:85ea88046982e994483720dcad30a939
+        m_TableCollectionName: GUID:cbda8ead46749ef4baf0c5648633ae02
       m_TableEntryReference:
-        m_KeyId: 9849421824
-        m_Key: 
-      m_FallbackState: 0
-      m_WaitForCompletion: 0
-      m_LocalVariables: []
-  - npcData: {fileID: 11400000, guid: 87e1b24d5bf1401428f4543557ffc158, type: 2}
-    dialogue:
-      m_TableReference:
-        m_TableCollectionName: GUID:85ea88046982e994483720dcad30a939
-      m_TableEntryReference:
-        m_KeyId: 275108099932160
+        m_KeyId: 1780698362036224
         m_Key: 
       m_FallbackState: 0
       m_WaitForCompletion: 0
       m_LocalVariables: []
   oneTimeConversation: 1
   quest: {fileID: 0}
-  decisionIndex: 1
-  decision_List:
-  - {fileID: 11400000, guid: cda556025f9d2c242a1534c8cafa329b, type: 2}
-  - {fileID: 11400000, guid: 35d100bcbe140f443955d44d56e29c74, type: 2}
+  decisionIndex: -1
+  decision_List: []
   references:
     version: 2
     RefIds: []

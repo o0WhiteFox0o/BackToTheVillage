@@ -47,7 +47,5 @@ public class C_NPCController : MonoBehaviour
 
     private void UpdatePriorityConversation()
     {
-        // --- TEST ---
-        priorityConversation = conversation_List[0];
     }
 }

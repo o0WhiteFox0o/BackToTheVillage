@@ -4,14 +4,9 @@
 // 
 
 
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using GameUI;
-using TMPro;
 using UnityEngine;
 using UnityEngine.EventSystems;
-using UnityEngine.Localization;
 using UnityEngine.UI;
 
 
@@ -29,38 +24,40 @@ public class GameplayUIManager : MonoBehaviour
     [SerializeField] public GameObject generalUI_Notification;
 
 
-    [Header("Conversation")]
-    [SerializeField] public GameObject conversation_UI;
-    [SerializeField] public TMP_Text npcName_Text;
-    [SerializeField] public Image npcPortrait_Image;
-    [SerializeField] public TMP_Text conversationDisplay_Text;
-    [SerializeField] public Transform decisionPanel;
-    private GameObject decisionButton_Prefab;
-
-    public MGR_QuestUIManager questUIManager { get; private set; }
-
-
-    [Header("Other")]
-    [SerializeField] public GraphicRaycaster uiRaycaster;
-
-    private GameObject itemInfoUI;
+    // Load from Resources
     private GameObject itemInfoUI_Prefab;
 
+
+    // Load from Hierarchy
     private EventSystem eventSystem;
+    private GraphicRaycaster uiRaycaster;
+
+
+    // Load from children game objects
+    public MGR_QuestUIManager questUIManager { get; private set; }
+    public MGR_ConversationUIManager conversationUIManager { get; private set; }
+
+
+    // Temporary variables
+    private GameObject itemInfoUI;
     private bool isAnyUIOpen;
 
 
     private void Start()
     {
+        // thiết lập các biến cần thiết
         isAnyUIOpen = false;
 
-        eventSystem = FindObjectOfType<EventSystem>();
+        // load các thành phần từ Resources
         itemInfoUI_Prefab = Resources.Load<GameObject>("Prefabs/UI/PFB_ItemInfoUI");
-        decisionButton_Prefab = Resources.Load<GameObject>("Prefabs/UI/PFB_DecisionButton");
 
+        // load các thành phần cần thiết
+        eventSystem = FindObjectOfType<EventSystem>();
         questUIManager = GetComponentInChildren<MGR_QuestUIManager>();
+        conversationUIManager = GetComponentInChildren<MGR_ConversationUIManager>();
+        uiRaycaster = GetComponent<GraphicRaycaster>();
 
-        if (eventSystem == null || itemInfoUI_Prefab == null || decisionButton_Prefab == null || questUIManager == null)
+        if (eventSystem == null || itemInfoUI_Prefab == null || questUIManager == null || conversationUIManager == null || uiRaycaster == null)
         {
             Debug.LogError("Can't load a manager component.");
         }
@@ -79,9 +76,6 @@ public class GameplayUIManager : MonoBehaviour
         InputManager.OnOpenBagPress -= ToggleBagUI;
         InputManager.OnGeneralUIPress -= ToggleGeneralUI;
         InputManager.OnQuestUIButtonPress -= ToggleQuestUI;
-
-        // MGR_QuestManager.OnQuestListUpdate -= RefreshQuestUIList;
-        // CollectionQuestProgress.OnCollectionQuestUpdate -= RefreshCollectionProgressUI;
     }
 
 
@@ -146,7 +140,7 @@ public class GameplayUIManager : MonoBehaviour
             isAnyUIOpen = false;
         }
         // bật UI quest nếu nó đang tắt và không có UI nào khác đang được bật
-        else 
+        else
         // if (!isAnyUIOpen)
         {
             questUIManager.EnableQuestUI(true);
@@ -194,77 +188,6 @@ public class GameplayUIManager : MonoBehaviour
     }
     #endregion
 
-
-    #region Conversation
-    public void SetActiveConversationPanel(bool value)
-    {
-        conversation_UI.SetActive(value);
-    }
-
-
-    /// <summary>
-    /// Cập nhật tên và avatar của NPC đang nói chuyện.
-    /// </summary>
-    public void UpdateDisplayedNPC(LocalizedString npcName, Sprite npcPortrait)
-    {
-        npcName_Text.SetText(npcName.GetLocalizedString());
-        npcPortrait_Image.sprite = npcPortrait;
-    }
-
-
-    public void UpdateConversationText(string npcDialogue)
-    {
-        conversationDisplay_Text.SetText(npcDialogue);
-    }
-
-
-    public void AddLetterToDialogueText(char letter)
-    {
-        conversationDisplay_Text.text += letter;
-    }
-
-
-    public void DisplayConversationDecisions(List<SO_Decision> decision_List)
-    {
-        decisionPanel.gameObject.SetActive(true);
-
-        foreach (var decision in decision_List)
-        {
-            var decisionPrefab = MGR_ObjectPoolManager.SpawnObject(decisionButton_Prefab, decisionPanel);
-
-            // lấy các thành phần trong game object decision
-            var decisionController = decisionPrefab.GetComponent<C_DecisionController>();
-            var decisionBtn = decisionPrefab.GetComponent<Button>();
-
-            // thiết lập các thành phần của game object decision
-            decisionController.SetupDecisionUI(decision);
-            decisionBtn.onClick.AddListener(decisionController.ImplementDecision);
-            decisionBtn.onClick.AddListener(HideDecisionPanel);
-        }
-
-        // tắt tính năng skip dialogue
-        ToggleSkipDialogueButton(false);
-    }
-
-
-    public void HideDecisionPanel()
-    {
-        foreach (Transform decision in decisionPanel)
-        {
-            decision.GetComponent<Button>().onClick.RemoveAllListeners();
-            MGR_ObjectPoolManager.ReturnObjectToPool(decision.gameObject);
-        }
-
-        decisionPanel.gameObject.SetActive(false);
-    }
-
-
-    public void ToggleSkipDialogueButton(bool state)
-    {
-        var skipDialogueButton = conversationDisplay_Text.GetComponentInParent<Button>();
-        skipDialogueButton.enabled = state;
-    }
-    #endregion
 
     // #region Notification
     // public void EnableQuestNotification()

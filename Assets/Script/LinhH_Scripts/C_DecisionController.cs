@@ -58,6 +58,6 @@ public class C_DecisionController : MonoBehaviour
 
         }
 
-        gameplayUIManager.ToggleSkipDialogueButton(true);
+        gameplayUIManager.conversationUIManager.ToggleSkipDialogueButton(true);
     }
 }
