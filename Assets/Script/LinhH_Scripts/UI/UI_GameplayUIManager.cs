@@ -13,13 +13,12 @@ using UnityEngine.UI;
 /// <summary>
 /// Quản lý các thành phần giao diện trong gameplay
 /// </summary>
-public class GameplayUIManager : MonoBehaviour
+public class UI_GameplayUIManager : MonoBehaviour
 {
     [Header("Menu UIs")]
     [SerializeField] public GameObject bagUI;
     [SerializeField] public GameObject generalUI;
     [SerializeField] public GameObject npcUI;
-    [SerializeField] public GameObject settingUI;
     [SerializeField] public GameObject characterUI;
     [SerializeField] public GameObject generalUI_Notification;
 
@@ -36,6 +35,7 @@ public class GameplayUIManager : MonoBehaviour
     // Load from children game objects
     public MGR_QuestUIManager questUIManager { get; private set; }
     public MGR_ConversationUIManager conversationUIManager { get; private set; }
+    public UI_SettingUIManager settingUIManager { get; private set; }
 
 
     // Temporary variables
@@ -52,12 +52,15 @@ public class GameplayUIManager : MonoBehaviour
         itemInfoUI_Prefab = Resources.Load<GameObject>("Prefabs/UI/PFB_ItemInfoUI");
 
         // load các thành phần cần thiết
-        eventSystem = FindObjectOfType<EventSystem>();
         questUIManager = GetComponentInChildren<MGR_QuestUIManager>();
         conversationUIManager = GetComponentInChildren<MGR_ConversationUIManager>();
+        settingUIManager = GetComponentInChildren<UI_SettingUIManager>();
+
+        eventSystem = FindObjectOfType<EventSystem>();
         uiRaycaster = GetComponent<GraphicRaycaster>();
 
-        if (eventSystem == null || itemInfoUI_Prefab == null || questUIManager == null || conversationUIManager == null || uiRaycaster == null)
+        if (eventSystem == null || itemInfoUI_Prefab == null || questUIManager == null || conversationUIManager == null
+            || uiRaycaster == null || settingUIManager == null)
         {
             Debug.LogError("Can't load a manager component.");
         }
@@ -109,6 +112,8 @@ public class GameplayUIManager : MonoBehaviour
         else if (!isAnyUIOpen)
         {
             generalUI.SetActive(true);
+
+            generalUI.transform.SetAsLastSibling();
             // isAnyUIOpen = true;
         }
     }
@@ -121,6 +126,8 @@ public class GameplayUIManager : MonoBehaviour
         {
             npcUI.SetActive(false);
             isAnyUIOpen = false;
+
+            generalUI.transform.SetAsLastSibling();
         }
         // bật UI npc nếu nó đang tắt và không có UI nào khác đang được bật
         else if (!isAnyUIOpen)
@@ -138,15 +145,20 @@ public class GameplayUIManager : MonoBehaviour
         {
             questUIManager.EnableQuestUI(false);
             isAnyUIOpen = false;
+
+            generalUI.transform.SetAsLastSibling();
         }
         // bật UI quest nếu nó đang tắt và không có UI nào khác đang được bật
-        else
-        // if (!isAnyUIOpen)
+        else if (!isAnyUIOpen)
         {
             questUIManager.EnableQuestUI(true);
             isAnyUIOpen = true;
 
+            // mặc định mở mục story quest khi mở giao diện
             questUIManager.FillQuestCategorize(0);
+
+            // thiết lập UI quest hiển thị lên trên các UI khác
+            questUIManager.transform.SetAsLastSibling();
 
             // tắt thông báo quest khi người chơi mở giao diện nhiệm vụ
             // DisableQuestNotification();
@@ -157,16 +169,21 @@ public class GameplayUIManager : MonoBehaviour
     public void ToggleSettingUI()
     {
         // tắt UI setting nếu nó đang bật
-        if (settingUI.activeInHierarchy)
+        if (settingUIManager.settingPanel.activeSelf)
         {
-            settingUI.SetActive(false);
+            settingUIManager.EnableSettingUI(false);
             isAnyUIOpen = false;
+
+            generalUI.transform.SetAsLastSibling();
         }
         // bật UI setting nếu nó đang tắt và không có UI nào khác đang được bật
         else if (!isAnyUIOpen)
         {
-            settingUI.SetActive(true);
+            settingUIManager.EnableSettingUI(true);
             isAnyUIOpen = true;
+
+            // thiết lập UI setting hiển thị lên trên các UI khác
+            settingUIManager.transform.SetAsLastSibling();
         }
     }
 
@@ -225,7 +242,6 @@ public class GameplayUIManager : MonoBehaviour
     // #endregion
 
 
-    #region Inventory
     public void EnableItemInfoUI(Transform inventorySlot)
     {
         // 1. Tạo UI
@@ -317,7 +333,5 @@ public class GameplayUIManager : MonoBehaviour
             // gán vị trí của item info ui tại góc dưới bên phải của slot
             itemInfoUI.transform.position = worldCorners[1];
         }
-
-        #endregion
     }
 }

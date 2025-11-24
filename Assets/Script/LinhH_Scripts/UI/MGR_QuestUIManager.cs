@@ -13,13 +13,14 @@ using UnityEngine.UI;
 
 public class MGR_QuestUIManager : MonoBehaviour
 {
+    [SerializeField] public GameObject backgroundImage;
     [SerializeField] Transform questPanel;
 
     [Tooltip("Danh sách các đối tượng highlight của các nút phân loại nhiệm vụ.")]
     [SerializeField] public List<GameObject> questCategorizeHighlights_List;
     [SerializeField] GameObject noQuestInList_Text;
     [SerializeField] public GameObject questUI_Notification;
-    [SerializeField] public GameObject backgroundImage;
+    [SerializeField] public Button backButton;
 
     private List<GameObject> questPrefab_List = new List<GameObject>();
     private UI_QuestDetails questDetailsUI;
@@ -34,10 +35,19 @@ public class MGR_QuestUIManager : MonoBehaviour
 
         questUI_Prefab = Resources.Load<GameObject>("Prefabs/UI/PFB_QuestUI");
 
-        if (questManager == null || questDetailsUI == null || questUI_Prefab == null)
+        var gameplayUIMgr = GetComponentInParent<UI_GameplayUIManager>();
+
+        if (questManager == null || questDetailsUI == null || questUI_Prefab == null || gameplayUIMgr == null)
         {
             Debug.LogError("Can't load a manager component.");
         }
+
+        backButton.onClick.AddListener(gameplayUIMgr.ToggleQuestUI);
+    }
+
+
+    private void OnDisable() {
+        backButton.onClick.RemoveAllListeners();
     }
 
 

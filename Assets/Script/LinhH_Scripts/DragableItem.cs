@@ -21,7 +21,7 @@ namespace GameUI
         [SerializeField] private Image _image;
         [SerializeField] private TMP_Text _countText;
 
-        private GameplayUIManager gameplayUIManager;
+        private UI_GameplayUIManager gameplayUIManager;
 
         //Biến này chỉ có tác dụng khi item là cần câu
         [HideInInspector] public BaitSO attachedBait;
@@ -54,7 +54,7 @@ namespace GameUI
             RefreshCount();
             UpdateBaitVisuals();
 
-            gameplayUIManager = FindObjectOfType<GameplayUIManager>();
+            gameplayUIManager = FindObjectOfType<UI_GameplayUIManager>();
             if (gameplayUIManager == null)
             {
                 Debug.LogError("Can't load a manager component!!!");

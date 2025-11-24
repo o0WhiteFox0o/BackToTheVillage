@@ -55,6 +55,10 @@ MonoBehaviour:
     m_Localized: "C\xE0i \u0111\u1EB7t"
     m_Metadata:
       m_Items: []
+  - m_Id: 4339721900802048
+    m_Localized: "Ng\xF4n ng\u1EEF"
+    m_Metadata:
+      m_Items: []
   references:
     version: 2
     RefIds: []

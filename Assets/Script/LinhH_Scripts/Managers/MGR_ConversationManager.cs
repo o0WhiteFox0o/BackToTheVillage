@@ -22,7 +22,7 @@ public class MGR_ConversationManager : MonoBehaviour
 {
     public const float TYPE_SPEED = 0.1f;
 
-    private GameplayUIManager gameplayUIManager;
+    private UI_GameplayUIManager gameplayUIManager;
     private MGR_QuestManager questManager;
 
     private SO_ConversationData conversationData;
@@ -45,7 +45,7 @@ public class MGR_ConversationManager : MonoBehaviour
 
     private void Start()
     {
-        gameplayUIManager = FindObjectOfType<GameplayUIManager>();
+        gameplayUIManager = FindObjectOfType<UI_GameplayUIManager>();
         questManager = FindObjectOfType<MGR_QuestManager>();
 
         if (gameplayUIManager == null || questManager == null)
@@ -200,7 +200,6 @@ public class MGR_ConversationManager : MonoBehaviour
     private void EndConversation()
     {
         gameplayUIManager.conversationUIManager.EnableConversationPanel(false);
-        Debug.Log("...");
         isConversationActive = false;
 
         // kiểm tra có nhiệm vụ nào được giao hay không
