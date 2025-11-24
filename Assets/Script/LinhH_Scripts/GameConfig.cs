@@ -6,6 +6,7 @@ using UnityEngine;
 [Serializable]
 public class GameConfig
 {
+    public string languageId;
     public List<HotkeyConfig> hotkeys;
 
 

@@ -17,7 +17,15 @@ MonoBehaviour:
   m_SharedData: {fileID: 11400000, guid: cbda8ead46749ef4baf0c5648633ae02, type: 2}
   m_Metadata:
     m_Items: []
-  m_TableData: []
+  m_TableData:
+  - m_Id: 1780583278723072
+    m_Localized: Hello, I'm Tu Diep.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1780698362036224
+    m_Localized: Welcome to my village.
+    m_Metadata:
+      m_Items: []
   references:
     version: 2
     RefIds: []

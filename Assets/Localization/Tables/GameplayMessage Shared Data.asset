@@ -51,6 +51,10 @@ MonoBehaviour:
     m_Key: gMsg.settingBtn
     m_Metadata:
       m_Items: []
+  - m_Id: 4339721900802048
+    m_Key: gMsg.settingUI.lang
+    m_Metadata:
+      m_Items: []
   m_Metadata:
     m_Items: []
   m_KeyGenerator:

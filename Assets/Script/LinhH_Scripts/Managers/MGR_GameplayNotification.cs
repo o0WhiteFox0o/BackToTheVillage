@@ -12,7 +12,7 @@ using UnityEngine;
 /// </summary>
 public class MGR_GameplayNotification : MonoBehaviour
 {
-    private GameplayUIManager gameplayUIManager;
+    private UI_GameplayUIManager gameplayUIManager;
     private MGR_QuestManager questManager;
 
     private int questAmount = 0;
@@ -20,7 +20,7 @@ public class MGR_GameplayNotification : MonoBehaviour
 
     private void Start()
     {
-        gameplayUIManager = FindObjectOfType<GameplayUIManager>();
+        gameplayUIManager = FindObjectOfType<UI_GameplayUIManager>();
         questManager = FindObjectOfType<MGR_QuestManager>();
 
         if (gameplayUIManager == null || questManager == null)

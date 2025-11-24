@@ -9,12 +9,12 @@ public class InventorySlot : MonoBehaviour, IDropHandler, IPointerClickHandler, 
 {
     [SerializeField] private GameObject selectedHighlight;
 
-    private GameplayUIManager gameplayUIManager;
+    private UI_GameplayUIManager gameplayUIManager;
 
 
     private void Start()
     {
-        gameplayUIManager = FindObjectOfType<GameplayUIManager>();
+        gameplayUIManager = FindObjectOfType<UI_GameplayUIManager>();
 
         if (gameplayUIManager == null)
         {

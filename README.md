@@ -105,38 +105,39 @@
 > ## Scene Organization Guidelines
 >
 > Cách thức tổ chức Scene trong dự án  
->> **SCENE**
->> - **SYSTEMS**
->>   - **Game_Manager** - Chứa các thành phần quản lý chung của scene/trò chơi.
->>   - **Audio_Manager** - Chứa các thành phần quản lý âm thanh của scene/trò chơi.
->>   - **UI_Manager** - Chứa các thành phần quản lý giao diện của scene/trò chơi.
->>   - **Input_Manager** - Chứa các thành phần quản lý đầu vào của scene/trò chơi.
->>   - Others system manager ...
->> - **ENVIRONMENT**
->>   - **Isometric_Grid** - Chứa bản đồ isometric của màn chơi.
->>       - **Ground** - Chứa bản đồ isometric của nền đất (đất, đường đi, nước, ...)
->>       - **Fishing** - Chứa các ô đánh dấu khu vực nước có thể câu cá.
->>       - **Decoration** - Chứa các đối tượng trang trí trong bản đồ.
->>   - **Lighting**
->>   - **Buildings** - Chứa các đối tượng công trình trong màn chơi.
->> - **INTERACTABLE**
->>   - **Collectibles** - Chứa các đối tượng có thể thu thập được trong màn chơi.
->>   - **Triggers** - 
->>   - **Door** - 
->> - **CHARACTERS**
->>   - **Player**
->>   - **NPCs**
->> - **VFX**
->>   - **Environment_FX**
->>   - **Character_FX**
->>   - **Event_FX**
->> - **AUDIO**
->>   - **Ambiant_Sound**
->>   - **Environment_SFX**
->>   - **Event_SFX**
->> - **UI**
->>   - **Canvas_Main**
->>   - **Canvas_Pause**  
+>> | **SCENE** | |
+>> | --- | --- |
+>> | +-- **SYSTEMS** | |
+>> | &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; +-- **Game_Manager** | Chứa các thành phần quản lý chung của scene/trò chơi. |
+>> | &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; +-- **Audio_Manager** | Chứa các thành phần quản lý âm thanh của scene/trò chơi. |
+>> | &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; +-- **UI_Manager** | Chứa các thành phần quản lý giao diện của scene/trò chơi. |
+>> | &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; +-- **Input_Manager** | Chứa các thành phần quản lý đầu vào của scene/trò chơi. | 
+>> | &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; +-- Others system manager ... | |
+>> | +-- **ENVIRONMENT**  | |
+>> | &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; +-- **Isometric_Grid** | Chứa bản đồ isometric của màn chơi. |
+>> | &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;  +-- **Ground** | Chứa bản đồ isometric của nền đất (đất, đường đi, nước, ...)  |
+>> | &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;  +-- **Fishing** | Chứa các ô đánh dấu khu vực nước có thể câu cá. |
+>> | &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;  +-- **Decoration** | Chứa các đối tượng trang trí trong bản đồ. |
+>> |    +-- **Lighting**  | |
+>> |    +-- **Buildings** | Chứa các đối tượng công trình trong màn chơi. |
+>> | +-- **INTERACTABLE**  | |
+>> |    +-- **Collectibles** | Chứa các đối tượng có thể thu thập được trong màn chơi. |
+>> |    +-- **Triggers** | |
+>> |    +-- **Door** | |
+>> | +-- **CHARACTERS**  | |
+>> |    +-- **Player** | |
+>> |    +-- **NPCs** | |
+>> | +-- **VFX**  | |
+>> |    +-- **Environment_FX** | |
+>> |    +-- **Character_FX** | |
+>> |    +-- **Event_FX** | |
+>> | +-- **AUDIO**  | |
+>> |    +-- **Ambiant_Sound** | |
+>> |    +-- **Environment_SFX** | | 
+>> |    +-- **Event_SFX** | |
+>> | +-- **UI**  | |
+>> |    +-- **Canvas_Main** | |
+>> |    +-- **Canvas_Pause**  | | 
 >  
 > 
 

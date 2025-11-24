@@ -13,7 +13,7 @@ public class C_DecisionController : MonoBehaviour
 
     private MGR_ConversationManager conversationManager;
     private MGR_QuestManager questManager;
-    private GameplayUIManager gameplayUIManager;
+    private UI_GameplayUIManager gameplayUIManager;
 
     private SO_Decision decisionData;
 
@@ -21,7 +21,7 @@ public class C_DecisionController : MonoBehaviour
     private void Start() {
         conversationManager = FindObjectOfType<MGR_ConversationManager>();
         questManager = FindObjectOfType<MGR_QuestManager>();
-        gameplayUIManager = FindObjectOfType<GameplayUIManager>();
+        gameplayUIManager = FindObjectOfType<UI_GameplayUIManager>();
 
         if (conversationManager == null || questManager == null || gameplayUIManager == null)
         {
@@ -58,6 +58,6 @@ public class C_DecisionController : MonoBehaviour
 
         }
 
-        gameplayUIManager.ToggleSkipDialogueButton(true);
+        gameplayUIManager.conversationUIManager.ToggleSkipDialogueButton(true);
     }
 }

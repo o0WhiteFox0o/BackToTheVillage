@@ -22,7 +22,7 @@ public class MGR_ConversationManager : MonoBehaviour
 {
     public const float TYPE_SPEED = 0.1f;
 
-    private GameplayUIManager gameplayUIManager;
+    private UI_GameplayUIManager gameplayUIManager;
     private MGR_QuestManager questManager;
 
     private SO_ConversationData conversationData;
@@ -45,7 +45,7 @@ public class MGR_ConversationManager : MonoBehaviour
 
     private void Start()
     {
-        gameplayUIManager = FindObjectOfType<GameplayUIManager>();
+        gameplayUIManager = FindObjectOfType<UI_GameplayUIManager>();
         questManager = FindObjectOfType<MGR_QuestManager>();
 
         if (gameplayUIManager == null || questManager == null)
@@ -110,10 +110,10 @@ public class MGR_ConversationManager : MonoBehaviour
         // thiết lập avatar và tên NPC
         var npcName = conversationData.dialogue_List[dialogueIndex].npcData.npcName;
         var npcPortrait = conversationData.dialogue_List[dialogueIndex].npcData.portrait;
-        gameplayUIManager.UpdateDisplayedNPC(npcName, npcPortrait);
+        gameplayUIManager.conversationUIManager.UpdateDisplayedNPC(npcName, npcPortrait);
 
         // hiển thị giao diên hội thoại
-        gameplayUIManager.SetActiveConversationPanel(true);
+        gameplayUIManager.conversationUIManager.EnableConversationPanel(true);
 
         OnStartConversation?.Invoke(conversationData.dialogue_List[dialogueIndex].npcData);
 
@@ -128,12 +128,12 @@ public class MGR_ConversationManager : MonoBehaviour
         isTyping = true;
 
         // reset văn bản thoại
-        gameplayUIManager.UpdateConversationText("");
+        gameplayUIManager.conversationUIManager.UpdateConversationText("");
 
         // lần lượt thêm từng chữ cái vào dialogue text sau một
         foreach (var letter in currentLine)
         {
-            gameplayUIManager.AddLetterToDialogueText(letter);
+            gameplayUIManager.conversationUIManager.AddLetterToDialogueText(letter);
 
             // chờ để thêm chữ cái tiếp theo
             yield return new WaitForSeconds(TYPE_SPEED);
@@ -157,7 +157,7 @@ public class MGR_ConversationManager : MonoBehaviour
         {
             StopAllCoroutines();
 
-            gameplayUIManager.UpdateConversationText(currentLine);
+            gameplayUIManager.conversationUIManager.UpdateConversationText(currentLine);
             isTyping = false;
             skipTyping = true;
         }
@@ -199,7 +199,7 @@ public class MGR_ConversationManager : MonoBehaviour
 
     private void EndConversation()
     {
-        gameplayUIManager.SetActiveConversationPanel(false);
+        gameplayUIManager.conversationUIManager.EnableConversationPanel(false);
         isConversationActive = false;
 
         // kiểm tra có nhiệm vụ nào được giao hay không
@@ -211,7 +211,7 @@ public class MGR_ConversationManager : MonoBehaviour
 
         OnConversationEnd?.Invoke(conversationData);
 
-        gameplayUIManager.HideDecisionPanel();
+        gameplayUIManager.conversationUIManager.HideDecisionPanel();
     }
 
 
@@ -225,7 +225,7 @@ public class MGR_ConversationManager : MonoBehaviour
         // thiết lập avatar và tên NPC
         var npcName = conversationData.dialogue_List[dialogueIndex].npcData.npcName;
         var npcPortrait = conversationData.dialogue_List[dialogueIndex].npcData.portrait;
-        gameplayUIManager.UpdateDisplayedNPC(npcName, npcPortrait);
+        gameplayUIManager.conversationUIManager.UpdateDisplayedNPC(npcName, npcPortrait);
 
         // laod câu thoại đầu và hiển thị nó
         currentLine = conversationData.dialogue_List[dialogueIndex].dialogue.GetLocalizedString();
@@ -251,7 +251,7 @@ public class MGR_ConversationManager : MonoBehaviour
         if (dialogueIndex == conversationData.decisionIndex)
         {
             // hiển thị các lựa chọn hội thoại
-            gameplayUIManager.DisplayConversationDecisions(conversationData.decision_List);
+            gameplayUIManager.conversationUIManager.DisplayConversationDecisions(conversationData.decision_List);
         }
     }
 }
