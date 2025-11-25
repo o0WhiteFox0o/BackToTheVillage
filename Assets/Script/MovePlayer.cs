@@ -24,7 +24,6 @@ public class Player : MonoBehaviour
     {
         SoilInteraction.OnToolUse -= PlayToolAnimation;
     }
-
     private void Start()
     {
         if (!animator) animator = GetComponent<Animator>();

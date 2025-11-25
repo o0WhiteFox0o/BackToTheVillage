@@ -12,7 +12,7 @@ TagManager:
   - Default
   - TransparentFX
   - Ignore Raycast
-  - 
+  - Player
   - Water
   - UI
   - PlacedObject
@@ -62,6 +62,9 @@ TagManager:
     locked: 0
   - name: Player
     uniqueID: 4040761875
+    locked: 0
+  - name: Vehicle
+    uniqueID: 2955730057
     locked: 0
   - name: Interactable
     uniqueID: 1617754629
