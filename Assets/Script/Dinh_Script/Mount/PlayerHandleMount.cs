@@ -1,98 +1,151 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
-using Unity.VisualScripting;
 using UnityEngine;
 
 public class PlayerHandleMount : MonoBehaviour
 {
     public static PlayerHandleMount Instance { get; private set; }
-    [SerializeField] private Transform mountVisualContainer; // Nơi chứa hình ảnh của mount
-    [SerializeField] private Collider2D playerCollider; // Collider của người chơi
 
-    [SerializeField] private Player playerMovement;
+    [Header("References")]
+    [SerializeField] private Transform mountVisualContainer;
+    [SerializeField] private Collider2D playerCollider;
+    
+    [SerializeField] private float jumpInMountHeight = 1.5f; // Độ cao khi player nhảy lên xe
+    [SerializeField] private float jumpInMountDuration = 0.5f; // Thời gian để player nhảy lên xe
 
     private MountSO currentMountData;
-    private GameObject currentVisualObject;
     private Mount mountInWorld;
 
     private bool isMounted = false;
+    private bool isJumpingInMount = false; // Kiểm tra player có đang nhảy lên xe hay không
     private int playerLayer;
     private int waterLayer;
 
+    // Biến chống spam phím (Sửa lỗi vừa lên đã xuống)
+    private float mountTime;
+
     void Awake()
-    { 
+    {
         Instance = this;
         playerLayer = gameObject.layer;
         waterLayer = LayerMask.NameToLayer("Water");
     }
+
     void Update()
     {
-        //Bấm F để xuống khỏi vật cưởi
-        if(isMounted && Input.GetKeyDown(KeyCode.F))
+        // Chặn input khi đang nhảy lên xe
+        if (isJumpingInMount) return;
+
+        // Bấm F để xuống xe
+        // Phải ngồi trên xe ít nhất 0.2s mới được xuống (Time.time > mountTime + 0.2f)
+        if (isMounted && Input.GetKeyDown(KeyCode.F))
         {
-            Dismount();
+            if (Time.time > mountTime + 0.2f) //Chống spam phím
+            {
+                Dismount();
+            }
         }
     }
 
-    public void Mount(Mount worldMount,MountSO data)
+    public void Mount(Mount worldMount, MountSO data)
     {
-        if (!CanMountHere(data.type)) 
-        { 
+        if (!CanMountHere(data.type))
+        {
             Debug.Log("Cannot mount here!");
             return;
         }
+        StartCoroutine(JumpInMount(worldMount, data));
+    }
 
+    private IEnumerator JumpInMount(Mount worldMount, MountSO data)
+    {
+        isJumpingInMount = true; // khóa input
+
+        Vector3 startPos = transform.position;
+        // Lấy vị trí của xe
+        Vector3 targetPos = worldMount.transform.position;
+
+        float elapsedTime = 0f;
+        while (elapsedTime < jumpInMountDuration)
+        {
+            float t = elapsedTime / jumpInMountDuration;
+            Vector3 currentPos = Vector3.Lerp(startPos, targetPos, t);
+            float arc = jumpInMountHeight * 1 * t * (1 - t);
+            currentPos.y += arc;
+            transform.position = currentPos;
+            elapsedTime += Time.deltaTime;
+            yield return null;
+        }
+        // Đảm bảo vị trí cuối cùng chính xác
+        transform.position = targetPos;
+        isJumpingInMount = false;
+
+        // Sau khi nhảy xong --> Cập nhật
+        FinalizeMount(worldMount, data);
+    }
+
+    private void FinalizeMount(Mount worldMount, MountSO data)
+    {
         isMounted = true;
+        mountTime = Time.time;
+        mountInWorld = worldMount;
         currentMountData = data;
 
-        //Ẩn Mount trong thế giới
-        mountInWorld = worldMount;
-        mountInWorld.gameObject.SetActive(false);
+        // Mount trở thành con của player
+        Transform parentTarget = (mountVisualContainer != null) ? mountVisualContainer : transform;
+        worldMount.BecomeMounted(parentTarget);
 
-        //Hiện hình ảnh mount lên người chơi
-        if(data.mountIcon != null)
+        //// Animation Ride
+        if (Player.Instance.animator != null)
         {
-            currentVisualObject = Instantiate(data.mountIcon, mountVisualContainer);
-            currentVisualObject.transform.localPosition = Vector3.zero;
+            Player.Instance.animator.SetBool("IsRiding", true);
         }
-        //Cập nhật tốc độ di chuyển
+
+        // Cập nhật trạng thái Vật lý
         UpdatePhysiscsCollider(data.type);
-        //Player.Instance.SetSpeed(data.speedMultiplier);
+        Player.Instance.SetSpeedMultiplier(data.speedMultiplier);
+        
     }
     public void Dismount()
     {
-        if (!isMounted) return;
 
-        //Kiểm tra vị trí có thể xuống(thuyền)
-        if (currentMountData.type == MountType.Water && IsTouchingLayer(waterLayer)) 
+        if (!isMounted || isJumpingInMount) return;
+
+        // Kiểm tra vị trí có thể xuống (thuyền)
+        if (currentMountData.type == MountType.Water && IsTouchingLayer(waterLayer))
         {
-            Debug.Log("Cannot dismount here!");
+            Debug.Log("Cannot dismount inside deep water!");
             return;
         }
 
-        //Ẩn mount trên người chơi
-        if (currentVisualObject != null) Destroy(currentVisualObject);
-
-        //Hiện mount trong thế giới
+        // Tách xe ra
         if (mountInWorld != null)
         {
-            //Cập nhật vị trí mount trong thế giới
-            mountInWorld.transform.position = transform.position;
-            mountInWorld.gameObject.SetActive(true);
+            mountInWorld.BecomeUnmounted();
             mountInWorld = null;
         }
 
-        //Cập nhật trạng thái
+        // Đẩy Player sang bên cạnh một chút để không kẹt vào xe
+        transform.position += Vector3.right * 0.5f; 
+
         isMounted = false;
-        currentMountData = null;
+
+        // Tắt Animation
+        if (Player.Instance.animator != null)
+        {
+            Player.Instance.animator.SetBool("IsRiding", false);
+        }
+
+        // Cập nhật trạng thái Vật lý
         Physics2D.IgnoreLayerCollision(playerLayer, waterLayer, false);
-        //Player.Instance.SetSpeed(1f);
+        Player.Instance.SetSpeedMultiplier(1f);
 
         Debug.Log("Dismounted");
     }
+
     public void UpdatePhysiscsCollider(MountType type)
     {
-        switch(type)
+        switch (type)
         {
             case MountType.Land:
                 Physics2D.IgnoreLayerCollision(playerLayer, waterLayer, false);
@@ -102,16 +155,25 @@ public class PlayerHandleMount : MonoBehaviour
                 break;
         }
     }
+
     public bool CanMountHere(MountType type)
     {
         bool isTouchingWater = IsTouchingLayer(waterLayer);
+
+        // 1. Thuyền thì phải ở gần nước (hoặc đang đứng dưới nước nếu game cho phép)
         if (type == MountType.Water && !isTouchingWater) return false;
+
+        // 2. Ngựa (Land) thì KHÔNG được gọi khi đang đứng dưới nước
+        if (type == MountType.Land && isTouchingWater) return false;
+
         return true;
     }
+
     public bool IsTouchingLayer(int layerIndex)
     {
         if (playerCollider == null) return false;
         return playerCollider.IsTouchingLayers(1 << layerIndex);
     }
+
     public bool IsMounted() => isMounted;
 }
