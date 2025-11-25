@@ -3,10 +3,15 @@ using UnityEngine;
 
 public class Player : MonoBehaviour
 {
+    public static Player Instance { get; private set; }
+
     [Header("Player Settings")]
     public float moveSpeed = 5f;
     public Rigidbody2D rb;
     public Animator animator;
+
+    // <--- Biến lưu hệ số nhân tốc độ (Mặc định là 1 = 100%)
+    private float currentSpeedMultiplier = 1f;
 
     [Header("References")]
     public TileCursorFollow tileCursorFollow;
@@ -15,6 +20,10 @@ public class Player : MonoBehaviour
     private Vector2 lastDirection;
     private bool isUsingTool = false;
 
+    private void Awake()
+    {
+        Instance = this;
+    }
     private void OnEnable()
     {
         SoilInteraction.OnToolUse += PlayToolAnimation;
@@ -24,6 +33,7 @@ public class Player : MonoBehaviour
     {
         SoilInteraction.OnToolUse -= PlayToolAnimation;
     }
+
     private void Start()
     {
         if (!animator) animator = GetComponent<Animator>();
@@ -51,31 +61,34 @@ public class Player : MonoBehaviour
     {
         if (!isUsingTool)
         {
-            rb.MovePosition(rb.position + movement.normalized * moveSpeed * Time.fixedDeltaTime);
+            //Nhân thêm currentSpeedMultiplier vào công thức
+            float finalSpeed = moveSpeed * currentSpeedMultiplier;
+            rb.MovePosition(rb.position + movement.normalized * finalSpeed * Time.fixedDeltaTime);
         }
     }
 
-    // ====================================
-    // ÉP Input → 4 hướng XÉO isometric
-    // ====================================
+    //Hàm công khai để PlayerMountHandler gọi vào
+    public void SetSpeedMultiplier(float multiplier)
+    {
+        currentSpeedMultiplier = multiplier;
+        // Debug.Log($"[Player] Đã thay đổi tốc độ. Hệ số: {currentSpeedMultiplier}");
+    }
+
     private Vector2 ConvertTo4Diagonal(Vector2 input)
     {
-        // hướng chéo sẽ dựa vào input.x và input.y
         float x = Mathf.Sign(input.x);
         float y = Mathf.Sign(input.y);
 
-        // Nếu người chơi chỉ nhấn lên/xuống hoặc trái/phải → vẫn ép sang hướng chéo
-        if (input.x == 0 && input.y > 0) return new Vector2(1, 1);      // Up (ép x = 1)
-        if (input.x == 0 && input.y < 0) return new Vector2(-1, -1);    // Down
-        if (input.y == 0 && input.x > 0) return new Vector2(1, -1);     // Right
-        if (input.y == 0 && input.x < 0) return new Vector2(-1, 1);     // Left
+        if (input.x == 0 && input.y > 0) return new Vector2(1, 1);
+        if (input.x == 0 && input.y < 0) return new Vector2(-1, -1);
+        if (input.y == 0 && input.x > 0) return new Vector2(1, -1);
+        if (input.y == 0 && input.x < 0) return new Vector2(-1, 1);
 
-        // nếu có cả X và Y → giữ nguyên hướng chéo
         return new Vector2(x, y);
     }
 
     // ====================================
-    // TOOL theo vị trí TILE — cũng 4 hướng XÉO
+    // TOOL theo vị trí TILE
     // ====================================
     private void PlayToolAnimation(string triggerName)
     {

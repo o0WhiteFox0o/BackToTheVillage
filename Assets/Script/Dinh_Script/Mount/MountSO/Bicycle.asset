@@ -21,8 +21,8 @@ MonoBehaviour:
     m_FallbackState: 0
     m_WaitForCompletion: 0
     m_LocalVariables: []
-  mountType: 0
-  speedMultiplier: 1.5
+  type: 0
+  speedMultiplier: 2.5
   mountIcon: {fileID: 5354016766190319750, guid: 843d8608495a830488337ff9ceab3995, type: 3}
   references:
     version: 2
