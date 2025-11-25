@@ -220,6 +220,9 @@ public class InventorySlot : MonoBehaviour, IDropHandler, IPointerClickHandler, 
     /// </summary>
     public void OnPointerEnter(PointerEventData eventData)
     {
+        Debug.Log("...");
+
+
         // nếu slot không chứa vật phẩm nào thì không làm gì
         if (transform.childCount == GameConstants.DEFAULT_INVENTORY_SLOT_CHILDREN_COUNT) { return; }
 

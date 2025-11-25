@@ -9,12 +9,13 @@ using System.Collections.Generic;
 using System.Linq;
 using Management;
 using UnityEngine;
+using UnityEngine.Localization;
 
 public class MGR_QuestManager : MonoBehaviour
 {
     public List<IQuestProgress> activeQuests_List { get; private set; }
 
-    public SO_Quest currentStoryQuest { get; private set; }
+    private InventoryManager inventoryManager;
 
 
     /// <summary>
@@ -31,6 +32,13 @@ public class MGR_QuestManager : MonoBehaviour
 
     private void Start()
     {
+        inventoryManager = transform.parent.GetComponentInChildren<InventoryManager>();
+
+        if (inventoryManager == null)
+        {
+            Debug.LogError("Can't load a component!!!");
+        }
+
         // đăng ký sự kiện cần thiết
         InventoryManager.OnCollectItem += UpdateCollectionProgress;
         MGR_ConversationManager.OnStartConversation += UpdateTalkingProgress;
@@ -131,6 +139,7 @@ public class MGR_QuestManager : MonoBehaviour
     /// </summary>
     private void RefreshQuestList()
     {
+        // tìm nhiệm vụ đã hoàn thành trong danh sách
         var completedQuest = activeQuests_List.FirstOrDefault(q => q.IsComplete() == true);
         if (completedQuest != null)
         {
@@ -143,6 +152,9 @@ public class MGR_QuestManager : MonoBehaviour
             // loại bỏ nhiệm vụ khỏi danh sách
             activeQuests_List.Remove(completedQuest);
             OnQuestListUpdate?.Invoke();
+
+            // trao phần thưởng cho nhân vật
+            GrantReward(completedQuest);
         }
     }
 
@@ -167,5 +179,33 @@ public class MGR_QuestManager : MonoBehaviour
 
         // thêm nhiệm vụ vừa được load vào danh sách nhiệm vụ
         AddQuest(quest);
+    }
+
+
+    /// <summary>
+    /// Phát thưởng cho nhân vật.
+    /// </summary>
+    private void GrantReward(IQuestProgress quest)
+    {
+        var message = new LocalizedString("GameplayMessage", "gMsg.questComplete");
+        NotificationManager.Instance.ShowNotification(message + quest.GetQuest().questTittle.GetLocalizedString());
+
+        // TODO: Hook into player inventory or stats system
+
+        var questReward = quest.GetQuest().reward;
+        // thêm vật phẩm thưởng vào inventory của nhân vật
+        if (questReward.itemRewards.Count != 0)
+        {
+            foreach (var itemReward in questReward.itemRewards)
+            {
+                inventoryManager.AddItem(itemReward.item, itemReward.quantity);
+            }
+        }
+
+        // thêm công thức thưởng cho nhân vật
+        if (questReward.craftingRecipe != null)
+        {
+            CraftingManager.Instance.UnLockRecipe(questReward.craftingRecipe);
+        }
     }
 }
