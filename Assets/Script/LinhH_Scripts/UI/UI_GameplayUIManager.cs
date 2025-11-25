@@ -4,6 +4,8 @@
 // 
 
 
+using System.Collections;
+using System.Collections.Generic;
 using GameUI;
 using UnityEngine;
 using UnityEngine.EventSystems;
@@ -41,13 +43,15 @@ public class UI_GameplayUIManager : MonoBehaviour
 
     // Temporary variables
     private GameObject itemInfoUI;
-    private bool isAnyUIOpen;
+    private OpenedUI _openedUI;
+    private Stack<GameObject> openedUIs = new Stack<GameObject>();
 
 
     private void Start()
     {
         // thiết lập các biến cần thiết
-        isAnyUIOpen = false;
+        _openedUI = OpenedUI.None;
+        openedUIs.Clear();
 
         // load các thành phần từ Resources
         itemInfoUI_Prefab = Resources.Load<GameObject>("Prefabs/UI/PFB_ItemInfoUI");
@@ -67,9 +71,11 @@ public class UI_GameplayUIManager : MonoBehaviour
         }
 
         // đăng ký sự kiện cần thiết
-        InputManager.OnOpenBagPress += ToggleBagUI;
-        InputManager.OnGeneralUIPress += ToggleGeneralUI;
-        InputManager.OnQuestUIButtonPress += ToggleQuestUI;
+        InputManager.OnOpenBagPress += EnableBagUI;
+        InputManager.OnGeneralUIPress += EnableGeneralUI;
+        InputManager.OnQuestUIButtonPress += EnableQuestUI;
+
+        RefreshUILayer();
 
         DontDestroyOnLoad(this);
     }
@@ -77,146 +83,111 @@ public class UI_GameplayUIManager : MonoBehaviour
 
     private void OnDisable()
     {
-        InputManager.OnOpenBagPress -= ToggleBagUI;
-        InputManager.OnGeneralUIPress -= ToggleGeneralUI;
-        InputManager.OnQuestUIButtonPress -= ToggleQuestUI;
+        InputManager.OnOpenBagPress -= EnableBagUI;
+        InputManager.OnGeneralUIPress -= EnableGeneralUI;
+        InputManager.OnQuestUIButtonPress -= EnableQuestUI;
     }
 
 
+    /// <summary>
+    /// Thiết lập layer cho các UI trong gameplay, để có thể tương tác được với các UI đang bật.
+    /// </summary>
     private void RefreshUILayer()
     {
-        if (isAnyUIOpen) { return; }
+        if (openedUIs.Count != 0)
+        {
+            openedUIs.Pop();
+        }
 
+        if (openedUIs.Count == 0)
+        {
+            inventoryUI.transform.SetAsLastSibling();
+            return;
+        }
+
+        openedUIs.Peek().transform.SetAsLastSibling();
+    }
+
+
+    public void DisableUI()
+    {
+        Debug.Log($"close {openedUIs.Peek().name}");
+
+        openedUIs.Peek().SetActive(false);
+        RefreshUILayer();
+    }
+
+
+    public void EnableGeneralUI()
+    {
+        // không thể mở general UI khi có một UI bất kỳ được mở
+        if (openedUIs.Count != 0) { return; }
+
+        generalUI.SetActive(true);
+        generalUI.transform.SetAsLastSibling();
+
+        openedUIs.Push(generalUI);
+    }
+
+
+    public void EnableBagUI()
+    {
+        // // không thể mở general UI khi có một UI bất kỳ được mở
+        // if (openedUIs.Count != 0) { return; }
+
+        bagUI.SetActive(true);
         inventoryUI.transform.SetAsLastSibling();
-    }
 
-
-    public void ToggleGeneralUI()
-    {
-        // tắt UI general nếu nó đang bật
-        if (generalUI.activeInHierarchy)
-        {
-            generalUI.SetActive(false);
-            isAnyUIOpen = false;
-        }
-        // bật UI general nếu nó đang tắt và không có UI nào khác đang được bật
-        else if (!isAnyUIOpen)
-        {
-            generalUI.SetActive(true);
-            isAnyUIOpen = true;
-
-            generalUI.transform.SetAsLastSibling();
-        }
-    }
-
-
-    public void ToggleBagUI()
-    {
-        // tắt UI túi đồ nếu nó đang bật
-        if (bagUI.activeSelf)
-        {
-            bagUI.SetActive(false);
-            isAnyUIOpen = false;
-
-            RefreshUILayer();
-        }
-        // bật UI túi đồ nếu nó đang tắt và không có UI nào khác đang được bật
-        else if (!isAnyUIOpen)
-        {
-            bagUI.SetActive(true);
-            isAnyUIOpen = true;
-
-            bagUI.transform.parent.SetAsLastSibling();
-        }
+        openedUIs.Push(bagUI);
     }
 
 
 
-    public void ToggleNPC_UI()
+    public void EnableNPC_UI()
     {
-        // tắt UI npc nếu nó đang bật
-        if (npcUI.activeInHierarchy)
-        {
-            npcUI.SetActive(false);
-            isAnyUIOpen = false;
+        // // không thể mở general UI khi có một UI bất kỳ được mở
+        // if (openedUIs.Count != 0) { return; }
 
-            RefreshUILayer();
-        }
-        // bật UI npc nếu nó đang tắt và không có UI nào khác đang được bật
-        else if (!isAnyUIOpen)
-        {
-            npcUI.SetActive(true);
-            isAnyUIOpen = true;
-        }
+        npcUI.SetActive(true);
+        npcUI.transform.SetAsLastSibling();
+
+        openedUIs.Push(npcUI);
     }
 
 
-    public void ToggleQuestUI()
+    public void EnableQuestUI()
     {
-        // tắt UI quest nếu nó đang bật
-        if (questUIManager.backgroundImage.activeSelf)
-        {
-            questUIManager.EnableQuestUI(false);
-            isAnyUIOpen = false;
+        // // không thể mở general UI khi có một UI bất kỳ được mở
+        // if (openedUIs.Count != 0) { return; }
 
-            RefreshUILayer();
-        }
-        // bật UI quest nếu nó đang tắt và không có UI nào khác đang được bật
-        else if (!isAnyUIOpen)
-        {
-            questUIManager.EnableQuestUI(true);
-            isAnyUIOpen = true;
+        questUIManager.EnableQuestUI();
+        questUIManager.gameObject.transform.SetAsLastSibling();
 
-            // mặc định mở mục story quest khi mở giao diện
-            questUIManager.FillQuestCategorize(0);
-
-            // thiết lập UI quest hiển thị lên trên các UI khác
-            questUIManager.transform.SetAsLastSibling();
-
-            // tắt thông báo quest khi người chơi mở giao diện nhiệm vụ
-            // DisableQuestNotification();
-        }
+        openedUIs.Push(questUIManager.backgroundImage);
     }
 
 
-    public void ToggleSettingUI()
+    public void EnableSettingUI()
     {
-        // tắt UI setting nếu nó đang bật
-        if (settingUIManager.settingPanel.activeSelf)
-        {
-            settingUIManager.EnableSettingUI(false);
-            isAnyUIOpen = false;
+        // // không thể mở general UI khi có một UI bất kỳ được mở
+        // if (openedUIs.Count != 0) { return; }
 
-            RefreshUILayer();
-        }
-        // bật UI setting nếu nó đang tắt và không có UI nào khác đang được bật
-        else if (!isAnyUIOpen)
-        {
-            settingUIManager.EnableSettingUI(true);
-            isAnyUIOpen = true;
+        settingUIManager.EnableSettingUI();
+        settingUIManager.gameObject.transform.SetAsLastSibling();
 
-            // thiết lập UI setting hiển thị lên trên các UI khác
-            settingUIManager.transform.SetAsLastSibling();
-        }
+        openedUIs.Push(settingUIManager.settingPanel);
     }
 
 
-    public void ToggleCharacterUI()
+    public void EnableCharacterUI()
     {
-        // tắt UI thông tin nhân vật nếu nó đang bật
-        if (characterUI.activeSelf)
-        {
-            characterUI.SetActive(false);
-            isAnyUIOpen = false;
+        // // không thể mở general UI khi có một UI bất kỳ được mở
+        if (openedUIs.Count != 0) { return; }
 
-            RefreshUILayer();
-        }
-        // bật UI thông tin nhân vật nếu nó đang tắt và không có UI nào khác đang được bật
-        else if (!isAnyUIOpen)
-        {
-            characterUI.SetActive(true);
-            isAnyUIOpen = true;
-        }
+        characterUI.SetActive(true);
+        characterUI.transform.SetAsLastSibling();
+
+        openedUIs.Push(characterUI);
     }
 
 
@@ -266,20 +237,14 @@ public class UI_GameplayUIManager : MonoBehaviour
         // Nếu không có vật phẩm thì dừng lại, không làm gì cả
         if (itemInSlot == null) return;
 
-        // 3. Tính giá thực tế (Đã cộng Buff nghề nghiệp)
-        // Gọi Manager để lấy giá của 1 món đồ
-        int finalUnitPrice = PlayerStatManager.Instance.GetActualItemPrice(itemInSlot.itemScriptableObj);
-
         // 4. Lấy thông tin hiển thị
         var itemName = itemInSlot.itemScriptableObj.displayName.GetLocalizedString();
         var itemDesc = itemInSlot.itemScriptableObj.itemDescription.GetLocalizedString();
 
-        // 5. Cập nhật biến giá (Dùng giá mới tính được)
-        var itemPrice = finalUnitPrice; // Giá đơn lẻ
-        var itemPriceStack = finalUnitPrice * itemInSlot.quantity; // Giá tổng (Stack)
-
         // 6. Gửi vào UI để hiển thị
-        itemInfoUI.GetComponent<UI_ItemInfoUI>().SetUpItemInfo(itemName, itemDesc, itemPrice, itemPriceStack);
+        itemInfoUI.GetComponent<UI_ItemInfoUI>().SetUpItemInfo(itemName, itemDesc);
+        // thiết lập layer cho item info (cho nó lên đầu tiên)
+        itemInfoUI.transform.SetAsLastSibling();
 
         SetUpItemInfoPosition(inventorySlot);
     }

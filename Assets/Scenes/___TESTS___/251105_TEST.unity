@@ -303232,6 +303232,11 @@ Camera:
   m_OcclusionCulling: 1
   m_StereoConvergence: 10
   m_StereoSeparation: 0.022
+--- !u!1 &949041086 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 5466689424761652177, guid: 089279d21a51fba4fb9f2bb93809e14a, type: 3}
+  m_PrefabInstance: {fileID: 1305616827}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &956990517
 GameObject:
   m_ObjectHideFlags: 0
@@ -743749,8 +743754,8 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 2180626096006048106}
-        m_TargetAssemblyTypeName: GameplayUIManager, Assembly-CSharp
-        m_MethodName: ToggleNPC_UI
+        m_TargetAssemblyTypeName: UI_GameplayUIManager, Assembly-CSharp
+        m_MethodName: EnableNPC_UI
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -743992,8 +743997,8 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 2180626096006048106}
-        m_TargetAssemblyTypeName: GameplayUIManager, Assembly-CSharp
-        m_MethodName: ToggleGeneralUI
+        m_TargetAssemblyTypeName: UI_GameplayUIManager, Assembly-CSharp
+        m_MethodName: DisableUI
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -744048,8 +744053,8 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 2180626096006048106}
-        m_TargetAssemblyTypeName: GameplayUIManager, Assembly-CSharp
-        m_MethodName: ToggleSettingUI
+        m_TargetAssemblyTypeName: UI_GameplayUIManager, Assembly-CSharp
+        m_MethodName: EnableSettingUI
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -744143,7 +744148,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1797db0f50017c5489253216132974c4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  inventoryUI: {fileID: 0}
+  inventoryUI: {fileID: 949041086}
   bagUI: {fileID: 960541775}
   generalUI: {fileID: 8225017607926833048}
   npcUI: {fileID: 7036630852963920145}
@@ -744213,8 +744218,8 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 2180626096006048106}
-        m_TargetAssemblyTypeName: GameplayUIManager, Assembly-CSharp
-        m_MethodName: ToggleGeneralUI
+        m_TargetAssemblyTypeName: UI_GameplayUIManager, Assembly-CSharp
+        m_MethodName: EnableGeneralUI
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -744426,8 +744431,8 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 2180626096006048106}
-        m_TargetAssemblyTypeName: GameplayUIManager, Assembly-CSharp
-        m_MethodName: ToggleQuestUI
+        m_TargetAssemblyTypeName: UI_GameplayUIManager, Assembly-CSharp
+        m_MethodName: EnableQuestUI
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}

@@ -26,7 +26,7 @@ public class UI_SettingUIManager : MonoBehaviour
         }
 
 
-        backButton.onClick.AddListener(gameplayUIMgr.ToggleSettingUI);
+        backButton.onClick.AddListener(gameplayUIMgr.DisableUI);
 
         SetupLanguageDropdown();
     }
@@ -38,9 +38,9 @@ public class UI_SettingUIManager : MonoBehaviour
     }
 
 
-    public void EnableSettingUI(bool enable)
+    public void EnableSettingUI()
     {
-        settingPanel.SetActive(enable);
+        settingPanel.SetActive(true);
     }
 
 

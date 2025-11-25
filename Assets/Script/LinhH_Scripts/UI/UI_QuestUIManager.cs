@@ -42,7 +42,7 @@ public class UI_QuestUIManager : MonoBehaviour
             Debug.LogError("Can't load a manager component.");
         }
 
-        backButton.onClick.AddListener(gameplayUIMgr.ToggleQuestUI);
+        backButton.onClick.AddListener(gameplayUIMgr.DisableUI);
     }
 
 
@@ -160,8 +160,8 @@ public class UI_QuestUIManager : MonoBehaviour
     }
 
 
-    public void EnableQuestUI(bool enable)
+    public void EnableQuestUI()
     {
-        backgroundImage.SetActive(enable);
+        backgroundImage.SetActive(true);
     }
 }
