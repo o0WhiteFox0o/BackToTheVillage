@@ -77,9 +77,6 @@ public class CollectionQuestProgress : IQuestProgress
             // load vật phẩm tương ứng với vật phẩm được lưu trong file
             var requirementItem = itemSO_List.FirstOrDefault(i => i.id == itemProgress.itemId);
 
-            Debug.Log($"... {itemSO_List.Length}");
-
-
             if (requirementItem == null) { continue; }
 
             // thêm tiến trình của vật phẩm vào danh sách vật phẩm yêu cầu
@@ -127,9 +124,6 @@ public class CollectionQuestProgress : IQuestProgress
         // hoàn thành nhiệm vụ
         isCompleted = true;
         isActive = false;
-
-        // trao thưởng cho nhân vật
-        quest.reward?.GrantReward();
     }
 
 
@@ -160,10 +154,6 @@ public class TalkingQuestProgress : IQuestProgress
     {
         isCompleted = true;
         isActive = false;
-
-        quest.reward?.GrantReward();
-
-        Debug.Log("Hoàn thành nhiệm vụ trò chuyện");
     }
 
 

@@ -11,7 +11,7 @@ using UnityEngine;
 using UnityEngine.UI;
 
 
-public class MGR_QuestUIManager : MonoBehaviour
+public class UI_QuestUIManager : MonoBehaviour
 {
     [SerializeField] public GameObject backgroundImage;
     [SerializeField] Transform questPanel;

@@ -86,7 +86,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 106074996318126164}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: dd717aa93652da249a89285a3ded90e4, type: 3}
+  m_Script: {fileID: 11500000, guid: c321cf3c2989a874f9be042bd185d5f5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   conversationPanel: {fileID: 8298969776622788727}

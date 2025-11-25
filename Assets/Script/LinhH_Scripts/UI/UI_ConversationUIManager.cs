@@ -10,7 +10,7 @@ using UnityEngine;
 using UnityEngine.Localization;
 using UnityEngine.UI;
 
-public class MGR_ConversationUIManager : MonoBehaviour
+public class UI_ConversationUIManager : MonoBehaviour
 {
     [SerializeField] public GameObject conversationPanel;
 

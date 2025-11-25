@@ -16,6 +16,7 @@ using UnityEngine.UI;
 public class UI_GameplayUIManager : MonoBehaviour
 {
     [Header("Menu UIs")]
+    [SerializeField] public GameObject inventoryUI;
     [SerializeField] public GameObject bagUI;
     [SerializeField] public GameObject generalUI;
     [SerializeField] public GameObject npcUI;
@@ -33,8 +34,8 @@ public class UI_GameplayUIManager : MonoBehaviour
 
 
     // Load from children game objects
-    public MGR_QuestUIManager questUIManager { get; private set; }
-    public MGR_ConversationUIManager conversationUIManager { get; private set; }
+    public UI_QuestUIManager questUIManager { get; private set; }
+    public UI_ConversationUIManager conversationUIManager { get; private set; }
     public UI_SettingUIManager settingUIManager { get; private set; }
 
 
@@ -52,8 +53,8 @@ public class UI_GameplayUIManager : MonoBehaviour
         itemInfoUI_Prefab = Resources.Load<GameObject>("Prefabs/UI/PFB_ItemInfoUI");
 
         // load các thành phần cần thiết
-        questUIManager = GetComponentInChildren<MGR_QuestUIManager>();
-        conversationUIManager = GetComponentInChildren<MGR_ConversationUIManager>();
+        questUIManager = GetComponentInChildren<UI_QuestUIManager>();
+        conversationUIManager = GetComponentInChildren<UI_ConversationUIManager>();
         settingUIManager = GetComponentInChildren<UI_SettingUIManager>();
 
         eventSystem = FindObjectOfType<EventSystem>();
@@ -82,21 +83,11 @@ public class UI_GameplayUIManager : MonoBehaviour
     }
 
 
-    #region General
-    public void ToggleBagUI()
+    private void RefreshUILayer()
     {
-        // tắt UI túi đồ nếu nó đang bật
-        if (bagUI.activeSelf)
-        {
-            bagUI.SetActive(false);
-            isAnyUIOpen = false;
-        }
-        // bật UI túi đồ nếu nó đang tắt và không có UI nào khác đang được bật
-        else if (!isAnyUIOpen)
-        {
-            bagUI.SetActive(true);
-            isAnyUIOpen = true;
-        }
+        if (isAnyUIOpen) { return; }
+
+        inventoryUI.transform.SetAsLastSibling();
     }
 
 
@@ -112,11 +103,33 @@ public class UI_GameplayUIManager : MonoBehaviour
         else if (!isAnyUIOpen)
         {
             generalUI.SetActive(true);
+            isAnyUIOpen = true;
 
             generalUI.transform.SetAsLastSibling();
-            // isAnyUIOpen = true;
         }
     }
+
+
+    public void ToggleBagUI()
+    {
+        // tắt UI túi đồ nếu nó đang bật
+        if (bagUI.activeSelf)
+        {
+            bagUI.SetActive(false);
+            isAnyUIOpen = false;
+
+            RefreshUILayer();
+        }
+        // bật UI túi đồ nếu nó đang tắt và không có UI nào khác đang được bật
+        else if (!isAnyUIOpen)
+        {
+            bagUI.SetActive(true);
+            isAnyUIOpen = true;
+
+            bagUI.transform.parent.SetAsLastSibling();
+        }
+    }
+
 
 
     public void ToggleNPC_UI()
@@ -127,7 +140,7 @@ public class UI_GameplayUIManager : MonoBehaviour
             npcUI.SetActive(false);
             isAnyUIOpen = false;
 
-            generalUI.transform.SetAsLastSibling();
+            RefreshUILayer();
         }
         // bật UI npc nếu nó đang tắt và không có UI nào khác đang được bật
         else if (!isAnyUIOpen)
@@ -146,7 +159,7 @@ public class UI_GameplayUIManager : MonoBehaviour
             questUIManager.EnableQuestUI(false);
             isAnyUIOpen = false;
 
-            generalUI.transform.SetAsLastSibling();
+            RefreshUILayer();
         }
         // bật UI quest nếu nó đang tắt và không có UI nào khác đang được bật
         else if (!isAnyUIOpen)
@@ -174,7 +187,7 @@ public class UI_GameplayUIManager : MonoBehaviour
             settingUIManager.EnableSettingUI(false);
             isAnyUIOpen = false;
 
-            generalUI.transform.SetAsLastSibling();
+            RefreshUILayer();
         }
         // bật UI setting nếu nó đang tắt và không có UI nào khác đang được bật
         else if (!isAnyUIOpen)
@@ -195,6 +208,8 @@ public class UI_GameplayUIManager : MonoBehaviour
         {
             characterUI.SetActive(false);
             isAnyUIOpen = false;
+
+            RefreshUILayer();
         }
         // bật UI thông tin nhân vật nếu nó đang tắt và không có UI nào khác đang được bật
         else if (!isAnyUIOpen)
@@ -203,7 +218,6 @@ public class UI_GameplayUIManager : MonoBehaviour
             isAnyUIOpen = true;
         }
     }
-    #endregion
 
 
     // #region Notification
@@ -334,4 +348,12 @@ public class UI_GameplayUIManager : MonoBehaviour
             itemInfoUI.transform.position = worldCorners[1];
         }
     }
+}
+
+
+public enum OpenedUI
+{
+    GeneralUI,
+    GeneralSubUI,
+    None,
 }

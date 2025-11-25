@@ -8,24 +8,23 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 
+
 [Serializable]
 public class QuestReward
 {
     // TODO: cập nhật thêm loại kinh nghiệm khi đã phát triển
     public int experience;
     public int gold;
-    public List<ItemScriptableObject> items = new List<ItemScriptableObject>();
+    public List<ItemReward> itemRewards = new List<ItemReward>();
+    public CraftingRecipeSO craftingRecipe;
 
-    // TODO: thêm danh sách công thức chế tạo/nấu ăn
+    // TODO: thêm danh sách công thức nấu ăn
+}
 
 
-    /// <summary>
-    /// Phát thưởng cho nhân vật.
-    /// </summary>
-    public void GrantReward()
-    {
-        Debug.Log($"Hoàn thành nhiệm vụ");
-
-        // TODO: Hook into player inventory or stats system
-    }
+[Serializable]
+public class ItemReward
+{
+    public ItemScriptableObject item;
+    public int quantity;
 }
