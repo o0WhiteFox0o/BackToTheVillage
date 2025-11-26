@@ -46,7 +46,8 @@ public class UI_QuestUIManager : MonoBehaviour
     }
 
 
-    private void OnDisable() {
+    private void OnDisable()
+    {
         backButton.onClick.RemoveAllListeners();
     }
 
@@ -86,6 +87,9 @@ public class UI_QuestUIManager : MonoBehaviour
     }
 
 
+    /// <summary>
+    /// Highlight phân loại nhiệm vụ đang được chọn trên giao diện nhiệm vụ.
+    /// </summary>
     private void HighlightQuestCategorizeButton(int index)
     {
         foreach (var questCategorize in questCategorizeHighlights_List)
@@ -97,6 +101,9 @@ public class UI_QuestUIManager : MonoBehaviour
     }
 
 
+    /// <summary>
+    /// Hiển thị danh sách nhiệm vụ được truyền vào lên Quest UI.
+    /// </summary>
     private void DisplayQuestList(List<IQuestProgress> questProgress_List)
     {
         // clear các nhiệm vụ danh có trong panel
@@ -147,6 +154,9 @@ public class UI_QuestUIManager : MonoBehaviour
     }
 
 
+    /// <summary>
+    /// Highlight nhiệm vụ đang được chọn trên giao diện nhiệm vụ.
+    /// </summary>
     private void HighlightQuestSelected(int selectedIndex)
     {
         // tắt highlight của toàn bộ quest
@@ -163,5 +173,6 @@ public class UI_QuestUIManager : MonoBehaviour
     public void EnableQuestUI()
     {
         backgroundImage.SetActive(true);
+        FillQuestCategorize(0);
     }
 }

@@ -20,16 +20,19 @@ public class UI_ConversationUIManager : MonoBehaviour
     [SerializeField] public Transform decisionPanel;
     [SerializeField] public Button skipButton;
 
+    private UI_GameplayUIManager gameplayUIManager;
+
     private GameObject decisionButton_Prefab;
 
 
     private void Start()
     {
         decisionButton_Prefab = Resources.Load<GameObject>("Prefabs/UI/PFB_DecisionButton");
+        gameplayUIManager = GetComponentInParent<UI_GameplayUIManager>();
 
         var conversationManger = FindObjectOfType<MGR_ConversationManager>();
 
-        if (decisionButton_Prefab == null || conversationManger == null)
+        if (decisionButton_Prefab == null || conversationManger == null || gameplayUIManager == null)
         {
             Debug.LogError("Can't load component.");
         }
@@ -111,5 +114,6 @@ public class UI_ConversationUIManager : MonoBehaviour
     public void EnableConversationPanel(bool enable)
     {
         conversationPanel.SetActive(enable);
+        transform.SetAsLastSibling();
     }
 }

@@ -212,6 +212,7 @@ public class MGR_ConversationManager : MonoBehaviour
         OnConversationEnd?.Invoke(conversationData);
 
         gameplayUIManager.conversationUIManager.HideDecisionPanel();
+        gameplayUIManager.conversationUIManager.transform.SetAsFirstSibling();
     }
 
 

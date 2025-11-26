@@ -43,14 +43,13 @@ public class UI_GameplayUIManager : MonoBehaviour
 
     // Temporary variables
     private GameObject itemInfoUI;
-    private OpenedUI _openedUI;
     private Stack<GameObject> openedUIs = new Stack<GameObject>();
+    private bool generalUIOpen = false;
 
 
     private void Start()
     {
         // thiết lập các biến cần thiết
-        _openedUI = OpenedUI.None;
         openedUIs.Clear();
 
         // load các thành phần từ Resources
@@ -72,7 +71,8 @@ public class UI_GameplayUIManager : MonoBehaviour
 
         // đăng ký sự kiện cần thiết
         InputManager.OnOpenBagPress += EnableBagUI;
-        InputManager.OnGeneralUIPress += EnableGeneralUI;
+        InputManager.OnEscPress += EnableGeneralUI;
+        InputManager.OnEscPress += DisableUI;
         InputManager.OnQuestUIButtonPress += EnableQuestUI;
 
         RefreshUILayer();
@@ -84,7 +84,8 @@ public class UI_GameplayUIManager : MonoBehaviour
     private void OnDisable()
     {
         InputManager.OnOpenBagPress -= EnableBagUI;
-        InputManager.OnGeneralUIPress -= EnableGeneralUI;
+        InputManager.OnEscPress -= EnableGeneralUI;
+        InputManager.OnEscPress -= DisableUI;
         InputManager.OnQuestUIButtonPress -= EnableQuestUI;
     }
 
@@ -111,7 +112,14 @@ public class UI_GameplayUIManager : MonoBehaviour
 
     public void DisableUI()
     {
-        Debug.Log($"close {openedUIs.Peek().name}");
+        if (openedUIs.Count == 0) { return; }
+
+        // nếu general UI vừa được mở thì không đóng nó ngay lập tức
+        if (generalUIOpen)
+        {
+            generalUIOpen = false;
+            return;
+        }
 
         openedUIs.Peek().SetActive(false);
         RefreshUILayer();
@@ -127,13 +135,15 @@ public class UI_GameplayUIManager : MonoBehaviour
         generalUI.transform.SetAsLastSibling();
 
         openedUIs.Push(generalUI);
+
+        generalUIOpen = true;
     }
 
 
     public void EnableBagUI()
     {
-        // // không thể mở general UI khi có một UI bất kỳ được mở
-        // if (openedUIs.Count != 0) { return; }
+        // không thể mở setting ui khi nó đang mở
+        if (bagUI.activeSelf) { return; }
 
         bagUI.SetActive(true);
         inventoryUI.transform.SetAsLastSibling();
@@ -145,8 +155,8 @@ public class UI_GameplayUIManager : MonoBehaviour
 
     public void EnableNPC_UI()
     {
-        // // không thể mở general UI khi có một UI bất kỳ được mở
-        // if (openedUIs.Count != 0) { return; }
+        // không thể mở setting ui khi nó đang mở
+        if (npcUI.activeSelf) { return; }
 
         npcUI.SetActive(true);
         npcUI.transform.SetAsLastSibling();
@@ -157,8 +167,8 @@ public class UI_GameplayUIManager : MonoBehaviour
 
     public void EnableQuestUI()
     {
-        // // không thể mở general UI khi có một UI bất kỳ được mở
-        // if (openedUIs.Count != 0) { return; }
+        // không thể mở quest ui khi nó đang mở
+        if (questUIManager.backgroundImage.activeSelf) { return; }
 
         questUIManager.EnableQuestUI();
         questUIManager.gameObject.transform.SetAsLastSibling();
@@ -169,8 +179,8 @@ public class UI_GameplayUIManager : MonoBehaviour
 
     public void EnableSettingUI()
     {
-        // // không thể mở general UI khi có một UI bất kỳ được mở
-        // if (openedUIs.Count != 0) { return; }
+        // không thể mở setting ui khi nó đang mở
+        if (settingUIManager.settingPanel.activeSelf) { return; }
 
         settingUIManager.EnableSettingUI();
         settingUIManager.gameObject.transform.SetAsLastSibling();
@@ -181,8 +191,8 @@ public class UI_GameplayUIManager : MonoBehaviour
 
     public void EnableCharacterUI()
     {
-        // // không thể mở general UI khi có một UI bất kỳ được mở
-        if (openedUIs.Count != 0) { return; }
+        // không thể mở character ui khi nó đang mở
+        if (characterUI.activeSelf) { return; }
 
         characterUI.SetActive(true);
         characterUI.transform.SetAsLastSibling();
@@ -227,6 +237,9 @@ public class UI_GameplayUIManager : MonoBehaviour
     // #endregion
 
 
+    /// <summary>
+    /// Bật UI hiển thị thông tin vật phẩm.
+    /// </summary>
     public void EnableItemInfoUI(Transform inventorySlot)
     {
         // 1. Tạo UI
@@ -313,12 +326,4 @@ public class UI_GameplayUIManager : MonoBehaviour
             itemInfoUI.transform.position = worldCorners[1];
         }
     }
-}
-
-
-public enum OpenedUI
-{
-    GeneralUI,
-    GeneralSubUI,
-    None,
 }
