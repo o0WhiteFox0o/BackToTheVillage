@@ -14,7 +14,15 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_TableCollectionName: Conversation
   m_TableCollectionNameGuidString: cbda8ead46749ef4baf0c5648633ae02
-  m_Entries: []
+  m_Entries:
+  - m_Id: 1780583278723072
+    m_Key: conv.test1.tuDiep1
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1780698362036224
+    m_Key: conv.test1.tuDiep2
+    m_Metadata:
+      m_Items: []
   m_Metadata:
     m_Items: []
   m_KeyGenerator:

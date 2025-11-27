@@ -11,15 +11,16 @@ using UnityEngine;
 using UnityEngine.UI;
 
 
-public class MGR_QuestUIManager : MonoBehaviour
+public class UI_QuestUIManager : MonoBehaviour
 {
+    [SerializeField] public GameObject backgroundImage;
     [SerializeField] Transform questPanel;
 
     [Tooltip("Danh sách các đối tượng highlight của các nút phân loại nhiệm vụ.")]
     [SerializeField] public List<GameObject> questCategorizeHighlights_List;
     [SerializeField] GameObject noQuestInList_Text;
     [SerializeField] public GameObject questUI_Notification;
-    [SerializeField] public GameObject backgroundImage;
+    [SerializeField] public Button backButton;
 
     private List<GameObject> questPrefab_List = new List<GameObject>();
     private UI_QuestDetails questDetailsUI;
@@ -34,10 +35,20 @@ public class MGR_QuestUIManager : MonoBehaviour
 
         questUI_Prefab = Resources.Load<GameObject>("Prefabs/UI/PFB_QuestUI");
 
-        if (questManager == null || questDetailsUI == null || questUI_Prefab == null)
+        var gameplayUIMgr = GetComponentInParent<UI_GameplayUIManager>();
+
+        if (questManager == null || questDetailsUI == null || questUI_Prefab == null || gameplayUIMgr == null)
         {
             Debug.LogError("Can't load a manager component.");
         }
+
+        backButton.onClick.AddListener(gameplayUIMgr.DisableUI);
+    }
+
+
+    private void OnDisable()
+    {
+        backButton.onClick.RemoveAllListeners();
     }
 
 
@@ -76,6 +87,9 @@ public class MGR_QuestUIManager : MonoBehaviour
     }
 
 
+    /// <summary>
+    /// Highlight phân loại nhiệm vụ đang được chọn trên giao diện nhiệm vụ.
+    /// </summary>
     private void HighlightQuestCategorizeButton(int index)
     {
         foreach (var questCategorize in questCategorizeHighlights_List)
@@ -87,6 +101,9 @@ public class MGR_QuestUIManager : MonoBehaviour
     }
 
 
+    /// <summary>
+    /// Hiển thị danh sách nhiệm vụ được truyền vào lên Quest UI.
+    /// </summary>
     private void DisplayQuestList(List<IQuestProgress> questProgress_List)
     {
         // clear các nhiệm vụ danh có trong panel
@@ -137,10 +154,11 @@ public class MGR_QuestUIManager : MonoBehaviour
     }
 
 
+    /// <summary>
+    /// Highlight nhiệm vụ đang được chọn trên giao diện nhiệm vụ.
+    /// </summary>
     private void HighlightQuestSelected(int selectedIndex)
     {
-        Debug.Log($"press button: {selectedIndex}");
-
         // tắt highlight của toàn bộ quest
         foreach (var questUI in questPrefab_List)
         {
@@ -152,8 +170,9 @@ public class MGR_QuestUIManager : MonoBehaviour
     }
 
 
-    public void EnableQuestUI(bool enable)
+    public void EnableQuestUI()
     {
-        backgroundImage.SetActive(enable);
+        backgroundImage.SetActive(true);
+        FillQuestCategorize(0);
     }
 }

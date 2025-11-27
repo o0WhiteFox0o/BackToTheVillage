@@ -9,12 +9,12 @@ public class InventorySlot : MonoBehaviour, IDropHandler, IPointerClickHandler, 
 {
     [SerializeField] private GameObject selectedHighlight;
 
-    private GameplayUIManager gameplayUIManager;
+    private UI_GameplayUIManager gameplayUIManager;
 
 
     private void Start()
     {
-        gameplayUIManager = FindObjectOfType<GameplayUIManager>();
+        gameplayUIManager = FindObjectOfType<UI_GameplayUIManager>();
 
         if (gameplayUIManager == null)
         {
@@ -220,6 +220,9 @@ public class InventorySlot : MonoBehaviour, IDropHandler, IPointerClickHandler, 
     /// </summary>
     public void OnPointerEnter(PointerEventData eventData)
     {
+        Debug.Log("...");
+
+
         // nếu slot không chứa vật phẩm nào thì không làm gì
         if (transform.childCount == GameConstants.DEFAULT_INVENTORY_SLOT_CHILDREN_COUNT) { return; }
 

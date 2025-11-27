@@ -22,7 +22,7 @@ public class InputManager : MonoBehaviour
     /// <summary>
     /// Bắt sự kiện khi người chơi nhận phím đóng/mở giao diện tổng hợp.
     /// </summary>
-    public static event Action OnGeneralUIPress;
+    public static event Action OnEscPress;
 
     /// <summary>
     /// Bắt sự kiện khi người chơi nhấn phím thay đổi vật phẩm.
@@ -116,7 +116,7 @@ public class InputManager : MonoBehaviour
     {
         if (Input.GetKeyDown(keyBindings["OpenGeneralUI"]))
         {
-            OnGeneralUIPress?.Invoke();
+            OnEscPress?.Invoke();
         }
     }
 

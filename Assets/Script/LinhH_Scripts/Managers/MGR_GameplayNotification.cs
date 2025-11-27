@@ -12,7 +12,7 @@ using UnityEngine;
 /// </summary>
 public class MGR_GameplayNotification : MonoBehaviour
 {
-    private GameplayUIManager gameplayUIManager;
+    private UI_GameplayUIManager gameplayUIManager;
     private MGR_QuestManager questManager;
 
     private int questAmount = 0;
@@ -20,7 +20,7 @@ public class MGR_GameplayNotification : MonoBehaviour
 
     private void Start()
     {
-        gameplayUIManager = FindObjectOfType<GameplayUIManager>();
+        gameplayUIManager = FindObjectOfType<UI_GameplayUIManager>();
         questManager = FindObjectOfType<MGR_QuestManager>();
 
         if (gameplayUIManager == null || questManager == null)
@@ -43,7 +43,6 @@ public class MGR_GameplayNotification : MonoBehaviour
     private void UpdateQuestNotification()
     {
         // nếu có nhiệm vụ nào bị loại bỏ khỏi danh sách thì không cần hiển thị thông báo
-        Debug.Log($"current quest {questAmount}, quest in list {questManager.activeQuests_List.Count}");
         if (questAmount >= questManager.activeQuests_List.Count)
         {
             questAmount = questManager.activeQuests_List.Count;

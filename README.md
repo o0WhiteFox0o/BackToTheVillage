@@ -105,38 +105,43 @@
 > ## Scene Organization Guidelines
 >
 > Cách thức tổ chức Scene trong dự án  
->> **SCENE**
->> - **SYSTEMS**
->>   - **Game_Manager** - Chứa các thành phần quản lý chung của scene/trò chơi.
->>   - **Audio_Manager** - Chứa các thành phần quản lý âm thanh của scene/trò chơi.
->>   - **UI_Manager** - Chứa các thành phần quản lý giao diện của scene/trò chơi.
->>   - **Input_Manager** - Chứa các thành phần quản lý đầu vào của scene/trò chơi.
->>   - Others system manager ...
->> - **ENVIRONMENT**
->>   - **Isometric_Grid** - Chứa bản đồ isometric của màn chơi.
->>       - **Ground** - Chứa bản đồ isometric của nền đất (đất, đường đi, nước, ...)
->>       - **Fishing** - Chứa các ô đánh dấu khu vực nước có thể câu cá.
->>       - **Decoration** - Chứa các đối tượng trang trí trong bản đồ.
->>   - **Lighting**
->>   - **Buildings** - Chứa các đối tượng công trình trong màn chơi.
->> - **INTERACTABLE**
->>   - **Collectibles** - Chứa các đối tượng có thể thu thập được trong màn chơi.
->>   - **Triggers** - 
->>   - **Door** - 
->> - **CHARACTERS**
->>   - **Player**
->>   - **NPCs**
->> - **VFX**
->>   - **Environment_FX**
->>   - **Character_FX**
->>   - **Event_FX**
->> - **AUDIO**
->>   - **Ambiant_Sound**
->>   - **Environment_SFX**
->>   - **Event_SFX**
->> - **UI**
->>   - **Canvas_Main**
->>   - **Canvas_Pause**  
+> **SCENE**
+> | Game Object | Mô tả | Script cần có |
+> | --- | --- | --- |
+> | +-- **SYSTEMS** | |
+> | &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; +-- **Game_Manager** | Chứa các thành phần quản lý chung của scene/trò chơi. |
+> | &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; +-- **Audio_Manager** | Chứa các thành phần quản lý âm thanh của scene/trò chơi. |
+> | &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; +-- **Input_Manager** | Chứa các thành phần quản lý đầu vào của scene/trò chơi. | 
+> | &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; +-- Others system manager ... | |
+> | +-- **ENVIRONMENT**  | |
+> | &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; +-- **Isometric_Grid** | Chứa bản đồ isometric của màn chơi. |
+> | &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;  +-- **Ground** | Chứa bản đồ isometric của nền đất (đất, đường đi, nước, ...)  |
+> | &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;  +-- **Fishing** | Chứa các ô đánh dấu khu vực nước có thể câu cá. |
+> | &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;  +-- **Decoration** | Chứa các đối tượng trang trí trong bản đồ. |
+> | &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; +-- **Lighting**  | |
+> | &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; +-- **Buildings** | Chứa các đối tượng công trình trong màn chơi. |
+> | +-- **INTERACTABLE**  | |
+> | &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; +-- **Collectibles** | Chứa các đối tượng có thể thu thập được trong màn chơi. |
+> | &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; +-- **Triggers** | |
+> | &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; +-- **Door** | |
+> | +-- **CHARACTERS**  | |
+> | &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; +-- **Player** | |
+> | &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; +-- **NPCs** | |
+> | +-- **VFX**  | |
+> | &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; +-- **Environment_FX** | |
+> | &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; +-- **Character_FX** | |
+> | &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; +-- **Event_FX** | |
+> | +-- **AUDIO**  | |
+> | &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; +-- **Ambiant_Sound** | |
+> | &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; +-- **Environment_SFX** | | 
+> | &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; +-- **Event_SFX** | |
+> | +-- **UI**  | | UI_GameplayUIManager |
+> | &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; +-- **Inventory_UI** | Chứa các thành phần trong giao diện Hotbar và túi đồ |
+> | &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; +-- **Conversation_UI**  | Chứa các thành phần trong giao diện hội thoại | UI_ConversationUIManager |
+> | &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; +-- **General_UI**  | Chứa các nút của các chức năng cơ bản (cài đặt, thông tin nhân vật, các npc, ...) | 
+> | &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; +-- **Setting_UI**  | Chứa các thành phần của giao diện cài đặt | UI_SettingUIManager |
+> | &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; +-- **Quest_UI**  | Chứa các thành phần của giao diện nhiệm vụ | UI_QuestUIManager |
+> | &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; +-- **NPC_UI**  | Chứa các thành phần của giao diện NPC | UI_NpcUIManager |
 >  
 > 
 

@@ -54,6 +54,14 @@ MonoBehaviour:
     m_Localized: Setting
     m_Metadata:
       m_Items: []
+  - m_Id: 4339721900802048
+    m_Localized: Language
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4695001071239168
+    m_Localized: 'You have just complete the '
+    m_Metadata:
+      m_Items: []
   references:
     version: 2
     RefIds: []
