@@ -124,6 +124,10 @@ MonoBehaviour:
     m_Localized: "\u0110\xE2y L\xE0 B\u1EABy"
     m_Metadata:
       m_Items: []
+  - m_Id: 5474960110325760
+    m_Localized: "\u0110\xE2y L\xE0 S\xE0 L\xE1ch\n"
+    m_Metadata:
+      m_Items: []
   references:
     version: 2
     RefIds: []

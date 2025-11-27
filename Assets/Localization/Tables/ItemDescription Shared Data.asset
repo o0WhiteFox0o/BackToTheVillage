@@ -83,6 +83,10 @@ MonoBehaviour:
     m_Key: itemDesc.trap
     m_Metadata:
       m_Items: []
+  - m_Id: 5474960110325760
+    m_Key: itemDesc.salad
+    m_Metadata:
+      m_Items: []
   m_Metadata:
     m_Items: []
   m_KeyGenerator:

@@ -62,6 +62,18 @@ MonoBehaviour:
     m_Localized: 'You have just complete the '
     m_Metadata:
       m_Items: []
+  - m_Id: 5433503630561280
+    m_Localized: Cook
+    m_Metadata:
+      m_Items: []
+  - m_Id: 5433599340384256
+    m_Localized: Quick Cook
+    m_Metadata:
+      m_Items: []
+  - m_Id: 5441124173418496
+    m_Localized: 'Mastery:'
+    m_Metadata:
+      m_Items: []
   references:
     version: 2
     RefIds: []

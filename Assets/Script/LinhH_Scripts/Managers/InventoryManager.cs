@@ -16,7 +16,8 @@ public enum ItemType
     Consumable,
     ItemQuest,
     Miscellaneous,
-    CraftingRecipe
+    CraftingRecipe,
+    Food
 }
 
 namespace Management

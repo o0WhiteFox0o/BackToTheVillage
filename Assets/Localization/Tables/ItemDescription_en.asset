@@ -106,6 +106,10 @@ MonoBehaviour:
     m_Localized: This is Trap
     m_Metadata:
       m_Items: []
+  - m_Id: 5474960110325760
+    m_Localized: This Is Salad
+    m_Metadata:
+      m_Items: []
   references:
     version: 2
     RefIds: []

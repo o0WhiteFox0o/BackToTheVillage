@@ -12,12 +12,7 @@ public class CraftingRecipeSO : ItemScriptableObject
     [Tooltip("Danh sách nguyên liệu cần thiết")]
     public List<MaterialCost> materials;
 
-    [System.Serializable]
-    public class MaterialCost
-    {
-        public ItemScriptableObject item;
-        public int quantity;
-    }
+    
 
     // Ghi đè để nó không phải là item bình thường
     private void OnValidate()
@@ -27,3 +22,9 @@ public class CraftingRecipeSO : ItemScriptableObject
         canSell = false;
     }
 }
+[System.Serializable]
+    public class MaterialCost
+    {
+        public ItemScriptableObject item;
+        public int quantity;
+    }
