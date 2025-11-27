@@ -77,20 +77,20 @@ MonoBehaviour:
   - {fileID: 21300000, guid: f3ca3f6a6e9e2af42a8d8edcd3cdfa28, type: 3}
   - {fileID: 21300000, guid: c5192dae46f250e40a24ee581015898a, type: 3}
   LT_watering:
-  - {fileID: 21300000, guid: 6adcec08fa927ca45a19e8c3cd41cc4c, type: 3}
-  - {fileID: 21300000, guid: 6adcec08fa927ca45a19e8c3cd41cc4c, type: 3}
-  - {fileID: 21300000, guid: 6adcec08fa927ca45a19e8c3cd41cc4c, type: 3}
-  - {fileID: 21300000, guid: 6adcec08fa927ca45a19e8c3cd41cc4c, type: 3}
+  - {fileID: 21300000, guid: 67de3247653eb9648a796ac24e13cd0e, type: 3}
+  - {fileID: 21300000, guid: 1c5b84b33dd34fa4684ef9aa0270fe5a, type: 3}
+  - {fileID: 21300000, guid: dcfc7ed10ecd7d54fa523836315af661, type: 3}
+  - {fileID: 21300000, guid: 67de3247653eb9648a796ac24e13cd0e, type: 3}
   LD_watering:
   - {fileID: 21300000, guid: 5cc2e8cbdc666b94c9c0dec7c3991886, type: 3}
   - {fileID: 21300000, guid: 5cc2e8cbdc666b94c9c0dec7c3991886, type: 3}
   - {fileID: 21300000, guid: 5cc2e8cbdc666b94c9c0dec7c3991886, type: 3}
   - {fileID: 21300000, guid: 5cc2e8cbdc666b94c9c0dec7c3991886, type: 3}
   RT_watering:
-  - {fileID: 21300000, guid: 30de78aadf9842345a42d8a63e6f37c8, type: 3}
-  - {fileID: 21300000, guid: 30de78aadf9842345a42d8a63e6f37c8, type: 3}
-  - {fileID: 21300000, guid: 30de78aadf9842345a42d8a63e6f37c8, type: 3}
-  - {fileID: 21300000, guid: 30de78aadf9842345a42d8a63e6f37c8, type: 3}
+  - {fileID: 21300000, guid: aac21ad1d3cf72541960cdf0258795e4, type: 3}
+  - {fileID: 21300000, guid: a4d53b63ac7f2cf42a19c912b76a17c8, type: 3}
+  - {fileID: 21300000, guid: 43a64ae3b29596b448a5627d0d938d6d, type: 3}
+  - {fileID: 21300000, guid: aac21ad1d3cf72541960cdf0258795e4, type: 3}
   RD_watering:
   - {fileID: 21300000, guid: d43e89bd5a989bf4895344b54fb7ddee, type: 3}
   - {fileID: 21300000, guid: d43e89bd5a989bf4895344b54fb7ddee, type: 3}
