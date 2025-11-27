@@ -15,7 +15,7 @@ public class QuestReward
     // TODO: cập nhật thêm loại kinh nghiệm khi đã phát triển
     public int experience;
     public int gold;
-    public List<ItemReward> itemRewards = new List<ItemReward>();
+    public List<ItemStack> itemRewards = new List<ItemStack>();
     public CraftingRecipeSO craftingRecipe;
 
     // TODO: thêm danh sách công thức nấu ăn
@@ -23,7 +23,7 @@ public class QuestReward
 
 
 [Serializable]
-public class ItemReward
+public class ItemStack
 {
     public ItemScriptableObject item;
     public int quantity;
