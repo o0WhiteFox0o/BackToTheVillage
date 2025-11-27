@@ -150,6 +150,8 @@ public class MGR_ConversationManager : MonoBehaviour
     /// </summary>
     public void PlayNextLine()
     {
+        if (!isConversationActive) { return; }
+
         bool skipTyping = false;
 
         // nếu thoại đang chạy thì hiển thị nó đầy đủ
@@ -246,6 +248,8 @@ public class MGR_ConversationManager : MonoBehaviour
 
     private void UpdateDecisionOptions()
     {
+        if (!isConversationActive) { return; }
+
         // nếu cuộc hội thoại không có lựa chọn thì dừng
         if (conversationData.decisionIndex == -1) { return; }
 
