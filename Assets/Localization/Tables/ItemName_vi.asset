@@ -90,6 +90,14 @@ MonoBehaviour:
     m_Localized: "C\xE1 Tr\xEA"
     m_Metadata:
       m_Items: []
+  - m_Id: 5473717023477760
+    m_Localized: "S\xE0 L\xE1ch"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 5474588683735040
+    m_Localized: "C\xF4ng Th\u1EE9c S\xE0 l\xE1ch"
+    m_Metadata:
+      m_Items: []
   references:
     version: 2
     RefIds: []
