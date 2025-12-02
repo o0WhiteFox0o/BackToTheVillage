@@ -8,6 +8,8 @@ TagManager:
   - Ground
   - InventorySlot
   - NPC
+  - Crop
+  - Soil
   layers:
   - Default
   - TransparentFX

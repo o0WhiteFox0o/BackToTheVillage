@@ -6,7 +6,7 @@ public class AppearanceController : MonoBehaviour
     public SpriteRenderer body;
     public SpriteRenderer face;
     public SpriteRenderer hair;
-    public SpriteRenderer cloth;   // <-- m?i thêm
+    public SpriteRenderer cloth;   
 
     [Header("Data Sets")]
     public BodySetSO bodySet;
@@ -52,6 +52,7 @@ public class AppearanceController : MonoBehaviour
         string currentState =
             state.IsName("Digging Tree") ? "Digging" :
             state.IsName("Watering Tree") ? "Watering" :
+            state.IsName("Harverst Tree") ? "Harvest" :
             (isMoving ? "Walk" : "Idle");
 
         // Reset frame khi ??i state
@@ -81,6 +82,17 @@ public class AppearanceController : MonoBehaviour
                 GetFrame(faceSet, dir, "Watering"),
                 GetFrame(hairSet, dir, "Watering"),
                 GetFrame(clothSet, dir, "Watering")
+            );
+            return;
+        }
+        // Harvest
+        if (currentState == "Harvest")
+        {
+            SetSprites(
+                GetFrame(bodySet, dir, "Harvest"),
+                GetFrame(faceSet, dir, "Harvest"),
+                GetFrame(hairSet, dir, "Harvest"),
+                GetFrame(clothSet, dir, "Harvest")
             );
             return;
         }
@@ -154,6 +166,15 @@ public class AppearanceController : MonoBehaviour
                 Direction.RD => set.RD_watering,
                 _ => set.RD_watering
             },
+            "Harvest" => dir switch
+            {
+                Direction.LT => set.LT_harvest,
+                Direction.LD => set.LD_harvest,
+                Direction.RT => set.RT_harvest,
+                Direction.RD => set.RD_harvest,
+                _ => set.RD_harvest
+            },
+
 
             _ => set.LT_idle
         };
