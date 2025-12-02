@@ -95,6 +95,18 @@ MonoBehaviour:
     m_Key: itemName.saladrecipe
     m_Metadata:
       m_Items: []
+  - m_Id: 7235905081905152
+    m_Key: 'itemName.testTimingRecipe
+
+'
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7236157981659136
+    m_Key: 'itemName.testRhythmRecipe
+
+'
+    m_Metadata:
+      m_Items: []
   m_Metadata:
     m_Items: []
   m_KeyGenerator:

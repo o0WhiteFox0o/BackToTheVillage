@@ -1,36 +1,28 @@
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-using UnityEngine.Localization;
+﻿using UnityEngine;
 
-public enum CookingToolType
+// Enum các loại minigame
+public enum MinigameType
 {
-    CuttingBoard,
-    FryingPan,
-    Pot
+    Chopping, // Băm chặt (Spam nút)
+    Timing,   // Canh thời gian (Thanh trượt)
+    Rhythm    // Nhịp điệu (Bấm đúng thứ tự)
 }
-public enum CookingMinigameType
+
+[CreateAssetMenu(fileName = "New Cooking Recipe", menuName = "Cooking/Cooking Recipe")]
+public class CookingRecipeSO : CraftingRecipeSO
 {
-    Chopping,
-    Frying,
-    Sequence
-}
-[CreateAssetMenu(fileName = "NewCookingRecipe", menuName = "Cooking/CookingRecipe")]
-public class CookingRecipeSO : ScriptableObject
-{
-   public LocalizedString dishName;
-   public LocalizedString description;
-   public ItemScriptableObject resultItem; // Thành Phẩm
+    [Header("Cooking Specifics")]
+    public MinigameType minigameType;
 
-   [Header("Yêu cầu")]
-   public CookingToolType requiredTool;// Dụng cụ nấu ăn
-   public List<MaterialCost> ingredients; // Nguyên liệu
+    [Tooltip("Số lần nấu thành công để mở khóa Nấu Nhanh")]
+    public int masteryThreshold = 5;
 
-   [Header("Minigame")]
-   public CookingMinigameType minigameType;
-   [Range(1, 10)] public float difficulty = 1f;
-   public float timeLimit = 10f;
-
-   [Header("Thành thạo")]
-   public int masteryThreshold = 5; // Thành thạo công thức
+    // Override để phân loại item nếu cần
+    private void OnValidate()
+    {
+        // Có thể tạo thêm ItemType.CookingRecipe nếu muốn
+        itemType = ItemType.CraftingRecipe;
+        stackable = false;
+        canSell = false;
+    }
 }
