@@ -9,16 +9,16 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 272e1ef824f163a4889cbe00fa6cc682, type: 3}
-  m_Name: Rasbora
+  m_Script: {fileID: 11500000, guid: b1d09c5503997de43b2bd08a3a056096, type: 3}
+  m_Name: TestTiming
   m_EditorClassIdentifier: 
   id: 
-  icon: {fileID: 21300000, guid: 7387b1ae3a57a434aa5b0462dbec66dc, type: 3}
+  icon: {fileID: 0}
   displayName:
     m_TableReference:
       m_TableCollectionName: GUID:617205a636be30b4ebf3ebb48dae06a2
     m_TableEntryReference:
-      m_KeyId: 2532641678180352
+      m_KeyId: 7235905081905152
       m_Key: 
     m_FallbackState: 0
     m_WaitForCompletion: 0
@@ -32,24 +32,22 @@ MonoBehaviour:
     m_FallbackState: 0
     m_WaitForCompletion: 0
     m_LocalVariables: []
-  stackable: 1
+  stackable: 0
   canSell: 0
-  itemType: 1
+  itemType: 12
   buyPrice: 0
   sellPrice: 0
   itemPrefab: {fileID: 0}
   plantPrefab: {fileID: 0}
-  xpGranted: 10
-  rarity: 1
-  min_weight: 1
-  min_length: 10
-  max_weight: 20
-  max_length: 25
-  qteBarSpeed: 0.5
-  successWindowSize: 0.5
-  maxGameTime: 50
-  progressIncrease: 0.1
-  progressDecrease: 0.05
+  itemToCraft: {fileID: 11400000, guid: aca85b81ec51fa14b8c2e5f4396690d8, type: 2}
+  quantityCreated: 1
+  materials:
+  - item: {fileID: 11400000, guid: 126073db65743b44d97bf5d3b59595b8, type: 2}
+    quantity: 0
+  - item: {fileID: 11400000, guid: 9e753f07f5f241c43a59639f075d64a7, type: 2}
+    quantity: 0
+  minigameType: 1
+  masteryThreshold: 5
   references:
     version: 2
     RefIds: []

@@ -9,47 +9,36 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 272e1ef824f163a4889cbe00fa6cc682, type: 3}
-  m_Name: Rasbora
+  m_Script: {fileID: 11500000, guid: 4f2974b2ff9ce3345bcd8931ef4e710c, type: 3}
+  m_Name: Salad
   m_EditorClassIdentifier: 
   id: 
-  icon: {fileID: 21300000, guid: 7387b1ae3a57a434aa5b0462dbec66dc, type: 3}
+  icon: {fileID: 21300000, guid: f97b96d1db2b8b240ba6c22f90edfb53, type: 3}
   displayName:
     m_TableReference:
       m_TableCollectionName: GUID:617205a636be30b4ebf3ebb48dae06a2
     m_TableEntryReference:
-      m_KeyId: 2532641678180352
+      m_KeyId: 5473717023477760
       m_Key: 
     m_FallbackState: 0
     m_WaitForCompletion: 0
     m_LocalVariables: []
   itemDescription:
     m_TableReference:
-      m_TableCollectionName: 
+      m_TableCollectionName: GUID:95ab3aa9c95b5c2448881d7d9476e40c
     m_TableEntryReference:
-      m_KeyId: 0
+      m_KeyId: 5474960110325760
       m_Key: 
     m_FallbackState: 0
     m_WaitForCompletion: 0
     m_LocalVariables: []
   stackable: 1
-  canSell: 0
-  itemType: 1
-  buyPrice: 0
-  sellPrice: 0
+  canSell: 1
+  itemType: 13
+  buyPrice: 20
+  sellPrice: 10
   itemPrefab: {fileID: 0}
   plantPrefab: {fileID: 0}
-  xpGranted: 10
-  rarity: 1
-  min_weight: 1
-  min_length: 10
-  max_weight: 20
-  max_length: 25
-  qteBarSpeed: 0.5
-  successWindowSize: 0.5
-  maxGameTime: 50
-  progressIncrease: 0.1
-  progressDecrease: 0.05
   references:
     version: 2
     RefIds: []

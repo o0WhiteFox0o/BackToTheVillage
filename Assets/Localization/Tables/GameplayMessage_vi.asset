@@ -71,6 +71,18 @@ MonoBehaviour:
     m_Localized: "Hi\u1EC7u \u1EE9ng \xE2m thanh"
     m_Metadata:
       m_Items: []
+  - m_Id: 5433503630561280
+    m_Localized: "N\u1EA5u"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 5433599340384256
+    m_Localized: "N\u1EA5u Nhanh"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 5441124173418496
+    m_Localized: "Th\xE0nh Th\u1EA1o:"
+    m_Metadata:
+      m_Items: []
   references:
     version: 2
     RefIds: []

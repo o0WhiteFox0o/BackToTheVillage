@@ -16,9 +16,9 @@ MonoBehaviour:
   icon: {fileID: 21300000, guid: 3c7c095098044474c8e4de64489666f2, type: 3}
   displayName:
     m_TableReference:
-      m_TableCollectionName: 
+      m_TableCollectionName: GUID:617205a636be30b4ebf3ebb48dae06a2
     m_TableEntryReference:
-      m_KeyId: 0
+      m_KeyId: 2533877945090048
       m_Key: 
     m_FallbackState: 0
     m_WaitForCompletion: 0

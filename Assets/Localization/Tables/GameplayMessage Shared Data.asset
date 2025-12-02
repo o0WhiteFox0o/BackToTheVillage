@@ -67,6 +67,22 @@ MonoBehaviour:
     m_Key: gMsg.settingUI.sfx
     m_Metadata:
       m_Items: []
+  - m_Id: 5433503630561280
+    m_Key: 'gMsg.cookbutton
+
+'
+    m_Metadata:
+      m_Items: []
+  - m_Id: 5433599340384256
+    m_Key: 'gMsg.quickcookbutton
+
+'
+    m_Metadata:
+      m_Items: []
+  - m_Id: 5441124173418496
+    m_Key: gMsg.mastery
+    m_Metadata:
+      m_Items: []
   m_Metadata:
     m_Items: []
   m_KeyGenerator:

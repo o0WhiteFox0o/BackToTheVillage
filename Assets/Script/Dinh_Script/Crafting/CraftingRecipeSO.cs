@@ -10,19 +10,14 @@ public class CraftingRecipeSO : ItemScriptableObject
     public int quantityCreated = 1;
 
     [Tooltip("Danh sách nguyên liệu cần thiết")]
-    public List<MaterialCost> materials;
+    public List<ItemStack> materials;
 
-    [System.Serializable]
-    public class MaterialCost
-    {
-        public ItemScriptableObject item;
-        public int quantity;
-    }
+
 
     // Ghi đè để nó không phải là item bình thường
     private void OnValidate()
     {
-        itemType = ItemType.CraftingRecipe; 
+        itemType = ItemType.CraftingRecipe;
         stackable = false;
         canSell = false;
     }
