@@ -2742,6 +2742,8 @@ MonoBehaviour:
   noQuestInList_Text: {fileID: 5626127447938335319}
   questUI_Notification: {fileID: 0}
   backButton: {fileID: 1032951035211759890}
+  questUI_Prefab: {fileID: 6918913985761255944, guid: 3a60f699e58aa9e4193c09ff8cfce706, type: 3}
+  sfxSelectQuestInUI: {fileID: 8300000, guid: 48fc3da8698631c41b9bae971e3ede86, type: 3}
 --- !u!1 &7349946841817843442
 GameObject:
   m_ObjectHideFlags: 0

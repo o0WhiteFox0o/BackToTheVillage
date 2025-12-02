@@ -4,8 +4,11 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
-public class InputManager : MonoBehaviour
+public class SYS_InputManager : MonoBehaviour
 {
+    public static SYS_InputManager Instance;
+
+
     [SerializeField] private EventSystem eventSystem;
     [SerializeField] private GraphicRaycaster uiRaycaster;
     [SerializeField] private Camera mainCamera;
@@ -49,11 +52,18 @@ public class InputManager : MonoBehaviour
     /// </summary>
     public static event Action<Vector2> OnLeftClick;
 
-    private Dictionary<string, KeyCode> keyBindings = new Dictionary<string, KeyCode>();
+    public Dictionary<string, KeyCode> keyBindings { get; private set; }
 
 
     private void Start()
     {
+        if (Instance == null)
+        {
+            Instance = this;
+        }
+
+        keyBindings = new Dictionary<string, KeyCode>();
+
         LoadHotkeys();
     }
 
@@ -201,6 +211,6 @@ public class InputManager : MonoBehaviour
 
     public void EnableDecisionUI(List<SO_Decision> decisions)
     {
-        
+
     }
 }

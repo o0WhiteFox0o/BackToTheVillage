@@ -22,9 +22,14 @@ public class UI_QuestUIManager : MonoBehaviour
     [SerializeField] public GameObject questUI_Notification;
     [SerializeField] public Button backButton;
 
+    [Header("Prefabs")]
+    [SerializeField] private GameObject questUI_Prefab;
+
+    [Header("Audio Clips")]
+    [SerializeField] private AudioClip sfxSelectQuestInUI;
+
     private List<GameObject> questPrefab_List = new List<GameObject>();
     private UI_QuestDetails questDetailsUI;
-    private GameObject questUI_Prefab;
     private MGR_QuestManager questManager;
 
 
@@ -33,11 +38,9 @@ public class UI_QuestUIManager : MonoBehaviour
         questManager = FindObjectOfType<MGR_QuestManager>();
         questDetailsUI = backgroundImage.GetComponentInChildren<UI_QuestDetails>();
 
-        questUI_Prefab = Resources.Load<GameObject>("Prefabs/UI/PFB_QuestUI");
-
         var gameplayUIMgr = GetComponentInParent<UI_GameplayUIManager>();
 
-        if (questManager == null || questDetailsUI == null || questUI_Prefab == null || gameplayUIMgr == null)
+        if (questManager == null || questDetailsUI == null || gameplayUIMgr == null)
         {
             Debug.LogError("Can't load a manager component.");
         }
@@ -58,6 +61,7 @@ public class UI_QuestUIManager : MonoBehaviour
     public void FillQuestCategorize(int questCategorize)
     {
         HighlightQuestCategorizeButton(questCategorize);
+        MGR_AudioManager.Instance.PlaySFX(sfxSelectQuestInUI);
 
         switch ((QuestCategorize)questCategorize)
         {
@@ -138,6 +142,7 @@ public class UI_QuestUIManager : MonoBehaviour
             var questButton = newQuestUI.GetComponent<Button>();
             int index = i;
 
+            questButton.onClick.AddListener(() => MGR_AudioManager.Instance.PlaySFX(sfxSelectQuestInUI));
             questButton.onClick.AddListener(() => DisplayQuestDetail(quest));
             questButton.onClick.AddListener(() => HighlightQuestSelected(index));
         }

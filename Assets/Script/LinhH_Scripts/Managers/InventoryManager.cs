@@ -58,12 +58,12 @@ namespace Management
                 Debug.LogError("⚠️ Không thể load prefab ItemPrefab từ Resources.");
 
             ChangeSelectedItem(holdingItemIndex);
-            InputManager.OnItemSelected += ChangeSelectedItem;
+            SYS_InputManager.OnItemSelected += ChangeSelectedItem;
         }
 
         void OnDisable()
         {
-            InputManager.OnItemSelected -= ChangeSelectedItem;
+            SYS_InputManager.OnItemSelected -= ChangeSelectedItem;
         }
 
         // --- GETTERS ---

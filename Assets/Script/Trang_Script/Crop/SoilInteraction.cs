@@ -24,12 +24,12 @@ public class SoilInteraction : MonoBehaviour
 
     private void OnEnable()
     {
-        InputManager.OnLeftClick += HandleLeftClick;
+        SYS_InputManager.OnLeftClick += HandleLeftClick;
     }
 
     private void OnDisable()
     {
-        InputManager.OnLeftClick -= HandleLeftClick;
+        SYS_InputManager.OnLeftClick -= HandleLeftClick;
     }
 
     void Start()

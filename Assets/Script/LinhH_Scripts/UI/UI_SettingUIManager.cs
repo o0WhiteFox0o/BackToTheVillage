@@ -13,7 +13,9 @@ public class UI_SettingUIManager : MonoBehaviour
 {
     [SerializeField] public GameObject settingPanel;
     [SerializeField] public Button backButton;
-    [SerializeField] public TMP_Dropdown langDropdown;
+    [SerializeField] public TMP_Dropdown languageDropdown;
+    [SerializeField] public Slider musicSlider;
+    [SerializeField] public Slider sfxSlider;
 
 
     private void Start()
@@ -27,14 +29,47 @@ public class UI_SettingUIManager : MonoBehaviour
 
 
         backButton.onClick.AddListener(gameplayUIMgr.DisableUI);
+        musicSlider.onValueChanged.AddListener(MusicSliderChange);
+        sfxSlider.onValueChanged.AddListener(SfxSliderChange);
 
         SetupLanguageDropdown();
     }
 
 
+    private void OnEnable()
+    {
+        SetupVolumeUISetting();
+    }
+
+
     private void OnDisable()
     {
+        musicSlider.onValueChanged.RemoveAllListeners();
+        sfxSlider.onValueChanged.RemoveAllListeners();
         backButton.onClick.RemoveAllListeners();
+        languageDropdown.onValueChanged.RemoveAllListeners();
+    }
+
+
+    private void MusicSliderChange(float value)
+    {
+        MGR_AudioManager.Instance.ChangeMusicVolume(value);
+    }
+
+
+    private void SfxSliderChange(float value)
+    {
+        MGR_AudioManager.Instance.ChangeSfxVolume(value);
+    }
+
+
+    private void SetupVolumeUISetting()
+    {
+        GameConfig gameConfig = GameConfig.LoadGameConfig();
+
+        // thiết lập UI cho slider âm thanh
+        musicSlider.value = gameConfig.musicVolume;
+        sfxSlider.value = gameConfig.sfxVolume;
     }
 
 
@@ -52,10 +87,26 @@ public class UI_SettingUIManager : MonoBehaviour
             "English"
         };
 
-        langDropdown.ClearOptions();
-        langDropdown.AddOptions(options);
+        languageDropdown.ClearOptions();
+        languageDropdown.AddOptions(options);
 
-        langDropdown.onValueChanged.AddListener(ChangeLanguage);
+        // load ngôn ngữ từ file game config
+        GameConfig gameConfig = GameConfig.LoadGameConfig();
+
+        // thiết lập UI cho dropdown ngôn ngữ
+        switch (gameConfig.languageId)
+        {
+            case "vi":
+                languageDropdown.value = 0;
+                break;
+
+            case "en":
+                languageDropdown.value = 1;
+                break;
+        }
+        languageDropdown.RefreshShownValue();
+
+        languageDropdown.onValueChanged.AddListener(ChangeLanguage);
     }
 
 
