@@ -12,37 +12,50 @@ using UnityEngine.UI;
 
 public class UI_ConversationUIManager : MonoBehaviour
 {
+    [Header("Panels")]
     [SerializeField] public GameObject conversationPanel;
-
-    [SerializeField] public TMP_Text npcName_Text;
-    [SerializeField] public Image npcPortrait_Image;
-    [SerializeField] public TMP_Text conversationDisplay_Text;
     [SerializeField] public Transform decisionPanel;
-    [SerializeField] public Button skipButton;
 
+    [Header("Text")]
+    [SerializeField] public TMP_Text npcName_Text;
+    [SerializeField] public TMP_Text conversationDisplay_Text;
+
+    [Header("Buttons")]
+    [SerializeField] public Button skipDialogueButton;
+    [SerializeField] public Button skipConversationButton;
+
+    [Header("Image")]
+    [SerializeField] public Image npcPortrait_Image;
+
+    [Header("Prefab")]
+    [SerializeField] private GameObject decisionButton_Prefab;
+
+    private MGR_ConversationManager conversationManager;
     private UI_GameplayUIManager gameplayUIManager;
 
-    private GameObject decisionButton_Prefab;
 
 
     private void Start()
     {
-        decisionButton_Prefab = Resources.Load<GameObject>("Prefabs/UI/PFB_DecisionButton");
         gameplayUIManager = GetComponentInParent<UI_GameplayUIManager>();
 
-        var conversationManger = FindObjectOfType<MGR_ConversationManager>();
+        conversationManager = FindObjectOfType<MGR_ConversationManager>();
 
-        if (decisionButton_Prefab == null || conversationManger == null || gameplayUIManager == null)
+        if (conversationManager == null || gameplayUIManager == null)
         {
             Debug.LogError("Can't load component.");
         }
 
-        skipButton.onClick.AddListener(conversationManger.SkipConversation);
+        // đăng ký các sự kiện cần thiết
+        skipConversationButton.onClick.AddListener(conversationManager.SkipConversation);
+        skipDialogueButton.onClick.AddListener(conversationManager.PlayNextLine);
     }
 
-    
-    private void OnDisable() {
-        skipButton.onClick.RemoveAllListeners();
+
+    private void OnDisable()
+    {
+        skipConversationButton.onClick.RemoveAllListeners();
+        skipDialogueButton.onClick.RemoveAllListeners();
     }
 
 

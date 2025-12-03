@@ -1,27 +1,31 @@
 {
-    "languageId": "vi",
+    "languageId": "en",
     "hotkeys": [
         {
             "action": "OpenBag",
             "keyCode": "E"
         },
         {
-            "action": "OpenGeneralUI",
-            "keyCode": "Escape"
+            "action": "Interact",
+            "keyCode": "Mouse0"
         },
         {
             "action": "Fishing",
             "keyCode": "F"
         },
         {
-            "action": "SkipDialogue",
-            "keyCode": "Space"
-        },
-        {
             "action": "OpenQuestUI",
             "keyCode": "J"
+        },
+        {
+            "action": "OpenGeneralUI",
+            "keyCode": "Escape"
+        },
+        {
+            "action": "SkipDialogue",
+            "keyCode": "Space"
         }
     ],
-    "musicVolume": 0.45170915126800539,
-    "sfxVolume": 0.8667077422142029
+    "musicVolume": 0.6976569890975952,
+    "sfxVolume": 0.8907244205474854
 }

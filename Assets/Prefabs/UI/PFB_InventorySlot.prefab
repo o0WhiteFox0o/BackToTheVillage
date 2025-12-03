@@ -88,7 +88,7 @@ GameObject:
   - component: {fileID: 2587946439153469986}
   - component: {fileID: 2333134701421639119}
   m_Layer: 5
-  m_Name: UI_InventorySlot
+  m_Name: PFB_InventorySlot
   m_TagString: InventorySlot
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

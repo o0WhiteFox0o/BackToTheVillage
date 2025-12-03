@@ -83,6 +83,30 @@ MonoBehaviour:
     m_Key: gMsg.mastery
     m_Metadata:
       m_Items: []
+  - m_Id: 7598938640236544
+    m_Key: gMsg.settingUI.hotkeys.openBag
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7599042784804864
+    m_Key: gMsg.settingUI.hotkeys.interact
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7599095654006784
+    m_Key: gMsg.settingUI.hotkeys.fishing
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7599157327052800
+    m_Key: gMsg.settingUI.hotkeys.openQuestUI
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7599205934841856
+    m_Key: gMsg.settingUI.hotkeys.openGeneralUI
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7599261345792000
+    m_Key: gMsg.settingUI.hotkeys.skipDialogue
+    m_Metadata:
+      m_Items: []
   m_Metadata:
     m_Items: []
   m_KeyGenerator:

@@ -13,17 +13,19 @@ using UnityEngine.UI;
 
 public class UI_QuestUIManager : MonoBehaviour
 {
+    [Header("Panels")]
     [SerializeField] public GameObject backgroundImage;
     [SerializeField] Transform questPanel;
-
-    [Tooltip("Danh sách các đối tượng highlight của các nút phân loại nhiệm vụ.")]
-    [SerializeField] public List<GameObject> questCategorizeHighlights_List;
-    [SerializeField] GameObject noQuestInList_Text;
+    [SerializeField] GameObject noQuestInListMessage;
     [SerializeField] public GameObject questUI_Notification;
-    [SerializeField] public Button backButton;
 
     [Header("Prefabs")]
     [SerializeField] private GameObject questUI_Prefab;
+
+    [Header("Buttons")]
+    [Tooltip("Danh sách các đối tượng highlight của các nút phân loại nhiệm vụ.")]
+    [SerializeField] public List<GameObject> questCategorizeHighlights_List;
+    [SerializeField] public Button backButton;
 
     [Header("Audio Clips")]
     [SerializeField] private AudioClip sfxSelectQuestInUI;
@@ -120,12 +122,12 @@ public class UI_QuestUIManager : MonoBehaviour
         // nếu không có nhiệm vụ để hiển thị thì hiển thị text thông báo
         if (questProgress_List.Count == 0)
         {
-            noQuestInList_Text.SetActive(true);
+            noQuestInListMessage.SetActive(true);
             questDetailsUI.ToggleQuestDetails(false);
             return;
         }
 
-        noQuestInList_Text.SetActive(false);
+        noQuestInListMessage.SetActive(false);
         questPrefab_List.Clear();
 
         // hiển thị các nhiệm vụ trong danh sách được truyền vào

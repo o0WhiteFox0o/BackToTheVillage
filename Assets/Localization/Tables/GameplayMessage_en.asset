@@ -82,6 +82,30 @@ MonoBehaviour:
     m_Localized: 'Mastery:'
     m_Metadata:
       m_Items: []
+  - m_Id: 7598938640236544
+    m_Localized: Open Bag
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7599042784804864
+    m_Localized: Interact
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7599095654006784
+    m_Localized: Fishing
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7599157327052800
+    m_Localized: Open Quest List
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7599205934841856
+    m_Localized: Open General UI
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7599261345792000
+    m_Localized: Skip dialogue
+    m_Metadata:
+      m_Items: []
   references:
     version: 2
     RefIds: []

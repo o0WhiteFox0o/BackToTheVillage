@@ -19,11 +19,11 @@ MonoBehaviour:
     m_Items: []
   m_TableData:
   - m_Id: 1780698362036224
-    m_Localized: Welcome to my village.
+    m_Localized: "Ch\xE0o m\u1EEBng tr\u1EDF v\u1EC1 l\xE0ng."
     m_Metadata:
       m_Items: []
   - m_Id: 1780583278723072
-    m_Localized: Hello, I'm Tu Diep.
+    m_Localized: "Xin ch\xE0o, l\xE2u r\u1ED3i kh\xF4ng g\u1EB7p ch\xE1u."
     m_Metadata:
       m_Items: []
   references:

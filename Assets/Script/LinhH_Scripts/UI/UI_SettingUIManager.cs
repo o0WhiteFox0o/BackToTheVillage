@@ -16,10 +16,16 @@ public class UI_SettingUIManager : MonoBehaviour
     [SerializeField] public TMP_Dropdown languageDropdown;
     [SerializeField] public Slider musicSlider;
     [SerializeField] public Slider sfxSlider;
+    [SerializeField] public Transform hotkeySettingPanel;
+
+
+    public bool firstTimeOpened { get; private set; }
 
 
     private void Start()
     {
+        firstTimeOpened = true;
+
         var gameplayUIMgr = GetComponentInParent<UI_GameplayUIManager>();
 
         if (gameplayUIMgr == null)
@@ -33,12 +39,6 @@ public class UI_SettingUIManager : MonoBehaviour
         sfxSlider.onValueChanged.AddListener(SfxSliderChange);
 
         SetupLanguageDropdown();
-    }
-
-
-    private void OnEnable()
-    {
-        SetupVolumeUISetting();
     }
 
 
@@ -63,13 +63,45 @@ public class UI_SettingUIManager : MonoBehaviour
     }
 
 
-    private void SetupVolumeUISetting()
+    /// <summary>
+    /// Thiết lập UI cho cài đặt âm lượng. Gọi khi giao diện cài đặt được mở lần đầu.
+    /// </summary>
+    public void SetupVolumeUI()
     {
         GameConfig gameConfig = GameConfig.LoadGameConfig();
 
         // thiết lập UI cho slider âm thanh
         musicSlider.value = gameConfig.musicVolume;
         sfxSlider.value = gameConfig.sfxVolume;
+    }
+
+
+    /// <summary>
+    /// Thiết lập UI cho cài đặt phím tắt. Gọi khi giao diện cài đặt được mở lần đầu.
+    /// </summary>
+    public void SetupHotkeyUI()
+    {
+        // load danh sách hotkey từ file game config
+        var hotkeyConfig = GameConfig.LoadGameConfig().hotkeys;
+
+        // duyệt qua các phím tắt trong giao diện cài đặt
+        for (int i = 0; i < hotkeySettingPanel.childCount; i++)
+        {
+            var hotkeySetting = hotkeySettingPanel.GetChild(i);
+
+            // kiểm tra xem trong file game config có chứa hotkey với chức năng trong UI không, không thì bỏ qua
+            var hotkey = hotkeyConfig.Find(k => k.action == hotkeySetting.gameObject.name);
+            if (hotkey == null) { continue; }
+
+            var hotkeyButton = hotkeySetting.GetComponentInChildren<Button>();
+
+            // TODO: đăng ký sự kiện cần thiết cho button hotkey
+
+            // thiết lập hotkey text cho nút hotkey setting
+            hotkeyButton.GetComponentInChildren<TMP_Text>().SetText(hotkey.keyCode);
+        }
+
+        firstTimeOpened = false;
     }
 
 

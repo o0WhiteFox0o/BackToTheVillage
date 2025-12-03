@@ -42,6 +42,10 @@ public class UI_GameplayUIManager : MonoBehaviour
 
     // Temporary variables
     private GameObject itemInfoUI;
+
+    /// <summary>
+    /// Stack các UI đang được mở trong gameplay. Dùng để điều khiển luồng tắt/mở của gameplay UI.
+    /// </summary>
     private Stack<GameObject> openedUIs = new Stack<GameObject>();
     private bool generalUIOpen = false;
 
@@ -186,6 +190,13 @@ public class UI_GameplayUIManager : MonoBehaviour
         MGR_AudioManager.Instance.PlaySFX(sfxButtonPress);
         settingUIManager.EnableSettingUI();
         settingUIManager.gameObject.transform.SetAsLastSibling();
+
+        // nếu giao diện cài đặt được mở lần đầu thì thiết lập các thành phần của nó.
+        if (settingUIManager.firstTimeOpened)
+        {
+            settingUIManager.SetupVolumeUI();
+            settingUIManager.SetupHotkeyUI();
+        }
 
         openedUIs.Push(settingUIManager.settingPanel);
     }

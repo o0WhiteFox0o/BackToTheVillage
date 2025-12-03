@@ -26,7 +26,7 @@ RectTransform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 106074996318126164}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -90,11 +90,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   conversationPanel: {fileID: 8298969776622788727}
-  npcName_Text: {fileID: 8002014463026091824}
-  npcPortrait_Image: {fileID: 7034884219080590428}
-  conversationDisplay_Text: {fileID: 2890266047236904734}
   decisionPanel: {fileID: 6326799349530144593}
-  skipButton: {fileID: 1151838196413285495}
+  npcName_Text: {fileID: 8002014463026091824}
+  conversationDisplay_Text: {fileID: 2890266047236904734}
+  skipDialogueButton: {fileID: 3393570036053782975}
+  skipConversationButton: {fileID: 1151838196413285495}
+  npcPortrait_Image: {fileID: 7034884219080590428}
+  decisionButton_Prefab: {fileID: 1282374783856791000, guid: 4a2ae8e65957ecf40b2008a3378acc82, type: 3}
 --- !u!1 &1992751649818470447
 GameObject:
   m_ObjectHideFlags: 0
@@ -108,7 +110,7 @@ GameObject:
   - component: {fileID: 2333421149631603874}
   - component: {fileID: 1151838196413285495}
   m_Layer: 5
-  m_Name: SkipButtton
+  m_Name: Skip Conversation Buttton
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -679,19 +681,7 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 5746245730925873966}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 0}
-        m_TargetAssemblyTypeName: MGR_ConversationManager, Assembly-CSharp
-        m_MethodName: PlayNextLine
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
+      m_Calls: []
 --- !u!1 &4695897449351231118
 GameObject:
   m_ObjectHideFlags: 0
