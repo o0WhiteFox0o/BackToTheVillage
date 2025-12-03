@@ -98,6 +98,14 @@ MonoBehaviour:
     m_Localized: Salad Recipe
     m_Metadata:
       m_Items: []
+  - m_Id: 7235905081905152
+    m_Localized: TestTimingRecipe
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7236157981659136
+    m_Localized: TestRhythm
+    m_Metadata:
+      m_Items: []
   references:
     version: 2
     RefIds: []

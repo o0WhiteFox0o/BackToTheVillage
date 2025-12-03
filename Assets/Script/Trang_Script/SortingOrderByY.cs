@@ -1,5 +1,6 @@
 using UnityEngine;
-using UnityEngine.Rendering;
+using UnityEngine.Rendering; // b?t bu?c ?? dùng SortingGroup
+
 [RequireComponent(typeof(SortingGroup))]
 public class SortingOrderByY : MonoBehaviour
 {

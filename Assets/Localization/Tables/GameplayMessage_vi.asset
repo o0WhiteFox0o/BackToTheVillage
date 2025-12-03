@@ -63,6 +63,14 @@ MonoBehaviour:
     m_Localized: "B\u1EA1n v\u1EEBa ho\xE0n th\xE0nh nhi\u1EC7m v\u1EE5 "
     m_Metadata:
       m_Items: []
+  - m_Id: 6502139569520640
+    m_Localized: "Nh\u1EA1c n\u1EC1n"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 6502143520555008
+    m_Localized: "Hi\u1EC7u \u1EE9ng \xE2m thanh"
+    m_Metadata:
+      m_Items: []
   - m_Id: 5433503630561280
     m_Localized: "N\u1EA5u"
     m_Metadata:

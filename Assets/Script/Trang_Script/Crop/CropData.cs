@@ -21,5 +21,4 @@ public class CropData : ScriptableObject
 
     [Header("S?n ph?m thu ???c")]
     public ItemScriptableObject harvestItem;
-    public GameObject droppedItemPrefab;
 }

@@ -27,11 +27,4 @@ public abstract class AppearanceSet : ScriptableObject
     public Sprite[] LD_watering;
     public Sprite[] RT_watering;
     public Sprite[] RD_watering;
-
-    public Sprite[] LT_harvest;
-    public Sprite[] LD_harvest;
-    public Sprite[] RT_harvest;
-    public Sprite[] RD_harvest;
-
-
 }

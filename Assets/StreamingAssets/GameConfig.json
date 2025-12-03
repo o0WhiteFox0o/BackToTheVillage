@@ -1,7 +1,6 @@
 {
     "languageId": "vi",
-    "hotkeys":
-    [
+    "hotkeys": [
         {
             "action": "OpenBag",
             "keyCode": "E"
@@ -22,5 +21,7 @@
             "action": "OpenQuestUI",
             "keyCode": "J"
         }
-    ]
+    ],
+    "musicVolume": 0.45170915126800539,
+    "sfxVolume": 0.8667077422142029
 }

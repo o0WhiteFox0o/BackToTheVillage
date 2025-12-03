@@ -53,15 +53,15 @@ public class MGR_ConversationManager : MonoBehaviour
             Debug.LogError("Can't load a manager component.");
         }
 
-        InputManager.OnSkipDialoguePress += PlayNextLine;
-        InputManager.OnRightClickNPC += SetupConversation;
+        SYS_InputManager.OnSkipDialoguePress += PlayNextLine;
+        SYS_InputManager.OnRightClickNPC += SetupConversation;
     }
 
 
     private void OnDisable()
     {
-        InputManager.OnSkipDialoguePress -= PlayNextLine;
-        InputManager.OnRightClickNPC -= SetupConversation;
+        SYS_InputManager.OnSkipDialoguePress -= PlayNextLine;
+        SYS_InputManager.OnRightClickNPC -= SetupConversation;
     }
 
 

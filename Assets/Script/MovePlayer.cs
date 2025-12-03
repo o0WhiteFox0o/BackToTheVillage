@@ -19,6 +19,7 @@ public class Player : MonoBehaviour
     private Vector2 movement;
     private Vector2 lastDirection;
     private bool isUsingTool = false;
+    public bool canMove = true;
 
     private void Awake()
     {
@@ -43,6 +44,7 @@ public class Player : MonoBehaviour
     private void Update()
     {
         if (isUsingTool) return;
+        if (!canMove) return;
 
         movement.x = Input.GetAxisRaw("Horizontal");
         movement.y = Input.GetAxisRaw("Vertical");
@@ -86,11 +88,16 @@ public class Player : MonoBehaviour
 
         return new Vector2(x, y);
     }
-
+    // Hàm tiện ích để gọi từ bên ngoài
+    public void SetInputActive(bool active)
+    {
+        canMove = active;
+    
+    }
     // ====================================
     // TOOL theo vị trí TILE
     // ====================================
-    public void PlayToolAnimation(string triggerName)
+    private void PlayToolAnimation(string triggerName)
     {
         if (!tileCursorFollow || !tileCursorFollow.cursorObject) return;
 

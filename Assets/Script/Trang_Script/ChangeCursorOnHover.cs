@@ -1,5 +1,5 @@
 using UnityEngine;
-using Management;
+
 public class ChangeCursorOnHover : MonoBehaviour
 {
     public Texture2D hoverCursor;  // icon khi hover
@@ -13,12 +13,7 @@ public class ChangeCursorOnHover : MonoBehaviour
 
     void OnMouseEnter()
     {
-        var holdingItem = InventoryManager.Instance?.holdingItem;
-        bool isNoItem = holdingItem == null;
-        if (isNoItem)
-        {
-            Cursor.SetCursor(hoverCursor, hotSpot, CursorMode.Auto);
-        }
+        Cursor.SetCursor(hoverCursor, hotSpot, CursorMode.Auto);
     }
 
     void OnMouseExit()

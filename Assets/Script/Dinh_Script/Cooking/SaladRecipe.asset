@@ -12,7 +12,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b1d09c5503997de43b2bd08a3a056096, type: 3}
   m_Name: SaladRecipe
   m_EditorClassIdentifier: 
-  dishName:
+  id: 
+  icon: {fileID: 0}
+  displayName:
     m_TableReference:
       m_TableCollectionName: GUID:617205a636be30b4ebf3ebb48dae06a2
     m_TableEntryReference:
@@ -21,7 +23,7 @@ MonoBehaviour:
     m_FallbackState: 0
     m_WaitForCompletion: 0
     m_LocalVariables: []
-  description:
+  itemDescription:
     m_TableReference:
       m_TableCollectionName: GUID:95ab3aa9c95b5c2448881d7d9476e40c
     m_TableEntryReference:
@@ -30,16 +32,21 @@ MonoBehaviour:
     m_FallbackState: 0
     m_WaitForCompletion: 0
     m_LocalVariables: []
-  resultItem: {fileID: 11400000, guid: 023376152df7c18418fe59b5c65937e2, type: 2}
-  requiredTool: 0
-  ingredients:
-  - item: {fileID: 11400000, guid: 333ff93dcffdac447988a721089da030, type: 2}
-    quantity: 1
+  stackable: 0
+  canSell: 0
+  itemType: 12
+  buyPrice: 0
+  sellPrice: 0
+  itemPrefab: {fileID: 0}
+  plantPrefab: {fileID: 0}
+  itemToCraft: {fileID: 11400000, guid: 023376152df7c18418fe59b5c65937e2, type: 2}
+  quantityCreated: 1
+  materials:
   - item: {fileID: 11400000, guid: 3e031d73daec2c54d8c92cb97ff214cb, type: 2}
-    quantity: 1
+    quantity: 0
+  - item: {fileID: 11400000, guid: 333ff93dcffdac447988a721089da030, type: 2}
+    quantity: 0
   minigameType: 0
-  difficulty: 2.84
-  timeLimit: 15
   masteryThreshold: 5
   references:
     version: 2

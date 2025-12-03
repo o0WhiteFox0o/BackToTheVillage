@@ -7,37 +7,21 @@ public class CropClickHandler : MonoBehaviour
 
     void Start()
     {
+        // Tìm CropBehaviour ? cha
         crop = GetComponentInParent<CropBehaviour>();
-
-        // ??ng ký s? ki?n chu?t trái t? InputManager
-        InputManager.OnLeftClickCrop += HandleLeftClickOnCrop;
     }
 
-    void OnDestroy()
+    void OnMouseDown()
     {
-        // H?y ??ng ký khi object b? destroy
-        InputManager.OnLeftClickCrop -= HandleLeftClickOnCrop;
-    }
+        if (crop == null) return;
 
-    private void HandleLeftClickOnCrop(GameObject clickedCrop)
-    {
-        // Ch? quan tâm ??n crop c?a chính object này
-        if (clickedCrop != gameObject) return;
-
-        if (crop != null)
+        if (crop.isHarvestable)
         {
-            if (crop.isHarvestable)
-            {
-                crop.Harvest();
-
-                if (Player.Instance != null) {
-                    Player.Instance.PlayToolAnimation("isHarvest");
-                }
-            }
-            else
-            {
-                Debug.Log($"{crop.cropData.cropName} ch?a chín ?? thu ho?ch.");
-            }
+            crop.Harvest();
+        }
+        else
+        {
+            Debug.Log($"{crop.cropData.cropName} ch?a chín ?? thu ho?ch.");
         }
     }
 }

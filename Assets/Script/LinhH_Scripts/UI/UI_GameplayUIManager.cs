@@ -25,9 +25,8 @@ public class UI_GameplayUIManager : MonoBehaviour
     [SerializeField] public GameObject characterUI;
     [SerializeField] public GameObject generalUI_Notification;
 
-
-    // Load from Resources
-    private GameObject itemInfoUI_Prefab;
+    [SerializeField] private GameObject itemInfoUI_Prefab;
+    [SerializeField] private AudioClip sfxButtonPress;
 
 
     // Load from Hierarchy
@@ -52,9 +51,6 @@ public class UI_GameplayUIManager : MonoBehaviour
         // thiết lập các biến cần thiết
         openedUIs.Clear();
 
-        // load các thành phần từ Resources
-        itemInfoUI_Prefab = Resources.Load<GameObject>("Prefabs/UI/PFB_ItemInfoUI");
-
         // load các thành phần cần thiết
         questUIManager = GetComponentInChildren<UI_QuestUIManager>();
         conversationUIManager = GetComponentInChildren<UI_ConversationUIManager>();
@@ -63,17 +59,17 @@ public class UI_GameplayUIManager : MonoBehaviour
         eventSystem = FindObjectOfType<EventSystem>();
         uiRaycaster = GetComponent<GraphicRaycaster>();
 
-        if (eventSystem == null || itemInfoUI_Prefab == null || questUIManager == null || conversationUIManager == null
+        if (eventSystem == null || questUIManager == null || conversationUIManager == null
             || uiRaycaster == null || settingUIManager == null)
         {
             Debug.LogError("Can't load a manager component.");
         }
 
         // đăng ký sự kiện cần thiết
-        InputManager.OnOpenBagPress += EnableBagUI;
-        InputManager.OnEscPress += EnableGeneralUI;
-        InputManager.OnEscPress += DisableUI;
-        InputManager.OnQuestUIButtonPress += EnableQuestUI;
+        SYS_InputManager.OnOpenBagPress += EnableBagUI;
+        SYS_InputManager.OnEscPress += EnableGeneralUI;
+        SYS_InputManager.OnEscPress += DisableUI;
+        SYS_InputManager.OnQuestUIButtonPress += EnableQuestUI;
 
         RefreshUILayer();
 
@@ -83,10 +79,10 @@ public class UI_GameplayUIManager : MonoBehaviour
 
     private void OnDisable()
     {
-        InputManager.OnOpenBagPress -= EnableBagUI;
-        InputManager.OnEscPress -= EnableGeneralUI;
-        InputManager.OnEscPress -= DisableUI;
-        InputManager.OnQuestUIButtonPress -= EnableQuestUI;
+        SYS_InputManager.OnOpenBagPress -= EnableBagUI;
+        SYS_InputManager.OnEscPress -= EnableGeneralUI;
+        SYS_InputManager.OnEscPress -= DisableUI;
+        SYS_InputManager.OnQuestUIButtonPress -= EnableQuestUI;
     }
 
 
@@ -122,6 +118,7 @@ public class UI_GameplayUIManager : MonoBehaviour
         }
 
         openedUIs.Peek().SetActive(false);
+        MGR_AudioManager.Instance.PlaySFX(sfxButtonPress);
         RefreshUILayer();
     }
 
@@ -131,6 +128,7 @@ public class UI_GameplayUIManager : MonoBehaviour
         // không thể mở general UI khi có một UI bất kỳ được mở
         if (openedUIs.Count != 0) { return; }
 
+        MGR_AudioManager.Instance.PlaySFX(sfxButtonPress);
         generalUI.SetActive(true);
         generalUI.transform.SetAsLastSibling();
 
@@ -145,6 +143,7 @@ public class UI_GameplayUIManager : MonoBehaviour
         // không thể mở setting ui khi nó đang mở
         if (bagUI.activeSelf) { return; }
 
+        MGR_AudioManager.Instance.PlaySFX(sfxButtonPress);
         bagUI.SetActive(true);
         inventoryUI.transform.SetAsLastSibling();
 
@@ -158,6 +157,7 @@ public class UI_GameplayUIManager : MonoBehaviour
         // không thể mở setting ui khi nó đang mở
         if (npcUI.activeSelf) { return; }
 
+        MGR_AudioManager.Instance.PlaySFX(sfxButtonPress);
         npcUI.SetActive(true);
         npcUI.transform.SetAsLastSibling();
 
@@ -170,6 +170,7 @@ public class UI_GameplayUIManager : MonoBehaviour
         // không thể mở quest ui khi nó đang mở
         if (questUIManager.backgroundImage.activeSelf) { return; }
 
+        MGR_AudioManager.Instance.PlaySFX(sfxButtonPress);
         questUIManager.EnableQuestUI();
         questUIManager.gameObject.transform.SetAsLastSibling();
 
@@ -182,6 +183,7 @@ public class UI_GameplayUIManager : MonoBehaviour
         // không thể mở setting ui khi nó đang mở
         if (settingUIManager.settingPanel.activeSelf) { return; }
 
+        MGR_AudioManager.Instance.PlaySFX(sfxButtonPress);
         settingUIManager.EnableSettingUI();
         settingUIManager.gameObject.transform.SetAsLastSibling();
 
@@ -194,6 +196,7 @@ public class UI_GameplayUIManager : MonoBehaviour
         // không thể mở character ui khi nó đang mở
         if (characterUI.activeSelf) { return; }
 
+        MGR_AudioManager.Instance.PlaySFX(sfxButtonPress);
         characterUI.SetActive(true);
         characterUI.transform.SetAsLastSibling();
 
