@@ -97,7 +97,7 @@ public class Player : MonoBehaviour
     // ====================================
     // TOOL theo vị trí TILE
     // ====================================
-    private void PlayToolAnimation(string triggerName)
+    public void PlayToolAnimation(string triggerName)
     {
         if (!tileCursorFollow || !tileCursorFollow.cursorObject) return;
 
