@@ -18,7 +18,8 @@ MonoBehaviour:
   - {fileID: 2285067256661836775, guid: 844f32fd12eeeef4e8d05abcd5875bf6, type: 3}
   - {fileID: 2631338813207620417, guid: d9fd7143fc96be341be285b066bd00ad, type: 3}
   - {fileID: 1375761893717602737, guid: cbc2d1e9ff4415c4b935bf09f7b3b60b, type: 3}
-  daysPerStage: 01000000010000000100000002000000
+  daysPerStage: 01000000010000000100000001000000
   isRegrowable: 0
   regrowDays: 0
   harvestItem: {fileID: 11400000, guid: 90dfd499cace8ef4487fe8d1c06d99f5, type: 2}
+  droppedItemPrefab: {fileID: 5714095210870146381, guid: b5e0dc589f5487944b31c2417118b0e6, type: 3}

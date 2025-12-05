@@ -96,3 +96,27 @@ MonoBehaviour:
   - {fileID: 21300000, guid: ab76eff6a4deada4998c2e56056dd8ef, type: 3}
   - {fileID: 21300000, guid: bffe97362279b304fb3afafe5eb6a174, type: 3}
   - {fileID: 21300000, guid: 63b16e78647917b41a8705f9662539f3, type: 3}
+  LT_harvest:
+  - {fileID: 21300000, guid: a3577d483574edd46b1514b8af010f01, type: 3}
+  - {fileID: 21300000, guid: f1c4bc7c5d195884f97a09d884889f85, type: 3}
+  - {fileID: 21300000, guid: 2a893f03e052b0143beb2220757cec66, type: 3}
+  - {fileID: 21300000, guid: 7b9525d4157dfeb4e95833948793fd2d, type: 3}
+  - {fileID: 21300000, guid: a3577d483574edd46b1514b8af010f01, type: 3}
+  LD_harvest:
+  - {fileID: 21300000, guid: d5c8e4bf5ea24b94b9f4a6a9707df6b2, type: 3}
+  - {fileID: 21300000, guid: 701c235d676f88942ae8e20dfaa0bd69, type: 3}
+  - {fileID: 21300000, guid: 5555d1cafc6c2214ea0ffbd065099694, type: 3}
+  - {fileID: 21300000, guid: 746508af38db07d4881cd3c1da0b992f, type: 3}
+  - {fileID: 21300000, guid: d5c8e4bf5ea24b94b9f4a6a9707df6b2, type: 3}
+  RT_harvest:
+  - {fileID: 21300000, guid: 05d6d2279674077418ff72085770e15c, type: 3}
+  - {fileID: 21300000, guid: 8009d4a783283c7479f2e2f5b2c4126e, type: 3}
+  - {fileID: 21300000, guid: 6bd571ff4366928439eae630179cb176, type: 3}
+  - {fileID: 21300000, guid: cfeacaef1fd7edf4ba05caa98f9dd610, type: 3}
+  - {fileID: 21300000, guid: 05d6d2279674077418ff72085770e15c, type: 3}
+  RD_harvest:
+  - {fileID: 21300000, guid: 2fcdcdd34169a1048a59848e74cfed2f, type: 3}
+  - {fileID: 21300000, guid: c095f4c72f9e89f448320ead2c198b29, type: 3}
+  - {fileID: 21300000, guid: 9f3ce29e09fa7d9408607bcd77906e4b, type: 3}
+  - {fileID: 21300000, guid: ea8971bdcf2af0849a887b10bed7a5d6, type: 3}
+  - {fileID: 21300000, guid: 2fcdcdd34169a1048a59848e74cfed2f, type: 3}

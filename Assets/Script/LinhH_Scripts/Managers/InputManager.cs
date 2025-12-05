@@ -1,3 +1,4 @@
+using Management;
 using System;
 using System.Collections.Generic;
 using UnityEngine;
@@ -52,6 +53,8 @@ public class SYS_InputManager : MonoBehaviour
     /// </summary>
     public static event Action<Vector2> OnLeftClick;
 
+    public static event GetObjectClicked OnLeftClickCrop;
+
     public Dictionary<string, KeyCode> keyBindings { get; private set; }
 
 
@@ -104,10 +107,43 @@ public class SYS_InputManager : MonoBehaviour
 
     private void HandleOnLeftClick()
     {
-        if (Input.GetMouseButtonDown(0))
+        if (!Input.GetMouseButtonDown(0)) return;
+
+        Vector2 mouseWorldPos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+        RaycastHit2D hit = Physics2D.Raycast(mouseWorldPos, Vector2.zero);
+
+        ItemScriptableObject holdingItem = InventoryManager.Instance.holdingItem;
+        bool isToolInHand = holdingItem != null &&
+                            (holdingItem.itemType == ItemType.Hoe ||
+                             holdingItem.itemType == ItemType.Seed ||
+                             holdingItem.itemType == ItemType.WateringCan);
+
+        //if (hit.collider == null)
+        //{
+        //    Debug.Log("Click không trúng gì cả.");
+        //    return;
+        //}
+
+        //Debug.Log($"Click trúng object: {hit.collider.name}, tag: {hit.collider.tag}");
+
+        if (isToolInHand)
         {
-            Vector2 mouseWorldPos = mainCamera.ScreenToWorldPoint(Input.mousePosition);
+            // Nếu đang cầm Hoe/Seed/WateringCan thì gửi OnLeftClick dù có Crop hay không
             OnLeftClick?.Invoke(mouseWorldPos);
+        }
+        else
+        {
+            //// Nếu không cầm công cụ, chỉ click Crop mới gửi sự kiện Crop
+            //if (hit.collider.CompareTag("Crop"))
+            //{
+            //    Debug.Log("✅ Bắt được Crop!");
+            OnLeftClickCrop?.Invoke(hit.collider.gameObject);
+            //}
+            //else
+            //{
+            //    Debug.Log("Click không phải Crop, gửi OnLeftClick.");
+            //    OnLeftClick?.Invoke(mouseWorldPos);
+            //}
         }
     }
 

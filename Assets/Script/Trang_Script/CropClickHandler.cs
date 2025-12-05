@@ -1,5 +1,6 @@
-using UnityEngine;
 
+using UnityEngine;
+using Management;
 [RequireComponent(typeof(Collider2D))]
 public class CropClickHandler : MonoBehaviour
 {
@@ -7,21 +8,38 @@ public class CropClickHandler : MonoBehaviour
 
     void Start()
     {
-        // Tìm CropBehaviour ? cha
         crop = GetComponentInParent<CropBehaviour>();
+
+        // ??ng k? s? ki?n chu?t tr?i t? InputManager
+        SYS_InputManager.OnLeftClickCrop += HandleLeftClickOnCrop;
     }
 
-    void OnMouseDown()
+    void OnDestroy()
     {
-        if (crop == null) return;
+        // H?y ??ng k? khi object b? destroy
+        SYS_InputManager.OnLeftClickCrop -= HandleLeftClickOnCrop;
+    }
 
-        if (crop.isHarvestable)
+    private void HandleLeftClickOnCrop(GameObject clickedCrop)
+    {
+        // Ch? quan t?m ??n crop c?a ch?nh object n?y
+        if (clickedCrop != gameObject) return;
+
+        if (crop != null)
         {
-            crop.Harvest();
-        }
-        else
-        {
-            Debug.Log($"{crop.cropData.cropName} ch?a chín ?? thu ho?ch.");
+            if (crop.isHarvestable)
+            {
+                crop.Harvest();
+
+                if (Player.Instance != null)
+                {
+                    Player.Instance.PlayToolAnimation("isHarvest");
+                }
+            }
+            else
+            {
+                Debug.Log($"{crop.cropData.cropName} ch?a ch?n ?? thu ho?ch.");
+            }
         }
     }
 }

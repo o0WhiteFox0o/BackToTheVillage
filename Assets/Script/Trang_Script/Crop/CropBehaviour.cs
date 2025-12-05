@@ -1,3 +1,4 @@
+﻿
 ﻿using UnityEngine;
 using Management;
 public class CropBehaviour : MonoBehaviour
@@ -70,32 +71,39 @@ public class CropBehaviour : MonoBehaviour
     {
         if (!isHarvestable) return;
 
-        // ✅ Tìm InventoryManager đang có trong scene
-        var inventoryManager = FindObjectOfType<Management.InventoryManager>();
-        if (inventoryManager != null)
+        // ⭐ Spawn item rơi ra đất thay vì add ngay
+        if (cropData.droppedItemPrefab != null)
         {
-            inventoryManager.AddItem(cropData.harvestItem, 1);
-            Debug.Log($"Đã thu hoạch: {cropData.harvestItem.displayName}");
+            GameObject drop = Instantiate(cropData.droppedItemPrefab, transform.position, Quaternion.identity);
+
+            PickupItem pickup = drop.GetComponent<PickupItem>();
+            if (pickup != null)
+            {
+                pickup.itemData = cropData.harvestItem;
+                pickup.quantity = 1;
+            }
+
+            Debug.Log($"Item rơi ra: {cropData.harvestItem.displayName}");
         }
         else
         {
-            Debug.LogWarning("Không tìm thấy InventoryManager trong scene!");
+            Debug.LogWarning("Chưa gán droppedItemPrefab trong CropData!");
         }
 
-        // ✅ Nếu cây có thể tái sinh
+        // ⭐ Xử lý cây tái sinh hoặc hủy
         if (cropData.isRegrowable)
         {
             isHarvestable = false;
-            currentStage = cropData.growthPrefabs.Length - 2; // quay về giai đoạn trước chín
+            currentStage = cropData.growthPrefabs.Length - 2;
             daysInCurrentStage = 0;
             UpdateVisual();
         }
         else
         {
-            // ✅ Nếu cây chỉ thu hoạch 1 lần thì hủy
             Destroy(gameObject);
         }
     }
+
 
 
     private void UpdateVisual()
