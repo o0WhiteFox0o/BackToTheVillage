@@ -106,6 +106,10 @@ MonoBehaviour:
     m_Localized: Skip dialogue
     m_Metadata:
       m_Items: []
+  - m_Id: 8276434020274176
+    m_Localized: Mastered
+    m_Metadata:
+      m_Items: []
   references:
     version: 2
     RefIds: []

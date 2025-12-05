@@ -43,9 +43,9 @@ MonoBehaviour:
   quantityCreated: 1
   materials:
   - item: {fileID: 11400000, guid: 3e031d73daec2c54d8c92cb97ff214cb, type: 2}
-    quantity: 0
+    quantity: 1
   - item: {fileID: 11400000, guid: 333ff93dcffdac447988a721089da030, type: 2}
-    quantity: 0
+    quantity: 1
   minigameType: 0
   masteryThreshold: 5
   references:

@@ -1,13 +1,14 @@
-﻿using UnityEngine;
+﻿using TMPro;
+using UnityEngine;
+using UnityEngine.Localization.Settings;
 using UnityEngine.UI;
-using TMPro;
 
 public class CookingUI : MonoBehaviour
 {
     [Header("Components")]
     [SerializeField] private GameObject cookingPanel;
-    [SerializeField] private Button cookButton; // Nút này sẽ đổi text
-    [SerializeField] private TMP_Text cookButtonText; // Text của nút: "Cook" hoặc "Quick Cook"
+    [SerializeField] private Button cookButton;
+    [SerializeField] private TMP_Text cookButtonText;
     [SerializeField] private Button closeButton;
 
     [Header("Recipe List")]
@@ -17,71 +18,91 @@ public class CookingUI : MonoBehaviour
     [Header("Details")]
     [SerializeField] private Image selectedIcon;
     [SerializeField] private TMP_Text selectedName;
-    [SerializeField] private TMP_Text masteryText; // Hiển thị: "Thành thạo: 3/10"
+    [SerializeField] private TMP_Text masteryText;
     [SerializeField] private Transform materialsContainer;
     [SerializeField] private GameObject materialSlotPrefab;
 
     private CookingRecipeSO selectedRecipe;
     private Player playerMovement;
+    [SerializeField] private MinigameController controller;
 
     private void Awake()
     {
         playerMovement = GetComponent<Player>();
     }
+
     private void Start()
     {
         cookButton.onClick.AddListener(OnCookButtonClicked);
+
         closeButton.onClick.AddListener(() =>
         {
             cookingPanel.SetActive(false);
-
-            if (Player.Instance != null)
-                Player.Instance.SetInputActive(true);
+            if (Player.Instance != null) Player.Instance.SetInputActive(true);
+            if (controller != null) controller.ForceStop();
         });
+
+        // 🔥 Đăng ký lắng nghe sự kiện thay đổi Inventory — cập nhật UI ngay lập tức
+        if (Management.InventoryManager.Instance != null)
+        {
+            Management.InventoryManager.Instance.OnInventoryChanged += RefreshUIInstant;
+        }
+
         cookingPanel.SetActive(false);
     }
 
+    private void OnDestroy()
+    {
+        if (Management.InventoryManager.Instance != null)
+        {
+            Management.InventoryManager.Instance.OnInventoryChanged -= RefreshUIInstant;
+        }
+    }
+
+    private void RefreshUIInstant()
+    {
+        if (!cookingPanel.activeSelf) return;
+
+        RefreshRecipeList();
+
+        if (selectedRecipe != null)
+            UpdateDetailPanel();
+    }
+
+
     public void OnEnable()
     {
-        if (playerMovement != null) {
-            playerMovement.SetInputActive(false);
-        }
+        if (playerMovement != null) playerMovement.SetInputActive(false);
     }
     public void OnDisable()
     {
-        if (playerMovement != null)
-        {
-            playerMovement.SetInputActive(true);
-        }
+        if (playerMovement != null) playerMovement.SetInputActive(true);
     }
 
     public void TogglePanel()
     {
         bool isActive = !cookingPanel.activeSelf;
         cookingPanel.SetActive(isActive);
+
         if (isActive)
         {
             RefreshRecipeList();
             SelectRecipe(null);
         }
+
         Player.Instance.SetInputActive(!isActive);
     }
-
 
     public void RefreshRecipeList()
     {
         foreach (Transform child in recipeListContainer) Destroy(child.gameObject);
 
-        // Chỉ lấy những recipe là CookingRecipeSO
         foreach (var recipe in CookingManager.Instance.unlockedCookingRecipes)
         {
             GameObject slot = Instantiate(recipeSlotPrefab, recipeListContainer);
-            // Tận dụng lại CraftingSlotUI hoặc tạo CookingSlotUI riêng nếu muốn hiển thị khác biệt
-            // Ở đây ta ép kiểu (cast) về CraftingRecipeSO để dùng lại slot cũ cho tiện
+
             slot.GetComponent<CraftingSlotUI>().Setup(recipe, null);
 
-            // Lưu ý: CraftingSlotUI cần sửa lại chút ở hàm OnButtonClicked để gọi về CookingUI
-            // Hoặc đơn giản là gán sự kiện click thủ công ở đây:
             slot.GetComponent<Button>().onClick.RemoveAllListeners();
             slot.GetComponent<Button>().onClick.AddListener(() => SelectRecipe(recipe));
         }
@@ -98,19 +119,22 @@ public class CookingUI : MonoBehaviour
         if (selectedRecipe == null)
         {
             selectedIcon.gameObject.SetActive(false);
+            selectedName.text = "";
             masteryText.text = "";
+            cookButtonText.text = "";
             cookButton.gameObject.SetActive(false);
+
             foreach (Transform child in materialsContainer) Destroy(child.gameObject);
             return;
         }
 
-        // Hiện thông tin cơ bản
+        // Icon + tên
         selectedIcon.gameObject.SetActive(true);
         selectedIcon.sprite = selectedRecipe.itemToCraft.icon;
         selectedName.text = selectedRecipe.itemToCraft.displayName.GetLocalizedString();
         cookButton.gameObject.SetActive(true);
 
-        // Hiện nguyên liệu
+        // Nguyên liệu
         foreach (Transform child in materialsContainer) Destroy(child.gameObject);
         foreach (var mat in selectedRecipe.materials)
         {
@@ -119,25 +143,24 @@ public class CookingUI : MonoBehaviour
             mSlot.GetComponentInChildren<TMP_Text>().text = mat.quantity.ToString();
         }
 
-        // --- LOGIC MASTERY ---
-        bool isMastered = CookingManager.Instance.IsMastered(selectedRecipe);
-        int currentMastery = CookingManager.Instance.GetMasteryCount(selectedRecipe);
-        int maxMastery = selectedRecipe.masteryThreshold;
+        // Mastery
+        bool mastered = CookingManager.Instance.IsMastered(selectedRecipe);
+        int cur = CookingManager.Instance.GetMasteryCount(selectedRecipe);
+        int max = selectedRecipe.masteryThreshold;
 
-        if (isMastered)
+        if (mastered)
         {
-            cookButtonText.text = "Nấu Nhanh (Auto)";
-            masteryText.text = $"Thành thạo: TỐI ĐA";
+            cookButtonText.text = GetLocalizedString("gMsg.quickcookbutton");
+            masteryText.text = GetLocalizedString("gMsg.mastered");
             masteryText.color = Color.yellow;
         }
         else
         {
-            cookButtonText.text = "Nấu";
-            masteryText.text = $"Thành thạo: {currentMastery}/{maxMastery}";
+            masteryText.text = GetLocalizedString("gMsg.mastery") + $" {cur}/{max}";
             masteryText.color = Color.white;
         }
 
-        // Kiểm tra đủ nguyên liệu để active nút
+        // Trạng thái nút
         cookButton.interactable = CraftingManager.Instance.CanCraft(selectedRecipe);
     }
 
@@ -147,9 +170,12 @@ public class CookingUI : MonoBehaviour
 
         CookingManager.Instance.RequestCook(selectedRecipe, () =>
         {
-            // Callback sau khi nấu xong (hoặc thất bại)
-            UpdateDetailPanel();
-            RefreshRecipeList(); // Để cập nhật lại màu sắc nếu hết nguyên liệu
+            RefreshUIInstant();
         });
+    }
+
+    public string GetLocalizedString(string key)
+    {
+        return LocalizationSettings.StringDatabase.GetLocalizedString("GameplayMessage", key);
     }
 }

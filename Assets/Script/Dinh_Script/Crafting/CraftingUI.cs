@@ -95,7 +95,7 @@ public class CraftingUI : MonoBehaviour
         {
             // Nếu không chọn gì, ẩn hết
             selectedItemIcon.gameObject.SetActive(false);
-            selectedItemName.text = "Chọn công thức";
+            selectedItemName.text = "";
             selectedItemDesc.text = "...";
             craftButton.gameObject.SetActive(false);
             foreach (Transform child in materialsContainer) Destroy(child.gameObject);

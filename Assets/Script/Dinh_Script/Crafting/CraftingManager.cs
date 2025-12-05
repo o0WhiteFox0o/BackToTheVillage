@@ -48,7 +48,7 @@ public class CraftingManager : MonoBehaviour
 
         if (NotificationManager.Instance != null)
         {
-            NotificationManager.Instance.ShowNotification($"Đã học công thức mới: {recipe.name}");
+            NotificationManager.Instance.ShowNotification($"{recipe.name}");
         }
     }
 

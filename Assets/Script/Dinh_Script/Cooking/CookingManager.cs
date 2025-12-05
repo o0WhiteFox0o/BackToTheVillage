@@ -75,7 +75,7 @@ public class CookingManager : MonoBehaviour
                 else
                 {
                     // Thua game: Mất nguyên liệu và nhận món thất bại (hoặc không gì cả)
-                    HandleCookingFailure();
+                    HandleCookingFailure(recipe);
                 }
                 onCookFinishedUIUpdate?.Invoke();
             });
@@ -102,15 +102,21 @@ public class CookingManager : MonoBehaviour
         string method = isQuickCook ? "Nấu nhanh" : "Nấu thủ công";
         Debug.Log($"Đã nấu xong {recipe.name} ({method}). Mastery: {masteryTracker[recipe.name]}/{recipe.masteryThreshold}");
         if (NotificationManager.Instance != null)
-            NotificationManager.Instance.ShowNotification($"Nấu thành công: {recipe.name}");
+            NotificationManager.Instance.ShowNotification($" {recipe.name}");
     }
 
-    private void HandleCookingFailure()
+    private void HandleCookingFailure(CookingRecipeSO recipe)
     {
-        Debug.Log("Nấu ăn thất bại! Nguyên liệu đã cháy thành tro.");
-        if (NotificationManager.Instance != null)
-            NotificationManager.Instance.ShowNotification("Nấu ăn thất bại!");
+        Debug.Log("Nấu ăn thất bại! Trả lại nguyên liệu cho người chơi.");
 
-        // Tùy chọn: Thêm item "Burnt Food" vào inventory để troll người chơi
+        // Hoàn nguyên liệu
+        foreach (var material in recipe.materials)
+        {
+            InventoryManager.Instance.AddItem(material.item, material.quantity);
+        }
+
+        if (NotificationManager.Instance != null)
+            NotificationManager.Instance.ShowNotification("Nấu ăn thất bại! Đã hoàn trả nguyên liệu.");
     }
+
 }

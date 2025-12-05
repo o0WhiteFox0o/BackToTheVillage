@@ -107,6 +107,10 @@ MonoBehaviour:
     m_Key: gMsg.settingUI.hotkeys.skipDialogue
     m_Metadata:
       m_Items: []
+  - m_Id: 8276434020274176
+    m_Key: gMsg.mastered
+    m_Metadata:
+      m_Items: []
   m_Metadata:
     m_Items: []
   m_KeyGenerator:
