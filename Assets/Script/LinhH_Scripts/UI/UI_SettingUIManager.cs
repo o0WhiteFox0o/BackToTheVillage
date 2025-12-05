@@ -11,13 +11,15 @@ using UnityEngine.UI;
 
 public class UI_SettingUIManager : MonoBehaviour
 {
+    [Header("Panels")]
     [SerializeField] public GameObject settingPanel;
+    [SerializeField] public Transform hotkeySettingPanel;
+
+    [Header("Buttons")]
     [SerializeField] public Button backButton;
     [SerializeField] public TMP_Dropdown languageDropdown;
     [SerializeField] public Slider musicSlider;
     [SerializeField] public Slider sfxSlider;
-    [SerializeField] public Transform hotkeySettingPanel;
-
 
     public bool firstTimeOpened { get; private set; }
 

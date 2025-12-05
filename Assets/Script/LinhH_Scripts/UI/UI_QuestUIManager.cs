@@ -30,28 +30,29 @@ public class UI_QuestUIManager : MonoBehaviour
     [Header("Audio Clips")]
     [SerializeField] private AudioClip sfxSelectQuestInUI;
 
+    private UI_GameplayUIManager gameplayUIManager;
     private List<GameObject> questPrefab_List = new List<GameObject>();
     private UI_QuestDetails questDetailsUI;
     private MGR_QuestManager questManager;
+    private int currentQuestCategory;
 
 
     private void Start()
     {
         questManager = FindObjectOfType<MGR_QuestManager>();
         questDetailsUI = backgroundImage.GetComponentInChildren<UI_QuestDetails>();
+        gameplayUIManager = GetComponentInParent<UI_GameplayUIManager>();
 
-        var gameplayUIMgr = GetComponentInParent<UI_GameplayUIManager>();
-
-        if (questManager == null || questDetailsUI == null || gameplayUIMgr == null)
+        if (questManager == null || questDetailsUI == null || gameplayUIManager == null)
         {
             Debug.LogError("Can't load a manager component.");
         }
 
-        backButton.onClick.AddListener(gameplayUIMgr.DisableUI);
+        backButton.onClick.AddListener(gameplayUIManager.DisableUI);
     }
 
 
-    private void OnDisable()
+    private void OnDestroy()
     {
         backButton.onClick.RemoveAllListeners();
     }
@@ -62,6 +63,8 @@ public class UI_QuestUIManager : MonoBehaviour
     /// </summary>
     public void FillQuestCategorize(int questCategorize)
     {
+        currentQuestCategory = questCategorize;
+
         HighlightQuestCategorizeButton(questCategorize);
         MGR_AudioManager.Instance.PlaySFX(sfxSelectQuestInUI);
 
@@ -155,6 +158,12 @@ public class UI_QuestUIManager : MonoBehaviour
     }
 
 
+    public void RefreshQuestList()
+    {
+        FillQuestCategorize(currentQuestCategory);
+    }
+
+
     private void DisplayQuestDetail(IQuestProgress quest)
     {
         questDetailsUI.SetupQuestDetails(quest);
@@ -166,14 +175,17 @@ public class UI_QuestUIManager : MonoBehaviour
     /// </summary>
     private void HighlightQuestSelected(int selectedIndex)
     {
-        // tắt highlight của toàn bộ quest
+        // tắt highlight và enable button của toàn bộ quest
         foreach (var questUI in questPrefab_List)
         {
             questUI.GetComponent<Image>().enabled = false;
+            questUI.GetComponent<Button>().enabled = true;
         }
 
         // highlight quest được chọn
         questPrefab_List[selectedIndex].GetComponent<Image>().enabled = true;
+        // disable button của quest được chọn, tránh gọi event click button nhiều lần
+        questPrefab_List[selectedIndex].GetComponent<Button>().enabled = false;
     }
 
 

@@ -15,6 +15,7 @@ public interface IQuestProgress
     public void CheckProgress();
     public SO_Quest GetQuest();
     public bool IsComplete();
+    public bool IsClaimed();
 }
 
 
@@ -23,6 +24,7 @@ public class CollectionQuestProgress : IQuestProgress
     public SO_CollectionQuest quest;
     public bool isActive;
     public bool isCompleted = false;
+    private bool isClaimed = false;
     public List<QuestItemRequirement> itemRequirements_List = new List<QuestItemRequirement>();
 
     public delegate void UpdateCollectionQuestHandler(CollectionQuestProgress collectionProgress);
@@ -129,6 +131,7 @@ public class CollectionQuestProgress : IQuestProgress
 
     public SO_Quest GetQuest() => quest;
     public bool IsComplete() => isCompleted;
+    public bool IsClaimed() => isClaimed;
 }
 
 
@@ -137,6 +140,7 @@ public class TalkingQuestProgress : IQuestProgress
     public SO_TalkingQuest quest;
     public bool isActive;
     public bool isCompleted;
+    private bool isClaimed = false;
 
 
     public void UpdateProgress(SO_NPCData npc)
@@ -160,4 +164,7 @@ public class TalkingQuestProgress : IQuestProgress
     public SO_Quest GetQuest() => quest;
 
     public bool IsComplete() => isCompleted;
+
+
+    public bool IsClaimed() => isClaimed;
 }

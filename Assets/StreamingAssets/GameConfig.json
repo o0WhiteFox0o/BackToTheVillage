@@ -1,5 +1,5 @@
 {
-    "languageId": "en",
+    "languageId": "vi",
     "hotkeys": [
         {
             "action": "OpenBag",
@@ -26,6 +26,6 @@
             "keyCode": "Space"
         }
     ],
-    "musicVolume": 0.6976569890975952,
-    "sfxVolume": 0.8907244205474854
+    "musicVolume": 0.00009999999747378752,
+    "sfxVolume": 0.5205212235450745
 }

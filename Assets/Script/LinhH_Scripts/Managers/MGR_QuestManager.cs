@@ -139,22 +139,21 @@ public class MGR_QuestManager : MonoBehaviour
     /// </summary>
     private void RefreshQuestList()
     {
-        // tìm nhiệm vụ đã hoàn thành trong danh sách
-        var completedQuest = activeQuests_List.FirstOrDefault(q => q.IsComplete() == true);
-        if (completedQuest != null)
+        // tìm nhiệm vụ đã nhận phần thưởng trong danh sách
+        var claimedQuest = activeQuests_List.FirstOrDefault(q => q.IsClaimed() == true);
+        if (claimedQuest != null)
         {
             // kiểm tra xem có nhiệm vụ nào trong chuỗi nhiệm vụ không
-            if (completedQuest.GetQuest().nextQuest != null)
+            if (claimedQuest.GetQuest().nextQuest != null)
             {
-                AddQuest(completedQuest.GetQuest().nextQuest);
+                AddQuest(claimedQuest.GetQuest().nextQuest);
             }
 
             // loại bỏ nhiệm vụ khỏi danh sách
-            activeQuests_List.Remove(completedQuest);
+            activeQuests_List.Remove(claimedQuest);
             OnQuestListUpdate?.Invoke();
 
-            // trao phần thưởng cho nhân vật
-            GrantReward(completedQuest);
+            // hiển thị thông báo quest UI
         }
     }
 
@@ -185,14 +184,14 @@ public class MGR_QuestManager : MonoBehaviour
     /// <summary>
     /// Phát thưởng cho nhân vật.
     /// </summary>
-    private void GrantReward(IQuestProgress quest)
+    public void GrantReward(IQuestProgress quest)
     {
-        var message = new LocalizedString("GameplayMessage", "gMsg.questComplete");
-        NotificationManager.Instance.ShowNotification(message + quest.GetQuest().questTittle.GetLocalizedString());
+        if (!activeQuests_List.Contains(quest)) { return; }
 
         // TODO: Hook into player inventory or stats system
 
         var questReward = quest.GetQuest().reward;
+
         // thêm vật phẩm thưởng vào inventory của nhân vật
         if (questReward.itemRewards.Count != 0)
         {
@@ -207,5 +206,8 @@ public class MGR_QuestManager : MonoBehaviour
         {
             CraftingManager.Instance.UnLockRecipe(questReward.craftingRecipe);
         }
+
+        activeQuests_List.Remove(quest);
+        RefreshQuestList();
     }
 }

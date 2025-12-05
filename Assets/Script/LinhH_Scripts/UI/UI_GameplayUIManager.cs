@@ -4,7 +4,6 @@
 // 
 
 
-using System.Collections;
 using System.Collections.Generic;
 using GameUI;
 using UnityEngine;
@@ -17,7 +16,7 @@ using UnityEngine.UI;
 /// </summary>
 public class UI_GameplayUIManager : MonoBehaviour
 {
-    [Header("Menu UIs")]
+    [Header("Panels")]
     [SerializeField] public GameObject inventoryUI;
     [SerializeField] public GameObject bagUI;
     [SerializeField] public GameObject generalUI;
@@ -25,7 +24,10 @@ public class UI_GameplayUIManager : MonoBehaviour
     [SerializeField] public GameObject characterUI;
     [SerializeField] public GameObject generalUI_Notification;
 
+    [Header("Prefab")]
     [SerializeField] private GameObject itemInfoUI_Prefab;
+
+    [Header("Audio Clips")]
     [SerializeField] private AudioClip sfxButtonPress;
 
 

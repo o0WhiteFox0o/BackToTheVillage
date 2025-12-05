@@ -14,7 +14,7 @@ public class QuestReward
 {
     // TODO: cập nhật thêm loại kinh nghiệm khi đã phát triển
     public int experience;
-    public int gold;
+    public int currency;
     public List<ItemStack> itemRewards = new List<ItemStack>();
     public CraftingRecipeSO craftingRecipe;
 
