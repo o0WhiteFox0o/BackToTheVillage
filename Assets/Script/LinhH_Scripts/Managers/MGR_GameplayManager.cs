@@ -89,7 +89,7 @@ public class MGR_GameplayManager : MonoBehaviour
     }
 
 
-    private string CollectionQuestJson(IQuestProgress questProgress)
+    private string CollectionQuestJson(QuestProgress questProgress)
     {
         // tạo một biến lưu trữ dữ liệu tiến trình dưới dạng object
         CollectionQuestData collectionQuestData = new CollectionQuestData();

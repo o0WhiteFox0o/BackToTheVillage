@@ -34,11 +34,9 @@ MonoBehaviour:
   questCategorize: 1
   questType: 0
   reward:
-    experience: 10
-    gold: 100
-    itemRewards:
-    - item: {fileID: 11400000, guid: 3a0e17dd38c938243b9653bb4e68778e, type: 2}
-      quantity: 5
+    experience: 100
+    currency: 250
+    itemRewards: []
     craftingRecipe: {fileID: 0}
   nextQuest: {fileID: 0}
   targetItems_List:

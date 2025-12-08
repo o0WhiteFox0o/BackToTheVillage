@@ -87,7 +87,7 @@ public class MGR_ObjectPoolManager : MonoBehaviour
 
 
     /// <summary>
-    /// Sinh một game object trong một transform truyền vào.
+    /// Sinh một game object trong transform được truyền vào.
     /// </summary>
     public static GameObject SpawnObject(GameObject spawnObj, Transform parentTransform)
     {
@@ -113,6 +113,8 @@ public class MGR_ObjectPoolManager : MonoBehaviour
         {
             pool.inactiveObjects.Remove(spawnableObj);
             spawnableObj.SetActive(true);
+
+            Debug.Log($"Test reuse object {spawnObj.name}");
         }
 
         return spawnableObj;

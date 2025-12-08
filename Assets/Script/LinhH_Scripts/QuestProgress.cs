@@ -10,16 +10,27 @@ using System.Linq;
 using UnityEngine;
 
 
-public interface IQuestProgress
+public abstract class QuestProgress
 {
-    public void CheckProgress();
-    public SO_Quest GetQuest();
-    public bool IsComplete();
-    public bool IsClaimed();
+    public static event Action OnQuestComplete;
+
+
+    public void CompleteQuest()
+    {
+        OnQuestComplete?.Invoke();
+    }
+
+
+    public abstract void CheckProgress();
+
+    // Lấy dữ liệu cơ bản của nhiệm vụ từ Quest Progress.
+    public abstract SO_Quest GetQuest();
+    public abstract bool IsComplete();
+    public abstract bool IsClaimed();
 }
 
 
-public class CollectionQuestProgress : IQuestProgress
+public class CollectionQuestProgress : QuestProgress
 {
     public SO_CollectionQuest quest;
     public bool isActive;
@@ -29,9 +40,7 @@ public class CollectionQuestProgress : IQuestProgress
 
     public delegate void UpdateCollectionQuestHandler(CollectionQuestProgress collectionProgress);
 
-    /// <summary>
-    /// Được gọi khi tiến trình của nhiệm vụ thu thập được cập nhật.
-    /// </summary>
+    // Được gọi khi tiến trình của nhiệm vụ thu thập được cập nhật.
     public static event UpdateCollectionQuestHandler OnCollectionQuestUpdate;
 
 
@@ -63,10 +72,7 @@ public class CollectionQuestProgress : IQuestProgress
         var resourceQuest = collectionQuest_List.FirstOrDefault(q => q.questId == questId);
 
         // nếu nhiệm vụ được load là nhiệm vụ thu thập thì gán nó vào quest
-        if (resourceQuest is SO_CollectionQuest collectionQuest)
-        {
-            quest = collectionQuest;
-        }
+        if (resourceQuest is SO_CollectionQuest collectionQuest) { quest = collectionQuest; }
         else { return; }
 
         // load danh sách item có trong Resources
@@ -118,7 +124,7 @@ public class CollectionQuestProgress : IQuestProgress
     /// <summary>
     /// Kiểm tra tiến trình của nhiệm vụ thu thập.
     /// </summary>
-    public void CheckProgress()
+    public override void CheckProgress()
     {
         // nếu có bất kỳ vật phẩm nào trong danh sách chưa thu thập đủ thì không làm gì
         if (itemRequirements_List.Exists(i => i.currentQuantity < i.requirementQuantity)) { return; }
@@ -126,16 +132,18 @@ public class CollectionQuestProgress : IQuestProgress
         // hoàn thành nhiệm vụ
         isCompleted = true;
         isActive = false;
+
+        CompleteQuest();
     }
 
 
-    public SO_Quest GetQuest() => quest;
-    public bool IsComplete() => isCompleted;
-    public bool IsClaimed() => isClaimed;
+    public override SO_Quest GetQuest() => quest;
+    public override bool IsComplete() => isCompleted;
+    public override bool IsClaimed() => isClaimed;
 }
 
 
-public class TalkingQuestProgress : IQuestProgress
+public class TalkingQuestProgress : QuestProgress
 {
     public SO_TalkingQuest quest;
     public bool isActive;
@@ -154,17 +162,16 @@ public class TalkingQuestProgress : IQuestProgress
     }
 
 
-    public void CheckProgress()
+    public override void CheckProgress()
     {
+        CompleteQuest();
+
         isCompleted = true;
         isActive = false;
     }
 
 
-    public SO_Quest GetQuest() => quest;
-
-    public bool IsComplete() => isCompleted;
-
-
-    public bool IsClaimed() => isClaimed;
+    public override SO_Quest GetQuest() => quest;
+    public override bool IsComplete() => isCompleted;
+    public override bool IsClaimed() => isClaimed;
 }

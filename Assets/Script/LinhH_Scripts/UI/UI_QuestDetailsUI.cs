@@ -28,7 +28,8 @@ public class UI_QuestDetails : MonoBehaviour
     private UI_QuestUIManager questUIManager;
 
 
-    private void OnEnable() {
+    private void OnEnable()
+    {
         questManager = FindObjectOfType<MGR_QuestManager>();
         questUIManager = GetComponentInParent<UI_QuestUIManager>();
     }
@@ -37,9 +38,10 @@ public class UI_QuestDetails : MonoBehaviour
     /// <summary>
     /// Thiết lập quest UI.
     /// </summary>
-    public void SetupQuestDetails(IQuestProgress quest)
+    public void SetupQuestDetails(QuestProgress quest)
     {
         ToggleQuestDetails(true);
+
         SetupQuestDescription(quest);
 
         switch (quest.GetQuest().questType)
@@ -53,7 +55,6 @@ public class UI_QuestDetails : MonoBehaviour
                 break;
 
             case QuestType.Giving:
-
                 break;
 
             case QuestType.Selling:
@@ -63,6 +64,7 @@ public class UI_QuestDetails : MonoBehaviour
         ResetQuestRewardUI();
         SetupQuestReward(quest);
 
+        // hiển thị nút Claim nếu nhiệm vụ đã hoàn thành
         if (!quest.IsComplete())
         {
             claimReward_Button.gameObject.SetActive(false);
@@ -72,6 +74,7 @@ public class UI_QuestDetails : MonoBehaviour
         {
             claimReward_Button.onClick.AddListener(() => questManager.GrantReward(quest));
             claimReward_Button.onClick.AddListener(questUIManager.RefreshQuestList);
+            claimReward_Button.onClick.AddListener(questUIManager.RefreshCategorizesNotification);
         }
     }
 
@@ -81,6 +84,7 @@ public class UI_QuestDetails : MonoBehaviour
         questTittle_Text.gameObject.SetActive(enable);
         questDescription_Text.gameObject.SetActive(enable);
         questProgress_Text.gameObject.SetActive(enable);
+
         ResetQuestRewardUI();
         ToggleClaimButton(enable);
     }
@@ -89,7 +93,7 @@ public class UI_QuestDetails : MonoBehaviour
     /// <summary>
     /// Thiết lập tiến trình của nhiệm vụ thu thập trên Quest UI.
     /// </summary>
-    private void SetupCollectionQuestProgress(IQuestProgress questProgress)
+    private void SetupCollectionQuestProgress(QuestProgress questProgress)
     {
         // thiết lập UI tiến trình của nhiệm vụ thu thập
         if (questProgress is CollectionQuestProgress collectionProgress)
@@ -107,7 +111,7 @@ public class UI_QuestDetails : MonoBehaviour
     /// <summary>
     /// Thiết lập tiến trình của nhiệm vụ trò chuyện trên Quest UI.
     /// </summary>
-    private void SetupTalkingQuestProgress(IQuestProgress quest)
+    private void SetupTalkingQuestProgress(QuestProgress quest)
     {
         // thiết lập UI tiến trình của nhiệm vụ thu thập
         if (quest is TalkingQuestProgress talkingQuest)
@@ -119,7 +123,7 @@ public class UI_QuestDetails : MonoBehaviour
     }
 
 
-    private void SetupQuestDescription(IQuestProgress questProgress)
+    private void SetupQuestDescription(QuestProgress questProgress)
     {
         // thiết lập tiêu đề nhiệm vụ
         questTittle_Text.SetText(questProgress.GetQuest().questTittle.GetLocalizedString());
@@ -132,7 +136,7 @@ public class UI_QuestDetails : MonoBehaviour
     /// <summary>
     /// Thiết lập các phần thưởng của nhiệm vụ trên UI.
     /// </summary>
-    private void SetupQuestReward(IQuestProgress questProgress)
+    private void SetupQuestReward(QuestProgress questProgress)
     {
         var reward = questProgress.GetQuest().reward;
 
@@ -140,6 +144,7 @@ public class UI_QuestDetails : MonoBehaviour
         if (reward.experience != 0)
         {
             var expReward = MGR_ObjectPoolManager.SpawnObject(itemReward_Prefab, questRewardPanel);
+
             expReward.GetComponentInChildren<Image>().sprite = null;
             expReward.GetComponentInChildren<TMP_Text>().SetText($"x {reward.experience}");
 
@@ -151,6 +156,7 @@ public class UI_QuestDetails : MonoBehaviour
         if (reward.currency != 0)
         {
             var currencyReward = MGR_ObjectPoolManager.SpawnObject(itemReward_Prefab, questRewardPanel);
+
             currencyReward.GetComponentInChildren<Image>().sprite = null;
             currencyReward.GetComponentInChildren<TMP_Text>().SetText($"x {reward.currency}");
 
@@ -159,11 +165,12 @@ public class UI_QuestDetails : MonoBehaviour
         }
 
         // hiển thị item nhận được
-        if (reward.itemRewards != null)
+        if (reward.itemRewards.Count > 0)
         {
             foreach (var item in reward.itemRewards)
             {
                 var itemReward = MGR_ObjectPoolManager.SpawnObject(itemReward_Prefab, questRewardPanel);
+
                 itemReward.GetComponentInChildren<Image>().sprite = item.item.icon;
                 itemReward.GetComponentInChildren<TMP_Text>().SetText($"x {item.quantity}");
 
@@ -176,6 +183,7 @@ public class UI_QuestDetails : MonoBehaviour
         if (reward.craftingRecipe != null)
         {
             var recipeReward = MGR_ObjectPoolManager.SpawnObject(itemReward_Prefab, questRewardPanel);
+
             recipeReward.GetComponentInChildren<Image>().sprite = reward.craftingRecipe.icon;
             recipeReward.GetComponentInChildren<TMP_Text>().SetText($"");
 

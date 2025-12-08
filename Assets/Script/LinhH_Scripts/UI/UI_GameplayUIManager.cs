@@ -83,12 +83,18 @@ public class UI_GameplayUIManager : MonoBehaviour
     }
 
 
-    private void OnDisable()
+    private void OnDestroy()
     {
         SYS_InputManager.OnOpenBagPress -= EnableBagUI;
         SYS_InputManager.OnEscPress -= EnableGeneralUI;
         SYS_InputManager.OnEscPress -= DisableUI;
         SYS_InputManager.OnQuestUIButtonPress -= EnableQuestUI;
+    }
+
+
+    private void Update()
+    {
+        RefreshGeneralUINotification();
     }
 
 
@@ -217,40 +223,17 @@ public class UI_GameplayUIManager : MonoBehaviour
     }
 
 
-    // #region Notification
-    // public void EnableQuestNotification()
-    // {
-    //     questUI_Notification.SetActive(true);
-    //     generalUI_Notification.SetActive(true);
-    // }
-
-
-    // public void DisableQuestNotification()
-    // {
-    //     questUI_Notification.SetActive(false);
-
-    //     UpdateGeneralUINotification();
-    // }
-
-
-    // /// <summary>
-    // /// Cập nhật thông báo của general UI dựa theo thông báo của các UI con nằm trong nó.
-    // /// </summary>
-    // private void UpdateGeneralUINotification()
-    // {
-    //     // kiểm tra thông báo của tất cả các UI của general UI
-    //     // nếu có bất kỳ thông báo nào được bật thì bật thông báo general
-    //     if (questUI_Notification.activeSelf)
-    //     {
-    //         generalUI_Notification.SetActive(true);
-    //         return;
-    //     }
-
-    //     // nếu không có thông báo nào được bật thì tắt thông báo general
-    //     generalUI_Notification.SetActive(false);
-    // }
-
-    // #endregion
+    /// <summary>
+    /// Cập nhật thông báo của general UI dựa theo thông báo của các UI con nằm trong nó.
+    /// </summary>
+    public void RefreshGeneralUINotification()
+    {
+        if (questUIManager.haveNotification || settingUIManager.haveNotification)
+        {
+            generalUI_Notification.SetActive(true);
+        }
+        else { generalUI_Notification.SetActive(false); }
+    }
 
 
     /// <summary>

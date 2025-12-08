@@ -9,7 +9,7 @@
 /// </summary>
 public static class QuestProgressFactory
 {
-    public static IQuestProgress CreateQuestProgress(SO_Quest newQuest)
+    public static QuestProgress CreateQuestProgress(SO_Quest newQuest)
     {
         switch (newQuest.questType)
         {

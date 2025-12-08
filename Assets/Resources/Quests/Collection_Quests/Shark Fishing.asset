@@ -31,14 +31,16 @@ MonoBehaviour:
     m_FallbackState: 0
     m_WaitForCompletion: 0
     m_LocalVariables: []
-  questCategorize: 1
+  questCategorize: 0
   questType: 0
   reward:
-    experience: 10
-    gold: 100
+    experience: 100
+    currency: 0
     itemRewards:
     - item: {fileID: 11400000, guid: 90dfd499cace8ef4487fe8d1c06d99f5, type: 2}
       quantity: 3
+    - item: {fileID: 11400000, guid: 3a0e17dd38c938243b9653bb4e68778e, type: 2}
+      quantity: 2
     craftingRecipe: {fileID: 11400000, guid: b57c9fef8401ebc46b42a2524b63b230, type: 2}
   nextQuest: {fileID: 0}
   targetItems_List:

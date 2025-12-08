@@ -9,11 +9,12 @@ using System.Collections.Generic;
 using System.Linq;
 using Management;
 using UnityEngine;
-using UnityEngine.Localization;
+
 
 public class MGR_QuestManager : MonoBehaviour
 {
-    public List<IQuestProgress> activeQuests_List { get; private set; }
+    public List<QuestProgress> activeQuests_List { get; private set; }
+    public bool haveCompletedQuest { get; private set; }
 
     private InventoryManager inventoryManager;
 
@@ -26,7 +27,7 @@ public class MGR_QuestManager : MonoBehaviour
 
     private void Awake()
     {
-        activeQuests_List = new List<IQuestProgress>();
+        activeQuests_List = new List<QuestProgress>();
     }
 
 
@@ -111,8 +112,6 @@ public class MGR_QuestManager : MonoBehaviour
                 collectionQuest.UpdateProgress(item, quantity);
             }
         }
-
-        RefreshQuestList();
     }
 
 
@@ -129,18 +128,16 @@ public class MGR_QuestManager : MonoBehaviour
                 talkingQuest.UpdateProgress(npc);
             }
         }
-
-        RefreshQuestList();
     }
 
 
     /// <summary>
-    /// Kiểm tra nếu có nhiệm vụ nào đã hoàn thành thì loại nó khỏi danh sách.
+    /// Cập nhật danh sách nhiệm vụ đang thực hiện.
     /// </summary>
     private void RefreshQuestList()
     {
         // tìm nhiệm vụ đã nhận phần thưởng trong danh sách
-        var claimedQuest = activeQuests_List.FirstOrDefault(q => q.IsClaimed() == true);
+        var claimedQuest = activeQuests_List.FirstOrDefault(q => q.IsClaimed());
         if (claimedQuest != null)
         {
             // kiểm tra xem có nhiệm vụ nào trong chuỗi nhiệm vụ không
@@ -152,10 +149,17 @@ public class MGR_QuestManager : MonoBehaviour
             // loại bỏ nhiệm vụ khỏi danh sách
             activeQuests_List.Remove(claimedQuest);
             OnQuestListUpdate?.Invoke();
-
-            // hiển thị thông báo quest UI
         }
     }
+
+
+    // public void UpdateCompletedQuest()
+    // {
+    //     var completedQuest = activeQuests_List.FirstOrDefault(q => q.IsComplete());
+
+    //     if (completedQuest != null) { haveCompletedQuest = true; }
+    //     else { haveCompletedQuest = false; }
+    // }
 
 
     private void LoadCollectionProgress(QuestData questData)
@@ -184,7 +188,7 @@ public class MGR_QuestManager : MonoBehaviour
     /// <summary>
     /// Phát thưởng cho nhân vật.
     /// </summary>
-    public void GrantReward(IQuestProgress quest)
+    public void GrantReward(QuestProgress quest)
     {
         if (!activeQuests_List.Contains(quest)) { return; }
 

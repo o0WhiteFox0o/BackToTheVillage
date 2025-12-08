@@ -21,6 +21,8 @@ public class UI_SettingUIManager : MonoBehaviour
     [SerializeField] public Slider musicSlider;
     [SerializeField] public Slider sfxSlider;
 
+    public bool haveNotification { get; private set; }
+
     public bool firstTimeOpened { get; private set; }
 
 

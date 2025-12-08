@@ -17,7 +17,6 @@ public class UI_QuestUIManager : MonoBehaviour
     [SerializeField] public GameObject backgroundImage;
     [SerializeField] Transform questPanel;
     [SerializeField] GameObject noQuestInListMessage;
-    [SerializeField] public GameObject questUI_Notification;
 
     [Header("Prefabs")]
     [SerializeField] private GameObject questUI_Prefab;
@@ -27,8 +26,13 @@ public class UI_QuestUIManager : MonoBehaviour
     [SerializeField] public List<GameObject> questCategorizeHighlights_List;
     [SerializeField] public Button backButton;
 
+    [Header("Notification")]
+    [SerializeField] public List<GameObject> categorizesNotification;
+
     [Header("Audio Clips")]
     [SerializeField] private AudioClip sfxSelectQuestInUI;
+
+    public bool haveNotification { get; private set; }
 
     private UI_GameplayUIManager gameplayUIManager;
     private List<GameObject> questPrefab_List = new List<GameObject>();
@@ -49,12 +53,14 @@ public class UI_QuestUIManager : MonoBehaviour
         }
 
         backButton.onClick.AddListener(gameplayUIManager.DisableUI);
+        QuestProgress.OnQuestComplete += RefreshCategorizesNotification;
     }
 
 
     private void OnDestroy()
     {
         backButton.onClick.RemoveAllListeners();
+        QuestProgress.OnQuestComplete -= RefreshCategorizesNotification;
     }
 
 
@@ -113,7 +119,7 @@ public class UI_QuestUIManager : MonoBehaviour
     /// <summary>
     /// Hiển thị danh sách nhiệm vụ được truyền vào lên Quest UI.
     /// </summary>
-    private void DisplayQuestList(List<IQuestProgress> questProgress_List)
+    private void DisplayQuestList(List<QuestProgress> questProgress_List)
     {
         // clear các nhiệm vụ danh có trong panel
         foreach (Transform questUI in questPanel)
@@ -143,6 +149,13 @@ public class UI_QuestUIManager : MonoBehaviour
 
             newQuestUI.GetComponentInChildren<TMP_Text>().SetText(quest.GetQuest().questTittle.GetLocalizedString());
 
+            // hiển thị thông báo hoàn thành nhiệm vụ
+            // mặc định vị trí của game object notification là vị trí đầu tiên
+            var notification = newQuestUI.transform.GetChild(0).GetComponent<Image>();
+            Debug.Log($"Notification game object: {notification.gameObject.name}");
+            if (quest.IsComplete()) { notification.enabled = true; }
+            else { notification.enabled = false; }
+
             // đăng ký sự kiện cho nút nhiệm vụ mới
             var questButton = newQuestUI.GetComponent<Button>();
             int index = i;
@@ -164,7 +177,7 @@ public class UI_QuestUIManager : MonoBehaviour
     }
 
 
-    private void DisplayQuestDetail(IQuestProgress quest)
+    private void DisplayQuestDetail(QuestProgress quest)
     {
         questDetailsUI.SetupQuestDetails(quest);
     }
@@ -193,5 +206,27 @@ public class UI_QuestUIManager : MonoBehaviour
     {
         backgroundImage.SetActive(true);
         FillQuestCategorize(0);
+    }
+
+
+    public void RefreshCategorizesNotification()
+    {
+        // reset thông báo của các phân loại nhiệm vụ
+        foreach (var notification in categorizesNotification)
+        {
+            notification.SetActive(false);
+        }
+
+        // lấy danh sách các nhiệm vụ đã hoàn thành trong danh sách nhiệm vụ
+        var completedQuests = questManager.activeQuests_List.Where(q => q.IsComplete()).ToList();
+
+        if (completedQuests.Count > 0) { haveNotification = true; }
+        else { haveNotification = false; }
+
+        //  bật thông báo của các category có completed quest
+        foreach (var completedQuest in completedQuests)
+        {
+            categorizesNotification[(int)completedQuest.GetQuest().questCategorize].SetActive(true);
+        }
     }
 }
