@@ -12,7 +12,7 @@ using UnityEngine.UI;
 public class UI_SettingUIManager : MonoBehaviour
 {
     [Header("Panels")]
-    [SerializeField] public GameObject settingPanel;
+    [SerializeField] public GameObject background;
     [SerializeField] public Transform hotkeySettingPanel;
 
     [Header("Buttons")]
@@ -22,7 +22,6 @@ public class UI_SettingUIManager : MonoBehaviour
     [SerializeField] public Slider sfxSlider;
 
     public bool haveNotification { get; private set; }
-
     public bool firstTimeOpened { get; private set; }
 
 
@@ -30,15 +29,13 @@ public class UI_SettingUIManager : MonoBehaviour
     {
         firstTimeOpened = true;
 
-        var gameplayUIMgr = GetComponentInParent<UI_GameplayUIManager>();
+        var gameplayUIManager = GetComponentInParent<UI_GameplayUIManager>();
+        var mainMenuUIManager = GetComponentInParent<UI_MainMenuUIManager>();
 
-        if (gameplayUIMgr == null)
-        {
-            Debug.LogError("Can't get component.");
-        }
+        // thêm listener cho back button dựa vào ui manager của object cha
+        if (gameplayUIManager != null) { backButton.onClick.AddListener(gameplayUIManager.DisableUI); }
+        else { backButton.onClick.AddListener(mainMenuUIManager.DisableUI); }
 
-
-        backButton.onClick.AddListener(gameplayUIMgr.DisableUI);
         musicSlider.onValueChanged.AddListener(MusicSliderChange);
         sfxSlider.onValueChanged.AddListener(SfxSliderChange);
 
@@ -111,7 +108,7 @@ public class UI_SettingUIManager : MonoBehaviour
 
     public void EnableSettingUI()
     {
-        settingPanel.SetActive(true);
+        background.SetActive(true);
     }
 
 

@@ -113,8 +113,6 @@ public class MGR_ObjectPoolManager : MonoBehaviour
         {
             pool.inactiveObjects.Remove(spawnableObj);
             spawnableObj.SetActive(true);
-
-            Debug.Log($"Test reuse object {spawnObj.name}");
         }
 
         return spawnableObj;

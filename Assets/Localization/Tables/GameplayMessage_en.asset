@@ -110,6 +110,18 @@ MonoBehaviour:
     m_Localized: Mastered
     m_Metadata:
       m_Items: []
+  - m_Id: 9790976668352512
+    m_Localized: 'Farm name: '
+    m_Metadata:
+      m_Items: []
+  - m_Id: 9791073896513536
+    m_Localized: 'Character name: '
+    m_Metadata:
+      m_Items: []
+  - m_Id: 9791191282499584
+    m_Localized: 'Played time: '
+    m_Metadata:
+      m_Items: []
   references:
     version: 2
     RefIds: []

@@ -1,5 +1,8 @@
 {
-    "currentStoryQuestId": "",
+    "farmName": "Test Farm",
+    "characterName": "testFarm",
+    "playedTime": 600,
+    "currency": 1000,
     "activeQuest_List": [
         {
             "questId": "shark_fishing",

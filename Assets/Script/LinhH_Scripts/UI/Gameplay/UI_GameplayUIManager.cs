@@ -30,12 +30,6 @@ public class UI_GameplayUIManager : MonoBehaviour
     [Header("Audio Clips")]
     [SerializeField] private AudioClip sfxButtonPress;
 
-
-    // Load from Hierarchy
-    private EventSystem eventSystem;
-    private GraphicRaycaster uiRaycaster;
-
-
     // Load from children game objects
     public UI_QuestUIManager questUIManager { get; private set; }
     public UI_ConversationUIManager conversationUIManager { get; private set; }
@@ -45,9 +39,7 @@ public class UI_GameplayUIManager : MonoBehaviour
     // Temporary variables
     private GameObject itemInfoUI;
 
-    /// <summary>
-    /// Stack các UI đang được mở trong gameplay. Dùng để điều khiển luồng tắt/mở của gameplay UI.
-    /// </summary>
+    // Stack các UI đang được mở trong gameplay. Dùng để điều khiển luồng tắt/mở của gameplay UI.
     private Stack<GameObject> openedUIs = new Stack<GameObject>();
     private bool generalUIOpen = false;
 
@@ -62,11 +54,8 @@ public class UI_GameplayUIManager : MonoBehaviour
         conversationUIManager = GetComponentInChildren<UI_ConversationUIManager>();
         settingUIManager = GetComponentInChildren<UI_SettingUIManager>();
 
-        eventSystem = FindObjectOfType<EventSystem>();
-        uiRaycaster = GetComponent<GraphicRaycaster>();
-
-        if (eventSystem == null || questUIManager == null || conversationUIManager == null
-            || uiRaycaster == null || settingUIManager == null)
+        if (questUIManager == null || conversationUIManager == null
+            || settingUIManager == null)
         {
             Debug.LogError("Can't load a manager component.");
         }
@@ -193,7 +182,7 @@ public class UI_GameplayUIManager : MonoBehaviour
     public void EnableSettingUI()
     {
         // không thể mở setting ui khi nó đang mở
-        if (settingUIManager.settingPanel.activeSelf) { return; }
+        if (settingUIManager.background.activeSelf) { return; }
 
         MGR_AudioManager.Instance.PlaySFX(sfxButtonPress);
         settingUIManager.EnableSettingUI();
@@ -206,7 +195,7 @@ public class UI_GameplayUIManager : MonoBehaviour
             settingUIManager.SetupHotkeyUI();
         }
 
-        openedUIs.Push(settingUIManager.settingPanel);
+        openedUIs.Push(settingUIManager.background);
     }
 
 

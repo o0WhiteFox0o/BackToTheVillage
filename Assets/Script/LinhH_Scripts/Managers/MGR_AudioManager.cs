@@ -21,7 +21,9 @@ public class MGR_AudioManager : MonoBehaviour
         if (Instance == null)
         {
             Instance = this;
+            DontDestroyOnLoad(this);
         }
+        else { Destroy(this); }
 
         LoadAudioSetting();
     }
@@ -45,6 +47,9 @@ public class MGR_AudioManager : MonoBehaviour
     }
 
 
+    /// <summary>
+    /// Load thiết lập âm thanh từ file Game Config
+    /// </summary>
     private void LoadAudioSetting()
     {
         GameConfig gameConfig = GameConfig.LoadGameConfig();

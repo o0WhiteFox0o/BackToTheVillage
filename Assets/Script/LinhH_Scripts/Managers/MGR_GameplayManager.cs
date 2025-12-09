@@ -33,7 +33,7 @@ public class MGR_GameplayManager : MonoBehaviour
     {
         // TEST - LinhH - 11/11/2025
         // TODO - get farm name and load as the file name
-        var savedGame = SavedGameConfig.LoadSaveGameConfig("SavedGameTest1");
+        var savedGame = SavedGameConfig.LoadSaveGameByName("SavedGameTest1");
 
         questManager.LoadFromSavedGame(savedGame);
     }

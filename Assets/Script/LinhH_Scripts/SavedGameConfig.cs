@@ -15,24 +15,41 @@ using UnityEngine;
 /// </summary>
 public class SavedGameConfig
 {
+    public string farmName;
+    public string characterName;
+    public float playedTime;
+    public float currency;
+
     public List<QuestData> activeQuest_List = new List<QuestData>();
 
 
-    public static SavedGameConfig LoadSaveGameConfig(string farmName)
+    /// <summary>
+    /// Load và trả về Saved Game config dựa vào farm name.
+    /// </summary>
+    public static SavedGameConfig LoadSaveGameByName(string farmName)
     {
         // lấy vị trí của file saved game config
         var savedGameFile = $"{GameConstants.SAVED_GAMES_FOLDER}/{farmName}.json";
-        string gameConfigPath = Path.Combine(Application.streamingAssetsPath, savedGameFile);
+        string savedGame = Path.Combine(Application.streamingAssetsPath, savedGameFile);
 
+        return LoadSavedGameByPath(savedGame);
+    }
+
+
+    /// <summary>
+    /// Load và trả về Saved Game config dựa vào file path.
+    /// </summary>
+    public static SavedGameConfig LoadSavedGameByPath(string path)
+    {
         // nếu file không tồn tại thì trả về giá trị null
-        if (!File.Exists(gameConfigPath))
+        if (!File.Exists(path))
         {
             Debug.LogError("Không tìm tháy file Saved Farm Config");
             return null;
         }
 
         // đọc dữ liệu trong file
-        string fileContent = File.ReadAllText(gameConfigPath);
+        string fileContent = File.ReadAllText(path);
 
         // chuyển dữ liệu về dạng object
         SavedGameConfig savedGameConfig = JsonUtility.FromJson<SavedGameConfig>(fileContent);
@@ -91,4 +108,16 @@ public class ItemCollectedData
     public string itemId;
     public int currentQuantity;
     public int totalQuantity;
+}
+
+
+public enum CharacterCurrentArea
+{
+    MainArea,
+    MarketArea,
+    LakeArea,
+    Area1,
+    Area2,
+    Area3,
+    Area4
 }

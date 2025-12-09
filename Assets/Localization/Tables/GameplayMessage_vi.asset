@@ -111,6 +111,18 @@ MonoBehaviour:
     m_Localized: "\u0110\xE3 Th\xE0nh Th\u1EA1o"
     m_Metadata:
       m_Items: []
+  - m_Id: 9790976668352512
+    m_Localized: "T\xEAn n\xF4ng tr\u1EA1i: "
+    m_Metadata:
+      m_Items: []
+  - m_Id: 9791073896513536
+    m_Localized: "T\xEAn nh\xE2n v\u1EADt: "
+    m_Metadata:
+      m_Items: []
+  - m_Id: 9791191282499584
+    m_Localized: "Th\u1EDDi gian ch\u01A1i: "
+    m_Metadata:
+      m_Items: []
   references:
     version: 2
     RefIds: []
