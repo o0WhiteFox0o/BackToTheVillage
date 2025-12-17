@@ -55,8 +55,6 @@ public class MGR_QuestManager : MonoBehaviour
 
     public void LoadFromSavedGame(SavedGameConfig savedGame)
     {
-        Debug.Log($"total quest in saved file: {savedGame.activeQuest_List.Count}");
-
         // load danh sách các nhiệm vụ được lưu
         foreach (var questData in savedGame.activeQuest_List)
         {

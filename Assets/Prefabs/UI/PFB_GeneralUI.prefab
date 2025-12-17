@@ -1349,6 +1349,7 @@ MonoBehaviour:
   npcButton: {fileID: 5335954007643600283}
   questButton: {fileID: 2185686652234413421}
   settingButton: {fileID: 1908767202618019908}
+  exitButton: {fileID: 4896415366367756226}
 --- !u!1 &6376369924553161756
 GameObject:
   m_ObjectHideFlags: 0

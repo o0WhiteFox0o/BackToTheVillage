@@ -81,14 +81,12 @@ public class UI_SavedGameUIManager : MonoBehaviour
         // load file saved game config dự vào tên nông trại
         string fileName = $"{GameConstants.SAVED_GAMES_FOLDER}/{savedGame.farmName}.json";
         string path = Path.Combine(Application.streamingAssetsPath, fileName);
+        if (File.Exists(path)) { File.Delete(path); }
 
-        if (!File.Exists(path))
-        {
-            Debug.LogError("File not found!!!");
-            return;
-        }
+        string metaFile = fileName + ".meta";
+        path = Path.Combine(Application.streamingAssetsPath, metaFile);
+        if (File.Exists(path)) { File.Delete(path); }
 
-        File.Delete(path);
         LoadSavedFarmList();
     }
 

@@ -6,6 +6,7 @@
 
 
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class UI_GeneralUIManager : MonoBehaviour
@@ -18,6 +19,7 @@ public class UI_GeneralUIManager : MonoBehaviour
     [SerializeField] public Button npcButton;
     [SerializeField] public Button questButton;
     [SerializeField] public Button settingButton;
+    [SerializeField] private Button exitButton;
 
     private UI_QuestUIManager questUIManager;
 
@@ -30,6 +32,16 @@ public class UI_GeneralUIManager : MonoBehaviour
         {
             Debug.LogError("Can't load quest UI manager!!!");
         }
+
+        // TEST
+        exitButton.onClick.AddListener(() => SceneManager.LoadScene(0));
+    }
+
+
+    void OnDestroy()
+    {
+        // TEST
+        exitButton.onClick.RemoveAllListeners();
     }
 
 

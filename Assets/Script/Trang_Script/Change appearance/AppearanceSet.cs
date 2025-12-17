@@ -2,6 +2,11 @@ using UnityEngine;
 
 public enum Direction { LT, LD, RT, RD }
 
+public enum AppearanceType
+{
+    Hair, Hat, Clothes, Face
+}
+
 public abstract class AppearanceSet : ScriptableObject
 {
     // Idle frames
