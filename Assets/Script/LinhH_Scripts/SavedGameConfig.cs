@@ -17,6 +17,7 @@ public class SavedGameConfig
 {
     public string farmName;
     public string characterName;
+    public Vector3 characterPosition;
     public float playedTime;
     public float currency;
 

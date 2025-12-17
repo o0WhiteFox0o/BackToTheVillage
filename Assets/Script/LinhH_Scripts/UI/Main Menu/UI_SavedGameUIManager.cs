@@ -21,13 +21,15 @@ public class UI_SavedGameUIManager : MonoBehaviour
     [SerializeField] private GameObject savedGameUI_Prefab;
 
     private UI_MainMenuUIManager mainMenuUIManager;
+    private MGR_MainMenuManager mainMenuManager;
 
 
     void Start()
     {
         mainMenuUIManager = GetComponentInParent<UI_MainMenuUIManager>();
+        mainMenuManager = FindObjectOfType<MGR_MainMenuManager>();
 
-        if (mainMenuUIManager == null)
+        if (mainMenuUIManager == null || mainMenuManager == null)
         {
             Debug.LogError("Can't load component!!!");
         }
@@ -69,31 +71,13 @@ public class UI_SavedGameUIManager : MonoBehaviour
 
             // thiết lập các thông tin game lên UI
             savedGameUI.SetupSavedFarmDetails(savedGameConfig);
+
             // đang ký các sự kiện cần thiết cho button
-            savedGameUI.deleteFarmButton.onClick.AddListener(() => DeleteGame(savedGameConfig));
-            savedGameUI.loadFarmButton.onClick.AddListener(() => LoadGame(savedGameConfig));
+            savedGameUI.deleteFarmButton.onClick.AddListener(() => mainMenuManager.DeleteSavedGame(savedGameConfig));
+            savedGameUI.deleteFarmButton.onClick.AddListener(LoadSavedFarmList);
+
+            savedGameUI.loadFarmButton.onClick.AddListener(() => mainMenuManager.LoadGame(savedGameConfig));
         }
-    }
-
-
-    private void DeleteGame(SavedGameConfig savedGame)
-    {
-        // load file saved game config dự vào tên nông trại
-        string fileName = $"{GameConstants.SAVED_GAMES_FOLDER}/{savedGame.farmName}.json";
-        string path = Path.Combine(Application.streamingAssetsPath, fileName);
-        if (File.Exists(path)) { File.Delete(path); }
-
-        string metaFile = fileName + ".meta";
-        path = Path.Combine(Application.streamingAssetsPath, metaFile);
-        if (File.Exists(path)) { File.Delete(path); }
-
-        LoadSavedFarmList();
-    }
-
-
-    private void LoadGame(SavedGameConfig savedGame)
-    {
-        Debug.Log($"load farm {savedGame.farmName}");
     }
 
 

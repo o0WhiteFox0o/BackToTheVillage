@@ -1,3 +1,5 @@
+using UnityEngine;
+
 public class GameConstants
 {
     /// <summary>
@@ -20,4 +22,14 @@ public class GameConstants
     /// Tên thư mục chứa các file lưu trữ của màn chơi.
     /// </summary>
     public const string SAVED_GAMES_FOLDER = "SavedGames";
+
+    /// <summary>
+    /// Số tiền khi của nhân vật khi mới tạo game.
+    /// </summary>
+    public const int NEW_GAME_CURRENCY = 1500;
+
+    /// <summary>
+    /// Vị trí ban đầu của nhân vật khi tạo game.
+    /// </summary>
+    public readonly static Vector3 NEW_GAME_POSITION = Vector3.zero;
 }

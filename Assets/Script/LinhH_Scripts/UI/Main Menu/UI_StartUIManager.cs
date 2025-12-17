@@ -4,9 +4,10 @@
 // 
 
 
+using System.Collections.Generic;
+using System.Linq;
 using TMPro;
 using UnityEngine;
-using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class UI_StartUIManager : MonoBehaviour
@@ -56,9 +57,9 @@ public class UI_StartUIManager : MonoBehaviour
     private FaceSetSO[] femaleFaceSets;
     // TODO: hat
 
-    private ClothSetSO[] cacheClothesSets;
-    private HairSetSO[] cacheHairSets;
-    private FaceSetSO[] cacheFaceSets;
+    private List<ClothSetSO> cacheClothesSets = new List<ClothSetSO>();
+    private List<HairSetSO> cacheHairSets = new List<HairSetSO>();
+    private List<FaceSetSO> cacheFaceSets = new List<FaceSetSO>();
     // TODO: hat
 
     private int currentClothesIndex;
@@ -66,21 +67,23 @@ public class UI_StartUIManager : MonoBehaviour
     private int currentHairIndex;
 
 
+    private MGR_MainMenuManager mainMenuManager;
+
+
     void Start()
     {
         mainMenuUIManager = GetComponentInParent<UI_MainMenuUIManager>();
+        mainMenuManager = FindObjectOfType<MGR_MainMenuManager>();
 
-        if (mainMenuUIManager == null)
+        if (mainMenuUIManager == null || mainMenuManager == null)
         {
             Debug.LogError("Can't load component!!!");
         }
 
         AddListenerForButtons();
         LoadCharacterAppearance();
-        RefreshCharacterAppearance();
 
-        // TEST 
-        startButton.onClick.AddListener(() => SceneManager.LoadScene(1));
+        startButton.onClick.AddListener(StartGame);
     }
 
 
@@ -100,7 +103,6 @@ public class UI_StartUIManager : MonoBehaviour
         previousHairButton.onClick.RemoveAllListeners();
         previousHatButton.onClick.RemoveAllListeners();
 
-        // TEST 
         startButton.onClick.RemoveAllListeners();
     }
 
@@ -108,8 +110,8 @@ public class UI_StartUIManager : MonoBehaviour
     public void EnableStartUI()
     {
         background.SetActive(true);
-        RefreshCharacterAppearance();
         SelectGender(true);
+        RefreshCharacterAppearance();
     }
 
 
@@ -168,15 +170,20 @@ public class UI_StartUIManager : MonoBehaviour
 
     private void SelectGender(bool isMale)
     {
+        cacheClothesSets.Clear();
+        cacheFaceSets.Clear();
+        cacheHairSets.Clear();
+        // TODO: hat
+
         if (isMale)
         {
             // bật highlight của male button và tắt highlight female button
             maleSelectionButton.transform.GetChild(0).GetComponent<Image>().enabled = true;
             femaleSelectionButton.transform.GetChild(0).GetComponent<Image>().enabled = false;
 
-            cacheClothesSets = maleClothesSets;
-            cacheFaceSets = maleFaceSets;
-            cacheHairSets = maleHairSets;
+            cacheClothesSets = maleClothesSets.ToList();
+            cacheFaceSets = maleFaceSets.ToList();
+            cacheHairSets = maleHairSets.ToList();
             // TODO: hat
         }
         else
@@ -185,9 +192,9 @@ public class UI_StartUIManager : MonoBehaviour
             maleSelectionButton.transform.GetChild(0).GetComponent<Image>().enabled = false;
             femaleSelectionButton.transform.GetChild(0).GetComponent<Image>().enabled = true;
 
-            cacheClothesSets = femaleClothesSets;
-            cacheFaceSets = femaleFaceSets;
-            cacheHairSets = femaleHairSets;
+            cacheClothesSets = femaleClothesSets.ToList();
+            cacheFaceSets = femaleFaceSets.ToList();
+            cacheHairSets = femaleHairSets.ToList();
             // TODO: hat
         }
     }
@@ -247,8 +254,8 @@ public class UI_StartUIManager : MonoBehaviour
 
         // cập nhật giá trị của current clothes index
         currentClothesIndex += state;
-        if (currentClothesIndex >= cacheClothesSets.Length) { currentClothesIndex = 0; }
-        else if (currentClothesIndex < 0) { currentClothesIndex = cacheClothesSets.Length - 1; }
+        if (currentClothesIndex >= cacheClothesSets.Count) { currentClothesIndex = 0; }
+        else if (currentClothesIndex < 0) { currentClothesIndex = cacheClothesSets.Count - 1; }
 
         // cập nhật UI dựa trên current clothes index
         clothesImage.sprite = cacheClothesSets[currentClothesIndex].RD_idle[0];
@@ -279,5 +286,19 @@ public class UI_StartUIManager : MonoBehaviour
         if (state != 1 && state != -1) { return; }
 
 
+    }
+
+
+    private void StartGame()
+    {
+        if (farmNameInput.text.Length == 0 || characterNameInput.text.Length == 0 || favoriteInput.text.Length == 0)
+        {
+            Debug.Log("Nhập thiếu thông tin. Hãy nhập lại đầy đủ!!!");
+
+            // TODO: hiển thị thông báo người chơi nhập thiếu thông tin
+            return;
+        }
+
+        mainMenuManager.StartNewGame(farmNameInput.text, characterNameInput.text);
     }
 }
