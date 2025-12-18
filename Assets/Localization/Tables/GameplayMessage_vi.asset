@@ -123,6 +123,11 @@ MonoBehaviour:
     m_Localized: "Th\u1EDDi gian ch\u01A1i: "
     m_Metadata:
       m_Items: []
+  - m_Id: 13018547665125376
+    m_Localized: "Nh\u1EADp thi\u1EBFu th\xF4ng tin. \r\nVui l\xF2ng ki\u1EC3m tra
+      v\xE0 nh\u1EADp l\u1EA1i \u0111\u1EA7y \u0111\u1EE7!!!"
+    m_Metadata:
+      m_Items: []
   references:
     version: 2
     RefIds: []

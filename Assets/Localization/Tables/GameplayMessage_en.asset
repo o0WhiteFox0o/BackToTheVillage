@@ -122,6 +122,11 @@ MonoBehaviour:
     m_Localized: 'Played time: '
     m_Metadata:
       m_Items: []
+  - m_Id: 13018547665125376
+    m_Localized: "Incomplete information has been entered.\r\r\nPlease check and
+      re-enter all the information completely!!!"
+    m_Metadata:
+      m_Items: []
   references:
     version: 2
     RefIds: []

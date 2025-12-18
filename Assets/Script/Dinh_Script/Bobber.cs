@@ -155,7 +155,6 @@ public class Bobber : MonoBehaviour
     private void HandleHitWater(FishData pickedFish)
     {
         if (bobbingAnim != null) bobbingAnim.enabled = true;
-        Debug.Log("Hạ cánh trên NƯỚC");
         if (moveCoroutine != null) StopCoroutine(moveCoroutine);
         spriteTransform.localPosition = Vector3.zero; // Reset vị trí local
 
@@ -173,28 +172,18 @@ public class Bobber : MonoBehaviour
         }
 
         // Đổi sang sprite nổi trên nước
-        if (bobberSpriteRenderer != null && floatingSprite != null)
-        {
-            bobberSpriteRenderer.sprite = floatingSprite;
-        }
-        else if (floatingSprite == null)
-        {
-            Debug.LogWarning("Chưa gán Floating Sprite cho Bobber!");
-        }
+        if (bobberSpriteRenderer != null && floatingSprite != null) { bobberSpriteRenderer.sprite = floatingSprite; }
+        else if (floatingSprite == null) { Debug.LogWarning("Chưa gán Floating Sprite cho Bobber!"); }
 
         // Ẩn bóng đi
-        if (shadow != null) shadow.SetActive(false);
+        if (shadow != null) { shadow.SetActive(false); }
 
         // Gửi thông tin về Player
-        if (playerFishingScript != null) playerFishingScript.OnBobberLanded(pickedFish);
-
-        // hotBar.SetActive(false); // <-- BỎ DÒNG NÀY
+        if (playerFishingScript != null) { playerFishingScript.OnBobberLanded(pickedFish); }
     }
-    // --- KẾT THÚC SỬA ---
 
 
-    // --- SỬA NHẸ HÀM HANDLEHITGROUND ---
-    private void HandleHitGround()  
+    private void HandleHitGround()
     {
         if (bobbingAnim != null) bobbingAnim.enabled = false;
         Debug.Log("Hạ cánh trên ĐẤT!");

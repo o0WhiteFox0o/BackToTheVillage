@@ -123,6 +123,10 @@ MonoBehaviour:
     m_Key: gMsg.savedGame.playedTime
     m_Metadata:
       m_Items: []
+  - m_Id: 13018547665125376
+    m_Key: gMsg.startGame.incompleteSetup
+    m_Metadata:
+      m_Items: []
   m_Metadata:
     m_Items: []
   m_KeyGenerator:

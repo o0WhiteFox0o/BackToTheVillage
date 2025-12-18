@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 6442555380796992108}
   - component: {fileID: 5274584216763915819}
   m_Layer: 0
-  m_Name: PulledFishIconPrefab
+  m_Name: PFB_PulledFishIcon
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
