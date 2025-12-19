@@ -15,11 +15,16 @@ public class UI_FishingUIManager : MonoBehaviour
     [Header("Panels")]
     [SerializeField] private GameObject castingPanel;
     [SerializeField] private GameObject caughtFishPanel;
+    [SerializeField] private GameObject qtePanel;
 
     [Header("Images")]
     [SerializeField] private Image castingBar;
     [SerializeField] private Image fishingIcon;
     [SerializeField] private GameObject fishingExclamation;
+    [SerializeField] private Image fishingTimerBar;
+    [SerializeField] private Image successZoneImage;
+    [SerializeField] private Image qteTimeFiller_Image;
+    [SerializeField] private Image progressBarImage;
 
     [Header("Texts")]
     [SerializeField] private TMP_Text fishNameText;
@@ -30,6 +35,7 @@ public class UI_FishingUIManager : MonoBehaviour
     [SerializeField] private GameObject fishIconPrefab;
 
     [SerializeField] private float caughtFishDisplayTime = 3.0f;
+
 
 
     private void Start()
@@ -53,6 +59,12 @@ public class UI_FishingUIManager : MonoBehaviour
     public void ToggleCaughtFishPanel(bool enable)
     {
         caughtFishPanel.SetActive(enable);
+    }
+
+
+    public void ToggleFishingQTE(bool enable)
+    {
+        qtePanel.SetActive(enable);
     }
 
 
@@ -87,7 +99,37 @@ public class UI_FishingUIManager : MonoBehaviour
     {
         StopAllCoroutines();
         StartCoroutine(ShowCaughtFishUI(fishData));
+    }
 
-        Debug.Log("Test: caught fish");
+
+    public void SetupFishingQTE(float gameTimerFill, float progressBarFill)
+    {
+        qteTimeFiller_Image.fillAmount = gameTimerFill;
+        progressBarImage.fillAmount = progressBarFill;
+    }
+
+
+    public void UpdateQTETimerBar(float progress)
+    {
+        qteTimeFiller_Image.fillAmount = progress;
+    }
+
+
+    public void UpdateProgressBar(float progress)
+    {
+        progressBarImage.fillAmount = progress;
+    }
+
+
+    public void UpdateTimerBar(Quaternion quaternion)
+    {
+        fishingTimerBar.rectTransform.localRotation = quaternion;
+    }
+
+
+    public void UpdateSuccessZoneImage(Quaternion quaternion, float progress)
+    {
+        successZoneImage.rectTransform.localRotation = quaternion;
+        successZoneImage.fillAmount = progress;
     }
 }

@@ -1,25 +1,14 @@
-﻿using System;
+﻿// 
+// Member: Dinh
+// 
+
+using System;
 using UnityEngine;
 using UnityEngine.UI;
 
+
 public class FishingQTE : MonoBehaviour
 {
-    [Header("--- UI Components ---")]
-    [SerializeField] private GameObject qtePanel;
-
-    [Tooltip("Thanh xoay tròn (kim chỉ)")]
-    [SerializeField] private Image timerBar;
-
-    [Tooltip("Vùng màu xanh (vùng thắng)")]
-    [SerializeField] private Image successZoneImage;
-
-    [Header("--- Fill Bars ---")]
-    [Tooltip("Thanh thời gian tổng (Nằm ngang). Nhớ set Image Type = Filled")]
-    [SerializeField] private Image gameTimerImage;
-
-    [Tooltip("Thanh tiến độ câu (Dọc). Nhớ set Image Type = Filled")]
-    [SerializeField] private Image progressBarImage;
-
     [Header("--- Settings ---")]
     [SerializeField] private KeyCode qteKey = KeyCode.F;
     [SerializeField][Range(0.1f, 1.0f)] private float startProgress = 0.3f; // Bắt đầu ở 30%
@@ -46,18 +35,29 @@ public class FishingQTE : MonoBehaviour
     private float successMax;
 
     // --- Events ---
-    public event Action OnQTESuccess;
-    public event Action OnQTEFailure;
+    public static event Action OnQTESuccess;
+    public static event Action OnQTEFailure;
 
     // --- Audio ---
     [Header("--- Audio ---")]
     [SerializeField] private AudioClip qteBackgroundMusic;
     [SerializeField] private AudioSource qteAudioSource;
 
+    private UI_FishingUIManager fishingUIManager;
+
+
     void Start()
     {
-        qtePanel.SetActive(false);
+        fishingUIManager = FindObjectOfType<UI_FishingUIManager>();
+
+        if (fishingUIManager == null)
+        {
+            Debug.LogError("Cannot load component!!!");
+        }
+
+        fishingUIManager.ToggleFishingQTE(false);
     }
+
 
     public void StartQTE(FishData fishData, QTEBuff buff)
     {
@@ -85,14 +85,13 @@ public class FishingQTE : MonoBehaviour
         currentFill = 0f;
 
         // 3. Setup hiển thị ban đầu
-        if (gameTimerImage != null) gameTimerImage.fillAmount = 1f;
-        if (progressBarImage != null) progressBarImage.fillAmount = startProgress;
+        fishingUIManager.SetupFishingQTE(1, startProgress);
 
         RandomizeSuccessZone();
 
         // 4. Kích hoạt
         isQTEActive = true;
-        qtePanel.SetActive(true);
+        fishingUIManager.ToggleFishingQTE(true);
 
         if (qteAudioSource != null && qteBackgroundMusic != null)
         {
@@ -100,6 +99,7 @@ public class FishingQTE : MonoBehaviour
             qteAudioSource.Play();
         }
     }
+
 
     void Update()
     {
@@ -111,10 +111,7 @@ public class FishingQTE : MonoBehaviour
         currentGameTime -= dt;
 
         // Cập nhật UI Timer (Mượt mà nhờ fillAmount)
-        if (gameTimerImage != null)
-        {
-            gameTimerImage.fillAmount = currentGameTime / maxGameTime;
-        }
+        fishingUIManager.UpdateQTETimerBar(currentGameTime / maxGameTime);
 
         if (currentGameTime <= 0f)
         {
@@ -134,18 +131,12 @@ public class FishingQTE : MonoBehaviour
         // 4. Cập nhật Thanh Tiến Độ (Progress Bar) - LÀM MƯỢT
         // Lerp từ giá trị hiển thị cũ -> giá trị thực tế mới
         visualProgress = Mathf.Lerp(visualProgress, currentProgress, dt * progressLerpSpeed);
-
-        if (progressBarImage != null)
-        {
-            progressBarImage.fillAmount = visualProgress;
-        }
+        fishingUIManager.UpdateProgressBar(visualProgress);
 
         // Cập nhật hình ảnh kim xoay
-        if (timerBar != null)
-        {
-            timerBar.rectTransform.localRotation = Quaternion.Euler(0, 0, -currentFill * 360f);
-        }
+        fishingUIManager.UpdateTimerBar(Quaternion.Euler(0, 0, -currentFill * 360f));
     }
+
 
     private void UpdateFillBar(float dt)
     {
@@ -155,6 +146,7 @@ public class FishingQTE : MonoBehaviour
             currentFill -= 1f;
         }
     }
+
 
     private void HandleHit()
     {
@@ -174,31 +166,25 @@ public class FishingQTE : MonoBehaviour
         // Kiểm tra Thắng/Thua ngay lập tức (Logic Game)
         if (currentProgress >= 1f)
         {
-            progressBarImage.fillAmount = 1f; // Fill đầy ngay cho đẹp
+            fishingUIManager.UpdateProgressBar(1f); // Fill đầy ngay cho đẹp
             SuccessQTE();
         }
         else if (currentProgress <= 0f)
         {
-            progressBarImage.fillAmount = 0f; // Về 0 ngay cho đẹp
+            fishingUIManager.UpdateProgressBar(0f); // Về 0 ngay cho đẹp
             FailQTE();
         }
     }
 
-    private void UpdateSuccessZoneVisuals()
-    {
-        if (successZoneImage != null)
-        {
-            successZoneImage.rectTransform.localRotation = Quaternion.Euler(0, 0, -successMin * 360f);
-            successZoneImage.fillAmount = successWindowSize;
-        }
-    }
 
     private void RandomizeSuccessZone()
     {
         successMin = UnityEngine.Random.Range(0f, 1f - successWindowSize);
         successMax = successMin + successWindowSize;
-        UpdateSuccessZoneVisuals();
+
+        fishingUIManager.UpdateSuccessZoneImage(Quaternion.Euler(0, 0, -successMin * 360f), successWindowSize);
     }
+
 
     private void SuccessQTE()
     {
@@ -207,6 +193,7 @@ public class FishingQTE : MonoBehaviour
         StopQTE();
     }
 
+
     private void FailQTE()
     {
         Debug.Log("Thất bại!");
@@ -214,15 +201,18 @@ public class FishingQTE : MonoBehaviour
         StopQTE();
     }
 
+
     private void StopQTE()
     {
         isQTEActive = false;
-        qtePanel.SetActive(false);
+        fishingUIManager.ToggleFishingQTE(false);
         if (qteAudioSource != null) qteAudioSource.Stop();
     }
 
+
     public bool IsQTEActive() => isQTEActive;
 }
+
 
 // Struct Buff giữ nguyên
 public struct QTEBuff

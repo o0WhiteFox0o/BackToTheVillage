@@ -32,4 +32,17 @@ public class GameConstants
     /// Vị trí ban đầu của nhân vật khi tạo game.
     /// </summary>
     public readonly static Vector3 NEW_GAME_POSITION = Vector3.zero;
+
+    public const float FISHING_MAX_REACTION_TIME = 1.5f;
+}
+
+
+public enum FishingState
+{
+    Idle,
+    Charging,
+    Casting,
+    BobberWaiting,
+    FightingFish,
+    PullingFish
 }

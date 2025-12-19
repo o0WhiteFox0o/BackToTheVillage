@@ -849,27 +849,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a74e17548c210ab43bd59ae243b7065e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  playerMovement: {fileID: 6189261341468403047}
-  inventory: {fileID: 0}
-  lineRenderer: {fileID: 1668243578094402922}
+  bobberPrefab: {fileID: 4595708336916552546, guid: 24496a37f152eda48808a569ad9f3b34, type: 3}
+  fishIconPrefab: {fileID: 4367683429145098906, guid: d925951b382562c4bb7e55472bc7c1ae, type: 3}
   lineStraightenDuration: 0.3
-  fishingQTE: {fileID: 0}
   castPoint: {fileID: 5069153215413224881}
-  castingPanel: {fileID: 0}
-  castingBar: {fileID: 0}
   hotBar: {fileID: 0}
   bobberTravelSpeed: 3
   maxCastDistance: 3
   minCastDistance: 1
   chargeSpeed: 1
-  exclaimation: {fileID: 7150379283605474928}
-  caughtFishPanel: {fileID: 0}
-  fishingIcon: {fileID: 0}
-  fishNameText: {fileID: 0}
-  fishWeightText: {fileID: 0}
-  fishLengthText: {fileID: 0}
-  caughtFishDisplayTime: 3
-  fishIconPrefab: {fileID: 4367683429145098906, guid: d925951b382562c4bb7e55472bc7c1ae, type: 3}
   fishPullDuration: 0.75
   arcHeight: 1.5
   minWaitTime: 2

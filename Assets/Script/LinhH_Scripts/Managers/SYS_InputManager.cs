@@ -5,16 +5,15 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
+
 public class SYS_InputManager : MonoBehaviour
 {
     public static SYS_InputManager Instance;
-
 
     [SerializeField] private EventSystem eventSystem;
     [SerializeField] private GraphicRaycaster uiRaycaster;
     [SerializeField] private Camera mainCamera;
 
-    public delegate void GetSelectItemInput(int index);
     public delegate void GetObjectClicked(GameObject gameObject);
 
 
@@ -31,7 +30,7 @@ public class SYS_InputManager : MonoBehaviour
     /// <summary>
     /// Bắt sự kiện khi người chơi nhấn phím thay đổi vật phẩm.
     /// </summary>
-    public static event GetSelectItemInput OnItemSelected;
+    public static event Action<int> OnItemSelected;
 
     /// <summary>
     /// Bắt sự kiện khi người chơi nhấn skip dialogue trong khi đang hội thoại.
@@ -41,7 +40,7 @@ public class SYS_InputManager : MonoBehaviour
     /// <summary>
     /// Bắt sự kiện khi người chơi click chuột phải vào NPC.
     /// </summary>
-    public static event GetObjectClicked OnRightClickNPC;
+    public static event Action<GameObject> OnRightClickNPC;
 
     /// <summary>
     /// Bắt sự kiện khi người chơi nhấn phím tắt mở giao diện nhiệm vụ.
@@ -53,7 +52,7 @@ public class SYS_InputManager : MonoBehaviour
     /// </summary>
     public static event Action<Vector2> OnLeftClick;
 
-    public static event GetObjectClicked OnLeftClickCrop;
+    public static event Action<GameObject> OnLeftClickCrop;
 
     public Dictionary<string, KeyCode> keyBindings { get; private set; }
 
